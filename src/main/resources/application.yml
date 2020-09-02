@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://aic_admin:D%40mnpassword1%21@aic-enterprise.kss8q.gcp.mongodb.net/aic-enterprise?retryWrites=true&w=majority
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: aic.enterprises9@gmail.com
+    password: D@mnpassword1!
+    properties:
+      mail:
+        debug: true
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true

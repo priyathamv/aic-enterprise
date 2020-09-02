@@ -3,6 +3,7 @@ package com.aic.aicenterprise.controllers;
 import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.models.BrandListResponse;
 import com.aic.aicenterprise.models.ProductListResponse;
+import com.aic.aicenterprise.services.EmailService;
 import com.aic.aicenterprise.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,12 @@ import static com.aic.aicenterprise.constants.AppConstants.PRODUCTS_PATH;
 public class ProductController {
 
     private ProductService productService;
+    private EmailService emailService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, EmailService emailService) {
         this.productService = productService;
+        this.emailService = emailService;
     }
 
 
@@ -86,6 +89,12 @@ public class ProductController {
     public boolean deleteProducts() throws IOException {
         log.info("Deleting all products...");
         return productService.deleteAllProducts();
+    }
+
+    @GetMapping(value = "/mail")
+    public boolean sendMail() {
+        emailService.sendMail("vinnakota4201@gmail.com", "test subject", "test body");
+        return true;
     }
 
 }
