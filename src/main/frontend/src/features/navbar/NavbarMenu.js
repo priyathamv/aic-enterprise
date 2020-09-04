@@ -44,16 +44,19 @@ export const NavbarMenu = () => {
 
   const scrollCallback = () => {
     const navbarMenuDom = document.getElementById('navbar_menu_id');
+    const coverImageSliderDom = document.getElementById('cover_image_slider_id');
     if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
       navbarMenuDom.style.position = 'fixed';
       navbarMenuDom.style.top = '0';
       navbarMenuDom.style.borderTop = 'none';
+      coverImageSliderDom.style.paddingTop = '75px';
       setShowLogo(true);
     } else {
       setShowLogo(false);
       navbarMenuDom.style.position = 'initial';
       navbarMenuDom.style.top = '100px';
       navbarMenuDom.style.borderTop = '1px solid #CCC';
+      coverImageSliderDom.style.paddingTop = '0';
     }
   }
 

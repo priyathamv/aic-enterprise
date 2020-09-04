@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // import { GLogin } from './features/auth/GLogin';
 import { Navbar } from './features/navbar/Navbar';
 import { Homepage } from './features/homepage/Homepage';
-import { Footer } from './features/common/Footer';
+import { Footer } from './features/homepage/common/Footer';
 
 function App() {
   return (

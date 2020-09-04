@@ -9,11 +9,13 @@ const Container = styled.button`
   font-weight: bold;
   cursor: pointer;
   border: none;
+  font-size: 12px;
+  padding: 15px 30px;
 `;
 
-export const Button = ({ label, handleOnClick  }) => {
+export const Button = ({ style, label, handleOnClick  }) => {
   return (
-    <Container onClick={handleOnClick}>
+    <Container style={style} onClick={handleOnClick}>
       {label}
     </Container>
   )
