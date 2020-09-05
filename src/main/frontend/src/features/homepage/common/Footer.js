@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { ImLocation } from 'react-icons/im';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
+import { FaFacebookF } from 'react-icons/fa';
+import { AiFillInstagram } from 'react-icons/ai';
+import { AiOutlineTwitter } from 'react-icons/ai';
 
 
 const Container = styled.div`
@@ -40,9 +43,14 @@ const BrandCaption = styled.div`
 
 `;
 
+const LogoFrame = styled.div`
+  
+`;
+
 const Logo = styled.img`
   width: 120px;
   margin-right: 10px;
+  margin-bottom: 10px;
 `;
 
 const ContentContainer = styled.div`
@@ -72,6 +80,10 @@ const LocationIcon = styled(ImLocation)`
 const PhoneIcon = styled(ImPhone)`
   margin-right: 10px;
   font-size: larger;
+`;
+
+const Mail = styled.span`
+  cursor: pointer;
 `;
 
 const MailIcon = styled(IoIosMail)`
@@ -115,9 +127,34 @@ const SignUpButton = styled.button`
   border: none;
 `;
 
+const SocialMedia = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const FacebookIcon = styled(FaFacebookF)`
+  cursor: pointer;
+`;
+
+const InstagramIcon = styled(AiFillInstagram)`
+  cursor: pointer;
+`;
+
+const TwitterIcon = styled(AiOutlineTwitter)`
+  cursor: pointer;
+`;
 
 
 export const Footer = () => {
+  const prepareEmail = () => {
+    window.location.href = 'mailto:info@aicgroup.co.in';
+  }
+
+  const openInNewTab = url => {
+    var win = window.open(url, '_blank');
+    win.focus();
+  }
 
   const handleOnSignUp = () => {}
 
@@ -125,8 +162,16 @@ export const Footer = () => {
     <Container>
       <Brand>
         <BrandFrame>
-          <Logo src='/aic_logo.png' alt='logo'/>
+          <LogoFrame>
+            <Logo src='/aic_logo.png' alt='logo'/>
 
+            <SocialMedia>
+              <FacebookIcon size='1.2em' onClick={() => openInNewTab('https://www.facebook.com')}/>
+              <InstagramIcon size='1.2em' onClick={() => openInNewTab('https://www.instagram.com')}/>
+              <TwitterIcon size='1.3em' onClick={() => openInNewTab('https://www.twitter.com')}/>
+            </SocialMedia>
+          </LogoFrame>
+          
           <BrandDescription>
             <BrandName>AIC ENTERPRISES</BrandName>
             <BrandCaption>dustry. Lorem Ipsum has been the indus- try's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a</BrandCaption>
@@ -159,7 +204,7 @@ export const Footer = () => {
 
           <ContentText>
             <MailIcon />
-            <span>loreumimpusum@gmail.com</span>
+            <Mail onClick={prepareEmail}>loreumimpusum@gmail.com</Mail>
           </ContentText>
         </ContentFrame>
       </ContentContainer>

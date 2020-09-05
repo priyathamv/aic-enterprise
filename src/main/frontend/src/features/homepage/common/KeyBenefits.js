@@ -7,6 +7,7 @@ const Container = styled.div`
   display: flex;
   background-color: black;
   color: #FFF;
+  margin-bottom: 175px;
 `;
 
 const Image = styled.img`

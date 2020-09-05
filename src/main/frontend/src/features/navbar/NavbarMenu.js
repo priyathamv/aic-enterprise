@@ -19,10 +19,20 @@ const MenuItems = styled.div`
   height: 100%;
 `;
 
+const BlankMenuItem = styled.div`
+  flex: 1;
+  border-right: 1px solid #CCC;
+`;
+
 const MenuItem = styled.div`
   flex: 1;
   border-right: 1px solid #CCC;
   padding-top: 27px;
+  cursor: pointer;
+  &:hover {
+    color: #FFF;
+    background-color: #232162;
+  }
 `;
 
 const Logo = styled.img`
@@ -31,6 +41,7 @@ const Logo = styled.img`
   width: 60px;
   border-radius: 40px;
   margin-right: 15px;
+  cursor: pointer;
 `;
 
 const Search = styled.div`
@@ -65,9 +76,9 @@ export const NavbarMenu = () => {
   return (
     <Container id='navbar_menu_id'>
       <MenuItems>
-        <MenuItem style={{ paddingTop: '8px' }}>
-          {showLogo ? <Logo id='navmenu_logo_id' src='/aic_logo.png'></Logo> : null}
-        </MenuItem>
+        <BlankMenuItem style={{ paddingTop: '8px' }}>
+          {showLogo ? <Logo id='navmenu_logo_id' src='/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
+        </BlankMenuItem>
         <MenuItem>Products</MenuItem>
         <MenuItem>About us</MenuItem>
         <MenuItem>Contact us</MenuItem>

@@ -3,29 +3,35 @@ import { useDispatch } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 import styled from 'styled-components';
 
+import { FcGoogle } from 'react-icons/fc';
 import { updateGoogleAuthDetails } from './authSlice';
 
 const GoogleButton = styled.button`
-  background: #FFFFFF;
-  color: black;
-  font-size: 12px;
+  background-color: #4285F4;
+  border: none;
+  border-radius: 0;
+  color: #FFF;
+  width: 300px;
+  font-size: 14px;
+  text-align: center;
+  padding: 10px 40px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border: 1px solid #00000057;
-  padding: 5px 12px 5px 8px;
-  border-radius: 3px;
-  height: 37px;
-  width: 125px;
+  justify-content: center;
   cursor: pointer;
+  position: relative;
+  height: 50px;
+  margin-bottom: 30px;
 `;
 
-const GoogleImage = styled.img`
-  width: 25px;
-  marginRight: 5px;
+const GoogleIcon = styled(FcGoogle)`
+  background-color: white;
+  padding: 5px;
+  position: absolute;
+  left: 10px;
 `;
 
-export const GLogin = () => {
+export const GLogin = ({ label }) => {
 
   const dispatch = useDispatch();
 
@@ -67,10 +73,8 @@ export const GLogin = () => {
       clientId='986336171098-rg0moedjfn2d36edpggc8o80lt1fsecb.apps.googleusercontent.com'
       render={renderProps => (
         <GoogleButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
-          <GoogleImage 
-            alt=' '
-            src='https://firebasestorage.googleapis.com/v0/b/damn-coder-images.appspot.com/o/images%2Fgoogle_icon.jpg?alt=media&token=4b736c39-a096-47af-aa9f-f300acfbbb2c'/>
-          <span>Google login</span>
+          <GoogleIcon size='1.3em' />
+          <span>{label}</span>
         </GoogleButton>
       )}
       onSuccess={googleSuccessCallback}

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Line } from './Line';
 
 const Container = styled.div`
   display: flex;
@@ -8,15 +7,6 @@ const Container = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 100px 50px;
-`;
-
-const Intro = styled.div`
-  font-weight: bold;
-  color: #000000ab;
-  margin-bottom: 15px;
-  letter-spacing: 2px;
-  text-align: center;
-  padding: 0 15vw;
 `;
 
 const Title = styled.div`
@@ -54,12 +44,6 @@ const Content = styled.div`
 export const HomepageIntro = () => {
   return (
     <Container>
-      <Intro>
-        Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi
-      </Intro>
-
-      <Line style={{ width: '120px', height: '2px', backgroundColor: 'black', marginBottom: '50px' }} />
-
       <Title>AIC Enterprises</Title>
       
       <SubTitle>

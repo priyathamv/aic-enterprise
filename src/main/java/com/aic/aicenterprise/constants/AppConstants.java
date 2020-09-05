@@ -7,4 +7,6 @@ public class AppConstants {
 
     public static final String PRODUCTS_PATH = BASE_PATH + "/products";
 
+    public static final String SUBSCRIBERS_PATH = BASE_PATH + "/subscribers";
+
 }

@@ -73,7 +73,9 @@ export const OurProcess = () => {
           isLeftAlign={false}
         />
       </Fade>
-      <CheckCircleIcon />
+      <Fade top>
+        <CheckCircleIcon />
+      </Fade>
     </Container>
   );
 }

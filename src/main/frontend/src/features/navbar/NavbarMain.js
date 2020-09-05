@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
 import { FaUserCircle } from 'react-icons/fa';
 import { GiShoppingCart } from 'react-icons/gi';
+import { LoginModal } from '../auth/LoginModal';
 
 
 const Container = styled.div`
@@ -60,7 +63,7 @@ const MailIcon = styled(IoIosMail)`
 `;
 
 const MailText = styled.div`
-
+  cursor: pointer;
 `;
 
 const PhoneIcon = styled(ImPhone)`
@@ -69,6 +72,11 @@ const PhoneIcon = styled(ImPhone)`
 
 const PhoneText = styled.div`
 
+`;
+
+const LoginFrame = styled.div`
+  display: flex;
+  align-items: center;
 `;
 
 const LoginInfo = styled.div`
@@ -80,10 +88,12 @@ const LoginInfo = styled.div`
 
 const UserIcon = styled(FaUserCircle)`
   margin-right: 10px;
+  cursor: pointer;
 `;
   
 const LoginButton = styled.div`
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const CartIcon = styled(GiShoppingCart)`
@@ -91,6 +101,10 @@ const CartIcon = styled(GiShoppingCart)`
 `;
 
 export const NavbarMain = () => {
+  const prepareEmail = () => {
+    window.location.href = 'mailto:info@aicgroup.co.in';
+  }
+
   return (
     <Container>
       <BrandFrame>
@@ -104,15 +118,29 @@ export const NavbarMain = () => {
 
       <ContantInfo>
         <MailIcon size='1.5em'></MailIcon>
-        <MailText>Info@aicgroup.co.in</MailText>
+        <MailText onClick={prepareEmail}>Info@aicgroup.co.in</MailText>
 
         <PhoneIcon size='1.3em'></PhoneIcon>
         <PhoneText>+123-456-7890</PhoneText>
       </ContantInfo>
 
       <LoginInfo>
-        <UserIcon size='2em' />
-        <LoginButton>Log In</LoginButton>
+        <Popup
+          modal
+          lockScroll={true}
+          contentStyle={{ padding: 0, width: '100vw' }}
+          trigger={
+            <LoginFrame>
+              <UserIcon size='2em' />
+              <LoginButton>Log In</LoginButton>
+            </LoginFrame>
+          }
+        >
+          {close => (
+            <LoginModal close={close}/>
+          )}
+        </Popup>
+        
         <CartIcon size='2em' />
       </LoginInfo>
     </Container>
