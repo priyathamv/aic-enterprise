@@ -5,7 +5,7 @@ import { Login } from './Login';
 
 
 const Container = styled.div`
-  height: 100vh;
+  min-height: 100vh;
   background-color: #FFF;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const Close = styled.a`
-  position: absolute;
+  position: fixed;
   right: 50px;
   top: 50px;
   cursor: pointer;

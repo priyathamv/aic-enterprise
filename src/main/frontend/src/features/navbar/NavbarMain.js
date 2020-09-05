@@ -128,7 +128,8 @@ export const NavbarMain = () => {
         <Popup
           modal
           lockScroll={true}
-          contentStyle={{ padding: 0, width: '100vw' }}
+          overlayStyle={{ overflow: 'scroll' }}
+          contentStyle={{ padding: 0, width: '100vw', height: '100%' }}
           trigger={
             <LoginFrame>
               <UserIcon size='2em' />

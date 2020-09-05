@@ -6,10 +6,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class SubscriberSaveResponse extends BaseResponse<Boolean> {
+public class SaveResponse extends BaseResponse<Boolean> {
 
     @Builder
-    public SubscriberSaveResponse(int status, String error, String msg, Boolean payload) {
+    public SaveResponse(int status, String error, String msg, Boolean payload) {
         super(status, error, msg, payload);
     }
 

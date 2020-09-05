@@ -17,6 +17,7 @@ const Container = styled.div`
 const LoginLabel = styled.div`
   font-size: 40px;
   margin-bottom: 10px;
+  margin-top: 20px;
 `;
 
 const SignUpFrame = styled.div`

@@ -2,7 +2,7 @@ package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Subscriber;
 import com.aic.aicenterprise.models.SubscriberListResponse;
-import com.aic.aicenterprise.models.SubscriberSaveResponse;
+import com.aic.aicenterprise.models.SaveResponse;
 import com.aic.aicenterprise.services.SubscriberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,13 +52,13 @@ public class SubscriberController {
     }
 
     @PostMapping(value = "/save")
-    public SubscriberSaveResponse saveSubscriber(@RequestBody Subscriber subscriber) {
+    public SaveResponse saveSubscriber(@RequestBody Subscriber subscriber) {
         log.info("Saving subscriber: {}", subscriber);
 
-        SubscriberSaveResponse subscriberSaveResponse;
+        SaveResponse subscriberSaveResponse;
         try {
             boolean saveSubscriber = subscriberService.saveSubscriber(subscriber);
-            subscriberSaveResponse = SubscriberSaveResponse.builder()
+            subscriberSaveResponse = SaveResponse.builder()
                     .payload(saveSubscriber)
                     .msg("success")
                     .status(HttpStatus.OK.value())
@@ -66,7 +66,7 @@ public class SubscriberController {
 
         } catch (Exception ex) {
             log.info("Exception while saving subscriber: {}", ex);
-            subscriberSaveResponse = SubscriberSaveResponse.builder()
+            subscriberSaveResponse = SaveResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while saving subscriber")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
