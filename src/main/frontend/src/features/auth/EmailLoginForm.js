@@ -114,14 +114,14 @@ export const EmailLoginForm = ({ closeModal }) => {
   return (
     <Container>
       <div className='group'>
-        <input className='material-input' type='text' value={email} onChange={e => setEmail(e.target.value)} />
+        <input className='material-input' type='text' value={email} onChange={e => setEmail(e.target.value)} required />
         <span className='highlight'></span>
         <span className='bar'></span>
         <label className='material-label'>Email</label>
       </div>
         
       <div className='group'>      
-        <input className='material-input' type='password' value={password} onChange={e => setPassword(e.target.value)} />
+        <input className='material-input' type='password' value={password} onChange={e => setPassword(e.target.value)} required />
         <span className='highlight'></span>
         <span className='bar'></span>
         <label className='material-label'>Password</label>
