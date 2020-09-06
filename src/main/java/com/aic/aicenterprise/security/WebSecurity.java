@@ -14,8 +14,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.aic.aicenterprise.constants.AppConstants.USER_PATH;
-
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
@@ -33,12 +31,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/").permitAll()
-//                .antMatchers(HttpMethod.GET, "/static/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/favicon.ico").permitAll()
-//                .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))

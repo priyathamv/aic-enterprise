@@ -38,7 +38,7 @@ export const OurCompany = () => {
 
   return (
     <Container>
-      <Image src='/why_choose_us.png' />
+      <Image src='/images/why_choose_us.png' />
 
       <AboutUs>
         <Title>Our Company</Title>

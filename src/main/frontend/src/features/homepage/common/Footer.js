@@ -163,7 +163,7 @@ export const Footer = () => {
       <Brand>
         <BrandFrame>
           <LogoFrame>
-            <Logo src='/aic_logo.png' alt='logo'/>
+            <Logo src='/images/aic_logo.png' alt='logo'/>
 
             <SocialMedia>
               <FacebookIcon size='1.2em' onClick={() => openInNewTab('https://www.facebook.com')}/>

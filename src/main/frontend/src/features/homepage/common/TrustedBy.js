@@ -29,21 +29,21 @@ export const TrustedBy = () => {
 
       <div className='slideshow'>
         <div className='brands-frame'>
-          <Image src="/trusted_by1.png" />
-          <Image src="/trusted_by2.png" />
-          <Image src="/trusted_by3.png" />
-          <Image src="/trusted_by4.png" />
-          <Image src="/trusted_by5.png" />
-          <Image src="/trusted_by1.png" />
-          <Image src="/trusted_by2.png" />
-          <Image src="/trusted_by3.png" />
-          <Image src="/trusted_by4.png" />
-          <Image src="/trusted_by5.png" />
-          <Image src="/trusted_by1.png" />
-          <Image src="/trusted_by2.png" />
-          <Image src="/trusted_by3.png" />
-          <Image src="/trusted_by4.png" />
-          <Image src="/trusted_by5.png" />
+          <Image src="/images/trusted_by1.png" />
+          <Image src="/images/trusted_by2.png" />
+          <Image src="/images/trusted_by3.png" />
+          <Image src="/images/trusted_by4.png" />
+          <Image src="/images/trusted_by5.png" />
+          <Image src="/images/trusted_by1.png" />
+          <Image src="/images/trusted_by2.png" />
+          <Image src="/images/trusted_by3.png" />
+          <Image src="/images/trusted_by4.png" />
+          <Image src="/images/trusted_by5.png" />
+          <Image src="/images/trusted_by1.png" />
+          <Image src="/images/trusted_by2.png" />
+          <Image src="/images/trusted_by3.png" />
+          <Image src="/images/trusted_by4.png" />
+          <Image src="/images/trusted_by5.png" />
         </div>
       </div>
     </Container>

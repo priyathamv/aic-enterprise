@@ -82,7 +82,7 @@ export const ReviewCard = ({ style, text, rating }) => {
       <Line />
 
       <UserFrame>
-        <UserImage src='/aic_logo.png' />
+        <UserImage src='/images/aic_logo.png' />
         <UserName>IISC</UserName>
       </UserFrame>
     </Container>

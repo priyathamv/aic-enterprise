@@ -82,9 +82,9 @@ const Description = styled.div`
 
 export const Product = ({ productId }) => {
   const products = {
-    '1': '/item1.png',
-    '2': '/item2.png',
-    '3': '/item3.png'
+    '1': '/images/item1.png',
+    '2': '/images/item2.png',
+    '3': '/images/item3.png'
   }
   
   const handleOnClick = () => {}
@@ -104,7 +104,7 @@ export const Product = ({ productId }) => {
             </Close>
             <ProductFrame>
               <ProductImages>
-                <Image src='/item1.png' />
+                <Image src='/images/item1.png' />
               </ProductImages>
 
               <ProductDetails>

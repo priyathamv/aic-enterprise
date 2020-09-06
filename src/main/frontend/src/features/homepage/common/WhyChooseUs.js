@@ -57,7 +57,7 @@ const ItemComponent = ({ title, subHeader, text }) => (
 export const WhyChooseUs = () => {
   return (
     <Container>
-      <Image src='/why_choose_us.png' />
+      <Image src='/images/why_choose_us.png' />
 
       <Content>
         <Title style={{ marginBottom: '50px' }}>WHY CHOOSE US?</Title>

@@ -35,15 +35,15 @@ export const CoverImageSlider = () => {
         style={{ height: '500px' }}
       >
         <div className='cover-image'>
-          <Image src="/cover_image0.png" />
+          <Image src="/images/cover_image0.png" />
           <Button style={buttonStyle} label='LEARN MORE' handleOnClick={handleOnClick}/>
         </div>
         <div className='cover-image'>
-          <Image src="/cover_image1.png" />
+          <Image src="/images/cover_image1.png" />
           <Button style={buttonStyle} label='LEARN MORE' handleOnClick={handleOnClick}/>
         </div>
         <div className='cover-image'>
-          <Image src="/cover_image2.png" />
+          <Image src="/images/cover_image2.png" />
           <Button style={buttonStyle} label='LEARN MORE' handleOnClick={handleOnClick}/>
         </div>
       </AutoplaySlider>

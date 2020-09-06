@@ -174,7 +174,7 @@ export const NavbarMain = () => {
   return (
     <Container>
       <BrandFrame>
-        <Logo src='/aic_logo.png'></Logo>
+        <Logo src='/images/aic_logo.png'></Logo>
 
         <Brand>
           <BrandName>AIC ENTERPRISES</BrandName>

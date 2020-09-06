@@ -79,7 +79,7 @@ export const KeyBenefits = () => {
         </Box>
       </Content>
 
-      <Image src='/key_benefits.png' />
+      <Image src='/images/key_benefits.png' />
     </Container>
   )
 }

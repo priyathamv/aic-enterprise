@@ -18,6 +18,10 @@ spring:
           writetimeout: 5000
           starttls:
             enable: true
+  resources:
+    cache:
+      cachecontrol:
+        max-age: 31536000
 
 jasypt:
   encryptor:
