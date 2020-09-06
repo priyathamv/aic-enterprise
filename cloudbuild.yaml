@@ -1,9 +1,20 @@
 steps:
+# Build the artifact
 - name: maven:3-jdk-8
   entrypoint: mvn
   args: ['package', '-Dmaven.test.skip=true']
+
+# Build the container image
 - name: gcr.io/cloud-builders/docker
   args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
-images: ['gcr.io/aic-enterprises/aic-enterprise']
+
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
+
+# Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
   args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise']
+
+images:
+- gcr.io/aic-enterprises/aic-enterprise
