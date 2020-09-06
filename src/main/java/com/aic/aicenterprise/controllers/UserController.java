@@ -54,4 +54,29 @@ public class UserController {
         return userSaveResponse;
     }
 
+    @PostMapping(value = "/save")
+    public SaveResponse saveUser(@RequestBody UserEntity userEntity) {
+        log.info("Saving userEntity: {}", userEntity);
+
+        SaveResponse userSaveResponse;
+        try {
+            boolean saveUser = userService.saveUser(userEntity);
+            userSaveResponse = SaveResponse.builder()
+                    .payload(saveUser)
+                    .msg(saveUser ? "success" : "User already exists")
+                    .status(saveUser ? HttpStatus.OK.value() : HttpStatus.CONFLICT.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while saving userEntity: {}", ex);
+            userSaveResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while saving userEntity")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return userSaveResponse;
+    }
+
 }

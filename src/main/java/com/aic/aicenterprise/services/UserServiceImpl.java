@@ -26,11 +26,28 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public boolean saveUser(UserEntity userEntity) {
         UserEntity userFromDB = userRepository.findByEmail(userEntity.getEmail());
-        if (nonNull(userFromDB) && nonNull(userFromDB.getEmail()))
-            return false;
+
+        if (nonNull(userFromDB)) { // User already created an account
+            if (nonNull(userFromDB.getPassword())) { // User already created an Email account
+                if (nonNull(userEntity.getPassword())) // User trying to create a duplicate Email account
+                    return false;
+                else { // Merging existing email with new Gmail login
+                    userEntity.setPassword(userFromDB.getPassword());
+                    userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
+                }
+            } else { // User already created a Gmail account
+                if (nonNull(userEntity.getPassword())) // Merging existing Gmail with new Email login
+                    userEntity.setImageUrl(userFromDB.getImageUrl());
+            }
+        }
 
         UserEntity savedUserEntity = userRepository.save(userEntity);
         return savedUserEntity.getEmail().equals(userEntity.getEmail());
+    }
+
+    @Override
+    public UserEntity findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Override

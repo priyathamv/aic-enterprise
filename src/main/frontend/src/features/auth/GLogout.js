@@ -3,21 +3,16 @@ import { useDispatch } from 'react-redux';
 import { GoogleLogout } from 'react-google-login';
 import styled from 'styled-components';
 
-import { updateGoogleAuthDetails } from './authSlice';
+import { resetGoogleAuthDetails } from './authSlice';
 
 
 const LogoutButton = styled.div`
-  background: #FFFFFF;
-  color: black;
-  font-size: 12px;
-  border: 1px solid #00000057;
-  border-radius: 3px;
-  height: 37px;
-  width: 125px;
   cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 15px 20px;
+  text-align: left;
+  &:hover {
+    background-color: #017acd0a
+  }
 `;
 
 
@@ -27,17 +22,10 @@ export const GLogout = () => {
 
 
   const logoutGoogle = (response) => {
-    console.log('logoutGoogle', response);
-    dispatch(updateGoogleAuthDetails({
-      name: null,
-      email: null,
-      imageUrl: null,
-      token: null
-    }));
+    dispatch(resetGoogleAuthDetails());
   }
 
   const handleLogout = () => {
-    console.log('handleLogout')
   }
 
   return (
@@ -50,7 +38,7 @@ export const GLogout = () => {
           <LogoutButton 
             onClick={handleLogout}
           >
-            <span>SIGN OUT</span>
+            <span>Log Out</span>
           </LogoutButton>
         </div>
       )}

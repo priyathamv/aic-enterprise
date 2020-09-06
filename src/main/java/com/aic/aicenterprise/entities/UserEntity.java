@@ -17,6 +17,8 @@ public class UserEntity {
     @Id
     private String email;
 
+    private String imageUrl;
+
     private String phoneNumber;
 
     private String password;

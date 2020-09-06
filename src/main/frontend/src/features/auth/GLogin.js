@@ -2,9 +2,10 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 import styled from 'styled-components';
+import axios from 'axios';
 
 import { FcGoogle } from 'react-icons/fc';
-import { updateGoogleAuthDetails } from './authSlice';
+import { updateGoogleAuthDetails, resetGoogleAuthDetails } from './authSlice';
 
 const GoogleButton = styled.button`
   background-color: #4285F4;
@@ -31,9 +32,16 @@ const GoogleIcon = styled(FcGoogle)`
   left: 10px;
 `;
 
-export const GLogin = ({ label }) => {
+export const GLogin = React.forwardRef(({ label, style }, ref) => {
 
   const dispatch = useDispatch();
+
+  const saveUserDetails = (userDetails) => {
+    const headers = { 
+      'Content-Type': 'application/json'
+    }
+    axios.post('/api/users/save', userDetails, { headers });
+  }
 
   const googleSuccessCallback = (response) => {
     try {
@@ -45,14 +53,15 @@ export const GLogin = ({ label }) => {
         (response.uc && response.uc.id_token) ?
         response.uc.id_token : null;
 
-      dispatch(updateGoogleAuthDetails({
+      const userDetails = {
         name: response.profileObj.name,
         email: response.profileObj.email,
         imageUrl: response.profileObj.imageUrl,
         token
-      }));
-      
-      console.log('token', token);
+      }
+
+      saveUserDetails(userDetails);
+      dispatch(updateGoogleAuthDetails(userDetails));
     } catch(err) {
       console.log("Error while authenticating User: ", err);
     }
@@ -60,19 +69,14 @@ export const GLogin = ({ label }) => {
 
   const googleFailureCallback = (response) => {
     console.log('Google login failed', response);
-    dispatch(updateGoogleAuthDetails({
-      name: null,
-      email: null,
-      imageUrl: null,
-      token: null
-    }));
+    dispatch(resetGoogleAuthDetails());
   }
 
   return (
     <GoogleLogin
       clientId='986336171098-rg0moedjfn2d36edpggc8o80lt1fsecb.apps.googleusercontent.com'
       render={renderProps => (
-        <GoogleButton onClick={renderProps.onClick} disabled={renderProps.disabled}>
+        <GoogleButton ref={ref} style={style} onClick={renderProps.onClick} disabled={renderProps.disabled}>
           <GoogleIcon size='1.3em' />
           <span>{label}</span>
         </GoogleButton>
@@ -83,4 +87,4 @@ export const GLogin = ({ label }) => {
       cookiePolicy={'single_host_origin'}
     />
   )
-}
+});

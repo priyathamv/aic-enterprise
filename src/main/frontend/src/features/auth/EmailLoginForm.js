@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import { FcGoogle } from 'react-icons/fc';
+import axios from 'axios';
+import Cookies from 'universal-cookie';
+
+import { updateEmailAuthDetails } from '../auth/authSlice';
 import { Line } from '../homepage/common/Line';
+import { Spinner } from '../utils/Spinner';
+import { GLogin } from './GLogin';
 
 const Container = styled.form`
 `;
@@ -19,12 +26,20 @@ const Button = styled.button`
   border: none;
   padding: 15px 0;
   font-size: 14px;
-  margin-bottom: 30px;
   cursor: pointer;
+  position: relative;
+`;
+
+const ErrorMsg = styled.div`
+  color: red;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  text-align: center;
 `;
 
 const Separator = styled.div`
   display: flex;
+  margin-top: 30px;
   margin-bottom: 30px;
 `;
 
@@ -36,24 +51,77 @@ const SocialMedia = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 const GoogleIcon = styled(FcGoogle)`
   cursor: pointer;
 `;
 
-export const EmailLoginForm = () => {
+export const EmailLoginForm = ({ closeModal }) => {
+  const dispatch = useDispatch();
+
+  const cookies = new Cookies();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  const googleLoginRef = React.createRef();
+
+  const getUserDetails = async (token) => {
+    const authHeaders = {
+      'Content-Type': 'application/json', 
+      'Authorization': `Bearer ${token}`
+    }
+    try {
+      const userDetailsResponse = await axios.get('/auth/user-details', { headers: authHeaders });
+      if (userDetailsResponse)
+        dispatch(updateEmailAuthDetails(userDetailsResponse.data.payload));
+  
+    } catch (err) {
+      console.log('Error while fetching User details', err.message);
+    }
+  }
+  
+  const handleOnLogin = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      setErrorMsg('Please enter Email and password');
+    } else {
+      setErrorMsg(null);
+      const headers = { 
+        'Content-Type': 'application/json'
+      }
+      const userDetails = { email, password };
+      try {
+        setIsLoading(true);
+        const loginResponse = await axios.post('/login', userDetails, { headers });
+        const token = loginResponse.headers.authorization.split(' ')[1];
+        cookies.set('auth_token', token);
+
+        getUserDetails(token);
+      } catch (err) {
+        setErrorMsg('Invalid login credentials');
+        console.log('Exception while authenticating user credentials', err.message);
+      }
+      setIsLoading(false);
+    }
+  }
+
   return (
     <Container>
       <div className='group'>
-        <input type='text' required />
+        <input type='text' value={email} onChange={e => setEmail(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
         <label>Email</label>
       </div>
         
       <div className='group'>      
-        <input type='password' required />
+        <input type='password' value={password} onChange={e => setPassword(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
         <label>Password</label>
@@ -61,7 +129,17 @@ export const EmailLoginForm = () => {
 
       <ForgotPassword>Forgot password?</ForgotPassword>
 
-      <Button>Log In</Button>
+      <Button onClick={handleOnLogin}>
+        Log In
+        {isLoading ? 
+          <Spinner 
+            containerStyle={{ top: 0, justifyContent: 'flex-end', right: '15px' }} 
+            loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
+          /> : 
+          null}
+        </Button>
+
+      <ErrorMsg>{errorMsg}</ErrorMsg>
 
       <Separator>
         <Line style={{ width: '100px', marginLeft: '0', marginRight: '0' }}/>
@@ -70,7 +148,8 @@ export const EmailLoginForm = () => {
       </Separator>
 
       <SocialMedia>
-        <GoogleIcon size='2em' />
+        <GoogleIcon size='2em' onClick={() => googleLoginRef.current.click()} />
+        <GLogin ref={googleLoginRef} style={{ visibility: 'hidden' }}/>
       </SocialMedia>
     </Container>
   )

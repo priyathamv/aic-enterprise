@@ -23,15 +23,15 @@ const Close = styled.a`
 `;
 
 
-export const LoginModal = ({ close }) => {
+export const LoginModal = ({ closeModal }) => {
 
   return (
-    <Container>
-      <Close className="close" onClick={close}>
+    <Container id='login_modal_id' >
+      <Close className="close" onClick={closeModal}>
         &times;
       </Close>
 
-      <Login />
+      <Login closeModal={closeModal}/>
     </Container>
   )
 }

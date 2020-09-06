@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
 
 import { Line } from '../homepage/common/Line';
 import { Spinner } from '../utils/Spinner';
+import { updateEmailAuthDetails } from '../auth/authSlice';
 
 const Container = styled.form`
 `;
@@ -48,7 +50,9 @@ const GoogleIcon = styled(FcGoogle)`
 `;
 
 
-export const EmailSignUpForm = () => {
+export const EmailSignUpForm = ({ closeModal }) => {
+  const dispatch = useDispatch();
+
   const cookies = new Cookies();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -59,8 +63,17 @@ export const EmailSignUpForm = () => {
   const [errorMsg, setErrorMsg] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const getUserDetails = async (userDetails) => {
+    dispatch(updateEmailAuthDetails({
+      email: userDetails.email,
+      name: userDetails.name,
+      phoneNumber: userDetails.phoneNumber
+    }));
+  }
+
   const handleOnSignUp = async (e) => {
     e.preventDefault();
+
     if (!(name && email && phoneNumber && password && confirmPassword)) {
       setErrorMsg('All fields are mandatory');
     } else if (password !== confirmPassword) {
@@ -75,7 +88,6 @@ export const EmailSignUpForm = () => {
         'Content-Type': 'application/json'
       }
       const userDetails = { name, email, phoneNumber, password };
-      console.log('userDetails', userDetails)
       try {
         setIsLoading(true);
         const signUpResponse = await axios.post('/api/users/sign-up', userDetails, { headers });
@@ -84,19 +96,16 @@ export const EmailSignUpForm = () => {
           setErrorMsg('This Email address is already registered');
         } else if (signUpResponse.data.status === 200) {
           const loginResponse = await axios.post('/login', userDetails, { headers });
+          setIsLoading(false);
           const token = loginResponse.headers.authorization.split(' ')[1];
           cookies.set('auth_token', token);
-          setIsLoading(false);
-          window.location.href = '/';
+          getUserDetails(userDetails);
         }
       } catch (err) {
-        setIsLoading(false);
-        console.log('Exception while siging up the user', userDetails, err.message);
+        console.log('Exception while siging up the user', err.message);
       }
-
     }
   }
-
 
   return (
     <Container>

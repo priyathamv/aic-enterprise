@@ -67,7 +67,7 @@ const EmailButton = styled.div`
   }
 `;
 
-export const Login = () => {
+export const Login = ({ closeModal }) => {
   const loginObj = {
     name: 'Log In',
     question: 'New to this site?',
@@ -119,8 +119,8 @@ export const Login = () => {
 
       {(showLoginForm || showSignUpForm) ? 
         <>
-          {showLoginForm ? <EmailLoginForm /> : null}
-          {showSignUpForm ? <EmailSignUpForm /> : null}
+          {showLoginForm ? <EmailLoginForm closeModal={closeModal} /> : null}
+          {showSignUpForm ? <EmailSignUpForm closeModal={closeModal} /> : null}
         </> :
         <ButtonFrame>
           <GLogin label={authObj.googleButtonText} />

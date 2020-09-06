@@ -52,11 +52,12 @@ const Search = styled.div`
 export const NavbarMenu = () => {
 
   const [showLogo, setShowLogo] = useState(false);
-
+  
   const scrollCallback = () => {
     const navbarMenuDom = document.getElementById('navbar_menu_id');
     const coverImageSliderDom = document.getElementById('cover_image_slider_id');
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+
+    if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
       navbarMenuDom.style.position = 'fixed';
       navbarMenuDom.style.top = '0';
       navbarMenuDom.style.borderTop = 'none';
