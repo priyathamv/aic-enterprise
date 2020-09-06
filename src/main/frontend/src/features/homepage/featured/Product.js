@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
-import { Button } from '../common/Button';
 
 const Container = styled.div`
   display: flex;

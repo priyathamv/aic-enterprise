@@ -36,7 +36,7 @@ function App() {
     
     if (authToken)
       getUserDetails(authToken);
-  }, [])
+  }, [dispatch])
 
   return (
     <Router>

@@ -1,9 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 
-import { GLogin } from '../auth/GLogin';
-import { GLogout } from '../auth/GLogout';
-import { selectGoogleAuth } from '../auth/authSlice';
 import { CoverImageSlider } from './coverimage/CoverImageSlider';
 import { SeeOurProducts } from './common/SeeOurProducts';
 import { FeaturedCarousel } from './featured/FeaturedCarousel';
@@ -17,11 +13,9 @@ import { OurProcess } from './common/OurProcess';
 import { HomepageIntro } from './common/HomepageIntro';
 
 export const Homepage = () => {
-  const googleAuth = useSelector(selectGoogleAuth);
 
   return (
     <div>
-      {/* {googleAuth.token ? <GLogout /> : <GLogin />} */}
       <CoverImageSlider />
       <HomepageIntro />
       <SeeOurProducts />

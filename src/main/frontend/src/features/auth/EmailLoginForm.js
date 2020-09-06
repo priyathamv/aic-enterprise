@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { FcGoogle } from 'react-icons/fc';
@@ -114,17 +114,17 @@ export const EmailLoginForm = ({ closeModal }) => {
   return (
     <Container>
       <div className='group'>
-        <input type='text' value={email} onChange={e => setEmail(e.target.value)} />
+        <input className='material-input' type='text' value={email} onChange={e => setEmail(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
-        <label>Email</label>
+        <label className='material-label'>Email</label>
       </div>
         
       <div className='group'>      
-        <input type='password' value={password} onChange={e => setPassword(e.target.value)} />
+        <input className='material-input' type='password' value={password} onChange={e => setPassword(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
-        <label>Password</label>
+        <label className='material-label'>Password</label>
       </div>
 
       <ForgotPassword>Forgot password?</ForgotPassword>

@@ -110,38 +110,38 @@ export const EmailSignUpForm = ({ closeModal }) => {
   return (
     <Container>
       <div className='group'>
-        <input type='text' value={name} onChange={e => setName(e.target.value)} />
+        <input className='material-input' type='text' value={name} onChange={e => setName(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
-        <label>Name*</label>
+        <label className='material-label'>Name*</label>
       </div>
 
       <div className='group'>
-        <input type='text' value={email} onChange={e => setEmail(e.target.value)} />
+        <input className='material-input' type='text' value={email} onChange={e => setEmail(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
-        <label>Email*</label>
+        <label className='material-label'>Email*</label>
       </div>
 
       <div className='group'>
-        <input type='text' value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
+        <input className='material-input' type='text' value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
-        <label>Phone No*</label>
+        <label className='material-label'>Phone No*</label>
       </div>
         
       <div className='group'>      
-        <input type='password' value={password} onChange={e => setPassword(e.target.value)} />
+        <input className='material-input' type='password' value={password} onChange={e => setPassword(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
-        <label>Password*</label>
+        <label className='material-label'>Password*</label>
       </div>
 
       <div className='group'>      
-        <input type='password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
+        <input className='material-input' type='password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
         <span className='highlight'></span>
         <span className='bar'></span>
-        <label>Confirm Password*</label>
+        <label className='material-label'>Confirm Password*</label>
       </div>
 
       <Button onClick={handleOnSignUp}>
