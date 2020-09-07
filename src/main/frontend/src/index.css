@@ -13,6 +13,7 @@ code {
   display: flex; 
   justify-content: center; 
   align-items: center;
+  background-color: #FFF;
 }
 
 .product-frame {
@@ -160,3 +161,19 @@ code {
 	from { background:#5264AE; }
   to 	{ width:0; background:transparent; }
 }
+
+/* Side bar */
+.bm-menu-wrap {
+  top: 0;
+  height: 100vh !important;
+  z-index: 100000000 !important;
+}
+
+.bm-menu {
+  padding: 10px;
+  background: #F3F3F3;
+}
+
+/* .bm-burger-button > button {
+  width: 0 !important;
+} */

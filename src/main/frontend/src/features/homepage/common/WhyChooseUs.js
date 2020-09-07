@@ -9,6 +9,7 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 55vw;
+  object-fit: cover;
 `;
 
 const Content = styled.div`
@@ -57,7 +58,7 @@ const ItemComponent = ({ title, subHeader, text }) => (
 export const WhyChooseUs = () => {
   return (
     <Container>
-      <Image src='/images/why_choose_us.png' />
+      <Image src='/images/why_choose_us.jpg' />
 
       <Content>
         <Title style={{ marginBottom: '50px' }}>WHY CHOOSE US?</Title>

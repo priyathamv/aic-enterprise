@@ -29,21 +29,7 @@ export const TrustedBy = () => {
 
       <div className='slideshow'>
         <div className='brands-frame'>
-          <Image src="/images/trusted_by1.png" />
-          <Image src="/images/trusted_by2.png" />
-          <Image src="/images/trusted_by3.png" />
-          <Image src="/images/trusted_by4.png" />
-          <Image src="/images/trusted_by5.png" />
-          <Image src="/images/trusted_by1.png" />
-          <Image src="/images/trusted_by2.png" />
-          <Image src="/images/trusted_by3.png" />
-          <Image src="/images/trusted_by4.png" />
-          <Image src="/images/trusted_by5.png" />
-          <Image src="/images/trusted_by1.png" />
-          <Image src="/images/trusted_by2.png" />
-          <Image src="/images/trusted_by3.png" />
-          <Image src="/images/trusted_by4.png" />
-          <Image src="/images/trusted_by5.png" />
+          {Array(20).fill().map((cur, index) => <Image key={index} src={`/images/trusted_by/${index+1}.png`} />)}
         </div>
       </div>
     </Container>

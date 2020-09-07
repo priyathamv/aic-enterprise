@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
+import { QuantityBox } from '../../cart/QuantityBox';
 
 
 const Container = styled.div`
@@ -52,15 +53,6 @@ const QuantityLabel = styled.div`
   margin-bottom: 10px;
 `;
 
-const QuantityInput = styled.input`
-  display: block;
-  font-size: 16px;
-  width: 50px;
-  height: 25px;
-  margin-bottom: 10px;
-  text-align: right;
-`;
-
 const AddToCart = styled.button`
   background-color: #232162;
   color: #FFF;
@@ -68,6 +60,7 @@ const AddToCart = styled.button`
   font-weight: bold;
   margin-bottom: 30px;
   border-radius: 5px;
+  margin-top: 30px;
 `;
 
 const DescriptionLabel = styled.div`
@@ -80,18 +73,13 @@ const Description = styled.div`
 `;
 
 
-export const Product = ({ productId }) => {
-  const products = {
-    '1': '/images/item1.png',
-    '2': '/images/item2.png',
-    '3': '/images/item3.png'
-  }
-  
+export const Product = ({ productDetails }) => {
+
   const handleOnClick = () => {}
 
   return (
     <Container>
-      <Image src={products[productId]} />
+      <Image src={productDetails.imageUrl} />
 
       <Popup
         trigger={<button className='button-style' onClick={handleOnClick}>BUY NOW</button>}
@@ -104,16 +92,16 @@ export const Product = ({ productId }) => {
             </Close>
             <ProductFrame>
               <ProductImages>
-                <Image src='/images/item1.png' />
+                <Image style={{ marginRight: '20px' }} src={productDetails.imageUrl} />
               </ProductImages>
 
               <ProductDetails>
-                <ProductName>1300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES</ProductName>
+                <ProductName>{productDetails.name}</ProductName>
                 <QuantityLabel>Quantity</QuantityLabel>
-                <QuantityInput></QuantityInput>
+                <QuantityBox />
                 <AddToCart>ADD TO CART</AddToCart>
                 <DescriptionLabel>Description</DescriptionLabel>
-                <Description>Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod</Description>
+                <Description>{productDetails.description}</Description>
               </ProductDetails>
             </ProductFrame>
           </Modal>

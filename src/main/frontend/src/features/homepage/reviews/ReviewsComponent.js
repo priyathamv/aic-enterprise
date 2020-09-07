@@ -8,8 +8,13 @@ const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  padding: 10vw;
+  padding: 15vw 17vw;
   background-color: #69696970;
+  background: url(/images/why_choose_us_reverse.jpg);
+  background-repeat: repeat;
+  background-size: 100vw auto;
+  background-position: 30vw 0;
+  opacity: 0.7;
 `;
 
 

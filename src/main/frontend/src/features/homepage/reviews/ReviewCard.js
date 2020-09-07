@@ -7,12 +7,11 @@ import { ImQuotesLeft } from 'react-icons/im';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 400px;
-  padding: 40px;
+  width: 350px;
+  padding: 30px;
   background-color: #FFF;
   position: relative;
   overflow: hidden;
-  height: 230px;
 `;
 
 const Triangle = styled.div`
@@ -37,12 +36,13 @@ const Text = styled.div`
   line-height: 27px;
   margin-bottom: 10px;
   color: #000000a3;
+  font-size: 14px;
 `;
 
 const UserFrame = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 10px;
 `;
 
 const UserImage = styled.img`

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { CartSideBar } from '../cart/CartSideBar';
+import { SideBarOverlay } from '../cart/SideBarOverlay';
 import { CoverImageSlider } from './coverimage/CoverImageSlider';
 import { SeeOurProducts } from './common/SeeOurProducts';
 import { FeaturedCarousel } from './featured/FeaturedCarousel';
@@ -16,6 +18,8 @@ export const Homepage = () => {
 
   return (
     <div>
+      <CartSideBar />
+      <SideBarOverlay />
       <CoverImageSlider />
       <HomepageIntro />
       <SeeOurProducts />

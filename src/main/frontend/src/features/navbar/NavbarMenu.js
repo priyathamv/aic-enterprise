@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { UserCart } from './UserCart';
 
 const Container = styled.div`
   display: flex;
@@ -24,11 +25,11 @@ const BlankMenuItem = styled.div`
   border-right: 1px solid #CCC;
 `;
 
-const MenuItem = styled.div`
+const MenuItem = styled.a`
+  text-decoration: none;
   flex: 1;
   border-right: 1px solid #CCC;
   padding-top: 27px;
-  cursor: pointer;
   &:hover {
     color: #FFF;
     background-color: #232162;
@@ -80,15 +81,15 @@ export const NavbarMenu = () => {
         <BlankMenuItem style={{ paddingTop: '8px' }}>
           {showLogo ? <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
         </BlankMenuItem>
-        <MenuItem>Products</MenuItem>
-        <MenuItem>About us</MenuItem>
-        <MenuItem>Contact us</MenuItem>
-        <MenuItem>Covid 19</MenuItem>
+        <MenuItem href='/'>Products</MenuItem>
+        <MenuItem href='/'>About us</MenuItem>
+        <MenuItem href='/'>Contact us</MenuItem>
+        <MenuItem href='/'>Covid 19</MenuItem>
       </MenuItems>
 
-      <Search>
+      <Search />
 
-      </Search>
+      {showLogo ? <UserCart style={{ marginRight: '15px' }}/> : null}
     </Container>
   )
 }

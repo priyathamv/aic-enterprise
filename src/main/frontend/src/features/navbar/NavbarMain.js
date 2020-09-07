@@ -1,18 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import Popup from 'reactjs-popup';
+
 import 'reactjs-popup/dist/index.css';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
-import { FaUserCircle } from 'react-icons/fa';
-import { GiShoppingCart } from 'react-icons/gi';
-import { BiChevronDown } from 'react-icons/bi';
-import Cookies from 'universal-cookie';
-
-import { GLogout } from '../auth/GLogout';
-import { LoginModal } from '../auth/LoginModal';
-import { selectGoogleAuth, selectEmailAuth, logoutUserAction } from '../auth/authSlice';
+import { UserCart } from './UserCart';
 
 
 const Container = styled.div`
@@ -80,96 +72,12 @@ const PhoneText = styled.div`
 
 `;
 
-const LoginFrame = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-`;
-
-const LoginInfo = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const UserIcon = styled(FaUserCircle)`
-  cursor: pointer;
-`;
-
-const DownArrowIcon = styled(BiChevronDown)`
-  cursor: pointer;
-`;
-  
-const LoginButton = styled.div`
-  margin-right: 10px;
-  margin-left: 10px;
-  cursor: pointer;
-`;
-
-const UserOptions = styled.div`
-  width: 150px;
-  top: 75px;
-  right: 75px;
-  text-align: center;
-  border-radius: 3px;
-  background-color: #FFF;
-  box-shadow: 0 0 10px 1px rgba(188,188,188,0.3);
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-`;
-
-const UserOption = styled.div`
-  padding: 15px 20px;
-  cursor: pointer;
-  display: flex;
-  &:hover {
-    background-color: #017acd0a
-  }
-`;
-
-const CartIcon = styled(GiShoppingCart)`
-
-`;
-
 
 export const NavbarMain = () => {
-  const dispatch = useDispatch();
-  const userIconRef = useRef(null);
-  const userOptionsRef = useRef(null);
-  const [showUserOptions, setShowUserOptions] = useState(false);
-
-  useEffect(() => {
-    function handleOutsideClick(e) {
-      if (
-        (userIconRef.current && !userIconRef.current.contains(e.target)) && 
-        (userOptionsRef.current && !userOptionsRef.current.contains(e.target))
-      ) {
-        setShowUserOptions(false);
-      }
-    }
-    document.addEventListener('mousedown', handleOutsideClick)
-    return () => document.removeEventListener('mousedown', handleOutsideClick);
-  }, [userOptionsRef]);
-
+  
   const prepareEmail = () => {
     window.location.href = 'mailto:info@aicgroup.co.in';
   }
-
-  const logoutUser = () => {
-    setShowUserOptions(false);
-
-    const cookies = new Cookies();
-    cookies.remove('auth_token');
-    
-    dispatch(logoutUserAction());
-  }
-
-  const googleAuth = useSelector(selectGoogleAuth);
-  const emailAuth = useSelector(selectEmailAuth);
-  const isUserLoggedIn = googleAuth.email || emailAuth.email;
-  const isUserGoogleLoggedIn = googleAuth.email;
 
   return (
     <Container>
@@ -190,40 +98,7 @@ export const NavbarMain = () => {
         <PhoneText>+123-456-7890</PhoneText>
       </ContantInfo>
 
-      <LoginInfo>
-        {isUserLoggedIn ? 
-          <LoginFrame ref={userIconRef} onClick={() => setShowUserOptions(!showUserOptions)} >
-            <UserIcon size='2em' />
-            <DownArrowIcon size='1.7em' />
-          </LoginFrame> :
-          <Popup
-            modal
-            // lockScroll={true}
-            overlayStyle={{ overflow: 'scroll' }}
-            contentStyle={{ padding: 0, width: '100vw', height: '100%' }}
-            trigger={
-              <LoginFrame>
-                <UserIcon size='2em'/>
-                <LoginButton>Log In</LoginButton>
-              </LoginFrame>
-            }
-          >
-            {close => (
-              <LoginModal closeModal={close}/>
-            )}
-          </Popup>}
-        
-        <CartIcon size='2em' />
-      </LoginInfo>
-
-      {showUserOptions ? 
-        <UserOptions ref={userOptionsRef}>
-          <UserOption>My Account</UserOption>
-          {isUserGoogleLoggedIn ? 
-            <div onClick={() => setShowUserOptions(false)}><GLogout /></div> : 
-            <UserOption onClick={() => logoutUser()}>Log Out</UserOption>
-          }
-        </UserOptions> : null }
+      <UserCart />
     </Container>
   )
 }
