@@ -28,6 +28,7 @@ const Logo = styled.img`
   width: 80px;
   border-radius: 40px;
   margin-right: 15px;
+  cursor: pointer;
 `;
 
 const Brand = styled.div`
@@ -82,7 +83,7 @@ export const NavbarMain = () => {
   return (
     <Container>
       <BrandFrame>
-        <Logo src='/images/aic_logo.png'></Logo>
+        <Logo src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo>
 
         <Brand>
           <BrandName>AIC ENTERPRISES</BrandName>

@@ -5,7 +5,8 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 
 // import { GLogin } from './features/auth/GLogin';
-import { CartSideBar } from './features/cart/CartSideBar';
+import { AboutUs } from './features/aboutus/AboutUs';
+import { ContactUs } from './features/contactus/ContactUs';
 import { Navbar } from './features/navbar/Navbar';
 import { Homepage } from './features/homepage/Homepage';
 import { Footer } from './features/homepage/common/Footer';
@@ -43,7 +44,8 @@ function App() {
     <Router>
       <Navbar />
       <Switch>
-        {/* <Route path='/login' component={GLogin} /> */}
+        <Route path='/about-us' component={AboutUs} />
+        <Route path='/contact-us' component={ContactUs} />
         <Route path='/' component={Homepage} />
       </Switch>
       <GLogin style={{ visibility: 'hidden', position: 'absolute'}} />
