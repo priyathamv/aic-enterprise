@@ -56,7 +56,6 @@ public class ProductServiceImpl implements ProductService {
 
             // Reading all the files and fetching valid URLs
             List<Product> completeProductList = fileNameList
-                    .subList(0, 3)
                     .stream()
                     .map(curFileName -> {
                         try {
@@ -68,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
 
                             List<Product> productList = new ArrayList<>();
                             sheet.forEach(curRow -> {
-                                if (curRow.getRowNum() != 0) {
+                                if (curRow.getRowNum() >= 5) {
                                     Product curProduct = getProductFromRow(curRow, dataFormatter);
                                     productList.add(curProduct);
                                 }
@@ -106,25 +105,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product getProductFromRow(Row row, DataFormatter dataFormatter) {
-        String code = dataFormatter.formatCellValue(row.getCell(0)).trim();
-        String name = dataFormatter.formatCellValue(row.getCell(1)).trim();
-        String brand = dataFormatter.formatCellValue(row.getCell(3)).trim();
-        String capacity = dataFormatter.formatCellValue(row.getCell(4)).trim();
-        String pack = dataFormatter.formatCellValue(row.getCell(5)).trim();
+        String code = dataFormatter.formatCellValue(row.getCell(1)).trim();
+        String name = dataFormatter.formatCellValue(row.getCell(2)).trim();
+        String brand = dataFormatter.formatCellValue(row.getCell(5)).trim();
+        String pack = dataFormatter.formatCellValue(row.getCell(6)).trim();
         Date curDate = new Date();
-        log.info("CODE: {}, NAME: {}, CAPACITY: {}, PACK: {}", code, name, capacity, pack);
+        log.info("CODE: {}, NAME: {}, PACK: {}", code, name, pack);
 
         Product product = new Product();
         product.setCode(code);
         product.setName(name);
         product.setBrand(brand);
-        product.setCapacity(capacity);
         product.setPack(pack);
         product.setOwner("admin");
         product.setCreateTs(curDate);
         product.setUpdateTs(curDate);
         return product;
     }
-
 
 }
