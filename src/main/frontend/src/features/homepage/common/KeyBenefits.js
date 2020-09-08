@@ -12,7 +12,6 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 45vw;
-  object-fit: cover;
 `;
 
 const Content = styled.div`
@@ -45,7 +44,6 @@ const ArrowIcon = styled(RiArrowRightSLine)`
 const Item = styled.div`
   display: flex;
   letter-spacing: 1px;
-  object-fit: cover;
 `;
 
 const Text = styled.div`

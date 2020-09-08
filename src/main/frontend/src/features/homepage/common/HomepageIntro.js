@@ -30,9 +30,7 @@ const ContentFrame = styled.div`
 
 const Image = styled.img`
   width: 30vw;
-  height: 40vh;
   margin-right: 75px;
-  object-fit: cover;
 `;
 
 const Content = styled.div`

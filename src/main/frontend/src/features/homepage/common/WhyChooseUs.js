@@ -9,7 +9,6 @@ const Container = styled.div`
 
 const Image = styled.img`
   width: 55vw;
-  object-fit: cover;
 `;
 
 const Content = styled.div`

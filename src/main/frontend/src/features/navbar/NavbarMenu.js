@@ -59,7 +59,7 @@ export const NavbarMenu = () => {
 
   const [showLogo, setShowLogo] = useState(false);
   
-  const scrollCallback = () => {
+  const scrollCallback = async () => {
     const navbarMenuDom = document.getElementById('navbar_menu_id');
     const coverImageSliderDom = document.getElementById('cover_image_slider_id');
     const aboutUsDom = document.getElementById('about_us_id');
