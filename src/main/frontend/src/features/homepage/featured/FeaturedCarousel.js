@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
 
 import { Product } from './Product';
+import { selectCartItems } from '../../cart/cartSlice';
 
-const BlackProduct = styled.div`
+const BlankProduct = styled.div`
   width: 300px;
 `;
 
@@ -55,6 +58,19 @@ const products = [
 ];
 
 export const FeaturedCarousel = () => {
+  // const cartItems = useSelector(selectCartItems);
+
+  // const productIdToQuantityMap = cartItems.reduce((idToQuantityMap, curItem) => {
+  //   idToQuantityMap[curItem.id] = curItem.quantity === null ? 0 : curItem.quantity;
+  // }, {})
+  
+  // const productsWithQuantity = products.map(curProduct => {
+  //   return {
+  //     ...curProduct,
+  //     quantity: productIdToQuantityMap[curProduct.id] >= 0 ? productIdToQuantityMap[curProduct.id] : 0
+  //   }
+  // });
+
   return (
     <AwesomeSlider className='featured-slider'>
       {products
@@ -66,7 +82,7 @@ export const FeaturedCarousel = () => {
               Array(3).fill()
                 .map((_, i) => {
                   const curIndex = indexOf3 + i;
-                  return curIndex < products.length ? <Product key={curIndex} productDetails={products[curIndex]} /> : <BlackProduct key={curIndex} />;
+                  return curIndex < products.length ? <Product key={curIndex} productDetails={products[curIndex]} /> : <BlankProduct key={curIndex} />;
                 })
             }
           </div>

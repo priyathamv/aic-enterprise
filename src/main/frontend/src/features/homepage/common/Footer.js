@@ -125,6 +125,7 @@ const SignUpButton = styled.button`
   width: 90px;
   border-radius: 7px;
   border: none;
+  cursor: pointer;
 `;
 
 const SocialMedia = styled.div`

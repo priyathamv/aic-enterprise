@@ -5,7 +5,8 @@ import { slide as Menu } from 'react-burger-menu'
 import { IoIosArrowBack } from 'react-icons/io';
 
 import { CartItem } from './CartItem';
-import { selectShowCartPage, displayCartPage } from '../cart/cartSlice';
+import { selectShowCartPage, displayCartPage, selectCartItems } from '../cart/cartSlice';
+import { Button } from '../homepage/common/Button';
 
 const CartHeader = styled.div`
   display: flex !important;
@@ -27,9 +28,16 @@ const Header = styled.div`
   font-weight: bold;
 `;
 
+const Label = styled.div`
+  font-size: 18px;
+  text-align: center;
+  margin-top: 30px;
+`;
+
 export const CartSideBar = () => {
   const dispatch = useDispatch();
   const showCartPage = useSelector(selectShowCartPage);
+  const cartItems = useSelector(selectCartItems);
   const sideCartRef = useRef(null);
 
   useEffect(() => {
@@ -44,13 +52,15 @@ export const CartSideBar = () => {
         document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [sideCartRef]);
+
+  const handleOnPlaceOrder = () => {};
   
   return (
     <div
       ref={sideCartRef}
     >
       <Menu 
-        width={ '25vw' } 
+        width={ '28vw' } 
         // style={cartMenuStyles} 
         customBurgerIcon={ false }
         isOpen={showCartPage} 
@@ -66,7 +76,9 @@ export const CartSideBar = () => {
           <div></div>
         </CartHeader>
 
-        <CartItem />
+        {cartItems.map((curCartItem, index) => <CartItem key={index} itemDetails={curCartItem} />)}
+
+        {cartItems.length ? <Button style={{ margin: '20px auto 50px auto' }} handleOnClick={handleOnPlaceOrder} label='PLACE ORDER' /> : <Label>Your cart is empty</Label>}
       </Menu>
     </div>
   )

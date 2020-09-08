@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
-import { QuantityBox } from '../../cart/QuantityBox';
 
+import { QuantityBox } from '../../cart/QuantityBox';
+import { selectCartItems, updateItemInCart } from '../../cart/cartSlice';
 
 const Container = styled.div`
   display: flex;
@@ -61,6 +63,7 @@ const AddToCart = styled.button`
   margin-bottom: 30px;
   border-radius: 5px;
   margin-top: 30px;
+  cursor: pointer;
 `;
 
 const DescriptionLabel = styled.div`
@@ -74,22 +77,29 @@ const Description = styled.div`
 
 
 export const Product = ({ productDetails }) => {
+  const dispatch = useDispatch();
 
-  const handleOnClick = () => {}
+  const [quantity, setQuantity] = useState(1);
+
+  const handleAddToCart = () => {
+    dispatch(updateItemInCart({ ...productDetails, quantity }));
+  }
+
 
   return (
     <Container>
       <Image src={productDetails.imageUrl} />
 
       <Popup
-        trigger={<button className='button-style' onClick={handleOnClick}>BUY NOW</button>}
+        nested={true}
+        trigger={<button className='button-style' >KNOW MORE</button>}
+        onClose={() => setQuantity(1)}
         modal
       >
         {close => (
           <Modal>
-            <Close className="close" onClick={close}>
-              &times;
-            </Close>
+            <Close className="close" onClick={close}>&times;</Close>
+
             <ProductFrame>
               <ProductImages>
                 <Image style={{ marginRight: '20px' }} src={productDetails.imageUrl} />
@@ -97,10 +107,18 @@ export const Product = ({ productDetails }) => {
 
               <ProductDetails>
                 <ProductName>{productDetails.name}</ProductName>
+
                 <QuantityLabel>Quantity</QuantityLabel>
-                <QuantityBox />
-                <AddToCart>ADD TO CART</AddToCart>
+                
+                <QuantityBox 
+                  quantity={quantity} 
+                  setQuantity={setQuantity}
+                />
+                
+                <AddToCart onClick={() => {handleAddToCart(); close(); }} >ADD TO CART</AddToCart>
+                
                 <DescriptionLabel>Description</DescriptionLabel>
+                
                 <Description>{productDetails.description}</Description>
               </ProductDetails>
             </ProductFrame>

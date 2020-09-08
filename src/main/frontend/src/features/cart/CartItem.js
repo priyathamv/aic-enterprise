@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useDispatch } from 'react-redux';
 
 import { Line } from '../homepage/common/Line';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { QuantityBox } from './QuantityBox';
+import { updateItemInCart, deleteItemFromCart } from '../cart/cartSlice';
 
 const Container = styled.div`
   display: flex;
@@ -14,6 +16,7 @@ const Container = styled.div`
   border: 1px solid transparent;
   box-shadow: 0 2px 3px 0 rgba(0,0,0,.1);
   padding: 10px;
+  margin-bottom: 10px;
 `;
 
 const ItemDetails = styled.div`
@@ -22,8 +25,8 @@ const ItemDetails = styled.div`
   margin-bottom: 20px;
 `;
 
-const ItemImage = styled.div`
-  width: 200px;
+const ItemImage = styled.img`
+  width: 100px;
 `;
 
 const ItemDesc = styled.div`
@@ -51,31 +54,29 @@ const Label = styled.div`
   margin-right: 10px;
 `;
 
-const Cost = styled.div`
-  font-weight: bold;
-`;
+// const Cost = styled.div`
+//   font-weight: bold;
+// `;
 
-export const CartItem = () => {
-  const [quantity, setQuantity] = useState(1);
-  
-  const onQuantityChange = (value) => {
-    if (!isNaN(value))
-      setQuantity(Number(value))
+export const CartItem = ({ itemDetails }) => {
+  const dispatch = useDispatch();
+
+  const handleQuantityChange = value => {
+      dispatch(updateItemInCart({ ...itemDetails, quantity: value }));
   }
 
-  const handleChangeQuantity = (value) => {
-    if (quantity + value >= 0)
-      setQuantity(quantity + value);
+  const handleDeleteItem = () => {
+    dispatch(deleteItemFromCart(itemDetails.id));
   }
 
   return (
     <Container>
       <ItemDetails>
-        <ItemImage src='https://images-static.nykaa.com/media/catalog/product/tr:h-800,w-800,cm-pad_resize/e/8/e8cd60b8906087771821__1_.jpg'></ItemImage>
+        <ItemImage src={itemDetails.imageUrl}></ItemImage>
 
-        <ItemDesc>Mamaearth Argan & Apple Cider Vinegar Shampoo For Dry & Friz</ItemDesc>
+        <ItemDesc>{itemDetails.name}</ItemDesc>
 
-        <DeleteIcon size='2em' />
+        <DeleteIcon size='2em' onClick={handleDeleteItem}/>
       </ItemDetails>
       
       <Line />
@@ -84,10 +85,10 @@ export const CartItem = () => {
         <QuantityFrame>
           <Label>Quantity</Label>
 
-          <QuantityBox quantity={quantity} onQuantityChange={onQuantityChange} handleChangeQuantity={handleChangeQuantity} />
+          <QuantityBox quantity={itemDetails.quantity} setQuantity={handleQuantityChange} />
         </QuantityFrame>
 
-        <Cost>Rs 4599</Cost>
+        {/* <Cost>Rs 4599</Cost> */}
       </ItemFooter>
     </Container>
   )

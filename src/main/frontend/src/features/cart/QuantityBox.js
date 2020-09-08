@@ -23,20 +23,25 @@ const Quantity = styled.input`
   border-radius: 0;
 `;
 
-export const QuantityBox = ({quantity, onQuantityChange, handleChangeQuantity}) => {
+export const QuantityBox = ({quantity, setQuantity}) => {
+  const handleQuantityChange = value => {
+    if (!isNaN(value) && value >= 0)
+      setQuantity(Number(value));
+  }
+
   return (
     <Container>
       <QuantityOperator 
         style={{ borderRight: 'none' }} 
-        onClick={() => handleChangeQuantity(-1)} 
+        onClick={() => quantity-1 >=0 && setQuantity(quantity-1)} 
       >-
       </QuantityOperator>
       
-      <Quantity type='text' value={quantity} onChange={e => onQuantityChange(e.target.value)}/>
+      <Quantity type='text' value={quantity} onChange={e => handleQuantityChange(e.target.value)}/>
       
       <QuantityOperator 
         style={{ borderLeft: 'none' }} 
-        onClick={() => handleChangeQuantity(1)}
+        onClick={() => quantity+1 >=0 && setQuantity(quantity+1)}
       >+</QuantityOperator>
     </Container>
   )

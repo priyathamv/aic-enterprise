@@ -14,7 +14,7 @@ const Container = styled.div`
   right: 0;
   left: 0;
   background: rgba(0,0,0,.5);
-  z-index: 3;
+  z-index: 100000;
 `;
 
 export const SideBarOverlay = () => {
