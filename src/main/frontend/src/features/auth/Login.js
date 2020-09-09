@@ -123,7 +123,7 @@ export const Login = ({ closeModal }) => {
           {showSignUpForm ? <EmailSignUpForm closeModal={closeModal} /> : null}
         </> :
         <ButtonFrame>
-          <GLogin label={authObj.googleButtonText} />
+          <GLogin label={authObj.googleButtonText} closeModal={closeModal} />
 
           <Separator>
             <Line style={{ width: '130px' }}/>

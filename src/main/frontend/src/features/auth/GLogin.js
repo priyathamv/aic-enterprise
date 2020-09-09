@@ -32,7 +32,7 @@ const GoogleIcon = styled(FcGoogle)`
   left: 10px;
 `;
 
-export const GLogin = React.forwardRef(({ label, style }, ref) => {
+export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
 
   const dispatch = useDispatch();
 
@@ -65,11 +65,13 @@ export const GLogin = React.forwardRef(({ label, style }, ref) => {
     } catch(err) {
       console.log("Error while authenticating User: ", err);
     }
+    closeModal();
   }
 
   const googleFailureCallback = (response) => {
     console.log('Google login failed', response);
     dispatch(resetGoogleAuthDetails());
+    closeModal();
   }
 
   return (

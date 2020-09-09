@@ -14,6 +14,7 @@ code {
   justify-content: center; 
   align-items: center;
   background-color: #FFF;
+  height: 100%;
 }
 
 .product-frame {
@@ -70,28 +71,30 @@ code {
 }
 
 /* form starting stylings ------------------------------- */
-.group 			  { 
-  position:relative; 
-  margin-bottom:45px; 
+.group { 
+  position: relative; 
+  margin-bottom: 45px; 
 }
-.material-input 				{
-  font-size:18px;
-  padding:10px 10px 10px 5px;
-  display:block;
-  width:300px;
-  border:none;
-  border-bottom:1px solid #757575;
+.material-input {
+  font-size: 18px;
+  padding: 10px 0;
+  display: block;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #757575;
 }
-.material-input:focus 		{ outline:none; }
+.material-input:focus { 
+  outline:none; 
+}
 
 /* LABEL ======================================= */
-.material-label 				 {
+.material-label {
   color:#999; 
   font-size:18px;
   font-weight:normal;
   position:absolute;
   pointer-events:none;
-  left:5px;
+  /* left:5px; */
   top:10px;
   transition:0.2s ease all; 
   -moz-transition:0.2s ease all; 
@@ -106,7 +109,11 @@ code {
 }
 
 /* BOTTOM BARS ================================= */
-.bar 	{ position:relative; display:block; width:315px; }
+.bar 	{ 
+  position:relative; 
+  display:block; 
+  /* width:315px;  */
+}
 .bar:before, .bar:after 	{
   content:'';
   height:2px; 
@@ -132,20 +139,20 @@ code {
 
 /* HIGHLIGHTER ================================== */
 .highlight {
-  position:absolute;
-  height:60%; 
-  width:100px; 
-  top:25%; 
-  left:0;
-  pointer-events:none;
-  opacity:0.5;
+  position: absolute;
+  height: 60%; 
+  /* width:100px;  */
+  top: 25%; 
+  left: 0;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* active state */
 .material-input:focus ~ .highlight {
-  -webkit-animation:inputHighlighter 0.3s ease;
-  -moz-animation:inputHighlighter 0.3s ease;
-  animation:inputHighlighter 0.3s ease;
+  -webkit-animation: inputHighlighter 0.3s ease;
+  -moz-animation: inputHighlighter 0.3s ease;
+  animation: inputHighlighter 0.3s ease;
 }
 
 /* ANIMATIONS ================ */

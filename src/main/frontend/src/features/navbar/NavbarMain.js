@@ -20,7 +20,7 @@ const BrandFrame = styled.div`
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  background-color: #23216214;
+  background-color: #F8F8FF;
   height: 100%;
 `;
 

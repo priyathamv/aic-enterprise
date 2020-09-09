@@ -94,15 +94,20 @@ export const NavbarMenu = () => {
 
   useEffect(() => window.addEventListener('scroll', scrollCallback), []);
 
+  const curPageStyle = path => {
+    const currentPath = window.location.pathname;
+    return currentPath.includes(path) ? { marginBottom: '-1px', borderBottom: '5px solid #232162' } : null;
+  }
+
   return (
     <Container id='navbar_menu_id'>
       <MenuItems>
         <BlankMenuItem style={{ paddingTop: '8px' }}>
           {showLogo ? <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
         </BlankMenuItem>
-        <MenuItem href='/products'>Products</MenuItem>
-        <MenuItem href='/about-us'>About us</MenuItem>
-        <MenuItem href='/contact-us'>Contact us</MenuItem>
+        <MenuItem style={curPageStyle('/products')} href='/products'>Products</MenuItem>
+        <MenuItem style={curPageStyle('/about-us')} href='/about-us'>About us</MenuItem>
+        <MenuItem style={curPageStyle('/contact-us')} href='/contact-us'>Contact us</MenuItem>
         <MenuItem>Covid 19</MenuItem>
       </MenuItems>
 

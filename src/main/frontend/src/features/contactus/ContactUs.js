@@ -1,30 +1,38 @@
 import React from 'react';
 import styled from 'styled-components';
+import { ImLocation } from 'react-icons/im';
 
 import { Line } from '../homepage/common/Line';
-import { ImLocation } from 'react-icons/im';
+import { EnquiryForm } from './EnquiryForm';
 
 
 const Container = styled.div`
-  display: flex;
-  margin-bottom: 250px;
 `;
 
-const LocationPanel = styled.div`
-  width: 50vw;
-  background-color: #232162;
-  color: #FFF;
-  padding: 50px;
-`;
-
-const EnquiryForm = styled.div`
-  width: 50vw;
+const Background = styled.div`
+  background-color: #F8F8FF;
+  height: 500px;
 `;
 
 const Heading = styled.div`
-  font-size: 32px;
+  color: #232162;
+  font-size: 36px;
   font-weight: bold;
-  margin-bottom: 50px;
+  padding: 50px 10vw;
+`;
+
+const GetInTouchFrame = styled.div`
+  display: flex;
+  background-color: #FFF;
+  margin: -350px 10vw 50px 10vw;
+  box-shadow: 0 5px 6px -6px black;
+`;
+
+const LocationPanel = styled.div`
+  flex: 2;
+  background-color: #232162;
+  color: #FFF;
+  padding: 50px;
 `;
 
 const Location = styled.div`
@@ -47,32 +55,34 @@ const LocationIcon = styled(ImLocation)`
 export const ContactUs = () => {
   return (
     <Container id='contact_us_id'>
-      <LocationPanel>
-        <Heading>Contact Us</Heading>
+      <Background>
+        <Heading>Get in Touch</Heading>
+      </Background>
 
-        <Location>
-          <Name><LocationIcon size='1em' />AIC Enterprises</Name>
-          <Description>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</Description>
-        </Location>
+      <GetInTouchFrame>
+        <EnquiryForm style={{ flex: 3 }} />
 
-        <Line style={{ margin: '20px 0' }} />
+        <LocationPanel>
+          <Location>
+            <Name><LocationIcon size='1em' />AIC Enterprises</Name>
+            <Description>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</Description>
+          </Location>
 
-        <Location>
-          <Name><LocationIcon size='1em' />AIC Specialities</Name>
-          <Description>125, Langs Garden Road, Pudupet, Chennai - 600 002</Description>
-        </Location>
+          <Line style={{ margin: '20px 0' }} />
 
-        <Line style={{ margin: '20px 0' }} />
+          <Location>
+            <Name><LocationIcon size='1em' />AIC Specialities</Name>
+            <Description>125, Langs Garden Road, Pudupet, Chennai - 600 002</Description>
+          </Location>
 
-        <Location>
-          <Name><LocationIcon size='1em' />AIC International</Name>
-          <Description>No.11, 1st Cross, Kamban - Nagar,Redisarpalayam, Pondicherry - 605010</Description>
-        </Location>
-      </LocationPanel>
+          <Line style={{ margin: '20px 0' }} />
 
-      <EnquiryForm>
-
-      </EnquiryForm>
+          <Location>
+            <Name><LocationIcon size='1em' />AIC International</Name>
+            <Description>No.11, 1st Cross, Kamban - Nagar,Redisarpalayam, Pondicherry - 605010</Description>
+          </Location>
+        </LocationPanel>
+      </GetInTouchFrame>
     </Container>
   )
 }
