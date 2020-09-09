@@ -65,6 +65,7 @@ export const NavbarMenu = () => {
     const coverImageSliderDom = document.getElementById('cover_image_slider_id');
     const aboutUsDom = document.getElementById('about_us_id');
     const contactUsDom = document.getElementById('contact_us_id');
+    const productsDom = document.getElementById('products_id');
 
     if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
       navbarMenuDom.style.position = 'fixed';
@@ -73,6 +74,7 @@ export const NavbarMenu = () => {
       coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '75px');
       aboutUsDom && (aboutUsDom.style.paddingTop = '75px');
       contactUsDom && (contactUsDom.style.paddingTop = '75px');
+      productsDom && (productsDom.style.paddingTop = '75px');
       setShowLogo(true);
     } else {
       setShowLogo(false);
@@ -82,6 +84,7 @@ export const NavbarMenu = () => {
       coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '0');
       aboutUsDom && (aboutUsDom.style.paddingTop = '0');
       contactUsDom && (contactUsDom.style.paddingTop = '0');
+      productsDom && (productsDom.style.paddingTop = '0');
     }
   }
 

@@ -5,6 +5,7 @@ import Cookies from 'universal-cookie';
 import axios from 'axios';
 
 // import { GLogin } from './features/auth/GLogin';
+import { Products } from './features/products/Products';
 import { AboutUs } from './features/aboutus/AboutUs';
 import { ContactUs } from './features/contactus/ContactUs';
 import { Navbar } from './features/navbar/Navbar';
@@ -44,6 +45,7 @@ function App() {
     <Router>
       <Navbar />
       <Switch>
+        <Route path='/products' component={Products} />
         <Route path='/about-us' component={AboutUs} />
         <Route path='/contact-us' component={ContactUs} />
         <Route path='/' component={Homepage} />
