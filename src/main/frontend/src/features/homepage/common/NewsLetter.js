@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FaTelegramPlane } from 'react-icons/fa';
+
+import { isValidEmail, signUpForNews } from '../../utils/Utils';
 
 const Container = styled.div`
   background-color: #232162;
@@ -39,6 +41,12 @@ const PlaneIcon = styled(FaTelegramPlane)`
 
 const InputContainer = styled.div`
   position: relative;
+  margin-bottom: 5px;
+`;
+
+const Message = styled.div`
+  font-size: 14px;
+  color: #0b880b
 `;
 
 const Or = styled.div`
@@ -68,20 +76,45 @@ const EmailInput = styled.input`
 
 
 export const NewsLetter = () => {
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpMessage, setSignUpMessage] = useState(null);
+
+  const handleOnSignUp = () => {
+    if (isValidEmail(signUpEmail)) {
+      signUpForNews(signUpEmail);
+      setSignUpEmail('');
+      setSignUpMessage('Thanks for signing up!');
+    } else {
+      setSignUpMessage('Invalid Email, please check');
+    }
+    setTimeout(() => setSignUpMessage(null), 5000);
+  }
+
   return (
     <Container>
       <ContentBox style={{ marginRight: '20px' }}>
         <Label>Best Services</Label>
         <div>123-456-7890</div>
       </ContentBox>
+
       <ContentBox>
         <Label>Sign up for Newsletter</Label>
+        
         <InputContainer>
-          <EmailInput type='text' placeholder='Your Email Address'></EmailInput>
-          <PlaneIcon />
+          <EmailInput 
+            type='text' 
+            placeholder='Your Email Address'
+            value={signUpEmail} 
+            onChange={e => setSignUpEmail(e.target.value)} 
+          />
+          <PlaneIcon onClick={handleOnSignUp} />
         </InputContainer>
+
+        <Message style={signUpMessage === 'Invalid Email, please check' ? {color: 'red'} : null}>{signUpMessage}</Message>
       </ContentBox>
+
       <Or>OR</Or>
+      
       <OrBorder>OR</OrBorder>
     </Container>
   )
