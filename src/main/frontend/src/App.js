@@ -30,14 +30,13 @@ function App() {
     
       } catch (err) {
         console.log('Error while fetching User details', err.message);
-        return null;
       }
     }
 
     const cookies = new Cookies();
     const authToken = cookies.get('auth_token');
     
-    if (authToken)
+    if (authToken)  
       getUserDetails(authToken);
   }, [dispatch])
 

@@ -5,7 +5,7 @@ import { Category } from './Category';
 import { categoryList } from './categoryList';
 
 const Container = styled.div`
-  margin: 50px 200px;
+  margin: 50px 200px 100px 200px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-row: auto auto;

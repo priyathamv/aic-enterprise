@@ -68,9 +68,11 @@ export const NavbarMenu = () => {
     const productsDom = document.getElementById('products_id');
 
     if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
-      navbarMenuDom.style.position = 'fixed';
-      navbarMenuDom.style.top = '0';
-      navbarMenuDom.style.borderTop = 'none';
+      if (navbarMenuDom) {
+        navbarMenuDom.style.position = 'fixed';
+        navbarMenuDom.style.top = '0';
+        navbarMenuDom.style.borderTop = 'none';
+      }
       coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '75px');
       aboutUsDom && (aboutUsDom.style.paddingTop = '75px');
       contactUsDom && (contactUsDom.style.paddingTop = '75px');
@@ -78,9 +80,11 @@ export const NavbarMenu = () => {
       setShowLogo(true);
     } else {
       setShowLogo(false);
-      navbarMenuDom.style.position = 'initial';
-      navbarMenuDom.style.top = '100px';
-      navbarMenuDom.style.borderTop = '1px solid #CCC';
+      if (navbarMenuDom) {
+        navbarMenuDom.style.position = 'initial';
+        navbarMenuDom.style.top = '100px';
+        navbarMenuDom.style.borderTop = '1px solid #CCC';
+      }
       coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '0');
       aboutUsDom && (aboutUsDom.style.paddingTop = '0');
       contactUsDom && (contactUsDom.style.paddingTop = '0');

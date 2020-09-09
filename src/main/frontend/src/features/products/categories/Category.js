@@ -38,11 +38,13 @@ const Image = styled.img`
 export const Category = ({ categoryDetails }) => {
   const bgStyle = {
     color: '#232162',
-    backgroundColor: '#F2F2F2'
+    backgroundColor: '#F2F2F2',
+    // margin: '0'
   }
   const bgStyleAlt = {
     color: '#F2F2F2',
-    backgroundColor: '#232162'
+    backgroundColor: '#232162',
+    // margin: '-10px'
   }
 
 
