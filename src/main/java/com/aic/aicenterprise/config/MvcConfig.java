@@ -13,6 +13,7 @@ public class MvcConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addViewController("/products").setViewName("forward:/index.html");
                 registry.addViewController("/contact-us").setViewName("forward:/index.html");
                 registry.addViewController("/about-us").setViewName("forward:index.html");
                 registry.addViewController("/covid-19").setViewName("forward:/index.html");
