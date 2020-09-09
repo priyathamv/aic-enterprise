@@ -43,7 +43,7 @@ const Content = styled.div`
 export const HomepageIntro = () => {
   return (
     <Container>
-      <Title>AIC Enterprises</Title>
+      <Title>AIC Group</Title>
       
       <SubTitle>
         Wide Product Range | Efficient Customer Service | Wide Accessibility | In - Time Delivery | Qualified Technical Support

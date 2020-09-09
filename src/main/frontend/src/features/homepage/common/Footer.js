@@ -200,8 +200,8 @@ export const Footer = () => {
             </LogoFrame>
             
             <BrandDescription>
-              <BrandName>AIC ENTERPRISES</BrandName>
-              <BrandCaption>dustry. Lorem Ipsum has been the indus- try's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a</BrandCaption>
+              <BrandName>AIC Group</BrandName>
+              <BrandCaption>AIC Group - is the leading company with the known name and rich history in the Scientific industry. We have presence in 4 locations across India with over 1Lakh+ products line.</BrandCaption>
             </BrandDescription>
           </BrandFrame>
         </Brand>
