@@ -67,7 +67,7 @@ const OutlineStarIcon = styled(AiOutlineStar)`
   color: #ff8100;
 `;
 
-export const ReviewCard = ({ style, text, rating }) => {
+export const ReviewCard = ({ style, text, name, rating }) => {
   return (
     <Container style={style}>
       <Triangle />
@@ -82,8 +82,8 @@ export const ReviewCard = ({ style, text, rating }) => {
       <Line />
 
       <UserFrame>
-        <UserImage src='/images/aic_logo.png' />
-        <UserName>IISC</UserName>
+        {/* <UserImage src='/images/aic_logo.png' /> */}
+        <UserName>{name}</UserName>
       </UserFrame>
     </Container>
   )

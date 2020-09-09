@@ -24,7 +24,7 @@ const EnquiryForm = styled.div`
 const Heading = styled.div`
   font-size: 32px;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 `;
 
 const Location = styled.div`
@@ -32,6 +32,7 @@ const Location = styled.div`
 `;
 
 const Name = styled.div`
+  font-weight: bold;
   margin-bottom: 20px;
 `;
   
@@ -50,29 +51,22 @@ export const ContactUs = () => {
         <Heading>Contact Us</Heading>
 
         <Location>
-          <Name><LocationIcon size='1em' />Bangalore</Name>
+          <Name><LocationIcon size='1em' />AIC Enterprises</Name>
           <Description>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</Description>
         </Location>
 
         <Line style={{ margin: '20px 0' }} />
 
         <Location>
-          <Name><LocationIcon size='1em' />Chennai</Name>
-          <Description>56, Langs Garden Road, Pudupet,xxChennai - 600 002.</Description>
+          <Name><LocationIcon size='1em' />AIC Specialities</Name>
+          <Description>125, Langs Garden Road, Pudupet, Chennai - 600 002</Description>
         </Location>
 
         <Line style={{ margin: '20px 0' }} />
 
         <Location>
-          <Name><LocationIcon size='1em' />Vellore</Name>
-          <Description>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</Description>
-        </Location>
-
-        <Line style={{ margin: '20px 0' }} />
-
-        <Location>
-          <Name><LocationIcon size='1em' />Pondicherry</Name>
-          <Description>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</Description>
+          <Name><LocationIcon size='1em' />AIC International</Name>
+          <Description>No.11, 1st Cross, Kamban - Nagar,Redisarpalayam, Pondicherry - 605010</Description>
         </Location>
       </LocationPanel>
 

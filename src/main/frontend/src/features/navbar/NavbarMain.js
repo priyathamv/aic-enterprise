@@ -32,17 +32,10 @@ const Logo = styled.img`
 `;
 
 const Brand = styled.div`
+  font-size: 42px;
+  font-weight: bold;
   letter-spacing: 2px;
   margin-right: 20px;
-`;
-
-const BrandName = styled.div`
-  font-size: 32px;
-  font-weight: bold;
-`;
-
-const BrandCaption = styled.div`
-
 `;
 
 const ContantInfo = styled.div`
@@ -85,10 +78,7 @@ export const NavbarMain = () => {
       <BrandFrame>
         <Logo src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo>
 
-        <Brand>
-          <BrandName>AIC ENTERPRISES</BrandName>
-          <BrandCaption>Private Limited</BrandCaption>
-        </Brand>
+        <Brand>AIC Group</Brand>
       </BrandFrame>
 
       <ContantInfo>

@@ -9,20 +9,23 @@ import { AiOutlineTwitter } from 'react-icons/ai';
 
 
 const Container = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  flex-wrap: wrap;
   background-color: #232162;
   bottom: 0;
   width: 100%;
   color: white;
-  padding-top: 50px;
+  padding: 50px 0 10px 0;
+`;
+
+const FootContainer = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
   font-size: 12px;
 `;
 
 const Brand = styled.div`
   width: 350px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 const BrandFrame = styled.div`
@@ -57,7 +60,7 @@ const ContentContainer = styled.div`
   width: 210px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 const ContentLabel = styled.div`
@@ -108,7 +111,7 @@ const ContentFrame = styled.div`
 
 const NewsSignUp = styled.div`
   width: 210px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 const MailInput = styled.input`
@@ -146,6 +149,10 @@ const TwitterIcon = styled(AiOutlineTwitter)`
   cursor: pointer;
 `;
 
+const Copyright = styled.div`
+  font-size: 12px;
+  text-align: center;
+`;
 
 export const Footer = () => {
   const prepareEmail = () => {
@@ -161,63 +168,67 @@ export const Footer = () => {
 
   return (
     <Container>
-      <Brand>
-        <BrandFrame>
-          <LogoFrame>
-            <Logo src='/images/aic_logo.png' alt='logo'/>
+      <FootContainer>
+        <Brand>
+          <BrandFrame>
+            <LogoFrame>
+              <Logo src='/images/aic_logo.png' alt='logo'/>
 
-            <SocialMedia>
-              <FacebookIcon size='1.2em' onClick={() => openInNewTab('https://www.facebook.com')}/>
-              <InstagramIcon size='1.2em' onClick={() => openInNewTab('https://www.instagram.com')}/>
-              <TwitterIcon size='1.3em' onClick={() => openInNewTab('https://www.twitter.com')}/>
-            </SocialMedia>
-          </LogoFrame>
+              <SocialMedia>
+                <FacebookIcon size='1.2em' onClick={() => openInNewTab('https://www.facebook.com')}/>
+                <InstagramIcon size='1.2em' onClick={() => openInNewTab('https://www.instagram.com')}/>
+                <TwitterIcon size='1.3em' onClick={() => openInNewTab('https://www.twitter.com')}/>
+              </SocialMedia>
+            </LogoFrame>
+            
+            <BrandDescription>
+              <BrandName>AIC ENTERPRISES</BrandName>
+              <BrandCaption>dustry. Lorem Ipsum has been the indus- try's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a</BrandCaption>
+            </BrandDescription>
+          </BrandFrame>
+        </Brand>
+
+        <ContentContainer>
+          <ContentLabel>QUICK LINKS</ContentLabel>
+          <ContentFrame>
+            <QuickLink href='/about-us'>About Us</QuickLink>
+            <QuickLink href='/products'>Products</QuickLink>
+            <QuickLink href='/contact-us'>Contact us</QuickLink>
+            <QuickLink href='/covid-19'>Covid 19</QuickLink>
+          </ContentFrame>
+        </ContentContainer>
+
+        <ContentContainer>
+          <ContentLabel>GET IN TOUCH</ContentLabel>
+          <ContentFrame>
+            <ContentText>
+              <LocationIcon />
+              <span>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</span>
+            </ContentText>
+
+            <ContentText>
+              <PhoneIcon />
+              <span>1234567890</span>
+            </ContentText>
+
+            <ContentText>
+              <MailIcon />
+              <Mail onClick={prepareEmail}>loreumimpusum@gmail.com</Mail>
+            </ContentText>
+          </ContentFrame>
+        </ContentContainer>
+
+        <NewsSignUp>
+          <ContentLabel>NEWS LETTER</ContentLabel>
           
-          <BrandDescription>
-            <BrandName>AIC ENTERPRISES</BrandName>
-            <BrandCaption>dustry. Lorem Ipsum has been the indus- try's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a</BrandCaption>
-          </BrandDescription>
-        </BrandFrame>
-      </Brand>
+          <ContentFrame>
+            <MailInput type='text' placeholder='Enter your mail address' />
+            <SignUpButton onClick={handleOnSignUp}>Sign Up</SignUpButton>
+          </ContentFrame>
+        </NewsSignUp>
+      </FootContainer>
 
-      <ContentContainer>
-        <ContentLabel>QUICK LINKS</ContentLabel>
-        <ContentFrame>
-          <QuickLink href='/about-us'>About Us</QuickLink>
-          <QuickLink href='/products'>Products</QuickLink>
-          <QuickLink href='/contact-us'>Contact us</QuickLink>
-          <QuickLink href='/covid-19'>Covid 19</QuickLink>
-        </ContentFrame>
-      </ContentContainer>
-
-      <ContentContainer>
-        <ContentLabel>GET IN TOUCH</ContentLabel>
-        <ContentFrame>
-          <ContentText>
-            <LocationIcon />
-            <span>Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod</span>
-          </ContentText>
-
-          <ContentText>
-            <PhoneIcon />
-            <span>1234567890</span>
-          </ContentText>
-
-          <ContentText>
-            <MailIcon />
-            <Mail onClick={prepareEmail}>loreumimpusum@gmail.com</Mail>
-          </ContentText>
-        </ContentFrame>
-      </ContentContainer>
-
-      <NewsSignUp>
-        <ContentLabel>NEWS LETTER</ContentLabel>
-        
-        <ContentFrame>
-          <MailInput type='text' placeholder='Enter your mail address' />
-          <SignUpButton onClick={handleOnSignUp}>Sign Up</SignUpButton>
-        </ContentFrame>
-      </NewsSignUp>
+      <Copyright>© 2020 by AIC Group</Copyright>
     </Container>
   )
 }

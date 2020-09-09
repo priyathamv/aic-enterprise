@@ -58,7 +58,7 @@ export const CoverImageSlider = () => {
           <Content>
             <Title>Efficient Customer Service</Title>
             <Description>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi</Description>
-            <Button href='/' >EXPLORE</Button>
+            <Button href='/about-us' >EXPLORE</Button>
           </Content>
         </div>
         
@@ -68,7 +68,7 @@ export const CoverImageSlider = () => {
           <Content>
             <Title>In time delivery</Title>
             <Description>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi</Description>
-            <Button href='/' >EXPLORE</Button>
+            <Button href='/contact-us' >EXPLORE</Button>
           </Content>
         </div>
 
@@ -77,7 +77,7 @@ export const CoverImageSlider = () => {
           <Content>
             <Title>Wide Range Products</Title>
             <Description>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi</Description>
-            <Button href='/' >EXPLORE</Button>
+            <Button href='/products' >EXPLORE</Button>
           </Content>
         </div>
       </AutoplaySlider>

@@ -31,6 +31,7 @@ const MenuItem = styled.a`
   border-right: 1px solid #CCC;
   padding-top: 27px;
   color: #232162;
+  cursor: pointer;
   &:hover {
     color: #FFF;
     background-color: #232162;
@@ -95,7 +96,7 @@ export const NavbarMenu = () => {
         <MenuItem href='/products'>Products</MenuItem>
         <MenuItem href='/about-us'>About us</MenuItem>
         <MenuItem href='/contact-us'>Contact us</MenuItem>
-        <MenuItem href='/'>Covid 19</MenuItem>
+        <MenuItem>Covid 19</MenuItem>
       </MenuItems>
 
       <Search />

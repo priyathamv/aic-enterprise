@@ -52,7 +52,7 @@ const Director = styled.div`
   justify-content: space-between;
   background-color: #FFF;
   color: black;
-  padding: 30px;
+  padding: 30px 50px;
   border-radius: 3px;
   margin-top: 30px;
 `;
@@ -117,7 +117,7 @@ export const AboutUs = () => {
       <Line style={{ backgroundColor: '#FFF', width: '10%', height: '2px' }} />
 
       <Director>
-        <Image src='' alt=''/>
+        {/* <Image src='' alt=''/> */}
 
         <AboutMeFrame>
           <Name>Shashan Kapila</Name>
@@ -129,7 +129,7 @@ export const AboutUs = () => {
       </Director>
 
       <Director>
-        <Image src=''/>
+        {/* <Image src=''/> */}
 
         <AboutMeFrame>
           <Name>Dhruv Kapila</Name>
