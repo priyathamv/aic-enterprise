@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ImLocation } from 'react-icons/im';
 import { ImPhone } from 'react-icons/im';
@@ -7,6 +7,7 @@ import { FaFacebookF } from 'react-icons/fa';
 import { AiFillInstagram } from 'react-icons/ai';
 import { AiOutlineTwitter } from 'react-icons/ai';
 
+import { isValidEmail, signUpForNews } from '../../utils/Utils';
 
 const Container = styled.div`
   background-color: #232162;
@@ -129,6 +130,11 @@ const SignUpButton = styled.button`
   border-radius: 7px;
   border: none;
   cursor: pointer;
+  margin-bottom: 10px;
+`;
+
+const Message = styled.div`
+  color: #FFF;
 `;
 
 const SocialMedia = styled.div`
@@ -164,7 +170,19 @@ export const Footer = () => {
     win.focus();
   }
 
-  const handleOnSignUp = () => {}
+  const [signUpEmail, setSignUpEmail] = useState('');
+  const [signUpMessage, setSignUpMessage] = useState(null);
+
+  const handleOnSignUp = () => {
+    if (isValidEmail(signUpEmail)) {
+      signUpForNews(signUpEmail);
+      setSignUpEmail('');
+      setSignUpMessage('Thanks for signing up!');
+    } else {
+      setSignUpMessage('Invalid Email, please check');
+    }
+    setTimeout(() => setSignUpMessage(null), 5000);
+  }
 
   return (
     <Container>
@@ -222,8 +240,16 @@ export const Footer = () => {
           <ContentLabel>NEWS LETTER</ContentLabel>
           
           <ContentFrame>
-            <MailInput type='text' placeholder='Enter your mail address' />
+            <MailInput 
+              type='text' 
+              placeholder='Enter your mail address' 
+              value={signUpEmail} 
+              onChange={e => setSignUpEmail(e.target.value)}
+            />
+
             <SignUpButton onClick={handleOnSignUp}>Sign Up</SignUpButton>
+
+            <Message>{signUpMessage}</Message>
           </ContentFrame>
         </NewsSignUp>
       </FootContainer>

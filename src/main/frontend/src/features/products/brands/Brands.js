@@ -6,7 +6,7 @@ import { fetchBrandsAsync, selectBrands } from './brandsSlice';
 
 
 const Container = styled.div`
-  margin: 50px 200px;
+  margin: 50px 15vw;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 30px;
