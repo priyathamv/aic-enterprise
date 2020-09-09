@@ -39,16 +39,20 @@ const Brand = styled.div`
 export const Brands = () => {
   const dispatch = useDispatch();
 
-  const brandsObj = useSelector(selectBrands);
+  const brandsObj = {
+    isLoading: false,
+    brandList: ['3M', 'Abdos', 'Acme', 'Axiva', 'Blue Star', 'CDH', 'Conda', 'Dupont', 'Difco', 'Erma', 'Eutech', 'Exmire', 'Thermo TPP', 'Thermo Invitrogen', 'Thermo Orion®', 'Thermo oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand®', 'Genaxy', 'Hamilton Buffer', 'Hamilton-Syringes', 'HIMEDIA', 'Honeywell Safety Products', 'HPLC', 'Kimberly clark', 'LOBA', 'MagGenome', 'Merck chemicals', 'Merck Biomonitoring ', 'SIGMA-ALDRICH', 'millipore', 'NEB', 'NICE', 'Nupore', 'polylab', 'Qiagen', 'Reagecon', 'Riviera', 'SPECTROCHEM', 'SRL', 'VELTEK', 'waters', 'whatman']
+  };
+  // const brandsObj = useSelector(selectBrands);
   
-  useEffect(() => {
-    dispatch(fetchBrandsAsync());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(fetchBrandsAsync());
+  // }, []);
 
   return (
     <Container>
-      {!brandsObj.isLoading && brandsObj.brandList.length > 50 ?
-        brandsObj.brandList.slice(6, 30).map((curBrand, index) => <Brand key={index}><span>{curBrand}</span></Brand>) : 
+      {!brandsObj.isLoading && brandsObj.brandList.length > 30 ?
+        brandsObj.brandList.map((curBrand, index) => <Brand key={index}><span>{curBrand}</span></Brand>) : 
         null
       }
     </Container>
