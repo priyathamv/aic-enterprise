@@ -48,7 +48,7 @@ export const CoverImageSlider = () => {
       <AutoplaySlider
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
-        interval={400000}
+        interval={5000}
         bullets={false}
         style={{ height: '450px' }}
       >

@@ -115,7 +115,7 @@ export const categoryList = [
     ]
   },
   {
-    name: 'Life Sciene',
+    name: 'Life Science',
     imageUrl: '/images/categories/Asset1247.png',
     imageUrlAlt: '/images/categories/Asset1347.png',
     brands: [
