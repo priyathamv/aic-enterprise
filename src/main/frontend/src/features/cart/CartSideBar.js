@@ -51,7 +51,7 @@ export const CartSideBar = () => {
     return () => {
         document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [sideCartRef]);
+  }, [dispatch, sideCartRef]);
 
   const handleOnPlaceOrder = () => {};
   

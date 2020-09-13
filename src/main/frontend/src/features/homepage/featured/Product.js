@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 import { QuantityBox } from '../../cart/QuantityBox';
-import { selectCartItems, updateItemInCart } from '../../cart/cartSlice';
+import { updateItemInCart } from '../../cart/cartSlice';
 
 const Container = styled.div`
   display: flex;

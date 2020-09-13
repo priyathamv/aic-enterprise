@@ -62,11 +62,14 @@ export const CartItem = ({ itemDetails }) => {
   const dispatch = useDispatch();
 
   const handleQuantityChange = value => {
+    if (value === 0)
+      dispatch(deleteItemFromCart(itemDetails.code));  
+    else
       dispatch(updateItemInCart({ ...itemDetails, quantity: value }));
   }
 
   const handleDeleteItem = () => {
-    dispatch(deleteItemFromCart(itemDetails.id));
+    dispatch(deleteItemFromCart(itemDetails.code));
   }
 
   return (

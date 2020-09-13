@@ -7,6 +7,8 @@ import com.aic.aicenterprise.services.EmailService;
 import com.aic.aicenterprise.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,11 +33,18 @@ public class ProductController {
 
 
     @GetMapping(value = "")
-    public ProductListResponse getAllProducts(@RequestParam(value = "brand", required = false) String brand) {
+    public ProductListResponse getAllProducts(
+            @RequestParam(value = "brand", required = false) String brand,
+            @RequestParam(value = "searchValue", required = false) String searchValue,
+            @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
         log.info("Getting products under the brand: {}", brand);
         ProductListResponse productListResponse;
         try {
-            List<Product> productList = productService.getAllProductsByBrand(brand);
+            Pageable pageable = PageRequest.of(pageNo, limit);
+
+            List<Product> productList = productService.getProductList(brand, searchValue, pageable);
+
             productListResponse = ProductListResponse.builder()
                     .payload(productList)
                     .msg("success")

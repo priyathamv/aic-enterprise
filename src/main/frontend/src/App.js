@@ -13,6 +13,8 @@ import { Homepage } from './features/homepage/Homepage';
 import { Footer } from './features/homepage/common/Footer';
 import { updateEmailAuthDetails } from './features/auth/authSlice';
 import { GLogin } from './features/auth/GLogin';
+import { CartSideBar } from './features/cart/CartSideBar';
+
 
 function App() {
   const dispatch = useDispatch();
@@ -43,6 +45,7 @@ function App() {
   return (
     <Router>
       <Navbar />
+      <CartSideBar />
       <Switch>
         <Route path='/products' component={Products} />
         <Route path='/about-us' component={AboutUs} />

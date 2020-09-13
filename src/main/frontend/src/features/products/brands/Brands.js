@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import { fetchBrandsAsync, selectBrands } from './brandsSlice';
+// import { fetchBrandsAsync, selectBrands } from './brandsSlice';
 
 
 const Container = styled.div`
-  margin: 50px 15vw;
+  margin: 50px 15vw 100px 15vw;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   grid-column-gap: 30px;
@@ -37,7 +37,7 @@ const Brand = styled.div`
 `;
 
 export const Brands = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const brandsObj = {
     isLoading: false,

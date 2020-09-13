@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -35,10 +36,15 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<Product> getAllProductsByBrand(String brand) {
-        return isNull(brand) ?
-                productRepository.findAll() :
-                productRepository.findByBrand(brand);
+    public List<Product> getProductList(String brand, String searchValue, Pageable pageable) {
+        if (nonNull(brand) && nonNull(searchValue))
+            return productRepository.findByBrandAndNameLikeIgnoreCase(brand, searchValue, pageable);
+        else if (nonNull(brand))
+            return productRepository.findByBrand(brand, pageable);
+        else if (nonNull(searchValue))
+            return productRepository.findByNameLikeIgnoreCase(searchValue, pageable);
+        else
+            return productRepository.findAll(pageable).getContent();
     }
 
     @Override

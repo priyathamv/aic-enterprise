@@ -65,13 +65,13 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
     } catch(err) {
       console.log("Error while authenticating User: ", err);
     }
-    closeModal();
+    closeModal && closeModal();
   }
 
   const googleFailureCallback = (response) => {
     console.log('Google login failed', response);
     dispatch(resetGoogleAuthDetails());
-    closeModal();
+    closeModal && closeModal();
   }
 
   return (

@@ -45,11 +45,6 @@ const UserFrame = styled.div`
   margin-top: 10px;
 `;
 
-const UserImage = styled.img`
-  width: 40px;
-  margin-right: 20px;
-`;
-
 const UserName = styled.div`
   font-style: italic;
 `;

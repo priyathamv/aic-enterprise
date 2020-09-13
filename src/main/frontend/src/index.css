@@ -181,6 +181,7 @@ code {
   background: #F3F3F3;
 }
 
-/* .bm-burger-button > button {
-  width: 0 !important;
+/* Table styles */
+/* tr:nth-child(even) {
+  background-color: #F8F8FF;
 } */
