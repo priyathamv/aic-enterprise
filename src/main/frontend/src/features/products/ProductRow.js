@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../homepage/common/Button';
 import { QuantityBox } from '../cart/QuantityBox';
 import { selectCartItems } from '../cart/cartSlice';
-import { updateItemInCart, deleteItemFromCart } from '../cart/cartSlice';
+import { updateUserCartAsync } from '../cart/cartSlice';
+import { selectUserEmail } from '../auth/authSlice';
 
 
 const Tr = styled.tr`
@@ -24,6 +25,7 @@ const CustomTd = styled.td`
 
 export const ProductRow = ({ productDetails }) => {
   const dispatch = useDispatch();
+  const userEmail = useSelector(selectUserEmail);
 
   const [quantity, setQuantity] = useState(0);
 
@@ -36,15 +38,15 @@ export const ProductRow = ({ productDetails }) => {
 
 
   const handleAddToCart = productDetails => {
-    dispatch(updateItemInCart({ ...productDetails, quantity: 1 }));
+    dispatch(updateUserCartAsync('UPDATE_CART_ITEM', userEmail, cartItems, { ...productDetails, quantity: 1 }));
   }
 
   const handleChangeQuantity = newQuantity => {
     setQuantity(newQuantity);
     if (newQuantity === 0)
-      dispatch(deleteItemFromCart(productDetails.code));
+      dispatch(updateUserCartAsync('DELETE_CART_ITEM', userEmail, cartItems, productDetails.code));
     else
-      dispatch(updateItemInCart({ ...productDetails, quantity: newQuantity }));
+      dispatch(updateUserCartAsync('UPDATE_CART_ITEM', userEmail, cartItems, { ...productDetails, quantity: newQuantity }));
   }
 
   return (

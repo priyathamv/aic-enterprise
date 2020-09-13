@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { GoogleLogout } from 'react-google-login';
 import styled from 'styled-components';
 
-import { resetGoogleAuthDetails } from './authSlice';
+import { logoutUserAction } from '../auth/authSlice';
 
 
 const LogoutButton = styled.div`
@@ -22,7 +22,7 @@ export const GLogout = () => {
 
 
   const logoutGoogle = (response) => {
-    dispatch(resetGoogleAuthDetails());
+    dispatch(logoutUserAction());
   }
 
   const handleLogout = () => {

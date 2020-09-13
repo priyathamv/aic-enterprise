@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Line } from '../homepage/common/Line';
 import { BsFillTrashFill } from 'react-icons/bs';
 import { QuantityBox } from './QuantityBox';
-import { updateItemInCart, deleteItemFromCart } from '../cart/cartSlice';
+import { updateUserCartAsync, selectCartItems } from '../cart/cartSlice';
+import { selectUserEmail } from '../auth/authSlice';
 
 const Container = styled.div`
   display: flex;
@@ -61,15 +62,18 @@ const Label = styled.div`
 export const CartItem = ({ itemDetails }) => {
   const dispatch = useDispatch();
 
+  const cartItems = useSelector(selectCartItems);
+  const userEmail = useSelector(selectUserEmail);
+
   const handleQuantityChange = value => {
     if (value === 0)
-      dispatch(deleteItemFromCart(itemDetails.code));  
+      dispatch(updateUserCartAsync('DELETE_CART_ITEM', userEmail, cartItems, itemDetails.code));
     else
-      dispatch(updateItemInCart({ ...itemDetails, quantity: value }));
+      dispatch(updateUserCartAsync('UPDATE_CART_ITEM', userEmail, cartItems, { ...itemDetails, quantity: value }));
   }
 
   const handleDeleteItem = () => {
-    dispatch(deleteItemFromCart(itemDetails.code));
+    dispatch(updateUserCartAsync('DELETE_CART_ITEM', userEmail, cartItems, itemDetails.code));
   }
 
   return (

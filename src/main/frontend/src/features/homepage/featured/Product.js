@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 
 import { QuantityBox } from '../../cart/QuantityBox';
-import { updateItemInCart } from '../../cart/cartSlice';
+import { updateUserCartAsync, selectCartItems } from '../../cart/cartSlice';
+import { selectUserEmail } from '../../auth/authSlice';
 
 const Container = styled.div`
   display: flex;
@@ -79,10 +80,13 @@ const Description = styled.div`
 export const Product = ({ productDetails }) => {
   const dispatch = useDispatch();
 
+  const userEmail = useSelector(selectUserEmail);
+  const cartItems = useSelector(selectCartItems);
+
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = () => {
-    dispatch(updateItemInCart({ ...productDetails, quantity }));
+    dispatch(updateUserCartAsync('UPDATE_CART_ITEM', userEmail, cartItems, { ...productDetails, quantity }));
   }
 
 

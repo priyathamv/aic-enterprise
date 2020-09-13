@@ -13,6 +13,8 @@ public class AppConstants {
 
     public static final String SUBSCRIBERS_PATH = BASE_PATH + "/subscribers";
 
+    public static final String CART_PATH = BASE_PATH + "/cart";
+
     /* JWT Auth Constants */
     public static final String SECRET = "SecretKeyToGenJWTs";
     public static final long EXPIRATION_TIME = 864_000_000; // 10 days

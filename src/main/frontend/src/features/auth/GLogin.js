@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { FcGoogle } from 'react-icons/fc';
-import { updateGoogleAuthDetails, resetGoogleAuthDetails } from './authSlice';
+import { updateGoogleAuthDetails } from './authSlice';
+import { logoutUserAction } from '../auth/authSlice';
 
 const GoogleButton = styled.button`
   background-color: #4285F4;
@@ -70,7 +71,7 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
 
   const googleFailureCallback = (response) => {
     console.log('Google login failed', response);
-    dispatch(resetGoogleAuthDetails());
+    dispatch(logoutUserAction());
     closeModal && closeModal();
   }
 

@@ -32,7 +32,7 @@ export const getNextPageAsync = ({ pageNo, searchValue }) => async dispatch => {
       const queryParams = { pageNo, searchValue: searchValue || null, limit: 20 };
       const productsResponse = await axios.get('/api/products', { params: queryParams });
       
-      const newProductList = pageNo >= 3 ? [] : productsResponse.data.payload;
+      const newProductList = productsResponse.data.payload;
   
       if (newProductList.length > 0) {
         dispatch(updateProductList(newProductList));

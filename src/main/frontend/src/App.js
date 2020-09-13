@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
@@ -14,6 +14,8 @@ import { Footer } from './features/homepage/common/Footer';
 import { updateEmailAuthDetails } from './features/auth/authSlice';
 import { GLogin } from './features/auth/GLogin';
 import { CartSideBar } from './features/cart/CartSideBar';
+import { selectGoogleAuth, selectEmailAuth } from './features/auth/authSlice';
+import { fetchUserCart, fetchUserCartFromLocalStorage } from './features/cart/cartSlice';
 
 
 function App() {
@@ -40,7 +42,18 @@ function App() {
     
     if (authToken)  
       getUserDetails(authToken);
-  }, [dispatch])
+  }, [dispatch]);
+
+  const googleEmail = useSelector(selectGoogleAuth).email;
+  const normalEmail = useSelector(selectEmailAuth).email;
+  const email = googleEmail || normalEmail;
+
+  useEffect(() => {
+    if (email)
+      dispatch(fetchUserCart(email));
+    else
+      dispatch(fetchUserCartFromLocalStorage());
+  }, [dispatch, email]);
 
   return (
     <Router>
