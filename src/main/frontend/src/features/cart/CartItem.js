@@ -28,6 +28,7 @@ const ItemDetails = styled.div`
 
 const ItemImage = styled.img`
   width: 100px;
+  height: 100px;
 `;
 
 const ItemDesc = styled.div`
@@ -37,6 +38,7 @@ const ItemDesc = styled.div`
 
 const DeleteIcon = styled(BsFillTrashFill)`
   cursor: pointer;
+  min-width: 20px;
 `;
 
 const ItemFooter = styled.div`
@@ -79,11 +81,11 @@ export const CartItem = ({ itemDetails }) => {
   return (
     <Container>
       <ItemDetails>
-        <ItemImage src={itemDetails.imageUrl}></ItemImage>
+        {itemDetails.imageUrl && <ItemImage src={itemDetails.imageUrl}></ItemImage>}
 
         <ItemDesc>{itemDetails.name}</ItemDesc>
 
-        <DeleteIcon size='2em' onClick={handleDeleteItem}/>
+        <DeleteIcon onClick={handleDeleteItem}/>
       </ItemDetails>
       
       <Line />
