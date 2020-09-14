@@ -54,24 +54,17 @@ const MailIcon = styled(IoIosMail)`
 
 `;
 
-const MailText = styled.div`
-  cursor: pointer;
+const MailText = styled.a`
+  text-decoration: none;
+  color: #232162;
 `;
 
 const PhoneIcon = styled(ImPhone)`
   margin-left: 2px;
 `;
 
-const PhoneText = styled.div`
-
-`;
-
 
 export const NavbarMain = () => {
-  
-  const prepareEmail = () => {
-    window.location.href = 'mailto:info@aicgroup.co.in';
-  }
 
   return (
     <Container>
@@ -83,10 +76,10 @@ export const NavbarMain = () => {
 
       <ContantInfo>
         <MailIcon size='1.5em'></MailIcon>
-        <MailText onClick={prepareEmail}>Info@aicgroup.co.in</MailText>
+        <MailText href='mailto:info@aicgroup.co.in?subject=Website Query'>Info@aicgroup.co.in</MailText>
 
         <PhoneIcon size='1.3em'></PhoneIcon>
-        <PhoneText>+123-456-7890</PhoneText>
+        <MailText href='tel:+918028364174'>+91 8028364174</MailText>
       </ContantInfo>
 
       <UserCart />

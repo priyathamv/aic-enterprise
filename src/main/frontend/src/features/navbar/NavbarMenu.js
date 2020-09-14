@@ -74,6 +74,7 @@ export const NavbarMenu = () => {
     const aboutUsDom = document.getElementById('about_us_id');
     const contactUsDom = document.getElementById('contact_us_id');
     const productsDom = document.getElementById('products_id');
+    const productListDom = document.getElementById('product_list_id');
 
     if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
       if (navbarMenuDom) {
@@ -85,6 +86,7 @@ export const NavbarMenu = () => {
       aboutUsDom && (aboutUsDom.style.paddingTop = '75px');
       contactUsDom && (contactUsDom.style.paddingTop = '75px');
       productsDom && (productsDom.style.paddingTop = '75px');
+      productListDom && (productListDom.style.paddingTop = '75px');
       setShowLogo(true);
     } else {
       setShowLogo(false);
@@ -97,6 +99,7 @@ export const NavbarMenu = () => {
       aboutUsDom && (aboutUsDom.style.paddingTop = '0');
       contactUsDom && (contactUsDom.style.paddingTop = '0');
       productsDom && (productsDom.style.paddingTop = '0');
+      productListDom && (productListDom.style.paddingTop = '0');
     }
   }
 
@@ -117,7 +120,7 @@ export const NavbarMenu = () => {
           onMouseEnter={() => document.getElementById('products_menu_id').style.display = 'grid'} 
           onMouseLeave={() => document.getElementById('products_menu_id').style.display = 'none'}
         >
-          <MenuItem style={curPageStyle('/products')} href='/products'>Products</MenuItem>
+          <MenuItem style={curPageStyle('/products') || curPageStyle('/product-list')} href='/products'>Products</MenuItem>
           <ProductsMenu />
         </MenuItemWrap>
         <MenuItem style={curPageStyle('/about-us')} href='/about-us'>About us</MenuItem>

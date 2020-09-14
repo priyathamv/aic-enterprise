@@ -16,6 +16,7 @@ import { GLogin } from './features/auth/GLogin';
 import { CartSideBar } from './features/cart/CartSideBar';
 import { selectGoogleAuth, selectEmailAuth } from './features/auth/authSlice';
 import { fetchUserCart, fetchUserCartFromLocalStorage } from './features/cart/cartSlice';
+import { ProductList } from './features/products/ProductList';
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
       <CartSideBar />
       <Switch>
         <Route path='/products' component={Products} />
+        <Route path='/product-list' component={ProductList} />
         <Route path='/about-us' component={AboutUs} />
         <Route path='/contact-us' component={ContactUs} />
         <Route path='/' component={Homepage} />

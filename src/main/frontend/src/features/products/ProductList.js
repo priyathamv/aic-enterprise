@@ -3,13 +3,30 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash.debounce';
 
-import { getNextPageAsync, updateBrand, selectProducts, selectHasMore, selectSearchValue, selectBrand } from './productsSlice';
+import { getNextPageAsync, updateBrand, selectProducts, selectHasMore, selectSearchValue } from './productsSlice';
 import { ProductRow } from './ProductRow';
 import { ProductFilters } from './ProductFilters';
+import { productData } from './productData';
 
 
 const Container = styled.div`
   margin: 0 15vw 50px 15vw;
+`;
+
+const ProductIntro = styled.div`
+  color: #232162;
+  background-color: #F8F8FF;
+  padding: 50px 15vw;
+  margin: 0 -15vw 50px -15vw;
+`;
+
+const ProductName = styled.div`
+  font-size: 42px;
+  margin-bottom: 30px;
+`;
+
+const ProductDesc = styled.div`
+  font-size: 18px;
 `;
 
 const Table = styled.table`
@@ -52,8 +69,12 @@ export const ProductList = () => {
   
   useEffect(() => {
     dispatch(updateBrand(brand));
-    if (hasMore)
-      dispatch(getNextPageAsync({ pageNo, brand, searchValue })); 
+    if (hasMore) {
+      if (brand === 'Thermo Fisher Scientific') // delete later
+        dispatch(getNextPageAsync({ pageNo, brand: 'Thermo TPP', searchValue })); // delete later
+      else // delete later
+        dispatch(getNextPageAsync({ pageNo, brand, searchValue })); 
+    }
   }, [dispatch, hasMore, brand, searchValue, pageNo]);
 
   const handleObserver = (entities) => {
@@ -71,7 +92,13 @@ export const ProductList = () => {
 
 
   return (
-    <Container>
+    <Container id='product_list_id'>
+      <ProductIntro>
+        <ProductName>{brand}</ProductName>
+        <ProductDesc>{productData[brand]}
+        </ProductDesc>
+      </ProductIntro>
+
       <ProductFilters/>
 
       <Table>

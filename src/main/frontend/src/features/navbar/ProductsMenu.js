@@ -20,7 +20,9 @@ const Container = styled.div`
   box-shadow: 0 0 10px 1px rgba(188,188,188,0.3);
 `;
 
-const Brand = styled.div`
+const Brand = styled.a`
+  text-decoration: none;
+  color: #232162;
   padding: 15px 20px;
   border-radius: 3px;
   border: 1px solid #CCC;
@@ -31,12 +33,24 @@ const Brand = styled.div`
   }
 `;
 
-const brandList = ['Thermo Fisher Scientific', 'SRL', 'Axiva', 'Merck', 'Qiagen', 'Eutech', 'VAI', 'MagGenome', 'Waters', 'Tarsons', 'Genaxy', 'Borosil', 'Kimberly Clark', 'Honeywell', 'Invitrogen', 'Sterimed Inc', 'Riviera', 'GE', 'HPLC (Thermo Fisher)'];
+const More = styled.a`
+  text-decoration: none;
+  padding: 15px 20px;
+  cursor: pointer;
+  color: #232162;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+
+const brandList = ['Thermo Fisher Scientific', 'SRL', 'AXIVA', 'Merck', 'Qiagen', 'Eutech', 'MagGenome', 'Waters', 'genaxy', 'Borosil', 'Kimberly-Clark', 'Honeywell', 'Invitrogen', 'RIVIERA'];
 
 export const ProductsMenu = () => {
   return (
     <Container id='products_menu_id'>
-      {brandList.map((curBrand, index) => <Brand onClick={() => window.location.href=`/products?brand=${curBrand}`} key={index}>{curBrand}</Brand>)}
+      {brandList.map((curBrand, index) => <Brand href={`/product-list?brand=${curBrand}`} key={index}>{curBrand}</Brand>)}
+      <More href='/products#brands_id'>More...</More>
     </Container>
   )
 }

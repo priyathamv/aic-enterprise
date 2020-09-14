@@ -41,7 +41,7 @@ export const Brands = () => {
 
   const brandsObj = {
     isLoading: false,
-    brandList: ['3M', 'Abdos', 'Acme', 'Axiva', 'Blue Star', 'CDH', 'Conda', 'Dupont', 'Difco', 'Erma', 'Eutech', 'Exmire', 'Thermo TPP', 'Thermo Invitrogen', 'Thermo Orion®', 'Thermo oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand®', 'Genaxy', 'Hamilton Buffer', 'Hamilton-Syringes', 'HIMEDIA', 'Honeywell Safety Products', 'HPLC', 'Kimberly clark', 'LOBA', 'MagGenome', 'Merck chemicals', 'Merck Biomonitoring ', 'SIGMA-ALDRICH', 'millipore', 'NEB', 'NICE', 'Nupore', 'polylab', 'Qiagen', 'Reagecon', 'Riviera', 'SPECTROCHEM', 'SRL', 'VELTEK', 'waters', 'whatman']
+    brandList: ['3M', 'Abdos', 'Acme', 'AXIVA', 'Blue Star', 'CDH', 'Conda', 'Dupont', 'Difco', 'Erma', 'Eutech', 'Exmire', 'Thermo TPP', 'Thermo Invitrogen', 'Thermo Orion', 'Thermo oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand', 'genaxy', 'Hamilton Buffer', 'Hamilton-Syringes', 'HIMEDIA', 'Honeywell Safety Products', 'Kimberly-Clark', 'LOBA', 'MagGenome', 'Merck chemicals', 'Merck Biomonitoring ', 'SIGMA-ALDRICH', 'millipore', 'NEB', 'NICE', 'Nupore', 'polylab', 'Qiagen', 'Reagecon', 'RIVIERA', 'SPECTROCHEM', 'SRL', 'VELTEK', 'Waters', 'whatman']
   };
   // const brandsObj = useSelector(selectBrands);
   

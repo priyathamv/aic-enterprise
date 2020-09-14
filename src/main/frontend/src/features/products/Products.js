@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { Categories } from './categories/Categories';
 import { Brands } from './brands/Brands';
-import { ProductList } from './ProductList';
 
 const Container = styled.div`
 
@@ -23,11 +22,8 @@ export const Products = () => {
       <Header>Divisions</Header>
       <Categories />
       
-      <Header>Brands</Header>
+      <Header id='brands_id'>Brands</Header>
       <Brands />
-
-      <Header style={{ textAlign: 'center' }}>Products</Header>
-      <ProductList />
     </Container>
   )
 }
