@@ -86,8 +86,9 @@ const PhoneIcon = styled(ImPhone)`
   font-size: larger;
 `;
 
-const Mail = styled.span`
-  cursor: pointer;
+const Mail = styled.a`
+  color: #FFF;
+  text-decoration: none;
 `;
 
 const MailIcon = styled(IoIosMail)`
@@ -161,10 +162,6 @@ const Copyright = styled.div`
 `;
 
 export const Footer = () => {
-  const prepareEmail = () => {
-    window.location.href = 'mailto:info@aicgroup.co.in';
-  }
-
   const openInNewTab = url => {
     var win = window.open(url, '_blank');
     win.focus();
@@ -226,12 +223,12 @@ export const Footer = () => {
 
             <ContentText>
               <PhoneIcon />
-              <span>1234567890</span>
+              <Mail href='tel:+918028364174'>+91 8028364174</Mail>
             </ContentText>
 
             <ContentText>
               <MailIcon />
-              <Mail onClick={prepareEmail}>loreumimpusum@gmail.com</Mail>
+              <Mail href='mailto:info@aicgroup.co.in?subject=Website Query'>info@aicgroup.co.in</Mail>
             </ContentText>
           </ContentFrame>
         </ContentContainer>

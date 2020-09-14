@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdClear } from 'react-icons/md';
 
-import { selectSearchValue, getFilteredProductsAsync } from './productsSlice';
+import { selectBrand, selectSearchValue, getFilteredProductsAsync } from './productsSlice';
 
 const Container = styled.div`
   display: flex;
@@ -43,14 +43,15 @@ const CancelIcon = styled(MdClear)`
 export const ProductFilters = () => {
   const dispatch = useDispatch();
   const [placeholder, setPlaceholder] = useState('Search products');
+  const brand = useSelector(selectBrand);
   const searchValue = useSelector(selectSearchValue);
 
   const handleOnChange = e => {
-    dispatch(getFilteredProductsAsync(e.target.value));
+    dispatch(getFilteredProductsAsync(brand, e.target.value));
   }
 
   const handleOnSearchClear = () => {
-    dispatch(getFilteredProductsAsync(''));
+    dispatch(getFilteredProductsAsync(brand, ''));
   }
 
   return (

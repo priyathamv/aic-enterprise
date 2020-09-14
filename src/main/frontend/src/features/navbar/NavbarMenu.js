@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+
 import { UserCart } from './UserCart';
+import { ProductsMenu } from './ProductsMenu';
 
 const Container = styled.div`
   display: flex;
@@ -25,9 +27,15 @@ const BlankMenuItem = styled.div`
   border-right: 1px solid #CCC;
 `;
 
-const MenuItem = styled.a`
-  text-decoration: none;
+const MenuItemWrap = styled.div`
+  display: flex;
   flex: 1;
+  position: relative;
+`;
+
+const MenuItem = styled.a`
+  flex: 1;
+  text-decoration: none;
   border-right: 1px solid #CCC;
   padding-top: 27px;
   color: #232162;
@@ -105,7 +113,13 @@ export const NavbarMenu = () => {
         <BlankMenuItem style={{ paddingTop: '8px' }}>
           {showLogo ? <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
         </BlankMenuItem>
-        <MenuItem style={curPageStyle('/products')} href='/products'>Products</MenuItem>
+        <MenuItemWrap
+          onMouseEnter={() => document.getElementById('products_menu_id').style.display = 'grid'} 
+          onMouseLeave={() => document.getElementById('products_menu_id').style.display = 'none'}
+        >
+          <MenuItem style={curPageStyle('/products')} href='/products'>Products</MenuItem>
+          <ProductsMenu />
+        </MenuItemWrap>
         <MenuItem style={curPageStyle('/about-us')} href='/about-us'>About us</MenuItem>
         <MenuItem style={curPageStyle('/contact-us')} href='/contact-us'>Contact us</MenuItem>
         <MenuItem>Covid 19</MenuItem>

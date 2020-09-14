@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash.debounce';
 
-import { selectProducts, getNextPageAsync, selectHasMore, selectSearchValue } from './productsSlice';
+import { getNextPageAsync, updateBrand, selectProducts, selectHasMore, selectSearchValue, selectBrand } from './productsSlice';
 import { ProductRow } from './ProductRow';
 import { ProductFilters } from './ProductFilters';
 
@@ -48,14 +48,17 @@ export const ProductList = () => {
 
   const dummyRef = useRef(null);
 
+  const brand = new URLSearchParams(window.location.search).get("brand");
+  
   useEffect(() => {
+    dispatch(updateBrand(brand));
     if (hasMore)
-      dispatch(getNextPageAsync({ pageNo, searchValue })); 
-  }, [dispatch, hasMore, searchValue, pageNo]);
+      dispatch(getNextPageAsync({ pageNo, brand, searchValue })); 
+  }, [dispatch, hasMore, brand, searchValue, pageNo]);
 
   const handleObserver = (entities) => {
     const target = entities[0];
-    if (target.isIntersecting) {   
+    if (target.isIntersecting) { 
       setPageNo((page) => page + 1)
     }
   }

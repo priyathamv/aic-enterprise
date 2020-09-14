@@ -69,15 +69,15 @@ const UserOption = styled.div`
   
 const CartFrame = styled.div`
   position: relative;
+  cursor: pointer;
 `;
 
 const CartIcon = styled(GiShoppingCart)`
-  cursor: pointer;
 `;
 
 const NoOfItems = styled.div`
   position: absolute;
-  background-color: #232162;
+  background-color: #FF0000;
   color: #FFF;
   top: -5px;
   font-size: 12px;
@@ -147,8 +147,8 @@ export const UserCart = ({ style }) => {
             )}
           </Popup>}
         
-        <CartFrame>
-          <CartIcon size='2em' onClick={() => dispatch(displayCartPage(!showCartPage))} />
+        <CartFrame onClick={() => dispatch(displayCartPage(!showCartPage))}>
+          <CartIcon size='2em' />
           {noOfcartItems ? <NoOfItems>{noOfcartItems}</NoOfItems> : null}
         </CartFrame>
       </LoginInfo>

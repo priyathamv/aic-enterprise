@@ -5,8 +5,9 @@ export const productsSlice = createSlice({
   name: 'products',
   initialState: {
     productList: [],
+    brand: null,
+    searchValue: '',
     hasMore: true,
-    searchValue: ''
   },
   reducers: {
     updateProductList: (state, action) => {
@@ -18,18 +19,21 @@ export const productsSlice = createSlice({
     changeProductList: (state, action) => {
       state.productList = [...action.payload];
     },
+    updateBrand: (state, action) => {
+      state.brand = action.payload
+    },
     updateSearch: (state, action) => {
       state.searchValue = action.payload
     }
   }
 });
 
-export const { updateProductList, updateHasMore, changeProductList, updateSearch } = productsSlice.actions;
+export const { updateProductList, updateHasMore, changeProductList, updateBrand, updateSearch } = productsSlice.actions;
 
-export const getNextPageAsync = ({ pageNo, searchValue }) => async dispatch => {
+export const getNextPageAsync = ({ pageNo, brand, searchValue }) => async dispatch => {
   try {
     if (searchValue === '' || searchValue.length >= 3) {
-      const queryParams = { pageNo, searchValue: searchValue || null, limit: 20 };
+      const queryParams = { pageNo, brand, searchValue: searchValue || null, limit: 20 };
       const productsResponse = await axios.get('/api/products', { params: queryParams });
       
       const newProductList = productsResponse.data.payload;
@@ -45,13 +49,14 @@ export const getNextPageAsync = ({ pageNo, searchValue }) => async dispatch => {
   }
 }
 
-export const getFilteredProductsAsync = searchValue => async dispatch => {
+export const getFilteredProductsAsync = (brand, searchValue) => async dispatch => {
   try {
     dispatch(updateSearch(searchValue));
     
     if (searchValue === '' || searchValue.length >= 3) {
       const queryParams = {
         searchValue: searchValue === '' ? null : searchValue, 
+        brand,
         pageNo: 0, 
         limit: 20
       }
@@ -66,6 +71,8 @@ export const getFilteredProductsAsync = searchValue => async dispatch => {
 }
 
 export const selectProducts = state => state.products.productList;
+
+export const selectBrand = state => state.products.brand;
 
 export const selectHasMore = state => state.products.hasMore;
 
