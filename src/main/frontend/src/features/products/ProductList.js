@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce';
 import { getNextPageAsync, updateBrand, selectProducts, selectHasMore, selectSearchValue } from './productsSlice';
 import { ProductRow } from './ProductRow';
 import { ProductFilters } from './ProductFilters';
-import { productData } from './productData';
+import { productData, honeyWellProducts } from './productData';
 
 
 const Container = styled.div`
@@ -57,7 +57,7 @@ const Dummy = styled.td`
 
 export const ProductList = () => {
   const dispatch = useDispatch();
-  const productList = useSelector(selectProducts);
+  let productList = useSelector(selectProducts);
   const hasMore = useSelector(selectHasMore);
   const searchValue = useSelector(selectSearchValue);
 
@@ -66,12 +66,18 @@ export const ProductList = () => {
   const dummyRef = useRef(null);
 
   const brand = new URLSearchParams(window.location.search).get("brand");
+
+  if (brand === 'Honeywell') {
+    productList = [...honeyWellProducts, ...productList];
+  }
   
   useEffect(() => {
     dispatch(updateBrand(brand));
     if (hasMore) {
       if (brand === 'Thermo Fisher Scientific') // delete later
         dispatch(getNextPageAsync({ pageNo, brand: 'Thermo TPP', searchValue })); // delete later
+      else if (brand === 'Honeywell') // delete later
+        dispatch(getNextPageAsync({ pageNo, brand: 'Honeywell Chemicals', searchValue })); // delete later
       else // delete later
         dispatch(getNextPageAsync({ pageNo, brand, searchValue })); 
     }

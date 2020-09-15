@@ -15,6 +15,7 @@ public class Product {
     private String code;
     private String name;
     private String brand;
+    private String division;
     private String capacity;
     private String pack;
     private String owner;

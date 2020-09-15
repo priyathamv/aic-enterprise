@@ -44,7 +44,7 @@ const More = styled.a`
 `;
 
 
-const brandList = ['Thermo Fisher Scientific', 'SRL', 'AXIVA', 'Merck', 'Qiagen', 'Eutech', 'MagGenome', 'Waters', 'genaxy', 'Borosil', 'Kimberly-Clark', 'Honeywell', 'Invitrogen', 'RIVIERA'];
+const brandList = ['Thermo Fisher Scientific', 'SRL', 'AXIVA', 'Merck', 'Qiagen', 'Eutech', 'MagGenome', 'Waters', 'Genaxy', 'Borosil', 'Kimberly-Clark', 'Honeywell', 'Invitrogen', 'RIVIERA'];
 
 export const ProductsMenu = () => {
   return (

@@ -67,17 +67,18 @@ public class ProductServiceImpl implements ProductService {
                         try {
                             log.info("Reading file: {}", curFileName);
                             Workbook workbook = WorkbookFactory.create(new File(excelFilesPath + curFileName));
-                            Sheet sheet = workbook.getSheetAt(0);
-
-                            DataFormatter dataFormatter = new DataFormatter();
 
                             List<Product> productList = new ArrayList<>();
-                            sheet.forEach(curRow -> {
-                                if (curRow.getRowNum() >= 5) {
-                                    Product curProduct = getProductFromRow(curRow, dataFormatter);
-                                    productList.add(curProduct);
-                                }
-                            });
+                            workbook.sheetIterator()
+                                    .forEachRemaining(curSheet -> {
+                                        DataFormatter dataFormatter = new DataFormatter();
+                                        curSheet.forEach(curRow -> {
+                                            if (curRow.getRowNum() > 0) {
+                                                Product curProduct = getProductFromRow(curRow, dataFormatter);
+                                                productList.add(curProduct);
+                                            }
+                                        });
+                                    });
 
                             workbook.close();
 
@@ -111,18 +112,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private Product getProductFromRow(Row row, DataFormatter dataFormatter) {
-        String code = dataFormatter.formatCellValue(row.getCell(1)).trim();
-        String name = dataFormatter.formatCellValue(row.getCell(2)).trim();
-        String brand = dataFormatter.formatCellValue(row.getCell(5)).trim();
-        String pack = dataFormatter.formatCellValue(row.getCell(6)).trim();
+        String code = dataFormatter.formatCellValue(row.getCell(0)).trim();
+        String name = dataFormatter.formatCellValue(row.getCell(1)).trim();
+        String brand = dataFormatter.formatCellValue(row.getCell(3)).trim();
+        String capacity = dataFormatter.formatCellValue(row.getCell(4)).trim();
+        String pack = dataFormatter.formatCellValue(row.getCell(5)).trim();
+        String division = dataFormatter.formatCellValue(row.getCell(6)).trim();
         Date curDate = new Date();
-        log.info("CODE: {}, NAME: {}, PACK: {}", code, name, pack);
+        log.info("CODE: {}, NAME: {}, CAPACITY: {}, PACK: {}", code, name, capacity, pack);
 
         Product product = new Product();
         product.setCode(code);
         product.setName(name);
         product.setBrand(brand);
+        product.setCapacity(capacity);
         product.setPack(pack);
+        product.setDivision(division);
         product.setOwner("admin");
         product.setCreateTs(curDate);
         product.setUpdateTs(curDate);
