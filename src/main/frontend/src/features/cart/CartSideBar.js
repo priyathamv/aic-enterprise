@@ -5,7 +5,7 @@ import { slide as Menu } from 'react-burger-menu'
 import { IoIosArrowBack } from 'react-icons/io';
 
 import { CartItem } from './CartItem';
-import { selectShowCartPage, displayCartPage, selectCartItems, placeOrderAsync } from '../cart/cartSlice';
+import { selectShowCartPage, displayCartPage, selectCartItems, clearCart, placeOrderAsync } from '../cart/cartSlice';
 import { selectUserEmail, selectUserName } from '../auth/authSlice';
 import { Button } from '../homepage/common/Button';
 
@@ -75,6 +75,7 @@ export const CartSideBar = () => {
       setTimeout(() => {
         setErrorMsg(null);
         dispatch(displayCartPage(false));
+        dispatch(clearCart());
       }, 3000);
     }
   };
