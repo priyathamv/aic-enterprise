@@ -22,11 +22,11 @@ const ProductIntro = styled.div`
 
 const ProductName = styled.div`
   font-size: 42px;
-  margin-bottom: 30px;
 `;
 
 const ProductDesc = styled.div`
   font-size: 18px;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`
@@ -95,8 +95,7 @@ export const ProductList = () => {
     <Container id='product_list_id'>
       <ProductIntro>
         <ProductName>{brand}</ProductName>
-        <ProductDesc>{productData[brand]}
-        </ProductDesc>
+        {productData[brand] && <ProductDesc>{productData[brand]}</ProductDesc>}
       </ProductIntro>
 
       <ProductFilters/>

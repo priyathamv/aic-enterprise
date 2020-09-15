@@ -38,9 +38,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductList(String brand, String searchValue, Pageable pageable) {
         if (nonNull(brand) && nonNull(searchValue))
-            return productRepository.findByBrandAndNameLikeIgnoreCase(brand, searchValue, pageable);
+            return productRepository.findByBrandIgnoreCaseAndNameLikeIgnoreCase(brand, searchValue, pageable);
         else if (nonNull(brand))
-            return productRepository.findByBrand(brand, pageable);
+            return productRepository.findByBrandIgnoreCase(brand, pageable);
         else if (nonNull(searchValue))
             return productRepository.findByNameLikeIgnoreCase(searchValue, pageable);
         else

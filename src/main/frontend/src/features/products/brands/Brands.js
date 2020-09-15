@@ -1,5 +1,5 @@
 import React from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch} from 'react-redux';
 import styled from 'styled-components';
 
 // import { fetchBrandsAsync, selectBrands } from './brandsSlice';
@@ -13,12 +13,12 @@ const Container = styled.div`
   grid-row-gap: 30px;
 `;
 
-const Brand = styled.div`
+const Brand = styled.a`
+  text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #232162;
-  cursor: pointer;
   border: 1px solid #CCC;
   padding: 0 15px;
   border-radius: 15px;
@@ -37,11 +37,11 @@ const Brand = styled.div`
 `;
 
 export const Brands = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const brandsObj = {
     isLoading: false,
-    brandList: ['3M', 'Abdos', 'Acme', 'AXIVA', 'Blue Star', 'CDH', 'Conda', 'Dupont', 'Difco', 'Erma', 'Eutech', 'Exmire', 'Thermo TPP', 'Thermo Invitrogen', 'Thermo Orion', 'Thermo oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand', 'genaxy', 'Hamilton Buffer', 'Hamilton-Syringes', 'HIMEDIA', 'Honeywell Safety Products', 'Kimberly-Clark', 'LOBA', 'MagGenome', 'Merck chemicals', 'Merck Biomonitoring ', 'SIGMA-ALDRICH', 'millipore', 'NEB', 'NICE', 'Nupore', 'polylab', 'Qiagen', 'Reagecon', 'RIVIERA', 'SPECTROCHEM', 'SRL', 'VELTEK', 'Waters', 'whatman']
+    brandList: ['3M', 'Abdos', 'Acme', 'AXIVA', 'Blue Star', 'CDH', 'Conda', 'Dupont', 'Difco', 'Erma', 'Eutech', 'Exmire', 'Thermo TPP', 'Invitrogen', 'Orion', 'Oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand', 'Genaxy', 'HAMILTON', 'HIMEDIA', 'Honeywell', 'Kimberly-Clark', 'LOBA', 'MagGenome', 'Merck', 'Merck Biomonitoring', 'SIGMA-ALDRICH', 'Millipore', 'NEB', 'NICE', 'Nupore', 'Polylab', 'Qiagen', 'Reagecon', 'RIVIERA', 'Spectrochem', 'SRL', 'VELTEK', 'Waters', 'Whatman']
   };
   // const brandsObj = useSelector(selectBrands);
   
@@ -52,7 +52,7 @@ export const Brands = () => {
   return (
     <Container>
       {!brandsObj.isLoading && brandsObj.brandList.length > 30 ?
-        brandsObj.brandList.map((curBrand, index) => <Brand key={index}><span>{curBrand}</span></Brand>) : 
+        brandsObj.brandList.map((curBrand, index) => <Brand href={`/product-list?brand=${curBrand}`} key={index}><span>{curBrand}</span></Brand>) : 
         null
       }
     </Container>

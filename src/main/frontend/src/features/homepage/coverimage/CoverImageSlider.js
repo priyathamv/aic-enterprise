@@ -57,7 +57,7 @@ export const CoverImageSlider = () => {
 
           <Content>
             <Title>Efficient Customer Service</Title>
-            <Description>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi</Description>
+            <Description>Our Team at AIC is dutifully bound to the service-based work culture wherein bestowing the best solutions to customers is the penultimate priority.</Description>
             <Button href='/about-us' >EXPLORE</Button>
           </Content>
         </div>
@@ -67,7 +67,7 @@ export const CoverImageSlider = () => {
           
           <Content>
             <Title>In time delivery</Title>
-            <Description>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi</Description>
+            <Description>"Time is Money" - AIC values the same.<br />Our strong network across the supply chain system leverages our business with prompt deliverables across the country and beyon</Description>
             <Button href='/contact-us' >EXPLORE</Button>
           </Content>
         </div>
@@ -75,8 +75,8 @@ export const CoverImageSlider = () => {
         <div className='cover-image'>
           <Image src="/images/cover_image0.png" />
           <Content>
-            <Title>Wide Range Products</Title>
-            <Description>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi</Description>
+            <Title>Wide Range of Products</Title>
+            <Description>"AIC: Your one-stop-destination for all the Bioscience requisites."<br />We are India’s leading distributor of Micro Infrastructural Equipment across the verticals of Chemicals, Pharmaceuticals, Biomedical and Agro & Life Science Laboratory.</Description>
             <Button href='/products' >EXPLORE</Button>
           </Content>
         </div>
