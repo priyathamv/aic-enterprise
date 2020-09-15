@@ -1,5 +1,9 @@
 package com.aic.aicenterprise.services;
 
+import com.aic.aicenterprise.entities.UserCart;
+
+import javax.mail.MessagingException;
+
 public interface EmailService {
-    void sendMail(String to, String subject, String body);
+    boolean sendMail(String toAddress, String subject, UserCart userCart) throws MessagingException;
 }

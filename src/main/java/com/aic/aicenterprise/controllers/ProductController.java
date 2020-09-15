@@ -23,12 +23,11 @@ import static com.aic.aicenterprise.constants.AppConstants.PRODUCTS_PATH;
 public class ProductController {
 
     private ProductService productService;
-    private EmailService emailService;
+
 
     @Autowired
-    public ProductController(ProductService productService, EmailService emailService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.emailService = emailService;
     }
 
 
@@ -98,12 +97,6 @@ public class ProductController {
     public boolean deleteProducts() throws IOException {
         log.info("Deleting all products...");
         return productService.deleteAllProducts();
-    }
-
-    @GetMapping(value = "/mail")
-    public boolean sendMail() {
-        emailService.sendMail("vinnakota4201@gmail.com", "test subject", "test body");
-        return true;
     }
 
 }

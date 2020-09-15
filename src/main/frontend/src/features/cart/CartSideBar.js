@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { slide as Menu } from 'react-burger-menu'
 import { IoIosArrowBack } from 'react-icons/io';
 
 import { CartItem } from './CartItem';
-import { selectShowCartPage, displayCartPage, selectCartItems } from '../cart/cartSlice';
+import { selectShowCartPage, displayCartPage, selectCartItems, placeOrderAsync } from '../cart/cartSlice';
+import { selectUserEmail, selectUserName } from '../auth/authSlice';
 import { Button } from '../homepage/common/Button';
 
 const CartHeader = styled.div`
@@ -34,11 +35,21 @@ const Label = styled.div`
   margin-top: 30px;
 `;
 
+const Message = styled.div`
+  color: red;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
 export const CartSideBar = () => {
   const dispatch = useDispatch();
   const showCartPage = useSelector(selectShowCartPage);
   const cartItems = useSelector(selectCartItems);
   const sideCartRef = useRef(null);
+  const email = useSelector(selectUserEmail);
+  const name = useSelector(selectUserName);
+
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -51,7 +62,22 @@ export const CartSideBar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [dispatch, sideCartRef]);
 
-  const handleOnPlaceOrder = () => {};
+  const handleOnPlaceOrder = async () => {
+    if (email === null) {
+      setErrorMsg('Please login to place order');
+      setTimeout(() => {
+        setErrorMsg(null);
+        dispatch(displayCartPage(false));
+      }, 5000);
+    } else {
+      await placeOrderAsync({ email, name, cartItems});
+      setErrorMsg('Thanks for placing order!');
+      setTimeout(() => {
+        setErrorMsg(null);
+        dispatch(displayCartPage(false));
+      }, 3000);
+    }
+  };
   
   return (
     <div
@@ -76,7 +102,11 @@ export const CartSideBar = () => {
 
         {cartItems.map((curCartItem, index) => <CartItem key={index} itemDetails={curCartItem} />)}
 
-        {cartItems.length ? <Button style={{ margin: '20px auto 50px auto' }} handleOnClick={handleOnPlaceOrder} label='PLACE ORDER' /> : <Label>Your cart is empty</Label>}
+        {cartItems.length ? 
+          <Button style={{ margin: '20px auto 10px auto' }} handleOnClick={handleOnPlaceOrder} label='PLACE ORDER' /> : 
+          <Label>Your cart is empty</Label>
+        }
+        {errorMsg && <Message style={errorMsg === 'Thanks for placing order!' ? {color: 'green'} : null}>{errorMsg}</Message>}
       </Menu>
     </div>
   )

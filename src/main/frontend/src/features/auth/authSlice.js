@@ -55,4 +55,6 @@ export const selectEmailAuth = state => state.auth.emailAuth;
 
 export const selectUserEmail = state => state.auth.googleAuth.email || state.auth.emailAuth.email || null;
 
+export const selectUserName = state => state.auth.googleAuth.name || state.auth.emailAuth.name || null;
+
 export default authSlice.reducer;

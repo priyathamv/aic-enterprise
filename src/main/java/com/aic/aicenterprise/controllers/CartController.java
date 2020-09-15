@@ -73,5 +73,30 @@ public class CartController {
         }
         return userCartSaveResponse;
     }
+
+    @PostMapping(value = "/place-order")
+    public SaveResponse placeOrder(@RequestBody UserCart userCart) {
+        log.info("Placing order: {}", userCart);
+
+        SaveResponse orderPlacedResponse;
+        try {
+            boolean orderPlaceStatus = cartService.placeOrder(userCart);
+            orderPlacedResponse = SaveResponse.builder()
+                    .payload(orderPlaceStatus)
+                    .msg("success")
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while placing order: {}", ex);
+            orderPlacedResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while placing order")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return orderPlacedResponse;
+    }
     
 }

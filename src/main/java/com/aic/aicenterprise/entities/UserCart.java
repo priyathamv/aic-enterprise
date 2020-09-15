@@ -16,5 +16,7 @@ public class UserCart {
     @Id
     private String email;
 
+    private String name;
+
     private List<CartItem> cartItems;
 }

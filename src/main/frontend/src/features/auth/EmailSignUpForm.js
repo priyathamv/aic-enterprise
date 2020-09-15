@@ -94,6 +94,7 @@ export const EmailSignUpForm = ({ closeModal }) => {
         
         if (signUpResponse.data.status === 409) {
           setErrorMsg('This Email address is already registered');
+          setIsLoading(false);
         } else if (signUpResponse.data.status === 200) {
           const loginResponse = await axios.post('/login', userDetails, { headers });
           setIsLoading(false);

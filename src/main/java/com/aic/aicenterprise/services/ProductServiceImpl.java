@@ -4,6 +4,7 @@ import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.repositories.ProductRepository;
 import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -66,6 +67,7 @@ public class ProductServiceImpl implements ProductService {
                     .map(curFileName -> {
                         try {
                             log.info("Reading file: {}", curFileName);
+                            ZipSecureFile.setMinInflateRatio(0);
                             Workbook workbook = WorkbookFactory.create(new File(excelFilesPath + curFileName));
 
                             List<Product> productList = new ArrayList<>();
@@ -75,7 +77,8 @@ public class ProductServiceImpl implements ProductService {
                                         curSheet.forEach(curRow -> {
                                             if (curRow.getRowNum() > 0) {
                                                 Product curProduct = getProductFromRow(curRow, dataFormatter);
-                                                productList.add(curProduct);
+                                                if (!curProduct.getCode().isEmpty())
+                                                    productList.add(curProduct);
                                             }
                                         });
                                     });

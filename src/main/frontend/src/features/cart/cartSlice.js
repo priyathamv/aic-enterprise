@@ -113,6 +113,22 @@ export const fetchUserCartFromLocalStorage = () => dispatch => {
   dispatch(updateUserCart(cartItems ? JSON.parse(cartItems) : []));
 }
 
+export const placeOrderAsync = async payload => {
+  const headers = { 
+    'Content-Type': 'application/json'
+  }
+
+  try {
+    const placeOrderResponse = await axios.post('/api/cart/place-order', payload, { headers });
+    console.log('placeOrderResponse', placeOrderResponse);
+
+    const clearUserCartResponse = await persistUserCart({ email: payload.email, name: payload.name, cartItems: [] });
+    console.log('clearUserCartResponse', clearUserCartResponse);
+  } catch(err) {
+    console.log('Error while placing order', err.message);
+  }
+}
+
 export const selectShowCartPage = state => state.cart.showCartPage;
 export const selectCartItems = state => state.cart.items;
 
