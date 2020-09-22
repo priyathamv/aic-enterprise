@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 "    <div style='text-align: center; border: 1px solid #CCC; padding: 50px 0; margin-bottom: 20px; background-color: #FFF;'>\n" +
                 "      <div style='margin-bottom: 30px; font-size: 22px;'>Hi " + name + "</div>\n" +
                 "      <div style='margin-bottom: 10px;'>You have asked to reset your password.</div>\n" +
-                "      <a href='https://aic-enterprises.el.r.appspot.com/reset-password?token=" + resetPasswordToken + "' style='color: #232162;'>Please click this link to enter a new password</a>\n" +
+                "      <div onclick='(() => window.location.href=\"https://aic-enterprises.el.r.appspot.com/reset-password?token=" + resetPasswordToken + "\")()' style='color: #232162; cursor: pointer;'>Reset Password</div>\n" +
                 "      <div style='margin: 30px 0;'>If you didn't request a password change, please ignore this email.</div>\n" +
                 "      <div>Thank you!</div>\n" +
                 "    </div>\n" +
