@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,7 +71,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public boolean forgotPassword(ForgotPasswordRequest request) throws MessagingException, IOException {
+    public boolean forgotPassword(ForgotPasswordRequest request) throws IOException {
         UserEntity userEntity = userRepository.findByEmail(request.getEmail());
         if (isNull(userEntity))
             throw new EmailNotFoundException();
