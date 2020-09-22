@@ -26,4 +26,4 @@ jasypt:
     algorithm: PBEWithMD5AndDES
 
 sendgrid:
-  apikey: ENC(Hd9pWvbfv5idzM1WaUbSEMJKUtLHPrL1QQ5T066/uQIJPf9lU9QGbxrvIyZmkMkTveIYmqqFz+oJE5T3IwFtWvGERoEOU9olPZYK+YLrw2M=)
+  apikey: ENC(IdUHaO4lI9tBC3GFdq2yQ8eaWUh63F+YjkteX3fT1YApEEFd0plFXQdZlgfH15op8H1ipzUQ/NpMbM7zf3k2fEzC8C4TyGec3icfdBJNcmM=)

@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -50,8 +49,8 @@ public class CartServiceImpl implements CartService {
         return toAddresses.stream()
                 .allMatch(toAddress -> {
                     try {
-                        return emailService.sendMailNormal(toAddress, subject, cartBodyHtml);
-                    } catch (MessagingException e) {
+                        return emailService.sendMail(toAddress, subject, cartBodyHtml);
+                    } catch (IOException e) {
                         log.info("Exception while sending mail: {}", e);
                         return false;
                     }

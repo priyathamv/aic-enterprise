@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -71,7 +72,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public boolean forgotPassword(ForgotPasswordRequest request) throws MessagingException {
+    public boolean forgotPassword(ForgotPasswordRequest request) throws IOException {
         UserEntity userEntity = userRepository.findByEmail(request.getEmail());
         if (isNull(userEntity))
             throw new EmailNotFoundException();
@@ -82,7 +83,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         boolean updateStatus = updatePasswordRecovery(request.getEmail(), resetPasswordToken, resetPasswordExpires);
         log.info("Password recovery token update status: {}", updateStatus);
 
-        return emailService.sendMailNormal(
+        return emailService.sendMail(
                 request.getEmail(),
                 "Reset your password",
                 getResetPasswordHtml(userEntity.getName(), resetPasswordToken)
