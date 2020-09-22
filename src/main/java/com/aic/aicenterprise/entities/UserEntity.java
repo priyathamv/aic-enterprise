@@ -4,6 +4,8 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Setter
 @Getter
 @Builder
@@ -22,4 +24,8 @@ public class UserEntity {
     private String phoneNumber;
 
     private String password;
+
+    private String resetPasswordToken;
+
+    private Date resetPasswordExpires;
 }

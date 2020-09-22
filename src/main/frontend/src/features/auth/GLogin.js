@@ -45,6 +45,7 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
   }
 
   const googleSuccessCallback = (response) => {
+    console.log('Google login success =>', response)
     try {
       
       const token = (response.Zi && response.Zi.id_token) ? 
@@ -70,9 +71,13 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
   }
 
   const googleFailureCallback = (response) => {
-    console.log('Google login failed', response);
-    dispatch(logoutUserAction());
-    closeModal && closeModal();
+    console.log('Google login failed =>', response);
+    if (response.error === 'popup_closed_by_user') {
+      console.log('Please enable 3rd party cookies or add an exception for stackblitz.io to resolve.')
+    } else {
+      dispatch(logoutUserAction());
+      closeModal && closeModal();
+    }
   }
 
   return (

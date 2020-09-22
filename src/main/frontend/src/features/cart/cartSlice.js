@@ -73,7 +73,7 @@ export const fetchUserCart = email => async dispatch => {
     const userCartResponse = await axios.get('/api/cart', { params: queryParams });
     console.log('userCartResponse', userCartResponse);
 
-    const cartItemsDb = userCartResponse.data.payload.cartItems || [];
+    const cartItemsDb = (userCartResponse.data && userCartResponse.data.payload.cartItems) || [];
     
     const cartItemsLsString = localStorage.getItem('cartItems');
     const cartItemsLs = cartItemsLsString ? JSON.parse(cartItemsLsString) : [];

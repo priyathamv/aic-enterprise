@@ -58,7 +58,7 @@ const GoogleIcon = styled(FcGoogle)`
   cursor: pointer;
 `;
 
-export const EmailLoginForm = ({ closeModal }) => {
+export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
   const dispatch = useDispatch();
 
   const cookies = new Cookies();
@@ -127,7 +127,7 @@ export const EmailLoginForm = ({ closeModal }) => {
         <label className='material-label'>Password</label>
       </div>
 
-      <ForgotPassword>Forgot password?</ForgotPassword>
+      <ForgotPassword onClick={() => handleShowForgotPassword()}>Forgot password?</ForgotPassword>
 
       <Button onClick={handleOnLogin}>
         Log In

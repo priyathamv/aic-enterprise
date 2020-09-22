@@ -1,9 +1,9 @@
 import React from 'react';
 
-export const Input = ({ styleObj, isRequired, label, value, handleOnChange }) => {
+export const Input = ({ styleObj, isRequired, label, value, handleOnChange, type = 'text' }) => {
   return (
     <div className='group' style={styleObj}>
-      <input className='material-input' type='text' value={value} onChange={handleOnChange} required={isRequired} />
+      <input className='material-input' type={type} value={value} onChange={handleOnChange} required={isRequired} />
       <span className='highlight'></span>
       <span className='bar'></span>
       <label className='material-label'>{label}</label>

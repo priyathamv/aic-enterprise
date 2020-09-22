@@ -18,6 +18,7 @@ public class MvcConfig {
                 registry.addViewController("/contact-us").setViewName("forward:/index.html");
                 registry.addViewController("/about-us").setViewName("forward:index.html");
                 registry.addViewController("/covid-19").setViewName("forward:/index.html");
+                registry.addViewController("/reset-password").setViewName("forward:/index.html");
             }
         };
     }

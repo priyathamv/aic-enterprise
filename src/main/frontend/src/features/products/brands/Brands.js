@@ -37,7 +37,7 @@ const Brand = styled.a`
 `;
 
 export const Brands = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const brandsObj = {
     isLoading: false,
