@@ -18,7 +18,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import javax.mail.MessagingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public boolean forgotPassword(ForgotPasswordRequest request) throws IOException {
+    public boolean forgotPassword(ForgotPasswordRequest request) throws MessagingException {
         UserEntity userEntity = userRepository.findByEmail(request.getEmail());
         if (isNull(userEntity))
             throw new EmailNotFoundException();
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         boolean updateStatus = updatePasswordRecovery(request.getEmail(), resetPasswordToken, resetPasswordExpires);
         log.info("Password recovery token update status: {}", updateStatus);
 
-        return emailService.sendMail(
+        return emailService.sendMailNormal(
                 request.getEmail(),
                 "Reset your password",
                 getResetPasswordHtml(userEntity.getName(), resetPasswordToken)
@@ -112,7 +112,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 "    <div style='text-align: center; border: 1px solid #CCC; padding: 50px 0; margin-bottom: 20px; background-color: #FFF;'>\n" +
                 "      <div style='margin-bottom: 30px; font-size: 22px;'>Hi " + name + "</div>\n" +
                 "      <div style='margin-bottom: 10px;'>You have asked to reset your password.</div>\n" +
-                "      <div onclick='(() => window.location.href=\"https://aic-enterprises.el.r.appspot.com/reset-password?token=" + resetPasswordToken + "\")()' style='color: #232162; cursor: pointer;'>Reset Password</div>\n" +
+                "      <a href='https://aic-enterprises.el.r.appspot.com/reset-password?token=" + resetPasswordToken + "' style='color: #232162;'>Please click this link to enter a new password</a>\n" +
                 "      <div style='margin: 30px 0;'>If you didn't request a password change, please ignore this email.</div>\n" +
                 "      <div>Thank you!</div>\n" +
                 "    </div>\n" +

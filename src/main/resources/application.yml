@@ -24,3 +24,6 @@ jasypt:
   encryptor:
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
     algorithm: PBEWithMD5AndDES
+
+sendgrid:
+  apikey: ENC(Hd9pWvbfv5idzM1WaUbSEMJKUtLHPrL1QQ5T066/uQIJPf9lU9QGbxrvIyZmkMkTveIYmqqFz+oJE5T3IwFtWvGERoEOU9olPZYK+YLrw2M=)
