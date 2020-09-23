@@ -119,7 +119,7 @@ export const placeOrderAsync = async payload => {
   }
 
   try {
-    const placeOrderResponse = await axios.post('/api/cart/place-order', payload, { headers });
+    const placeOrderResponse = await axios.post('/api/orders/place-order', payload, { headers });
     console.log('placeOrderResponse', placeOrderResponse);
 
     const clearUserCartResponse = await persistUserCart({ email: payload.email, name: payload.name, cartItems: [] });

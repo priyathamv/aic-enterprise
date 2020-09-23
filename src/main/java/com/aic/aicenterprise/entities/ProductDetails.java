@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class CartItem {
+public class ProductDetails {
     private String code;
     private String name;
     private String brand;

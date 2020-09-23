@@ -1,12 +1,5 @@
 package com.aic.aicenterprise.services;
 
-//import com.sendgrid.Method;
-//import com.sendgrid.Request;
-//import com.sendgrid.Response;
-//import com.sendgrid.SendGrid;
-//import com.sendgrid.helpers.mail.Mail;
-//import com.sendgrid.helpers.mail.objects.Content;
-//import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -15,31 +8,24 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 
 @Slf4j
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    private JavaMailSender mailSender;
+//    private JavaMailSender mailSender;
+
+//    @Autowired
+//    public EmailServiceImpl(JavaMailSender mailSender) {
+//        this.mailSender = mailSender;
+//    }
 
     @Value(value = "${sendgrid.apikey}")
     private String sendgridApiKey;
-
-    @Autowired
-    public EmailServiceImpl(JavaMailSender mailSender) {
-        this.mailSender = mailSender;
-    }
 
     @Override
     public boolean sendMail(String toAddress, String subject, String body) throws IOException {
