@@ -31,6 +31,17 @@ code {
   margin: 150px 0;
 }
 
+.reviews-slider {
+  --content-background-color: transparent !important;
+  background-color: transparent;
+}
+
+.reviews-frame {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100vw;
+}
+
 .awssld__bullets button {
   width: 10px !important;
   height: 10px !important;

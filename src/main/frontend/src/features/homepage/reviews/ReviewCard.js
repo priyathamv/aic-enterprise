@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { Line } from '../common/Line';
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
 import { ImQuotesLeft } from 'react-icons/im';
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   display: flex;
@@ -36,7 +38,11 @@ const Text = styled.div`
   line-height: 27px;
   margin-bottom: 10px;
   color: #000000a3;
-  font-size: 14px;
+  font-size: 24px;
+  
+  @media ${device.laptop} { 
+    font-size: 14px;
+  }
 `;
 
 const UserFrame = styled.div`
