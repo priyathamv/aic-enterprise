@@ -47,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 
     private boolean sendOrderMail(UserCart userCart) {
         String subject = "Website order query";
-        List<String> toAddresses = Arrays.asList("vinnakota4201@gmail.com"); //, "ananthvy@tractionmonkey.com");
+        List<String> toAddresses = Arrays.asList("vinnakota4201@gmail.com", "ananthvy@tractionmonkey.com");
         String cartBodyHtml = getCartBodyHtml(userCart);
 
         // Send mail
