@@ -2,34 +2,58 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Button } from './Button';
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  
+  @media ${device.laptop} { 
+    flex-direction: row;
+    margin-bottom: 40px;
+  }
 `;
 
 const Image = styled.img`
-  width: 60vw;
+  width: 100%;
+  
+  @media ${device.laptop} { 
+    width: 60vw;
+  }
 `;
 
 const AboutUs = styled.div`
-  position: relative;
-  top: 50px;
-  right: 150px;
-  margin-right: -100px;
-  background-color: white;
-  padding: 40px 30px;
+  padding: 20px;
+
+  @media ${device.laptop} { 
+    position: relative;
+    top: 50px;
+    right: 150px;
+    margin-right: -100px;
+    background-color: white;
+    padding: 40px 30px;
+  }
 `;
 
 const Title = styled.div`
   color: #232162;
   font-size: 26px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    margin-bottom: 40px;
+  }
 `;
 
 const Content = styled.div`
   font-size: 14px;
   line-height: 25px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    margin-bottom: 40px;
+  }
 `;
 
 

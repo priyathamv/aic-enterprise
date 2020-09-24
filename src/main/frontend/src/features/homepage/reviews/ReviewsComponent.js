@@ -2,19 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { ReviewCard } from './ReviewCard';
+import { device } from '../../utils/viewport';
 
 
 const Container = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  padding: 15vw 17vw;
   background-color: #69696970;
   background: url(/images/why_choose_us_reverse.jpg);
   background-repeat: repeat;
   background-size: 100vw auto;
   background-position: 30vw 0;
   opacity: 0.7;
+  padding: 150px 20px;
+  // height: 600px;
+
+  @media ${device.laptop} { 
+    padding: 15vw 17vw;
+  }
 `;
 
 

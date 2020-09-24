@@ -87,6 +87,9 @@ const NoOfItems = styled.div`
 `;
 
 export const UserCart = ({ style }) => {
+  const viewportWidth = window.outerWidth;
+  const isMobile = viewportWidth < 1024;
+  
   const dispatch = useDispatch();
   const userIconRef = useRef(null);
   const userOptionsRef = useRef(null);
@@ -138,7 +141,7 @@ export const UserCart = ({ style }) => {
             trigger={
               <LoginFrame>
                 <UserIcon size='2em'/>
-                <LoginButton>Log In</LoginButton>
+                {!isMobile && <LoginButton>Log In</LoginButton>}
               </LoginFrame>
             }
           >

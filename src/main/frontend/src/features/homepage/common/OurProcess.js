@@ -1,30 +1,47 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import Fade from 'react-reveal/Fade';
 import { FaCheckCircle } from 'react-icons/fa';
 import { ProcessStep } from './ProcessStep';
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 150px 20vw 100px 20vw;
+  padding: 20px;
   position: relative;
+  margin-bottom: 100px;
+
+  @media ${device.laptop} { 
+    padding: 0 20vw;
+  }
 `;
 
 const Title = styled.div`
   color: #232162;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: bold;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 `;
 
 const VerticalLine = styled.div`
   position: absolute;
   z-index: -1;
   border-left: 1px dashed #232162;
-  height: 450px;
-  top: 200px;
+
+  @media ${device.laptop} { 
+    height: 90%;
+    top: 50px;
+  }
+  @media ${device.tablet} { 
+    height: 75%;
+    top: 75px;
+  }
+  @media ${device.mobile} { 
+    height: 85%;
+  }
 `;
 
 const CheckCircleIcon = styled(FaCheckCircle)`
@@ -38,6 +55,8 @@ const CheckCircleIcon = styled(FaCheckCircle)`
 
 
 export const OurProcess = () => {
+  const viewportWidth = window.outerWidth;
+
   return (
     <Container>
       <Title>Our Process</Title>

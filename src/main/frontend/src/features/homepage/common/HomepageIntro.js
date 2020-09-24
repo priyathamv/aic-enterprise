@@ -1,42 +1,74 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../utils/viewport';
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 100px 50px;
+  padding: 20px;
+  margin-bottom: 40px;
+
+  @media ${device.laptop} { 
+    padding: 100px 50px;
+  }
 `;
 
 const Title = styled.div`
   color: #232162;
-  font-size: 26px;
+  font-size: 32px;
   font-weight: bold;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  display: flex;
+  
+  @media ${device.laptop} { 
+    margin-bottom: 40px;
+  }
 `;
 
 const SubTitle = styled.div`
   font-weight: bold;
   color: #000000ab;
-  margin-bottom: 40px;
   letter-spacing: 2px;
+  font-size: 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
 `;
 
 const ContentFrame = styled.div`
   display: flex;
   align-items: center;
+  flex-direction: column;
+  
+  @media ${device.laptop} {
+    flex-direction: row;
+  }
 `;
 
 const Image = styled.img`
-  width: 30vw;
-  margin-right: 75px;
+  width: 100%;
+  margin: 0 0 20px 0;
+
+  @media ${device.laptop} {
+    width: 30vw;
+    margin: 0 75px 0 0;
+  }
 `;
 
 const Content = styled.div`
-  width: 30vw;
-  font-size: 14px;
-  line-height: 25px;
+  font-size: 32px;
+  // line-height: 25px;
+
+  @media ${device.laptop} {
+    width: 30vw;
+    font-size: 18px;
+  }
 `;
 
 

@@ -5,8 +5,15 @@ import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
 import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
 
+import { device } from '../../utils/viewport';
+
 const Container = styled.div`
   background-color: #FFF;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    margin-bottom: 50px;
+  }
 `;
 
 const Image = styled.img`
@@ -17,7 +24,13 @@ const Button = styled.a`
   text-decoration: none;
   color: black;
   border: 1px solid black;
-  padding: 15px 30px;
+  padding: 10px;
+  font-size: 16px;
+  
+  @media ${device.laptop} { 
+    padding: 15px 30px;
+    font-size: 16px;
+  }
 `;
 
 const Content = styled.div`
@@ -27,30 +40,38 @@ const Content = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 46px;
   font-weight: bold;
-  margin-bottom: 20px;
+  font-size: 36px;
+  margin-bottom: 40px;
 `;
 
 const Description = styled.div`
   width: 40vw;
-  font-weight: bold;
   letter-spacing: 1px;
-  margin-bottom: 80px;
+  margin-bottom: 40px;
+  font-size: 20px;
+  
+  @media ${device.laptop} { 
+    margin-bottom: 80px;
+    font-size: 16px;
+    font-weight: bold;
+  }
 `;
 
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 export const CoverImageSlider = () => {
 
+  const viewportWidth = window.outerWidth;
+
   return (
     <Container id='cover_image_slider_id'>
       <AutoplaySlider
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
-        interval={5000}
+        interval={500000}
         bullets={false}
-        style={{ height: '450px' }}
+        style={ viewportWidth < 1024 ? { height: '378px' } : { height: '450px' }}
       >
         <div className='cover-image'>
           <Image src="/images/cover_image1.png" />
@@ -66,8 +87,8 @@ export const CoverImageSlider = () => {
           <Image src="/images/cover_image2.png" />
           
           <Content>
-            <Title>In time delivery</Title>
-            <Description>"Time is Money" - AIC values the same.<br />Our strong network across the supply chain system leverages our business with prompt deliverables across the country and beyon</Description>
+            <Title>On time delivery</Title>
+            <Description>"Time is Money" - AIC values the same. Our strong network across the supply chain system leverages our business with prompt deliverables across the country and beyon</Description>
             <Button href='/contact-us' >EXPLORE</Button>
           </Content>
         </div>

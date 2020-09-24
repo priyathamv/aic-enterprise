@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { FaTelegramPlane } from 'react-icons/fa';
 
 import { isValidEmail, signUpForNews } from '../../utils/Utils';
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   background-color: #232162;
@@ -22,10 +23,15 @@ const ContentBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 22vw;
+  width: 40vw;
   height: 120px;
-  font-size: 18px;
+  font-size: 12px;
   background-color: #FFF;
+
+  @media ${device.laptop} { 
+    width: 22vw;
+    font-size: 18px;
+  }
 `;
 
 const PlaneIcon = styled(FaTelegramPlane)`
@@ -54,22 +60,35 @@ const Or = styled.div`
   border: 1px solid #0000001c;
   border-radius: 25px;
   background-color: #FFF;
-  padding: 15px;
+  padding: 10px;
   font-size: 12px;
+
+  @media ${device.laptop} { 
+    padding: 15px;
+  }
 `;
 const OrBorder = styled.div`
   position: absolute;
   border: 1px solid black;
   border-radius: 25px;
   background-color: #FFF;
-  padding: 10px;
+  padding: 6px;
   font-size: 12px;
+
+  @media ${device.laptop} { 
+    padding: 10px;
+  }
 `;
 
 const EmailInput = styled.input`
-  padding: 7px 12px;
   font-size: 12px;
-  width: 15vw;
+  padding: 4px 4px;
+  width: 30vw;
+
+  @media ${device.laptop} { 
+    padding: 7px 12px;
+    width: 15vw;
+  }
 `;
 
 

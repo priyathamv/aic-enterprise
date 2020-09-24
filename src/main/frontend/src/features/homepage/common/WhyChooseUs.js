@@ -1,49 +1,79 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../utils/viewport';
+
 const Container = styled.div`
   display: flex;
   background-color: black;
   color: #FFF;
+  flex-direction: column;
+
+  @media ${device.laptop} { 
+    flex-direction: row;
+  }
 `;
 
 const Image = styled.img`
-  width: 55vw;
+  width: 100%;
+
+  @media ${device.laptop} { 
+    width: 55vw;
+  }
 `;
 
 const Content = styled.div`
-  width: 45vw;
-  padding: 50px;
-`;
+  // width: 100%;
+  padding: 20px;
 
-const Title = styled.div`
-  font-size: 40px;
-  font-weight: bold;
-  letter-spacing: 3px;
+  @media ${device.tablet} { 
+    padding: 40px;
+  }
+  
+  @media ${device.laptop} { 
+    width: 45vw;
+    padding: 50px;
+  }
 `;
 
 const Box = styled.div`
-  width: 10vw;
-  height: 400px;
   display: grid;
-  grid-template-columns: 10vw 200px;
-  grid-row: auto auto;
-  grid-column-gap: 100px;
-  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
 `;
 
 const Item = styled.div`
 
 `;
 
+const Title = styled.div`
+  font-weight: bold;
+  letter-spacing: 3px;
+  font-size: 16px;
+  margin-bottom: 40px;
+
+  @media ${device.laptop} { 
+    font-size: 40px;  
+  }
+`;
+
 const SubHeader = styled.div`
   font-weight: bold;
-  font-size: 18px;
+  font-size: 14px;
   margin-bottom: 15px;
+
+  @media ${device.laptop} { 
+    font-size: 14px;  
+  }
 `;
 
 const Text = styled.div`
-  font-size: 14px;
+  font-size: 12px;
+
+  @media ${device.laptop} { 
+    font-size: 18px;
+  }
 `;
 
 const ItemComponent = ({ title, subHeader, text }) => (

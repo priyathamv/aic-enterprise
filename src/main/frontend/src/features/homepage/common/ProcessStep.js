@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Line } from '../common/Line';
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   display: flex;
@@ -32,16 +33,28 @@ const Process = styled.div`
   padding: 20px;
   background-color: #0000000a;
   border-bottom: 2px solid #232162;
+
+  @media ${device.laptop} { 
+    padding: 20px;
+  }
 `;
 
 const Header = styled.div`
   color: #232162;
-  font-size: 18px;
   margin-bottom: 10px;
+  font-size: 26px;
+
+  @media ${device.laptop} { 
+    font-size: 18px;
+  }
 `;
 
 const Content = styled.div`
-  font-size: 14px;
+  font-size: 24px;
+
+  @media ${device.laptop} { 
+    font-size: 14px;
+  }
 `;
 
 export const ProcessStep = ({ dataStyle, number, heading, content, isLeftAlign }) => {

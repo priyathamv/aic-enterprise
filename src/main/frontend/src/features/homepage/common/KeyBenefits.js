@@ -2,37 +2,47 @@ import React from 'react'
 import styled from 'styled-components';
 
 import { RiArrowRightSLine } from 'react-icons/ri';
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   display: flex;
   background-color: black;
   color: #FFF;
-  margin-bottom: 175px;
+  margin-bottom: 150px;
+  flex-direction: column;
+
+  @media ${device.laptop} { 
+    flex-direction: row;
+  }
 `;
 
 const Image = styled.img`
-  width: 45vw;
+  width: 100%;
+
+  @media ${device.laptop} { 
+    width: 45vw;
+  }
 `;
 
 const Content = styled.div`
-  width: 55vw;
-  padding: 50px 100px;
-`;
+  // width: 100%;
+  padding: 20px;
 
-const Title = styled.div`
-  font-size: 40px;
-  font-weight: bold;
-  letter-spacing: 3px;
+  @media ${device.tablet} { 
+    padding: 40px;
+  }
+  
+  @media ${device.laptop} { 
+    width: 55vw;
+    padding: 50px 100px;
+  }
 `;
 
 const Box = styled.div`
-  width: 20vw;
-  height: 300px;
   display: grid;
-  grid-template-columns: 20vw 300px;
-  grid-row: auto auto;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
 `;
 
 const ArrowIcon = styled(RiArrowRightSLine)`
@@ -46,14 +56,33 @@ const Item = styled.div`
   letter-spacing: 1px;
 `;
 
+
+const Title = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 3px;
+
+  @media ${device.laptop} { 
+    font-size: 40px;  
+  }
+`;
+
 const Text = styled.div`
-  font-size: 18px;
+  font-size: 32px;
+
+  @media ${device.laptop} { 
+    font-size: 18px;
+  }
 `;
 
 
 export const KeyBenefits = () => {
+  const viewportWidth = window.outerWidth;
+
   return (
     <Container>
+      {viewportWidth < 1024 && <Image src='/images/key_benefits.jpg' />}
+
       <Content>
         <Title style={{ marginBottom: '50px' }}>KEY BENEFITS?</Title>
         <Box>
@@ -79,7 +108,7 @@ export const KeyBenefits = () => {
         </Box>
       </Content>
 
-      <Image src='/images/key_benefits.jpg' />
+      {viewportWidth >= 1024 && <Image src='/images/key_benefits.jpg' />}
     </Container>
   )
 }

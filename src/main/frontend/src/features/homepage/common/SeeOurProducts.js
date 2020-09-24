@@ -1,25 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../utils/viewport';
 import { Button } from './Button';
 
 const Container = styled.div`
   background-color: #ccc;
-  padding: 40px 200px;
   text-align: center;
+  padding: 20px;
+  
+  @media ${device.laptop} { 
+    padding: 40px 200px;
+  }
 `;
   
 const Heading = styled.div`
   font-weight: bold;
   color: #232162;
-  font-size: 26px;
-  margin-bottom: 40px;
+  font-size: 18px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    font-size: 26px;
+    margin-bottom: 40px;
+  }
 `;
   
 const Content = styled.div`
-  margin-bottom: 40px;
-  line-height: 30px;
-  font-size: 20px;
+  margin-bottom: 20px;
+  // line-height: 30px;
+  font-size: 12px;
+
+  @media ${device.laptop} { 
+    font-size: 20px;
+    margin-bottom: 40px;
+  }
 `;
 
 

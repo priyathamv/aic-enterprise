@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import { UserCart } from './UserCart';
 import { ProductsMenu } from './ProductsMenu';
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
   display: flex;
@@ -65,6 +66,8 @@ const Blank = styled.div`
 
 
 export const NavbarMenu = () => {
+  const viewportWidth = window.outerWidth;
+  const isMobile = viewportWidth < 1024;
 
   const [showLogo, setShowLogo] = useState(false);
   
@@ -113,9 +116,12 @@ export const NavbarMenu = () => {
   return (
     <Container id='navbar_menu_id'>
       <MenuItems>
-        <BlankMenuItem style={{ paddingTop: '8px' }}>
-          {showLogo ? <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
-        </BlankMenuItem>
+        {isMobile ? 
+          null : 
+          <BlankMenuItem style={{ paddingTop: '8px' }}>
+            {showLogo ? <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
+          </BlankMenuItem>  
+        }
         <MenuItemWrap
           onMouseEnter={() => document.getElementById('products_menu_id').style.display = 'grid'} 
           onMouseLeave={() => document.getElementById('products_menu_id').style.display = 'none'}
@@ -128,9 +134,9 @@ export const NavbarMenu = () => {
         <MenuItem>Covid 19</MenuItem>
       </MenuItems>
 
-      <Search />
+      {isMobile ? null : <Search />}
 
-      {showLogo ? <UserCart /> : <Blank />}
+      {showLogo ? <UserCart /> : (isMobile ? null : <Blank />)}
     </Container>
   )
 }

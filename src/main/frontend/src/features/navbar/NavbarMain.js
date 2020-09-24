@@ -65,6 +65,8 @@ const PhoneIcon = styled(ImPhone)`
 
 
 export const NavbarMain = () => {
+  const viewportWidth = window.outerWidth;
+  const isMobile = viewportWidth < 1024;
 
   return (
     <Container>
@@ -74,13 +76,13 @@ export const NavbarMain = () => {
         <Brand>AIC Group</Brand>
       </BrandFrame>
 
-      <ContantInfo>
+      {!isMobile && <ContantInfo>
         <MailIcon size='1.5em'></MailIcon>
         <MailText href='mailto:info@aicgroup.co.in?subject=Website Query'>Info@aicgroup.co.in</MailText>
 
         <PhoneIcon size='1.3em'></PhoneIcon>
         <MailText href='tel:+918028364174'>+91 8028364174</MailText>
-      </ContantInfo>
+      </ContantInfo>}
 
       <UserCart />
     </Container>

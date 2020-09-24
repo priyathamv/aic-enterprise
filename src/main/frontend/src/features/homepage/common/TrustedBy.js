@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   background-color: #FFF;
@@ -12,13 +13,21 @@ const Container = styled.div`
 const Label = styled.div`
   width: 30vw;
   color: #232162;
-  font-size: 26px;
   font-weight: bold;
   text-align: center;
+  margin: 0 10px;
+
+  @media ${device.laptop} { 
+    font-size: 26px;  
+  }
 `;
 
 const Image = styled.img`
-  width: 15vw;
+  width: 30vw;
+
+  @media ${device.laptop} { 
+    width: 15vw;
+  }
 `;
 
 
