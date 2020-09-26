@@ -69,7 +69,7 @@ export const CoverImageSlider = () => {
       <AutoplaySlider
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
-        interval={500000}
+        interval={5000}
         bullets={false}
         style={ viewportWidth < 1024 ? { height: '378px' } : { height: '450px' }}
       >
