@@ -14,13 +14,15 @@ const Container = styled.form`
 
 const Button = styled.button`
   width: 300px;
-  background-color: #7795a3;
+  background-color: #232162;
   color: #FFF;
   border: none;
   padding: 15px 0;
   font-size: 14px;
   cursor: pointer;
   position: relative;
+  min-height: 46px;
+  border-radius: 5px;
 `;
 
 const ErrorMsg = styled.div`
@@ -66,7 +68,8 @@ export const EmailSignUpForm = ({ closeModal }) => {
   const getUserDetails = async (userDetails) => {
     dispatch(updateEmailAuthDetails({
       email: userDetails.email,
-      name: userDetails.name,
+      firstName: userDetails.firstName,
+      lastName: userDetails.lastName,
       phoneNumber: userDetails.phoneNumber
     }));
   }
@@ -87,17 +90,19 @@ export const EmailSignUpForm = ({ closeModal }) => {
       const headers = { 
         'Content-Type': 'application/json'
       }
-      const userDetails = { name, email, phoneNumber, password };
+
+      // Splitting name into firstName and lastName
+      var [firstName, lastName = ''] = name.split(/ (.+)/);
+
+      const userDetails = { firstName, lastName, email, phoneNumber, password };
       try {
         setIsLoading(true);
         const signUpResponse = await axios.post('/api/users/sign-up', userDetails, { headers });
         
         if (signUpResponse.data.status === 409) {
           setErrorMsg('This Email address is already registered');
-          setIsLoading(false);
         } else if (signUpResponse.data.status === 200) {
           const loginResponse = await axios.post('/login', userDetails, { headers });
-          setIsLoading(false);
           const token = loginResponse.headers.authorization.split(' ')[1];
           cookies.set('auth_token', token);
           getUserDetails(userDetails);
@@ -105,6 +110,7 @@ export const EmailSignUpForm = ({ closeModal }) => {
       } catch (err) {
         console.log('Exception while siging up the user', err.message);
       }
+      setIsLoading(false);
     }
   }
 
@@ -145,11 +151,11 @@ export const EmailSignUpForm = ({ closeModal }) => {
         <label className='material-label'>Confirm Password*</label>
       </div>
 
-      <Button onClick={handleOnSignUp}>
-        Sign Up
+      <Button onClick={handleOnSignUp} disabled={isLoading} >
+        {!isLoading && 'Sign Up'}
         {isLoading ? 
           <Spinner 
-            containerStyle={{ top: 0, justifyContent: 'flex-end', right: '15px' }} 
+            containerStyle={{ top: 0, width: '100%' }} 
             loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
           /> : 
           null}

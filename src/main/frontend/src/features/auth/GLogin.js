@@ -37,14 +37,20 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
 
   const dispatch = useDispatch();
 
-  const saveUserDetails = (userDetails) => {
+  const saveUserDetails = async (userDetails) => {
     const headers = { 
       'Content-Type': 'application/json'
     }
-    axios.post('/api/users/save', userDetails, { headers });
+    try {
+      const savedUserResponse = await axios.post('/api/users/save', userDetails, { headers });
+      return savedUserResponse.data.payload;
+    } catch (err) {
+      console.log('Error while saving user', err.message);
+    }
+    return null;
   }
 
-  const googleSuccessCallback = (response) => {
+  const googleSuccessCallback = async response => {
     console.log('Google login success =>', response)
     try {
       
@@ -56,14 +62,25 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
         response.uc.id_token : null;
 
       const userDetails = {
-        name: response.profileObj.name,
+        firstName: response.profileObj.familyName,
+        lastName: response.profileObj.givenName,
         email: response.profileObj.email,
         imageUrl: response.profileObj.imageUrl,
         token
       }
 
-      saveUserDetails(userDetails);
-      dispatch(updateGoogleAuthDetails(userDetails));
+      const savedUser = await saveUserDetails(userDetails);
+
+      // Relacing Users Google image with his custom image
+      const userDetailsUpdated = { 
+        ...userDetails, 
+        imageUrl: (savedUser.imageUrl ? savedUser.imageUrl : userDetails.imageUrl),
+        phoneNumber: savedUser.phoneNumber,
+        addressList: (savedUser.addressList ? savedUser.addressList : [])
+      };
+
+      console.log('userDetailsUpdated', userDetailsUpdated);
+      dispatch(updateGoogleAuthDetails(userDetailsUpdated));
     } catch(err) {
       console.log("Error while authenticating User: ", err);
     }

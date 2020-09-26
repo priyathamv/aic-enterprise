@@ -5,6 +5,7 @@ import 'reactjs-popup/dist/index.css';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
 import { UserCart } from './UserCart';
+import { device } from '../utils/viewport';
 
 
 const Container = styled.div`
@@ -16,12 +17,16 @@ const Container = styled.div`
 `;
 
 const BrandFrame = styled.div`
-  flex: 3;
+  flex: 1;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   background-color: #F8F8FF;
   height: 100%;
+
+  @media ${device.laptop} { 
+    flex: 3;
+  }
 `;
 
 const Logo = styled.img`

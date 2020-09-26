@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import static com.aic.aicenterprise.constants.AppConstants.CART_PATH;
+import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 
 @Slf4j
 @RestController
@@ -33,7 +34,7 @@ public class CartController {
             UserCart userCart = cartService.getUserCart(email);
             cartResponse = CartResponse.builder()
                     .payload(userCart)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
 
@@ -58,7 +59,7 @@ public class CartController {
             boolean saveUserCart = cartService.saveUserCart(userCart);
             userCartSaveResponse = SaveResponse.builder()
                     .payload(saveUserCart)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
 

@@ -10,15 +10,18 @@ public class MvcConfig {
 
     @Bean
     public WebMvcConfigurer forwardToIndex() {
+        final String INDEX_HTML = "forward:/index.html";
+
         return new WebMvcConfigurer() {
             @Override
             public void addViewControllers(ViewControllerRegistry registry) {
-                registry.addViewController("/product-list").setViewName("forward:/index.html");
-                registry.addViewController("/products").setViewName("forward:/index.html");
-                registry.addViewController("/contact-us").setViewName("forward:/index.html");
-                registry.addViewController("/about-us").setViewName("forward:index.html");
-                registry.addViewController("/covid-19").setViewName("forward:/index.html");
-                registry.addViewController("/reset-password").setViewName("forward:/index.html");
+                registry.addViewController("/product-list").setViewName(INDEX_HTML);
+                registry.addViewController("/products").setViewName(INDEX_HTML);
+                registry.addViewController("/contact-us").setViewName(INDEX_HTML);
+                registry.addViewController("/about-us").setViewName(INDEX_HTML);
+                registry.addViewController("/covid-19").setViewName(INDEX_HTML);
+                registry.addViewController("/reset-password").setViewName(INDEX_HTML);
+                registry.addViewController("/account").setViewName(INDEX_HTML);
             }
         };
     }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 import static com.aic.aicenterprise.constants.AppConstants.AUTH_PATH;
+import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Slf4j
@@ -39,7 +40,7 @@ public class AuthController {
         try {
             userDetailsResponse = UserDetailsResponse.builder()
                     .payload(userEntity)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
         } catch (Exception ex) {

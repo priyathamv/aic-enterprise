@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 import { UserCart } from './UserCart';
 import { ProductsMenu } from './ProductsMenu';
-import { device } from '../utils/viewport';
 
 const Container = styled.div`
   display: flex;
@@ -78,6 +77,7 @@ export const NavbarMenu = () => {
     const contactUsDom = document.getElementById('contact_us_id');
     const productsDom = document.getElementById('products_id');
     const productListDom = document.getElementById('product_list_id');
+    const myAccountDom = document.getElementById('my_account_id');
 
     if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
       if (navbarMenuDom) {
@@ -90,6 +90,7 @@ export const NavbarMenu = () => {
       contactUsDom && (contactUsDom.style.paddingTop = '75px');
       productsDom && (productsDom.style.paddingTop = '75px');
       productListDom && (productListDom.style.paddingTop = '75px');
+      myAccountDom && (myAccountDom.style.paddingTop = '75px');
       setShowLogo(true);
     } else {
       setShowLogo(false);
@@ -103,6 +104,7 @@ export const NavbarMenu = () => {
       contactUsDom && (contactUsDom.style.paddingTop = '0');
       productsDom && (productsDom.style.paddingTop = '0');
       productListDom && (productListDom.style.paddingTop = '0');
+      myAccountDom && (myAccountDom.style.paddingTop = '0');
     }
   }
 

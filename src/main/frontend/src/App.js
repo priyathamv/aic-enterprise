@@ -18,6 +18,7 @@ import { selectGoogleAuth, selectEmailAuth } from './features/auth/authSlice';
 import { fetchUserCart, fetchUserCartFromLocalStorage } from './features/cart/cartSlice';
 import { ProductList } from './features/products/ProductList';
 import { ResetPassword } from './features/auth/ResetPassword';
+import { MyAccount } from './features/myaccount/MyAccount';
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
         <Route path='/about-us' component={AboutUs} />
         <Route path='/contact-us' component={ContactUs} />
         <Route path='/reset-password' component={ResetPassword} />
+        <Route path='/account' component={MyAccount} />
         <Route path='/' component={Homepage} />
       </Switch>
       <GLogin style={{ visibility: 'hidden', position: 'absolute'}} />

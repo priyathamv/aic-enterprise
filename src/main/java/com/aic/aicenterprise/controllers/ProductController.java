@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static com.aic.aicenterprise.constants.AppConstants.PRODUCTS_PATH;
+import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 
 @Slf4j
 @RestController
@@ -46,7 +47,7 @@ public class ProductController {
 
             productListResponse = ProductListResponse.builder()
                     .payload(productList)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
 
@@ -71,7 +72,7 @@ public class ProductController {
             List<String> brandList = productService.getAllBrands();
             brandListResponse = BrandListResponse.builder()
                     .payload(brandList)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
 

@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 @Setter
 @Getter
@@ -14,7 +15,9 @@ import java.util.Date;
 @NoArgsConstructor
 @Document(collection = "users")
 public class UserEntity {
-    private String name;
+    private String firstName;
+
+    private String lastName;
 
     @Id
     private String email;
@@ -24,6 +27,8 @@ public class UserEntity {
     private String phoneNumber;
 
     private String password;
+
+    private List<Address> addressList;
 
     private String resetPasswordToken;
 

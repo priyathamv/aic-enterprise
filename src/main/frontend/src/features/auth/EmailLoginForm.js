@@ -21,13 +21,15 @@ const ForgotPassword = styled.div`
 
 const Button = styled.button`
   width: 300px;
-  background-color: #7795a3;
+  background-color: #232162;
   color: #FFF;
   border: none;
   padding: 15px 0;
   font-size: 14px;
   cursor: pointer;
   position: relative;
+  min-height: 46px;
+  border-radius: 5px;
 `;
 
 const ErrorMsg = styled.div`
@@ -129,11 +131,11 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
 
       <ForgotPassword onClick={() => handleShowForgotPassword()}>Forgot password?</ForgotPassword>
 
-      <Button onClick={handleOnLogin}>
-        Log In
+      <Button onClick={handleOnLogin} disabled={isLoading}>
+        {!isLoading && 'Log In'}
         {isLoading ? 
           <Spinner 
-            containerStyle={{ top: 0, justifyContent: 'flex-end', right: '15px' }} 
+            containerStyle={{ top: 0, width: '100%' }} 
             loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
           /> : 
           null}

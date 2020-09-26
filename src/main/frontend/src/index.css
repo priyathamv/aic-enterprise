@@ -113,10 +113,12 @@ code {
 }
 
 /* active state */
-.material-input:focus ~ .material-label, .material-input:valid ~ .material-label {
+.material-input:focus ~ .material-label,
+.material-input[value]:not([value=""]) ~ .material-label 
+{
   top:-20px;
   font-size:14px;
-  color:#5264AE;
+  color:#232162;
 }
 
 /* BOTTOM BARS ================================= */
@@ -131,7 +133,7 @@ code {
   width:0;
   bottom:1px; 
   position:absolute;
-  background:#5264AE; 
+  background:#232162; 
   transition:0.2s ease all; 
   -moz-transition:0.2s ease all; 
   -webkit-transition:0.2s ease all;
@@ -168,15 +170,15 @@ code {
 
 /* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
-	from { background:#5264AE; }
+	from { background:#232162; }
   to 	{ width:0; background:transparent; }
 }
 @-moz-keyframes inputHighlighter {
-	from { background:#5264AE; }
+	from { background:#232162; }
   to 	{ width:0; background:transparent; }
 }
 @keyframes inputHighlighter {
-	from { background:#5264AE; }
+	from { background:#232162; }
   to 	{ width:0; background:transparent; }
 }
 
@@ -192,7 +194,7 @@ code {
   background: #F3F3F3;
 }
 
-/* Table styles */
-/* tr:nth-child(even) {
-  background-color: #F8F8FF;
-} */
+.dropdown-wrapper {
+  width: 47%;
+  margin-bottom: 30px;
+}

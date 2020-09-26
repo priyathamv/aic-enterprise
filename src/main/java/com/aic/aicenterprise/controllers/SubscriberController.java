@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.aic.aicenterprise.constants.AppConstants.SUBSCRIBERS_PATH;
+import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 
 @Slf4j
 @RestController
@@ -35,7 +36,7 @@ public class SubscriberController {
             List<String> subscriberList = subscriberService.getAllSubscribers();
             subscriberListResponse = SubscriberListResponse.builder()
                     .payload(subscriberList)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
 
@@ -60,7 +61,7 @@ public class SubscriberController {
             boolean saveSubscriber = subscriberService.saveSubscriber(subscriber);
             subscriberSaveResponse = SaveResponse.builder()
                     .payload(saveSubscriber)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
 

@@ -3,6 +3,7 @@ package com.aic.aicenterprise.constants;
 public class AppConstants {
     private AppConstants() {}
 
+    /* Endpoints */
     private static final String BASE_PATH = "/api";
 
     public static final String AUTH_PATH = "/auth";
@@ -22,4 +23,6 @@ public class AppConstants {
     public static final long EXPIRATION_TIME = 864_000_000; // 10 days
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
+
+    public static final String SUCCESS = "success";
 }

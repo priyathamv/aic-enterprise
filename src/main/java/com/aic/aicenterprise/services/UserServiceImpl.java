@@ -6,6 +6,7 @@ import com.aic.aicenterprise.exceptions.ResetPasswordLinkExpiredException;
 import com.aic.aicenterprise.models.ForgotPasswordRequest;
 import com.aic.aicenterprise.models.ResetPasswordRequest;
 import com.aic.aicenterprise.repositories.UserRepository;
+import com.aic.aicenterprise.services.image.ImageService;
 import com.mongodb.client.result.UpdateResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +18,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
+import static com.aic.aicenterprise.constants.DBConstants.*;
 import static java.util.Collections.emptyList;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -35,35 +37,44 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     private UserRepository userRepository;
     private MongoTemplate mongoTemplate;
     private EmailService emailService;
+    private ImageService imageService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, MongoTemplate mongoTemplate, EmailService emailService) {
+    public UserServiceImpl(UserRepository userRepository, MongoTemplate mongoTemplate, EmailService emailService, ImageService imageService) {
         this.userRepository = userRepository;
         this.mongoTemplate = mongoTemplate;
         this.emailService = emailService;
+        this.imageService = imageService;
     }
 
 
     @Override
-    public boolean saveUser(UserEntity userEntity) {
+    public UserEntity saveUser(UserEntity userEntity) {
         UserEntity userFromDB = userRepository.findByEmail(userEntity.getEmail());
 
         if (nonNull(userFromDB)) { // User already created an account
             if (nonNull(userFromDB.getPassword())) { // User already created an Email account
                 if (nonNull(userEntity.getPassword())) // User trying to create a duplicate Email account
-                    return false;
+                    return null;
                 else { // Merging existing email with new Gmail login
                     userEntity.setPassword(userFromDB.getPassword());
                     userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
+                    userEntity.setAddressList(userFromDB.getAddressList());
+                    userEntity.setImageUrl(nonNull(userFromDB.getImageUrl()) ?
+                            userFromDB.getImageUrl() :
+                            userEntity.getImageUrl()
+                    );
                 }
             } else { // User already created a Gmail account
-                if (nonNull(userEntity.getPassword())) // Merging existing Gmail with new Email login
+//                if (nonNull(userEntity.getPassword())) { // Merging existing Gmail with new Email login
                     userEntity.setImageUrl(userFromDB.getImageUrl());
+                    userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
+                    userEntity.setAddressList(userFromDB.getAddressList());
+//                }
             }
         }
 
-        UserEntity savedUserEntity = userRepository.save(userEntity);
-        return savedUserEntity.getEmail().equals(userEntity.getEmail());
+        return userRepository.save(userEntity);
     }
 
     @Override
@@ -86,7 +97,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return emailService.sendMail(
                 request.getEmail(),
                 "Reset your password",
-                getResetPasswordHtml(userEntity.getName(), resetPasswordToken)
+                getResetPasswordHtml(userEntity.getFirstName(), resetPasswordToken)
         );
     }
 
@@ -103,6 +114,31 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             return updatePassword(userEntity.getEmail(), request.getPassword());
         }
         return false;
+    }
+
+    @Override
+    public String uploadUserImage(String email, MultipartFile file) throws IOException {
+        String imageUrl = imageService.getImageUrl(file);
+
+        Query query = new Query(new Criteria(EMAIL).is(email));
+        Update update = new Update().set(IMAGE_URL, imageUrl);
+
+        UpdateResult updateResult = mongoTemplate.updateFirst(query, update, UserEntity.class);
+        return updateResult.getModifiedCount() == 1 ? imageUrl : null;
+    }
+
+    @Override
+    public boolean updateUser(UserEntity userEntity) {
+        Query query = new Query(new Criteria(EMAIL).is(userEntity.getEmail()));
+
+        Update update = new Update()
+                .set(FIRST_NAME, userEntity.getFirstName())
+                .set(LAST_NAME, userEntity.getLastName())
+                .set(PHONE_NUMBER, userEntity.getPhoneNumber())
+                .set(ADDRESS_LIST, userEntity.getAddressList());
+
+        UpdateResult updateResult = mongoTemplate.updateFirst(query, update, UserEntity.class);
+        return updateResult.getModifiedCount() == 1;
     }
 
     private String getResetPasswordHtml(String name, String resetPasswordToken) {
@@ -123,7 +159,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     private boolean updatePasswordRecovery(String email, String resetPasswordToken, Date resetPasswordExpires) {
-        Query query = new Query(new Criteria("email").is(email));
+        Query query = new Query(new Criteria(EMAIL).is(email));
         Update update = new Update()
                 .set("resetPasswordToken", resetPasswordToken)
                 .set("resetPasswordExpires", resetPasswordExpires);
@@ -133,7 +169,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     private boolean updatePassword(String email, String password) {
-        Query query = new Query(new Criteria("email").is(email));
+        Query query = new Query(new Criteria(EMAIL).is(email));
         Update update = new Update().set("password", password);
 
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, UserEntity.class);
@@ -152,5 +188,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                 emptyList()
         );
     }
+
+
 
 }

@@ -55,8 +55,6 @@ const CheckCircleIcon = styled(FaCheckCircle)`
 
 
 export const OurProcess = () => {
-  const viewportWidth = window.outerWidth;
-
   return (
     <Container>
       <Title>Our Process</Title>

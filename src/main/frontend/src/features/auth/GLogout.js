@@ -26,6 +26,7 @@ export const GLogout = () => {
   }
 
   const handleLogout = () => {
+    window.location.href = '/';
   }
 
   return (

@@ -15,7 +15,7 @@ const ButtonWrapper = styled.div`
 
 const Button = styled.button`
   width: 300px;
-  background-color: #7795a3;
+  background-color: #232162;
   color: #FFF;
   border: none;
   padding: 15px 0;
@@ -23,6 +23,8 @@ const Button = styled.button`
   cursor: pointer;
   position: relative;
   margin-bottom: 10px;
+  min-height: 46px;
+  border-radius: 5px;
 `;
 
 const Message = styled.div`
@@ -64,10 +66,10 @@ export const ForgotPassword = ({ closeModal }) => {
         {isResetted ? 
           <Button onClick={closeModal}>Close</Button> :
           <Button onClick={handleOnResetPassword}>
-            Reset Password
+            {!isLoading && 'Reset Password'}
             {isLoading && 
             <Spinner 
-              containerStyle={{ top: 0, justifyContent: 'flex-end', right: '15px' }} 
+              containerStyle={{ top: 0, width: '100%' }} 
               loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
             />}
           </Button>

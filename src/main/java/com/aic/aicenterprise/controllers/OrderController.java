@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.aic.aicenterprise.constants.AppConstants.ORDERS_PATH;
+import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 
 @Slf4j
 @RestController
@@ -34,7 +35,7 @@ public class OrderController {
             boolean orderPlaceStatus = orderService.placeOrder(userCart);
             orderPlacedResponse = SaveResponse.builder()
                     .payload(orderPlaceStatus)
-                    .msg("success")
+                    .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
 

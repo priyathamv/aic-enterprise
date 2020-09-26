@@ -35,8 +35,9 @@ const OrLabel = styled.div`
 
 const SignUpLink = styled.div`
   margin-left: 10px;
-  color: #7795A3;
+  color: #232162;
   cursor: pointer;
+  text-decoration: underline;
 `;
 
 const ButtonFrame = styled.div`
@@ -79,7 +80,7 @@ export const Login = ({ closeModal }) => {
 
   const signUpObj = {
     name: 'Sign Up',
-    question: 'Already a member',
+    question: 'Already a member?',
     linkName: 'Log In',
     googleButtonText: 'Sign Up with Google',
     emailText: 'Sign Up with Email'

@@ -1,18 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialGoogleAuth = {
-  name: null,
-  email: null,
-  imageUrl: null,
-  phoneNumber: null,
-  token: null
+  firstName: '',
+  lastName: '',
+  email: '',
+  imageUrl: '',
+  phoneNumber: '',
+  token: '',
+  addressList: []
 };
 
 const initialEmailAuth = {
-  name: null,
-  email: null,
-  phoneNumber: null,
-  imageUrl: null
+  firstName: '',
+  lastName: '',
+  email: '',
+  phoneNumber: '',
+  imageUrl: '',
+  addressList: []
 }
 
 
@@ -25,18 +29,32 @@ export const authSlice = createSlice({
   },
   reducers: {
     updateGoogleAuthDetails: (state, action) => {
-      state.googleAuth = action.payload;
+      state.googleAuth.email = action.payload.email;
+      state.googleAuth.firstName = action.payload.firstName;
+      state.googleAuth.lastName = action.payload.lastName ? action.payload.lastName : '';
+      state.googleAuth.imageUrl = action.payload.imageUrl;
+      state.googleAuth.phoneNumber = action.payload.phoneNumber;
+      state.googleAuth.addressList = action.payload.addressList;
 
       state.emailAuth = initialEmailAuth;
       state.isLoading = false;
     },
     updateEmailAuthDetails: (state, action) => {
       state.emailAuth.email = action.payload.email;
-      state.emailAuth.name = action.payload.name;
+      state.emailAuth.firstName = action.payload.firstName;
+      state.emailAuth.lastName = action.payload.lastName ? action.payload.lastName : '';
+      state.emailAuth.imageUrl = action.payload.imageUrl;
       state.emailAuth.phoneNumber = action.payload.phoneNumber;
+      state.emailAuth.addressList = action.payload.addressList ? action.payload.addressList : [];
 
       state.googleAuth = initialGoogleAuth;
       state.isLoading = false;
+    },
+    updateUserImage: (state, action) => {
+      if (state.emailAuth.email)
+        state.emailAuth.imageUrl = action.payload;
+      else if (state.googleAuth.email)
+        state.googleAuth.imageUrl = action.payload;
     },
     logoutUserAction: (state, action) => {
       localStorage.removeItem('cartItems');
@@ -47,7 +65,7 @@ export const authSlice = createSlice({
   }
 });
 
-export const { updateGoogleAuthDetails, updateEmailAuthDetails, logoutUserAction } = authSlice.actions;
+export const { updateGoogleAuthDetails, updateEmailAuthDetails, updateUserImage, logoutUserAction } = authSlice.actions;
 
 export const selectGoogleAuth = state => state.auth.googleAuth;
 
@@ -55,6 +73,16 @@ export const selectEmailAuth = state => state.auth.emailAuth;
 
 export const selectUserEmail = state => state.auth.googleAuth.email || state.auth.emailAuth.email || null;
 
-export const selectUserName = state => state.auth.googleAuth.name || state.auth.emailAuth.name || null;
+export const selectUserImage = state => state.auth.googleAuth.imageUrl || state.auth.emailAuth.imageUrl || null;
+
+export const selectUserDetails = state => state.auth.googleAuth.email ? state.auth.googleAuth : state.auth.emailAuth;
+
+export const selectUserName = state => {
+  if (state.auth.googleAuth.firstName)
+    return `${state.auth.googleAuth.firstName} ${state.auth.googleAuth.lastName}`.trim();
+  else if (state.auth.emailAuth.firstName)
+    return `${state.auth.emailAuth.firstName} ${state.auth.emailAuth.lastName}`.trim();
+  return null;
+}
 
 export default authSlice.reducer;

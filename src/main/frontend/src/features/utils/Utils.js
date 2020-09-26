@@ -15,3 +15,11 @@ export const signUpForNews = email => {
     console.log('Exception while signing up user', err.message);
   }
 }
+
+export const getUserShortName = username => {
+  if(!username)
+    return ''
+
+  const usernameSplit = username.split(' ');
+  return (usernameSplit[0][0] + usernameSplit[1][0]).toUpperCase()
+}

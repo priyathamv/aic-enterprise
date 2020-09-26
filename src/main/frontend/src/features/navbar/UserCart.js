@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import Popup from 'reactjs-popup';
 import Cookies from 'universal-cookie';
@@ -9,13 +10,13 @@ import { GiShoppingCart } from 'react-icons/gi';
 import { BiChevronDown } from 'react-icons/bi';
 import { GLogout } from '../auth/GLogout';
 import { LoginModal } from '../auth/LoginModal';
-import { selectGoogleAuth, selectEmailAuth, logoutUserAction } from '../auth/authSlice';
+import { selectGoogleAuth, selectEmailAuth, selectUserImage, logoutUserAction } from '../auth/authSlice';
 import { selectShowCartPage, selectCartItems, displayCartPage } from '../cart/cartSlice';
 
 const Container = styled.div`
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
 `;
 
@@ -29,6 +30,13 @@ const LoginInfo = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const UserImage = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+  cursor: pointer;
 `;
 
 const UserIcon = styled(FaUserCircle)`
@@ -58,6 +66,16 @@ const UserOptions = styled.div`
   flex-direction: column;
 `;
 
+const UserOptionAnchor = styled(Link)`
+  color: #232162;
+  padding: 15px 20px;
+  text-decoration: none;
+  display: flex;
+  &:hover {
+    background-color: #017acd0a
+  }
+`;
+
 const UserOption = styled.div`
   padding: 15px 20px;
   cursor: pointer;
@@ -73,6 +91,7 @@ const CartFrame = styled.div`
 `;
 
 const CartIcon = styled(GiShoppingCart)`
+  margin-right: 20px;
 `;
 
 const NoOfItems = styled.div`
@@ -89,7 +108,7 @@ const NoOfItems = styled.div`
 export const UserCart = ({ style }) => {
   const viewportWidth = window.outerWidth;
   const isMobile = viewportWidth < 1024;
-  
+
   const dispatch = useDispatch();
   const userIconRef = useRef(null);
   const userOptionsRef = useRef(null);
@@ -97,6 +116,8 @@ export const UserCart = ({ style }) => {
 
   const googleAuth = useSelector(selectGoogleAuth);
   const emailAuth = useSelector(selectEmailAuth);
+  const userImageUrl = useSelector(selectUserImage);
+
   const isUserLoggedIn = googleAuth.email || emailAuth.email;
   const isUserGoogleLoggedIn = googleAuth.email;
 
@@ -123,6 +144,7 @@ export const UserCart = ({ style }) => {
     cookies.remove('auth_token');
     
     dispatch(logoutUserAction());
+    window.location.href = '/';
   }
 
   return (
@@ -130,17 +152,17 @@ export const UserCart = ({ style }) => {
       <LoginInfo>
         {isUserLoggedIn ? 
           <LoginFrame ref={userIconRef} onClick={() => setShowUserOptions(!showUserOptions)} >
-            <UserIcon size='2em' />
+            {userImageUrl ? <UserImage src={userImageUrl} /> : <UserIcon size='2em'/>}
             <DownArrowIcon size='1.7em' />
           </LoginFrame> :
           <Popup
             modal
-            lockScroll={true}
+            lockScroll={false}
             overlayStyle={{ overflow: 'scroll', zIndex: 100000 }}
             contentStyle={{ padding: 0, width: '100vw', height: '100%' }}
             trigger={
               <LoginFrame>
-                <UserIcon size='2em'/>
+                <UserIcon size='2em' />
                 {!isMobile && <LoginButton>Log In</LoginButton>}
               </LoginFrame>
             }
@@ -158,7 +180,8 @@ export const UserCart = ({ style }) => {
 
       {showUserOptions ? 
         <UserOptions ref={userOptionsRef}>
-          <UserOption>My Account</UserOption>
+          <UserOptionAnchor to='/account' onClick={() => setShowUserOptions(false)}>My Account</UserOptionAnchor>
+
           {isUserGoogleLoggedIn ? 
             <div onClick={() => setShowUserOptions(false)}><GLogout /></div> : 
             <UserOption onClick={() => logoutUser()}>Log Out</UserOption>

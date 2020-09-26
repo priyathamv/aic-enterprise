@@ -27,3 +27,7 @@ jasypt:
 
 sendgrid:
   apikey: ENC(IdUHaO4lI9tBC3GFdq2yQ8eaWUh63F+YjkteX3fT1YApEEFd0plFXQdZlgfH15op8H1ipzUQ/NpMbM7zf3k2fEzC8C4TyGec3icfdBJNcmM=)
+
+cloudinary:
+  apiKey: ENC(Gl9dDD0H5JwJZVXLg3k73E1t9IKWQvo0)
+  apiSecret: ENC(7kLh4hii9fF+DnDRZpyPqYkPfFhDpYkT6IAW+eSFZb7N2oiBz6twZw==)
