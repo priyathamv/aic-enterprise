@@ -40,25 +40,3 @@
   'Difco': 'Difco Laboratories Incorporated is a manufacturer of medical equipment. The Company produces diagnostic and medical instruments. It manufactures and sells a broad range of diagnostic systems, medical instruments, supplies and devices for the use of health care professionals, medical research institutions and the general public.',
   'CDH': 'CDH has been serving the scientific community with the largest range of Laboratory Fine Chemicals & Dehydrated Culture Media since 1981. CDH is presently manufacturing and marketing over 9000 products. The best combination of Bio chemicals, Research Chemicals, Laboratory Reagents, HPLC/AAS/EL/DRY Solvents, Stains & Indicators and Dehydrated Culture Media is offered by the company.'
 }
-
-export const productTabsData = {
-  'Thermo Fisher Scientific': ['Thermo TPP', 'Thermo Invitrogen', 'Thermo Orion', 'Thermo oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand'],
-  'Honeywell': ['Honeywell Safety Products', 'Honeywell-Chemicals'],
-  'Borosil': ['Beakers', 'Bottles', 'Burettes (Class A)', 'Burettes (Class B)', 'Columns', 'Condensors', 'Cylinders (class A)', 'Cylinders (class B )', 'Dessicators', 'Dishes', 'Dissolution flasks', 'Distilling apparatus', 'Extractors', 'Filter assembly', 'Flask (joint others)', 'Flask (plain)', 'Funnels', 'Jars', 'Lab quest', 'LHS', 'Petroleum Jar', 'Pipettes (Class A)', 'Pipettes (Class B)', 'Quartz ware', 'Test tubes', 'Tubes', 'Vials', 'Volumetric Flask (Class A)', 'Volumetric Flask (Class B)', 'Others']
-}
-
-export const productTabsDataAll = ['Thermo TPP', 'Thermo Invitrogen', 'Thermo Orion', 'Thermo oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand'];
-
-export const honeyWellProducts = [{'code': 'ERLC1711-44/1', 'name': 'Lancer Composite Beige S1 With EN,Size-44, 1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-46/1', 'name': 'Lancer Composite Beige S1 With EN,Size-46, 1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-45/1', 'name': 'Lancer Composite Beige S1 With EN,Size-45, 1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-43/1', 'name': 'Lancer Composite Beige S1 With EN,Size-43, 1Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-43/9', 'name': 'Lancer Composite Beige S1 With EN,Size-43, 1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-42/8', 'name': 'Lancer Composite Beige S1 With EN,Size-42,1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-41/7', 'name': 'Lancer Composite Beige S1 With EN,Size-41,1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-40/6', 'name': 'Lancer Composite Beige S1 With EN,Size-40,1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': '1015361', 'name': 'Grey Frame TSR A700 Goggls,1No', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-39/5', 'name': 'Lancer Composite Beige S1 With EN,Size-39,1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-38/4', 'name': 'Lancer Composite Beige S1 With EN,Size-38,1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-37/3', 'name': 'Lancer Composite Beige S1 With EN,Size-37,1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'},
-{'code': 'ERLC1711-36/2', 'name': 'Lancer Composite Beige S1 With EN,Size-36,1 Pair', 'brand': 'Honeywell', 'capacity': null, 'pack': '1No'}];

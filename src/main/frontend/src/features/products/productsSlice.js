@@ -6,10 +6,14 @@ export const productsSlice = createSlice({
   initialState: {
     productList: [],
     brand: null,
+    division: null,
     searchValue: '',
     hasMore: true,
   },
   reducers: {
+    changeProductList: (state, action) => {
+      state.productList = action.payload;
+    },
     updateProductList: (state, action) => {
       state.productList = [...state.productList, ...action.payload];
     },
@@ -20,7 +24,11 @@ export const productsSlice = createSlice({
       state.productList = [...action.payload];
     },
     updateBrand: (state, action) => {
-      state.brand = action.payload
+      state.brand = action.payload;
+    },
+    updateDivision: (state, action) => {
+      state.hasMore = true;
+      state.division = action.payload;
     },
     updateSearch: (state, action) => {
       state.searchValue = action.payload
@@ -28,51 +36,34 @@ export const productsSlice = createSlice({
   }
 });
 
-export const { updateProductList, updateHasMore, changeProductList, updateBrand, updateSearch } = productsSlice.actions;
+export const { updateProductList, updateHasMore, changeProductList, updateBrand, updateDivision, updateSearch } = productsSlice.actions;
 
-export const getNextPageAsync = ({ pageNo, brand, searchValue }) => async dispatch => {
+export const getNextPageAsync = ({ brand, division, searchValue, pageNo }) => async dispatch => {
   try {
-    if (searchValue === '' || searchValue.length >= 3) {
-      const queryParams = { pageNo, brand, searchValue: searchValue || null, limit: 20 };
-      const productsResponse = await axios.get('/api/products', { params: queryParams });
-      
-      const newProductList = productsResponse.data.payload;
-  
-      if (newProductList.length > 0) {
+    const queryParams = { pageNo, brand, division, searchValue: (searchValue === '' ? null : searchValue), limit: 20 };
+    const productsResponse = await axios.get('/api/products', { params: queryParams });
+    
+    const newProductList = productsResponse.data.payload;
+
+    if (newProductList.length > 0) {
+      if (pageNo === 0)
+        dispatch(changeProductList(newProductList));
+      else
         dispatch(updateProductList(newProductList));
-      } else
-        dispatch(updateHasMore(false));
-    }
+    } else
+      dispatch(updateHasMore(false));
+    
   } catch (err) {
     console.log('Exception while fetching product list: ', err.message);
     dispatch(updateProductList([]));
   }
 }
 
-export const getFilteredProductsAsync = (brand, searchValue) => async dispatch => {
-  try {
-    dispatch(updateSearch(searchValue));
-    
-    if (searchValue === '' || searchValue.length >= 3) {
-      const queryParams = {
-        searchValue: searchValue === '' ? null : searchValue, 
-        brand,
-        pageNo: 0, 
-        limit: 20
-      }
-      const productsResponse = await axios.get('/api/products', { params: queryParams });
-      
-      dispatch(changeProductList(productsResponse.data.payload));
-    }
-  } catch (err) {
-    console.log('Exception while fetching filtered product list: ', err.message);
-    dispatch(changeProductList([]));
-  }
-}
-
 export const selectProducts = state => state.products.productList;
 
 export const selectBrand = state => state.products.brand;
+
+export const selectDivision = state => state.products.division;
 
 export const selectHasMore = state => state.products.hasMore;
 

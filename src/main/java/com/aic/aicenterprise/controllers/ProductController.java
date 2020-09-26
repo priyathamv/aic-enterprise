@@ -3,7 +3,6 @@ package com.aic.aicenterprise.controllers;
 import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.models.BrandListResponse;
 import com.aic.aicenterprise.models.ProductListResponse;
-import com.aic.aicenterprise.services.EmailService;
 import com.aic.aicenterprise.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,15 +34,16 @@ public class ProductController {
     @GetMapping(value = "")
     public ProductListResponse getAllProducts(
             @RequestParam(value = "brand", required = false) String brand,
+            @RequestParam(value = "division", required = false) String division,
             @RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
             @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
-        log.info("Getting products under the brand: {}", brand);
+        log.info("Getting products under the brand: {} and division: {}", brand, division);
         ProductListResponse productListResponse;
         try {
             Pageable pageable = PageRequest.of(pageNo, limit);
 
-            List<Product> productList = productService.getProductList(brand, searchValue, pageable);
+            List<Product> productList = productService.getProductList(brand, division, searchValue, pageable);
 
             productListResponse = ProductListResponse.builder()
                     .payload(productList)
@@ -81,6 +81,31 @@ public class ProductController {
             brandListResponse = BrandListResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while fetching brands")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return brandListResponse;
+    }
+
+    @GetMapping(value = "/divisions")
+    public BrandListResponse getDivisions(@RequestParam String brand) {
+        log.info("Getting all divisions for the given brand: {}", brand);
+
+        BrandListResponse brandListResponse;
+        try {
+            List<String> divisionList = productService.getDivisions(brand);
+            brandListResponse = BrandListResponse.builder()
+                    .payload(divisionList)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while fetching divisions: {}", ex);
+            brandListResponse = BrandListResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching divisions")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(null)
                     .build();

@@ -7,9 +7,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
+import static com.aic.aicenterprise.constants.DBConstants.PRODUCTS;
+
 @Setter
 @Getter
-@Document(collection = "products")
+@Document(collection = PRODUCTS)
 public class Product {
     @Id
     private String code;

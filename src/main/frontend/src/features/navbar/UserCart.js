@@ -102,7 +102,7 @@ const NoOfItems = styled.div`
   font-size: 12px;
   border-radius: 17px;
   padding: 2px 6px;
-  right: -5px;
+  left: 15px;
 `;
 
 export const UserCart = ({ style }) => {

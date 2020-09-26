@@ -6,6 +6,7 @@ import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
 import org.apache.poi.ss.usermodel.*;
+import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -20,6 +21,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.aic.aicenterprise.constants.DBConstants.BRAND;
+import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
+import static com.aic.aicenterprise.constants.DBConstants.PRODUCTS;
 import static java.util.Objects.nonNull;
 
 @Slf4j
@@ -37,11 +41,14 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public List<Product> getProductList(String brand, String searchValue, Pageable pageable) {
+    public List<Product> getProductList(String brand, String division, String searchValue, Pageable pageable) {
         if (nonNull(brand) && nonNull(searchValue))
             return productRepository.findByBrandIgnoreCaseAndNameLikeIgnoreCase(brand, searchValue, pageable);
-        else if (nonNull(brand))
-            return productRepository.findByBrandIgnoreCase(brand, pageable);
+        else if (nonNull(brand)) {
+            return nonNull(division) ?
+                productRepository.findByBrandIgnoreCaseAndDivisionIgnoreCase(brand, division, pageable) :
+                productRepository.findByBrandIgnoreCase(brand, pageable);
+        }
         else if (nonNull(searchValue))
             return productRepository.findByNameLikeIgnoreCase(searchValue, pageable);
         else
@@ -108,10 +115,24 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<String> getAllBrands() {
-        MongoCursor<String> brandListCursor = mongoTemplate.getCollection("products").distinct("brand", String.class).iterator();
+        MongoCursor<String> brandListCursor = mongoTemplate.getCollection(PRODUCTS).distinct(BRAND, String.class).iterator();
         List<String> brandList = new ArrayList<>();
         brandListCursor.forEachRemaining(brandList::add);
         return brandList;
+    }
+
+    @Override
+    public List<String> getDivisions(String brand) {
+        MongoCursor<String> divisionListIterator = mongoTemplate.getCollection(PRODUCTS)
+                .distinct(DIVISION, String.class)
+                .filter(new Document(BRAND, brand))
+                .iterator();
+        List<String> divisionList = new ArrayList<>();
+        divisionListIterator.forEachRemaining(curDivision -> {
+            if (nonNull(curDivision) && !curDivision.isEmpty())
+                divisionList.add(curDivision);
+        });
+        return divisionList;
     }
 
     private Product getProductFromRow(Row row, DataFormatter dataFormatter) {

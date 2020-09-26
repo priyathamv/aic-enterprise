@@ -11,7 +11,12 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product, String> {
     Page<Product> findAll(Pageable pageable);
+
     List<Product> findByBrandIgnoreCase(String brand, Pageable pageable);
+
     List<Product> findByNameLikeIgnoreCase(String searchValue, Pageable pageable);
+
     List<Product> findByBrandIgnoreCaseAndNameLikeIgnoreCase(String brand, String searchValue, Pageable pageable);
+
+    List<Product> findByBrandIgnoreCaseAndDivisionIgnoreCase(String brand, String division, Pageable pageable);
 }

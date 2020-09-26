@@ -7,13 +7,15 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.List;
 
+import static com.aic.aicenterprise.constants.DBConstants.USERS;
+
 @Setter
 @Getter
 @Builder
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "users")
+@Document(collection = USERS)
 public class UserEntity {
     private String firstName;
 

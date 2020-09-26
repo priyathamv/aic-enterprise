@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdClear } from 'react-icons/md';
 import { Tabs, TabList, Tab } from 'react-tabtab';
+import axios from 'axios';
 
 import tabStyles from './tabStyles';
-
-import { selectBrand, selectSearchValue, getFilteredProductsAsync } from './productsSlice';
-import { productTabsData } from './productData';
+import { selectBrand, selectDivision, selectSearchValue, updateDivision, updateSearch, changeProductList } from './productsSlice';
 
 
 const Container = styled.div`
@@ -18,15 +17,16 @@ const Container = styled.div`
 `;
 
 const TabContainer = styled.div`
-  flex: 3;
+  width: 100%;
   max-width: 50vw;
+  flex: 3;
 `;
 
 const Search = styled.div`
+  flex: 1;
   display: flex;
   justify-content: flex-end;
   position: relative;
-  flex: 1;
 `;
 
 const SearchInput = styled.input`
@@ -40,8 +40,8 @@ const SearchInput = styled.input`
 const SearchIcon = styled(AiOutlineSearch)`
   position: absolute;
   color: #848484;
-  top: 12px;
-  left: 20px;
+  top: 13px;
+  left: 1.3vw;
 `;
 
 const CancelIcon = styled(MdClear)`
@@ -53,56 +53,76 @@ const CancelIcon = styled(MdClear)`
 `;
 
 
-export const ProductFilters = () => {
+export const ProductFilters = ({ divisionList, setPageNo }) => {
   const dispatch = useDispatch();
+
   const [placeholder, setPlaceholder] = useState('Search products');
   const brand = useSelector(selectBrand);
+  const division = useSelector(selectDivision);
   const searchValue = useSelector(selectSearchValue);
 
+
+  const updateProductListOnSearch = async () => {
+    try {
+      const queryParams = {
+        searchValue: (searchValue === '' ? null : searchValue), 
+        brand,
+        division,
+        pageNo: 0, 
+        limit: 20
+      }
+      if (searchValue === '' || searchValue.length >= 3) {
+        const productsResponse = await axios.get('/api/products', { params: queryParams });
+        dispatch(changeProductList(productsResponse.data.payload));
+      }
+    } catch (err) {
+      console.log('Exception while fetching filtered product list: ', err.message);
+    }
+  }
+
+  useEffect(() => {
+    updateProductListOnSearch();
+  }, [searchValue])
+
   
-  const handleOnChange = e => {
-    dispatch(getFilteredProductsAsync(brand, e.target.value));
+  const handleOnSearch = searchValue => {
+    dispatch(updateSearch(searchValue));
   }
 
-  const handleOnSearchClear = () => {
-    dispatch(getFilteredProductsAsync(brand, ''));
-  }
-
-  const handleTabChange = tabValue => {
-    // const brandDivision = productTabsData[brand][tabValue];
-    // if (tabValue === 0)
-    //   dispatch(updateBrand(brandDivision));
+  const handleTabChange = tabIndex => {
+    const curDivision = tabIndex === 0 ? null : divisionList[tabIndex-1];
+    setPageNo(0);
+    dispatch(updateDivision(curDivision));
   }
 
 
   return (
     <Container>
       <TabContainer>
-        {brand && productTabsData[brand] ? 
-          <Tabs 
-            showModalButton={false}
-            customStyle={tabStyles} 
-            onTabChange={handleTabChange}
-          >
-            <TabList >
-              {productTabsData[brand].map((curProductTab, index) => 
-                <Tab key={index}>{curProductTab}</Tab>)
-              }
-            </TabList>
-          </Tabs> : null}
-        </TabContainer>
+        {divisionList.length ? 
+        <Tabs 
+          showModalButton={false}
+          customStyle={tabStyles} 
+          onTabChange={handleTabChange}
+        >
+          <TabList >
+            <Tab>All</Tab>
+            {divisionList.map((curDivision, index) => <Tab key={index}>{curDivision}</Tab>)}
+          </TabList>
+        </Tabs> : null}
+      </TabContainer>
       
       <Search>
         <SearchInput 
           value={searchValue}
-          onChange={handleOnChange}
+          onChange={e => handleOnSearch(e.target.value)}
           placeholder={placeholder} 
           onBlur={() => setPlaceholder('Search products')} 
           onFocus={() => setPlaceholder('Type at least 3 characters')} 
         />
 
         <SearchIcon size='1.2em' />
-        <CancelIcon onClick={handleOnSearchClear} size='1.2em' />
+        <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
       </Search>
     </Container>
   )

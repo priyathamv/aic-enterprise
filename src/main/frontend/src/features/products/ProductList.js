@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash.debounce';
+import axios from 'axios';
 
-import { getNextPageAsync, updateBrand, selectProducts, selectHasMore, selectSearchValue } from './productsSlice';
+import { getNextPageAsync, updateBrand, updateDivision, selectProducts, selectHasMore, selectSearchValue, selectDivision } from './productsSlice';
 import { ProductRow } from './ProductRow';
 import { ProductFilters } from './ProductFilters';
-import { productData, honeyWellProducts } from './productData';
+import { productData } from './productData';
 
 
 const Container = styled.div`
@@ -57,31 +58,37 @@ const Dummy = styled.td`
 
 export const ProductList = () => {
   const dispatch = useDispatch();
-  let productList = useSelector(selectProducts);
+  const productList = useSelector(selectProducts);
   const hasMore = useSelector(selectHasMore);
   const searchValue = useSelector(selectSearchValue);
 
+  const [divisionList, setDivisionList] = useState([]);
   const [pageNo, setPageNo] = useState(0);
 
   const dummyRef = useRef(null);
 
-  const brand = new URLSearchParams(window.location.search).get("brand");
+  const brand = new URLSearchParams(window.location.search).get('brand');
+  const division = useSelector(selectDivision);
 
-  if (brand === 'Honeywell') {
-    productList = [...honeyWellProducts, ...productList];
-  }
-  
-  useEffect(() => {
-    dispatch(updateBrand(brand));
-    if (hasMore) {
-      if (brand === 'Thermo Fisher Scientific') // delete later
-        dispatch(getNextPageAsync({ pageNo, brand: 'Thermo TPP', searchValue })); // delete later
-      else if (brand === 'Honeywell') // delete later
-        dispatch(getNextPageAsync({ pageNo, brand: 'Honeywell Chemicals', searchValue })); // delete later
-      else // delete later
-        dispatch(getNextPageAsync({ pageNo, brand, searchValue })); 
+  const fetchDivisions = async () => {
+    try {
+      const divisionListResponse = await axios.get(`/api/products/divisions?brand=${brand}`);
+      setDivisionList(divisionListResponse.data.payload);
+    } catch (err) {
+      console.log('Error while fetching divisions for the current brand', err.message);
     }
-  }, [dispatch, hasMore, brand, searchValue, pageNo]);
+  }
+
+  useEffect(() => {
+    fetchDivisions();
+  }, [brand])
+
+  useEffect(() => {
+    if (hasMore) {
+      dispatch(getNextPageAsync({ brand, division, searchValue, pageNo })); 
+    }
+  }, [dispatch, hasMore, brand, division, pageNo]);
+
 
   const handleObserver = (entities) => {
     const target = entities[0];
@@ -104,7 +111,7 @@ export const ProductList = () => {
         {productData[brand] && <ProductDesc>{productData[brand]}</ProductDesc>}
       </ProductIntro>
 
-      <ProductFilters/>
+      <ProductFilters divisionList={divisionList} setPageNo={setPageNo} />
 
       <Table>
         <thead>
