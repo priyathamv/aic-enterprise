@@ -92,6 +92,7 @@ export const ProductFilters = ({ divisionList, setPageNo }) => {
   const handleTabChange = tabIndex => {
     const curDivision = tabIndex === 0 ? null : divisionList[tabIndex-1];
     setPageNo(0);
+    dispatch(updateSearch(''));
     dispatch(updateDivision(curDivision));
   }
 
