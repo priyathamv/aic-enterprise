@@ -61,7 +61,6 @@ export const MyDetailsForm = ({ imageUrl, handleUpdateInfo, isLoading, updateMsg
   
   const { firstName, lastName, email, phoneNumber, addressList } = useSelector(selectUserDetails);
   
-  
   const [firstNameLocal, setFirstNameLocal] = useState('');
   const [lastNameLocal, setLastNameLocal] = useState('');
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
@@ -82,7 +81,6 @@ export const MyDetailsForm = ({ imageUrl, handleUpdateInfo, isLoading, updateMsg
     }
   }, [firstName, lastName, email, phoneNumber, addressList]);
 
-  console.log({'label': countryLocal, 'value': countryLocal})
   return (
     <Container>
       <Header>
@@ -177,10 +175,7 @@ export const MyDetailsForm = ({ imageUrl, handleUpdateInfo, isLoading, updateMsg
         >
           {!isLoading && 'Update Info'}
           {isLoading ? 
-          <Spinner 
-            containerStyle={{ top: 0, width: '100%' }} 
-            loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
-          /> : 
+          <Spinner loaderStyle={{ fontSize: '15px', color: '#FFF' }} /> : 
           null}
         </Button>
 

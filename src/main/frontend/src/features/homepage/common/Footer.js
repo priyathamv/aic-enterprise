@@ -11,10 +11,9 @@ import { isValidEmail, signUpForNews } from '../../utils/Utils';
 
 const Container = styled.div`
   background-color: #232162;
-  bottom: 0;
-  width: 100%;
   color: white;
   padding: 50px 0 10px 0;
+  flex-shrink: 0;
 `;
 
 const FootContainer = styled.div`

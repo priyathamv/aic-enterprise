@@ -25,7 +25,7 @@ export const authSlice = createSlice({
   initialState: {
     googleAuth: initialGoogleAuth,
     emailAuth: initialEmailAuth,
-    isLoading: false
+    isLoading: true
   },
   reducers: {
     updateGoogleAuthDetails: (state, action) => {
@@ -56,6 +56,9 @@ export const authSlice = createSlice({
       else if (state.googleAuth.email)
         state.googleAuth.imageUrl = action.payload;
     },
+    updateIsLoading: (state, action) => {
+      state.isLoading = action.payload
+    },
     logoutUserAction: (state, action) => {
       localStorage.removeItem('cartItems');
       state.emailAuth = initialEmailAuth;
@@ -65,7 +68,7 @@ export const authSlice = createSlice({
   }
 });
 
-export const { updateGoogleAuthDetails, updateEmailAuthDetails, updateUserImage, logoutUserAction } = authSlice.actions;
+export const { updateGoogleAuthDetails, updateEmailAuthDetails, updateUserImage, updateIsLoading, logoutUserAction } = authSlice.actions;
 
 export const selectGoogleAuth = state => state.auth.googleAuth;
 
@@ -76,6 +79,8 @@ export const selectUserEmail = state => state.auth.googleAuth.email || state.aut
 export const selectUserImage = state => state.auth.googleAuth.imageUrl || state.auth.emailAuth.imageUrl || null;
 
 export const selectUserDetails = state => state.auth.googleAuth.email ? state.auth.googleAuth : state.auth.emailAuth;
+
+export const selectIsLoading = state => state.auth.isLoading;
 
 export const selectUserName = state => {
   if (state.auth.googleAuth.firstName)

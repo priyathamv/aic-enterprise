@@ -116,7 +116,7 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
   return (
     <Container>
       <div className='group'>
-        <input className='material-input' type='text' value={email} onChange={e => setEmail(e.target.value)} required />
+        <input className='material-input' type='text' autoFocus value={email} onChange={e => setEmail(e.target.value)} required />
         <span className='highlight'></span>
         <span className='bar'></span>
         <label className='material-label'>Email</label>
@@ -134,10 +134,7 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
       <Button onClick={handleOnLogin} disabled={isLoading}>
         {!isLoading && 'Log In'}
         {isLoading ? 
-          <Spinner 
-            containerStyle={{ top: 0, width: '100%' }} 
-            loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
-          /> : 
+          <Spinner loaderStyle={{ fontSize: '15px', color: '#FFF' }} /> : 
           null}
         </Button>
 
@@ -151,7 +148,7 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
 
       <SocialMedia>
         <GoogleIcon size='2em' onClick={() => googleLoginRef.current.click()} />
-        <GLogin ref={googleLoginRef} style={{ visibility: 'hidden' }}/>
+        <GLogin ref={googleLoginRef} style={{ visibility: 'hidden' }} closeModal={closeModal} />
       </SocialMedia>
     </Container>
   )

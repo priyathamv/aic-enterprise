@@ -20,10 +20,18 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const LoginFrame = styled.div`
+const LoggedinFrame = styled.div`
   display: flex;
   align-items: center;
   margin-right: 10px;
+`;
+
+const LoginFrame = styled(Link)`
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  text-decoration: none;
+  color: #232162;
 `;
 
 const LoginInfo = styled.div`
@@ -151,17 +159,17 @@ export const UserCart = ({ style }) => {
     <Container style={style}>
       <LoginInfo>
         {isUserLoggedIn ? 
-          <LoginFrame ref={userIconRef} onClick={() => setShowUserOptions(!showUserOptions)} >
+          <LoggedinFrame ref={userIconRef} onClick={() => setShowUserOptions(!showUserOptions)} >
             {userImageUrl ? <UserImage src={userImageUrl} /> : <UserIcon size='2em'/>}
             <DownArrowIcon size='1.7em' />
-          </LoginFrame> :
+          </LoggedinFrame> :
           <Popup
             modal
             lockScroll={false}
             overlayStyle={{ overflow: 'scroll', zIndex: 100000 }}
             contentStyle={{ padding: 0, width: '100vw', height: '100%' }}
             trigger={
-              <LoginFrame>
+              <LoginFrame to='/login'>
                 <UserIcon size='2em' />
                 {!isMobile && <LoginButton>Log In</LoginButton>}
               </LoginFrame>

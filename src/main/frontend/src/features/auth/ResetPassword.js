@@ -89,10 +89,7 @@ export const ResetPassword = () => {
             <Button onClick={handlePasswordChange} disabled={isLoading}>
               {!isLoading && 'Reset Password'}
               {isLoading && 
-              <Spinner 
-                containerStyle={{ top: 0, width: '100%' }} 
-                loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
-              />}
+              <Spinner loaderStyle={{ fontSize: '15px', color: '#FFF' }} />}
             </Button>
     
             <Message style={message === 'Your password has been reset' ? { color: 'green'} : null}>{message}</Message>

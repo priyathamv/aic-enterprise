@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { GLogin } from './GLogin';
-import { Line } from '../homepage/common/Line';
 import { EmailLoginForm } from './EmailLoginForm';
 import { EmailSignUpForm } from './EmailSignUpForm';
 import { ForgotPassword } from './ForgotPassword';
@@ -29,10 +27,6 @@ const SignUpFrame = styled.div`
 const Label = styled.div`
 `;
 
-const OrLabel = styled.div`
-  margin: -5px 10px 0 10px;
-`;
-
 const SignUpLink = styled.div`
   margin-left: 10px;
   color: #232162;
@@ -40,34 +34,6 @@ const SignUpLink = styled.div`
   text-decoration: underline;
 `;
 
-const ButtonFrame = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Separator = styled.div`
-  display: flex;
-  margin-bottom: 30px;
-`;
-
-const EmailButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 1px solid #8b8a8a;
-  border-radius: 0;
-  width: 300px;
-  font-size: 14px;
-  text-align: center;
-  cursor: pointer;
-  height: 50px;
-  color: black;
-  &:hover {
-    border: 1px solid black;
-  }
-`;
 
 export const Login = ({ closeModal }) => {
   const loginObj = {
@@ -140,23 +106,9 @@ export const Login = ({ closeModal }) => {
         <SignUpLink onClick={onClickHandler}>{authObj.linkName}</SignUpLink>
       </SignUpFrame>
 
-      {showLoginForm || showSignUpForm || showForgotPassword ? 
-      <>
-        {showLoginForm ? <EmailLoginForm handleShowForgotPassword={handleShowForgotPassword} closeModal={closeModal} /> : null}
-        {showSignUpForm ? <EmailSignUpForm closeModal={closeModal} /> : null}
-        {showForgotPassword ? <ForgotPassword closeModal={closeModal} /> : null}
-      </> :
-      <ButtonFrame>
-        <GLogin label={authObj.googleButtonText} closeModal={closeModal} />
-
-        <Separator>
-          <Line style={{ width: '130px' }}/>
-          <OrLabel>or</OrLabel>
-          <Line style={{ width: '130px' }}/>
-        </Separator>
-
-        <EmailButton onClick={showFormHandler}>{authObj.emailText}</EmailButton>
-      </ButtonFrame>}
+      {showLoginForm ? <EmailLoginForm handleShowForgotPassword={handleShowForgotPassword} closeModal={closeModal} /> : null}
+      {showSignUpForm ? <EmailSignUpForm closeModal={closeModal} /> : null}
+      {showForgotPassword ? <ForgotPassword closeModal={closeModal} /> : null}
     </Container>
   )
 }

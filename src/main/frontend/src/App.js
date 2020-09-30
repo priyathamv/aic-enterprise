@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 
-// import { GLogin } from './features/auth/GLogin';
 import { Products } from './features/products/Products';
 import { AboutUs } from './features/aboutus/AboutUs';
 import { ContactUs } from './features/contactus/ContactUs';
@@ -13,37 +13,44 @@ import { Homepage } from './features/homepage/Homepage';
 import { Footer } from './features/homepage/common/Footer';
 import { updateEmailAuthDetails } from './features/auth/authSlice';
 import { GLogin } from './features/auth/GLogin';
+import { LoginPage } from './features/auth/LoginPage';
 import { CartSideBar } from './features/cart/CartSideBar';
 import { selectGoogleAuth, selectEmailAuth } from './features/auth/authSlice';
 import { fetchUserCart, fetchUserCartFromLocalStorage } from './features/cart/cartSlice';
 import { ProductList } from './features/products/ProductList';
 import { ResetPassword } from './features/auth/ResetPassword';
 import { MyAccount } from './features/myaccount/MyAccount';
+import { ProtectedRoute } from './ProtectedRoute';
 
+const Body = styled.div`
+  flex: 1 0 auto;
+`;
 
 function App() {
   const dispatch = useDispatch();
+  
+  const getUserDetails = async token => {
+    const headers = {
+      'Content-Type': 'application/json', 
+      'Authorization': `Bearer ${token}`
+    }
+    try {
+      const userDetailsResponse = await axios.get('/auth/user-details', { headers });
+      if (userDetailsResponse) {
+        // Handle when the token expires
+        dispatch(updateEmailAuthDetails(userDetailsResponse.data.payload));
+      }
+      
+    } catch (err) {
+      console.log('Error while fetching User details', err.message);
+    }
+  }
 
   useEffect(() => {
-    const getUserDetails = async (token) => {
-      const headers = {
-        'Content-Type': 'application/json', 
-        'Authorization': `Bearer ${token}`
-      }
-      try {
-        const userDetailsResponse = await axios.get('/auth/user-details', { headers });
-        if (userDetailsResponse)
-          dispatch(updateEmailAuthDetails(userDetailsResponse.data.payload));
-    
-      } catch (err) {
-        console.log('Error while fetching User details', err.message);
-      }
-    }
-
     const cookies = new Cookies();
     const authToken = cookies.get('auth_token');
     
-    if (authToken)  
+    if (authToken)
       getUserDetails(authToken);
   }, [dispatch]);
 
@@ -59,21 +66,27 @@ function App() {
   }, [dispatch, email]);
 
   return (
-    <Router>
-      <Navbar />
-      <CartSideBar />
-      <Switch>
-        <Route path='/products' component={Products} />
-        <Route path='/product-list' component={ProductList} />
-        <Route path='/about-us' component={AboutUs} />
-        <Route path='/contact-us' component={ContactUs} />
-        <Route path='/reset-password' component={ResetPassword} />
-        <Route path='/account' component={MyAccount} />
-        <Route path='/' component={Homepage} />
-      </Switch>
-      <GLogin style={{ visibility: 'hidden', position: 'absolute'}} />
+    <>
+      <Body>
+        <Router>
+          <Navbar />
+          <CartSideBar />
+          <Switch>
+            <Route path='/login' component={LoginPage} />
+            <Route path='/products' component={Products} />
+            <Route path='/product-list' component={ProductList} />
+            <Route path='/about-us' component={AboutUs} />
+            <Route path='/contact-us' component={ContactUs} />
+            <Route path='/reset-password' component={ResetPassword} />
+            <ProtectedRoute path='/account' email={email} component={MyAccount} />
+            <Route path='/' component={Homepage} />
+          </Switch>
+          <GLogin style={{ visibility: 'hidden', position: 'absolute'}} />
+        </Router>
+      </Body>
+
       <Footer />
-    </Router>
+    </>
   );
 }
 

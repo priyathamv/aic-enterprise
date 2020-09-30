@@ -68,10 +68,7 @@ export const ForgotPassword = ({ closeModal }) => {
           <Button onClick={handleOnResetPassword}>
             {!isLoading && 'Reset Password'}
             {isLoading && 
-            <Spinner 
-              containerStyle={{ top: 0, width: '100%' }} 
-              loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
-            />}
+            <Spinner loaderStyle={{ fontSize: '15px', color: '#FFF' }} />}
           </Button>
         }
 

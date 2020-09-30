@@ -3,9 +3,10 @@ import { useDispatch } from 'react-redux';
 import GoogleLogin from 'react-google-login';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useHistory, useLocation } from "react-router-dom";
 
 import { FcGoogle } from 'react-icons/fc';
-import { updateGoogleAuthDetails } from './authSlice';
+import { updateGoogleAuthDetails, updateIsLoading } from './authSlice';
 import { logoutUserAction } from '../auth/authSlice';
 
 const GoogleButton = styled.button`
@@ -34,8 +35,10 @@ const GoogleIcon = styled(FcGoogle)`
 `;
 
 export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
-
   const dispatch = useDispatch();
+
+  const history = useHistory();
+  const location = useLocation();
 
   const saveUserDetails = async (userDetails) => {
     const headers = { 
@@ -51,7 +54,9 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
   }
 
   const googleSuccessCallback = async response => {
-    console.log('Google login success =>', response)
+    console.log('Google login success =>', response);
+    dispatch(updateIsLoading(true));
+
     try {
       
       const token = (response.Zi && response.Zi.id_token) ? 
@@ -79,12 +84,17 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
         addressList: (savedUser.addressList ? savedUser.addressList : [])
       };
 
-      console.log('userDetailsUpdated', userDetailsUpdated);
       dispatch(updateGoogleAuthDetails(userDetailsUpdated));
     } catch(err) {
       console.log("Error while authenticating User: ", err);
     }
-    closeModal && closeModal();
+    dispatch(updateIsLoading(false));
+    loginRedirect();
+    // closeModal && closeModal();
+  }
+
+  const loginRedirect = () => {
+    history.push(location.pathname === '/login' ? '/' : location.pathname);
   }
 
   const googleFailureCallback = (response) => {
@@ -93,8 +103,9 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
       console.log('Please enable 3rd party cookies or add an exception for stackblitz.io to resolve.')
     } else {
       dispatch(logoutUserAction());
-      closeModal && closeModal();
+      // closeModal && closeModal();
     }
+    loginRedirect();
   }
 
   return (
@@ -108,6 +119,7 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
       )}
       onSuccess={googleSuccessCallback}
       onFailure={googleFailureCallback}
+      onAutoLoadFinished={() => dispatch(updateIsLoading(false))}
       isSignedIn={true}
       cookiePolicy={'single_host_origin'}
     />

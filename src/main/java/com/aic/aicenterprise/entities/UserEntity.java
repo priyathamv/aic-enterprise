@@ -1,5 +1,6 @@
 package com.aic.aicenterprise.entities;
 
+import com.aic.aicenterprise.models.UserType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -23,6 +24,8 @@ public class UserEntity {
 
     @Id
     private String email;
+
+    private UserType userType = UserType.DEFAULT;
 
     private String imageUrl;
 

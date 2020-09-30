@@ -8,6 +8,7 @@ import Cookies from 'universal-cookie';
 import { Line } from '../homepage/common/Line';
 import { Spinner } from '../utils/Spinner';
 import { updateEmailAuthDetails } from '../auth/authSlice';
+import { GLogin } from './GLogin';
 
 const Container = styled.form`
 `;
@@ -45,6 +46,7 @@ const SocialMedia = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 const GoogleIcon = styled(FcGoogle)`
@@ -54,6 +56,8 @@ const GoogleIcon = styled(FcGoogle)`
 
 export const EmailSignUpForm = ({ closeModal }) => {
   const dispatch = useDispatch();
+
+  const googleLoginRef = React.createRef();
 
   const cookies = new Cookies();
   const [name, setName] = useState('');
@@ -154,10 +158,7 @@ export const EmailSignUpForm = ({ closeModal }) => {
       <Button onClick={handleOnSignUp} disabled={isLoading} >
         {!isLoading && 'Sign Up'}
         {isLoading ? 
-          <Spinner 
-            containerStyle={{ top: 0, width: '100%' }} 
-            loaderStyle={{ fontSize: '15px', color: '#FFF' }} 
-          /> : 
+          <Spinner loaderStyle={{ fontSize: '15px', color: '#FFF' }} /> : 
           null}
       </Button>
 
@@ -170,7 +171,8 @@ export const EmailSignUpForm = ({ closeModal }) => {
       </Separator>
 
       <SocialMedia>
-        <GoogleIcon size='2em' />
+        <GoogleIcon size='2em' onClick={() => googleLoginRef.current.click()} />
+        <GLogin ref={googleLoginRef} style={{ visibility: 'hidden' }} closeModal={closeModal} />
       </SocialMedia>
     </Container>
   )

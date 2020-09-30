@@ -105,7 +105,6 @@ export const MyAccount = () => {
   useEffect(() => setImageUrlLocal(imageUrl), [imageUrl]);
 
   const onDrop = async images => {
-    console.log('=> ', images)
     if (images.length === 0){
       setMessage('Make sure image is of jpg/png type and size < 1 MB');
       // setTimeout(() => setMessage(null), 5000);
