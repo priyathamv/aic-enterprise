@@ -94,7 +94,7 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
   }
 
   const loginRedirect = () => {
-    history.push(location.pathname === '/login' ? '/' : location.pathname);
+    history.push(location.pathname === '/login' ? '/' : location.pathname + location.search);
   }
 
   const googleFailureCallback = (response) => {

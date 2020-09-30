@@ -7,7 +7,8 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { CartItem } from './CartItem';
 import { selectShowCartPage, displayCartPage, selectCartItems, clearCart, placeOrderAsync } from '../cart/cartSlice';
 import { selectUserEmail, selectUserName } from '../auth/authSlice';
-import { Button } from '../homepage/common/Button';
+import { Spinner } from '../utils/Spinner';
+
 
 const CartHeader = styled.div`
   display: flex !important;
@@ -41,6 +42,29 @@ const Message = styled.div`
   margin-bottom: 20px;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Button = styled.button`
+  width: 180px;
+  background-color: #232162;
+  color: #FFF;
+  border: none;
+  padding: 15px 0;
+  font-size: 14px;
+  cursor: pointer;
+  position: relative;
+  min-height: 46px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+
 export const CartSideBar = () => {
   const dispatch = useDispatch();
   const showCartPage = useSelector(selectShowCartPage);
@@ -49,6 +73,7 @@ export const CartSideBar = () => {
   const email = useSelector(selectUserEmail);
   const name = useSelector(selectUserName);
 
+  const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
@@ -70,7 +95,13 @@ export const CartSideBar = () => {
         dispatch(displayCartPage(false));
       }, 5000);
     } else {
-      await placeOrderAsync({ email, name, cartItems});
+      setIsLoading(true);
+      try {
+        await placeOrderAsync({ email, name, cartItems});
+      } catch(err) {
+        console.log('Error while placing order: ', err.message);
+      }
+      setIsLoading(false);
       setErrorMsg('Thanks for placing order!');
       setTimeout(() => {
         setErrorMsg(null);
@@ -104,7 +135,15 @@ export const CartSideBar = () => {
         {cartItems.map((curCartItem, index) => <CartItem key={index} itemDetails={curCartItem} />)}
 
         {cartItems.length ? 
-          <Button style={{ margin: '20px auto 10px auto' }} handleOnClick={handleOnPlaceOrder} label='PLACE ORDER' /> : 
+          <ButtonWrapper>
+            <Button 
+              onClick={handleOnPlaceOrder} 
+              disabled={isLoading}
+            >
+              {!isLoading && 'PLACE ORDER'}
+              {isLoading && <Spinner loaderStyle={{ fontSize: '15px', color: '#FFF' }} />}
+            </Button>
+          </ButtonWrapper> : 
           <Label>Your cart is empty</Label>
         }
         {errorMsg && <Message style={errorMsg === 'Thanks for placing order!' ? {color: 'green'} : null}>{errorMsg}</Message>}

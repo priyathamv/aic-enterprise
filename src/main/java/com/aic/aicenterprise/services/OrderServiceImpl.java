@@ -45,9 +45,14 @@ public class OrderServiceImpl implements OrderService {
         return orderStatus && mailStatus;
     }
 
+    @Override
+    public List<Order> getOrderHistory(String email) {
+        return orderRepository.findByEmail(email);
+    }
+
     private boolean sendOrderMail(UserCart userCart) {
         String subject = "Website order query";
-        List<String> toAddresses = Arrays.asList("vinnakota4201@gmail.com", "ananthvy@tractionmonkey.com");
+        List<String> toAddresses = Arrays.asList("vinnakotapriyatham@gmail.com", "ananthvy@tractionmonkey.com");
         String cartBodyHtml = getCartBodyHtml(userCart);
 
         // Send mail

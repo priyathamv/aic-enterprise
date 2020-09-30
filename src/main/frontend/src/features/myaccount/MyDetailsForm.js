@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import Select from 'react-select';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
+import { selectGoogleAuth, selectEmailAuth, updateEmailAuthDetails, updateGoogleAuthDetails } from '../auth/authSlice';
 import { Line } from '../homepage/common/Line';
 import { Input } from '../utils/Input';
 import { countries } from '../utils/countries';
@@ -57,7 +60,14 @@ const Message = styled.div`
 `;
 
 
-export const MyDetailsForm = ({ imageUrl, handleUpdateInfo, isLoading, updateMsg }) => {
+export const MyDetailsForm = () => {
+  const dispatch = useDispatch();
+  
+  const [updateMsg, setUpdateMsg] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const isGoogleLogin = useSelector(selectGoogleAuth).email;
+  const isNormalLogin = useSelector(selectEmailAuth).email;
   
   const { firstName, lastName, email, phoneNumber, addressList } = useSelector(selectUserDetails);
   
@@ -80,6 +90,26 @@ export const MyDetailsForm = ({ imageUrl, handleUpdateInfo, isLoading, updateMsg
       setCountryLocal(addressList[0].country ? addressList[0].country : 'India');
     }
   }, [firstName, lastName, email, phoneNumber, addressList]);
+
+  const handleUpdateInfo = async userDetails => {
+    const headers = { 'Content-Type': 'application/json' };
+    try {
+      setIsLoading(true);
+      const userUpdateResponse = await axios.post('/api/users/update', userDetails, { headers });
+      if (userUpdateResponse.data.payload === true) {
+        setUpdateMsg('Account details updated successfully');
+        if (isGoogleLogin) {
+          dispatch(updateEmailAuthDetails(userDetails));
+        } else if (isNormalLogin) {
+          dispatch(updateGoogleAuthDetails(userDetails));
+        }
+      }
+    } catch (err) {
+      console.log('Error while updating user info', err.message);
+      setUpdateMsg('Failed to update Account details');
+    }
+    setIsLoading(false);
+  }
 
   return (
     <Container>
@@ -167,7 +197,6 @@ export const MyDetailsForm = ({ imageUrl, handleUpdateInfo, isLoading, updateMsg
             email,
             firstName: firstNameLocal,
             lastName: lastNameLocal,
-            imageUrl,
             phoneNumber: phoneNumberLocal,
             addressList: [{ street: streetLocal, city: cityLocal, zip: zipLocal, country: countryLocal }]
           })}

@@ -9,7 +9,6 @@ export const ProtectedRoute = ({ email, component }) => {
   const Component = component;
 
   const isLoading = useSelector(selectIsLoading);
-  console.log('selectIsLoading', isLoading);
 
   return (
     <>
