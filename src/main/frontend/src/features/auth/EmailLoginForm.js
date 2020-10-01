@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
@@ -62,6 +63,7 @@ const GoogleIcon = styled(FcGoogle)`
 
 export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const cookies = new Cookies();
 
@@ -104,7 +106,8 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
         const token = loginResponse.headers.authorization.split(' ')[1];
         cookies.set('auth_token', token);
 
-        getUserDetails(token);
+        await getUserDetails(token);
+        history.push('/');
       } catch (err) {
         setErrorMsg('Invalid login credentials');
         console.log('Exception while authenticating user credentials', err.message);

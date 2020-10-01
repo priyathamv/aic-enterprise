@@ -60,18 +60,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
                     userEntity.setPassword(userFromDB.getPassword());
                     userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
                     userEntity.setAddressList(userFromDB.getAddressList());
-                    userEntity.setImageUrl(nonNull(userFromDB.getImageUrl()) ?
-                            userFromDB.getImageUrl() :
-                            userEntity.getImageUrl()
-                    );
+                    userEntity.setImageUrl(nonNull(userFromDB.getImageUrl()) ? userFromDB.getImageUrl() : userEntity.getImageUrl());
                 }
             } else { // User already created a Gmail account
-//                if (nonNull(userEntity.getPassword())) { // Merging existing Gmail with new Email login
-                    userEntity.setImageUrl(userFromDB.getImageUrl());
-                    userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
-                    userEntity.setAddressList(userFromDB.getAddressList());
-//                }
+                userEntity.setImageUrl(userFromDB.getImageUrl());
+                userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
+                userEntity.setAddressList(userFromDB.getAddressList());
             }
+            userEntity.setResetPasswordExpires(userFromDB.getResetPasswordExpires());
+            userEntity.setPassword(userFromDB.getPassword());
         }
 
         return userRepository.save(userEntity);

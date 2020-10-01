@@ -29,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public boolean sendMail(String toAddress, String subject, String body) throws IOException {
-        Email from = new Email("vinnakota4201@gmail.com");
+        Email from = new Email("aic.enterprises9@gmail.com");
         Email to = new Email(toAddress);
         Content content = new Content("text/html", body);
         Mail mail = new Mail(from, subject, to, content);

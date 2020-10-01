@@ -12,6 +12,7 @@ export const LoginPage = () => {
         lockScroll={false}
         overlayStyle={{ overflow: 'scroll', zIndex: 100000 }}
         contentStyle={{ padding: 0, width: '100vw', height: '100%' }}
+        closeOnEscape={false}
       >
         {close => (
           <LoginModal closeModal={close}/>

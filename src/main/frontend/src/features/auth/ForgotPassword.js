@@ -60,7 +60,15 @@ export const ForgotPassword = ({ closeModal }) => {
   return (
     <div>
       {!isResetted && 
-        <Input styleObj={{}} value={email} handleOnChange={e => setEmail(e.target.value)} isRequired={true} label='Email' />}
+        <Input 
+          styleObj={{}} 
+          value={email} 
+          onKeyDown={e => e.keyCode === 13 && handleOnResetPassword()} 
+          handleOnChange={e => setEmail(e.target.value)} 
+          isRequired={true} 
+          label='Email' 
+          autoFocus={true}
+        />}
 
       <ButtonWrapper>
         {isResetted ? 

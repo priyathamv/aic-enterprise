@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { useSelector } from 'react-redux';
 
 import { Login } from './Login';
+import { selectUserEmail } from './authSlice';
 
 
 const Container = styled.div`
@@ -27,6 +29,13 @@ const Close = styled(Link)`
 
 
 export const LoginModal = ({ closeModal }) => {
+  const history = useHistory();
+  const email = useSelector(selectUserEmail);
+
+  useEffect(() => {
+    email && history.push('/');
+  }, [email])
+
 
   return (
     <Container id='login_modal_id' >

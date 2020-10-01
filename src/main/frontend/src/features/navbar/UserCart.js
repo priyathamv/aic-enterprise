@@ -72,6 +72,7 @@ const UserOptions = styled.div`
   position: absolute;
   display: flex;
   flex-direction: column;
+  z-index: 10;
 `;
 
 const UserOptionAnchor = styled(Link)`
@@ -188,7 +189,8 @@ export const UserCart = ({ style }) => {
 
       {showUserOptions ? 
         <UserOptions ref={userOptionsRef}>
-          <UserOptionAnchor to='/account' onClick={() => setShowUserOptions(false)}>My Account</UserOptionAnchor>
+          <UserOptionAnchor to='/account/my-account' onClick={() => setShowUserOptions(false)}>My Account</UserOptionAnchor>
+          <UserOptionAnchor to='/account/my-orders' onClick={() => setShowUserOptions(false)}>My Orders</UserOptionAnchor>
 
           {isUserGoogleLoggedIn ? 
             <div onClick={() => setShowUserOptions(false)}><GLogout /></div> : 

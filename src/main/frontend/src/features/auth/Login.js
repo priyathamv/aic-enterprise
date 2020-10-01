@@ -106,9 +106,9 @@ export const Login = ({ closeModal }) => {
         <SignUpLink onClick={onClickHandler}>{authObj.linkName}</SignUpLink>
       </SignUpFrame>
 
-      {showLoginForm ? <EmailLoginForm handleShowForgotPassword={handleShowForgotPassword} closeModal={closeModal} /> : null}
-      {showSignUpForm ? <EmailSignUpForm closeModal={closeModal} /> : null}
-      {showForgotPassword ? <ForgotPassword closeModal={closeModal} /> : null}
+      {showLoginForm && <EmailLoginForm handleShowForgotPassword={handleShowForgotPassword} closeModal={closeModal} />}
+      {showSignUpForm && <EmailSignUpForm closeModal={closeModal} />}
+      {showForgotPassword && <ForgotPassword closeModal={closeModal} />}
     </Container>
   )
 }

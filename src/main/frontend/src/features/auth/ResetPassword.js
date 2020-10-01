@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Popup from 'reactjs-popup';
+import { useHistory } from 'react-router-dom';
 
 import { Input } from '../utils/Input';
 import { Spinner } from '../utils/Spinner';
@@ -42,6 +43,8 @@ const Message = styled.div`
 `;
 
 export const ResetPassword = () => {
+  const history = useHistory();
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState(null);
@@ -59,9 +62,9 @@ export const ResetPassword = () => {
       const headers = { 'Content-Type': 'application/json' };
       const resetPasswordResponse = await axios.post('/api/users/reset-password', { password, resetPasswordToken }, { headers });
 
-      if (resetPasswordResponse.data.status === 200) {
+      if (resetPasswordResponse.data.status === 200 && resetPasswordResponse.data.payload) {
         setMessage('Your password has been reset');
-        setTimeout(() => window.location.href = '/', 5000);
+        setTimeout(() => history.push('/'), 3000);
       } else {
         setMessage('It appears that this link has expired');
       }
@@ -82,9 +85,26 @@ export const ResetPassword = () => {
           <Header>Reset Password</Header>
           <SubHeader>Enter your new password below</SubHeader>
 
-          <Input type='password' styleObj={{ display: 'flex', width: '300px' }} value={password} handleOnChange={e => setPassword(e.target.value)} isRequired={true} label='Password' />
+          <Input 
+            type='password' 
+            styleObj={{ display: 'flex', width: '300px' }} 
+            value={password} 
+            handleOnChange={e => setPassword(e.target.value)} 
+            isRequired={true} 
+            label='Password' 
+            autoFocus={true}
+          />
 
-          <Input type='password' styleObj={{ display: 'flex', width: '300px' }} value={confirmPassword} handleOnChange={e => setConfirmPassword(e.target.value)} isRequired={true} label='Confirm Password' />
+          <Input 
+            type='password' 
+            styleObj={{ display: 'flex', width: '300px' }} 
+            value={confirmPassword} 
+            handleOnChange={e => setConfirmPassword(e.target.value)} 
+            isRequired={true} 
+            label='Confirm Password' 
+            onKeyDown={e => e.keyCode === 13 && handlePasswordChange()} 
+          />
+          
           <ButtonWrapper>
             <Button onClick={handlePasswordChange} disabled={isLoading}>
               {!isLoading && 'Reset Password'}

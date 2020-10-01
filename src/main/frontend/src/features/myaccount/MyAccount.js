@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 import { MyDetailsForm } from './MyDetailsForm';
 import { MyOrders } from './MyOrders';
@@ -37,8 +38,13 @@ const MY_ORDERS = 'MY_ORDERS';
 
 
 export const MyAccount = () => {
+  const [curMenu, setCurMenu] = useState(MY_ORDERS);
+  const history = useHistory();
 
-  const [curMenu, setCurMenu] = useState(MY_ACCOUNT);
+  useEffect(() => {
+    const curMenuFromUrl = window.location.pathname.includes('/my-orders') ? MY_ORDERS : MY_ACCOUNT;
+    setCurMenu(curMenuFromUrl);
+  }, [window.location.pathname]);
 
   return (
     <Container id='my_account_id'>
@@ -48,11 +54,15 @@ export const MyAccount = () => {
         <AccountMenu>
           <MenuItem 
             style={(curMenu === MY_ACCOUNT) ? {fontWeight: 'bold', marginBottom: '10px'} : { marginBottom: '10px' }} 
-            onClick={() => setCurMenu(MY_ACCOUNT)}>
+            onClick={() => history.push('/account/my-account')}>
             My Account
           </MenuItem>
 
-          <MenuItem style={curMenu === MY_ORDERS ? {fontWeight: 'bold'} : null} onClick={() => {setCurMenu(MY_ORDERS)}}>My Orders</MenuItem>
+          <MenuItem 
+            style={curMenu === MY_ORDERS ? {fontWeight: 'bold'} : null} 
+            onClick={() => history.push('/account/my-orders')}>
+            My Orders
+          </MenuItem>
         </AccountMenu>
       </LeftPanel>
 

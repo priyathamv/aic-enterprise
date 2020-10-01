@@ -121,7 +121,7 @@ export const EmailSignUpForm = ({ closeModal }) => {
   return (
     <Container>
       <div className='group'>
-        <input className='material-input' type='text' value={name} onChange={e => setName(e.target.value)} required />
+        <input className='material-input' type='text' value={name} autoFocus onChange={e => setName(e.target.value)} required />
         <span className='highlight'></span>
         <span className='bar'></span>
         <label className='material-label'>Name*</label>

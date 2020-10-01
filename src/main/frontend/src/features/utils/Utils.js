@@ -23,3 +23,7 @@ export const getUserShortName = username => {
   const usernameSplit = username.split(' ');
   return (usernameSplit[0][0] + usernameSplit[1][0]).toUpperCase()
 }
+
+export const getDateString = timestamp => {
+  return new Date(timestamp).toDateString().substring(4);
+}

@@ -218,3 +218,7 @@ code {
   width: 47%;
   margin-bottom: 30px;
 }
+
+.ReactCollapse--collapse {
+  transition: height 500ms;
+}
