@@ -62,7 +62,7 @@ export const EnquiryForm = ({ styles }) => {
       
       <EmailsFrame>
         <Input styleObj={{flex: 1, marginRight: '50px'}} value={phone} handleOnChange={e => setPhone(e.target.value)} isRequired={true} label='Phone Number' />
-        <Input styleObj={{flex: 1}} value={email} handleOnChange={e => setEmail(e.target.value)} isRequired={true} label='Email*' />
+        <Input styleObj={{flex: 1}} value={email} handleOnChange={e => setEmail(e.target.value.toLowerCase())} isRequired={true} label='Email*' />
       </EmailsFrame>
       
       <EmailsFrame>

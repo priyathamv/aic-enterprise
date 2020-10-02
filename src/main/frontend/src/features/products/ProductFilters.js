@@ -40,14 +40,14 @@ const SearchInput = styled.input`
 const SearchIcon = styled(AiOutlineSearch)`
   position: absolute;
   color: #848484;
-  top: 13px;
+  top: 10px;
   left: 1.3vw;
 `;
 
 const CancelIcon = styled(MdClear)`
   position: absolute;
   color: #848484;
-  top: 12px;
+  top: 10px;
   right: 10px;
   cursor: pointer;
 `;
@@ -116,14 +116,14 @@ export const ProductFilters = ({ divisionList, setPageNo }) => {
       <Search>
         <SearchInput 
           value={searchValue}
-          onChange={e => handleOnSearch(e.target.value)}
           placeholder={placeholder} 
+          onChange={e => handleOnSearch(e.target.value)}
           onBlur={() => setPlaceholder('Search products')} 
           onFocus={() => setPlaceholder('Type at least 3 characters')} 
         />
 
-        <SearchIcon size='1.2em' />
-        <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
+        <SearchIcon size='1.2em' style={ divisionList.length ? { top: '13px' } : null }/>
+        <CancelIcon style={ divisionList.length ? { top: '13px' } : null } onClick={() => handleOnSearch('')} size='1.2em' />
       </Search>
     </Container>
   )

@@ -64,7 +64,7 @@ export const ForgotPassword = ({ closeModal }) => {
           styleObj={{}} 
           value={email} 
           onKeyDown={e => e.keyCode === 13 && handleOnResetPassword()} 
-          handleOnChange={e => setEmail(e.target.value)} 
+          handleOnChange={e => setEmail(e.target.value.toLowerCase())} 
           isRequired={true} 
           label='Email' 
           autoFocus={true}

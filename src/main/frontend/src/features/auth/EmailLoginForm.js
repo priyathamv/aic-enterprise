@@ -119,7 +119,7 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
   return (
     <Container>
       <div className='group'>
-        <input className='material-input' type='text' autoFocus value={email} onChange={e => setEmail(e.target.value)} required />
+        <input className='material-input' type='text' autoFocus value={email} onChange={e => setEmail(e.target.value.toLowerCase())} required />
         <span className='highlight'></span>
         <span className='bar'></span>
         <label className='material-label'>Email</label>

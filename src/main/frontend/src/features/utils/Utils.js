@@ -21,7 +21,9 @@ export const getUserShortName = username => {
     return ''
 
   const usernameSplit = username.split(' ');
-  return (usernameSplit[0][0] + usernameSplit[1][0]).toUpperCase()
+  return usernameSplit.length >= 2 ?
+  (usernameSplit[0][0] + usernameSplit[1][0]).toUpperCase() :
+  usernameSplit[0][0].toUpperCase();
 }
 
 export const getDateString = timestamp => {
