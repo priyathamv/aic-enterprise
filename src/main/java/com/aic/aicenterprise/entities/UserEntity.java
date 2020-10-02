@@ -25,6 +25,10 @@ public class UserEntity {
     @Id
     private String email;
 
+    private boolean isConfirmed;
+
+    private String confirmationToken;
+
     private UserType userType = UserType.DEFAULT;
 
     private String imageUrl;

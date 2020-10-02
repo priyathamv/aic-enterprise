@@ -21,6 +21,7 @@ import { ProductList } from './features/products/ProductList';
 import { ResetPassword } from './features/auth/ResetPassword';
 import { MyAccount } from './features/myaccount/MyAccount';
 import { ProtectedRoute } from './ProtectedRoute';
+import { EmailConfirmation } from './features/auth/EmailConfirmation';
 
 const Body = styled.div`
   flex: 1 0 auto;
@@ -78,6 +79,7 @@ function App() {
             <Route path='/about-us' component={AboutUs} />
             <Route path='/contact-us' component={ContactUs} />
             <Route path='/reset-password' component={ResetPassword} />
+            <Route path='/confirm-email' component={EmailConfirmation} />
             <ProtectedRoute path='/account' email={email} component={MyAccount} />
             <Route path='/' component={Homepage} />
           </Switch>

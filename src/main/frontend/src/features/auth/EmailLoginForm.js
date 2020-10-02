@@ -38,6 +38,23 @@ const ErrorMsg = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
   text-align: center;
+  // font-size: 14px;
+`;
+
+const SendMail = styled.div`
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #232162;
+`;
+
+const Message = styled.div`
+  font-size: 14px;
+  color: green;
+  text-align: center;
+  margin-bottom: 10px;
 `;
 
 const Separator = styled.div`
@@ -71,6 +88,7 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(null);
+  const [message, setMessage] = useState(false);
 
   const googleLoginRef = React.createRef();
 
@@ -102,18 +120,42 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
       const userDetails = { email, password };
       try {
         setIsLoading(true);
-        const loginResponse = await axios.post('/login', userDetails, { headers });
-        const token = loginResponse.headers.authorization.split(' ')[1];
-        cookies.set('auth_token', token);
 
-        await getUserDetails(token);
-        history.push('/');
+        const loginResponse = await axios.get(`/api/users/is-valid-email?email=${email}`);
+
+        if (loginResponse.data.payload === null) {
+          setErrorMsg('Email not registered');
+        } else if (loginResponse.data.payload === false) {
+          setErrorMsg('Email not verified');
+        } else {
+          const loginResponse = await axios.post('/login', userDetails, { headers });
+          if (loginResponse.status === 401) {
+            setErrorMsg('Invalid login credentials');
+          } else {
+            const token = loginResponse.headers.authorization.split(' ')[1];
+            cookies.set('auth_token', token);
+    
+            await getUserDetails(token);
+            history.push('/');
+          }
+        } 
       } catch (err) {
+        console.log('err', err)
         setErrorMsg('Invalid login credentials');
         console.log('Exception while authenticating user credentials', err.message);
       }
       setIsLoading(false);
     }
+  }
+
+  const handleSendMail = async () => {
+    setErrorMsg(null);
+
+    const headers = { 'Content-Type': 'application/json' };
+    const mailResponse = await axios.post('/api/users//send-confirm-email', { email }, { headers });
+    console.log('mailResponse', mailResponse);
+
+    setMessage(true);
   }
 
   return (
@@ -142,6 +184,11 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
         </Button>
 
       <ErrorMsg>{errorMsg}</ErrorMsg>
+
+      {errorMsg === 'Email not verified' && 
+      <SendMail onClick={handleSendMail}>Click here to get verification mail</SendMail>}
+
+      {message && <Message>Email sent, check your inbox to confirm</Message>}
 
       <Separator>
         <Line style={{ width: '100px', marginLeft: '0', marginRight: '0' }}/>

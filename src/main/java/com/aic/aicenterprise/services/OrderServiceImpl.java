@@ -14,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.aic.aicenterprise.constants.AppConstants.APP_DOMAIN;
+
 @Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -78,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
                 "          <div style='margin-bottom: 10px;'><b>Company Name:&nbsp;</b>" + userCart.getName() + "</div>\n" +
                 "          <div><b>Email:&nbsp;</b>" + userCart.getEmail() + "</div>\n" +
                 "        </div>\n" +
-                "        <img style='width: 100px; height: 100px; float: right; margin-bottom: 30px;' src='https://aic-enterprises.el.r.appspot.com/images/aic_logo.png' alt=''/>\n" +
+                "        <img style='width: 100px; height: 100px; float: right; margin-bottom: 30px;' src='" + APP_DOMAIN + "/images/aic_logo.png' alt=''/>\n" +
                 "      </div>\n" +
                 "      <table style='width: 100%; border-collapse: separate; border-spacing: 0 5px;'>\n" +
                 "        <thead>\n" +

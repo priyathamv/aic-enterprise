@@ -39,7 +39,7 @@ public class UserController {
 
         UserDetailsResponse userSaveResponse;
         try {
-            UserEntity savedUser = userService.saveUser(userEntity);
+            UserEntity savedUser = userService.signUpUser(userEntity);
             userSaveResponse = UserDetailsResponse.builder()
                     .payload(savedUser)
                     .msg(nonNull(savedUser) ? SUCCESS : "User already exists")
@@ -194,6 +194,75 @@ public class UserController {
                     .build();
         }
         return userImageResponse;
+    }
+
+    @PostMapping("/confirm-email")
+    public SaveResponse confirmEmail(@RequestBody ConfirmEmailRequest request) {
+        SaveResponse confirmResponse;
+        try {
+            boolean confirmStatus = userService.confirmEmail(request.getEmail(), request.getToken());
+            confirmResponse = SaveResponse.builder()
+                    .payload(confirmStatus)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while confirming user email: {}", ex);
+            confirmResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while confirming user email")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return confirmResponse;
+    }
+
+    @PostMapping("/send-confirm-email")
+    public SaveResponse sendConfirmEmail(@RequestBody ConfirmEmailRequest request) {
+        SaveResponse confirmResponse;
+        try {
+            boolean mailStatus = userService.sendEmailConfirmationMail(request.getEmail());
+            confirmResponse = SaveResponse.builder()
+                    .payload(mailStatus)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while confirming user email: {}", ex);
+            confirmResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while confirming user email")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return confirmResponse;
+    }
+
+    @GetMapping("/is-valid-email")
+    public SaveResponse isValidEmail(@RequestParam("email") String email) {
+        SaveResponse confirmResponse;
+        try {
+            UserEntity userByEmail = userService.findUserByEmail(email);
+            confirmResponse = SaveResponse.builder()
+                    .payload(nonNull(userByEmail) ? userByEmail.isConfirmed() : null)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while checking if email already exists: {}", ex);
+            confirmResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while checking if email already exists")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return confirmResponse;
     }
 
 }

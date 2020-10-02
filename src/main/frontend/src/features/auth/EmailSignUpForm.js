@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import { FcGoogle } from 'react-icons/fc';
 import axios from 'axios';
-import Cookies from 'universal-cookie';
 
 import { Line } from '../homepage/common/Line';
 import { Spinner } from '../utils/Spinner';
-import { updateEmailAuthDetails } from '../auth/authSlice';
 import { GLogin } from './GLogin';
 
 const Container = styled.form`
@@ -26,7 +24,7 @@ const Button = styled.button`
   border-radius: 5px;
 `;
 
-const ErrorMsg = styled.div`
+const Message = styled.div`
   color: red;
   margin-top: 10px;
   text-align: center;
@@ -56,42 +54,31 @@ const GoogleIcon = styled(FcGoogle)`
 
 
 export const EmailSignUpForm = ({ closeModal }) => {
-  const dispatch = useDispatch();
-
   const googleLoginRef = React.createRef();
+  const history = useHistory();
 
-  const cookies = new Cookies();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [message, setMessage] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const getUserDetails = async (userDetails) => {
-    dispatch(updateEmailAuthDetails({
-      email: userDetails.email,
-      firstName: userDetails.firstName,
-      lastName: userDetails.lastName,
-      phoneNumber: userDetails.phoneNumber
-    }));
-  }
 
   const handleOnSignUp = async (e) => {
     e.preventDefault();
 
     if (!(name && email && phoneNumber && password && confirmPassword)) {
-      setErrorMsg('All fields are mandatory');
+      setMessage('All fields are mandatory');
     } else if (password !== confirmPassword) {
-      setErrorMsg('The Passwords you entered do not match');
+      setMessage('The Passwords you entered do not match');
     } else if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-      setErrorMsg('Invalid E-mail address');
+      setMessage('Invalid E-mail address');
     } else if (password.length < 8) {
-      setErrorMsg('Password is too short (minimum is 8 characters)');
+      setMessage('Password is too short (minimum is 8 characters)');
     } else {
-      setErrorMsg(null);
+      setMessage(null);
       const headers = { 
         'Content-Type': 'application/json'
       }
@@ -105,12 +92,12 @@ export const EmailSignUpForm = ({ closeModal }) => {
         const signUpResponse = await axios.post('/api/users/sign-up', userDetails, { headers });
         
         if (signUpResponse.data.status === 409) {
-          setErrorMsg('This Email address is already registered');
+          setMessage('This Email address is already registered');
         } else if (signUpResponse.data.status === 200) {
-          const loginResponse = await axios.post('/login', userDetails, { headers });
-          const token = loginResponse.headers.authorization.split(' ')[1];
-          cookies.set('auth_token', token);
-          getUserDetails(userDetails);
+          setMessage('Email sent, check your inbox to confirm');
+          setTimeout(() => history.push('/'), 10000);
+        } else {
+          setMessage('Something went wrong, try again later');
         }
       } catch (err) {
         console.log('Exception while siging up the user', err.message);
@@ -163,7 +150,7 @@ export const EmailSignUpForm = ({ closeModal }) => {
           null}
       </Button>
 
-      <ErrorMsg>{errorMsg}</ErrorMsg>
+      <Message style={ message === 'Email sent, check your inbox to confirm' ? { color: 'green'} : null }>{message}</Message>
 
       <Separator>
         <Line style={{ width: '100px', marginLeft: '0', marginRight: '0' }}/>
