@@ -44,7 +44,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/about-us",
                 "/covid-19",
                 "/reset-password",
-                "/account"
+                "/account",
+                "/confirm-email"
         };
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
