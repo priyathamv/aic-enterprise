@@ -23,6 +23,7 @@ public class MvcConfig {
                 registry.addViewController("/reset-password").setViewName(INDEX_HTML);
                 registry.addViewController("/account").setViewName(INDEX_HTML);
                 registry.addViewController("/login").setViewName(INDEX_HTML);
+                registry.addViewController("/confirm-email").setViewName(INDEX_HTML);
             }
         };
     }
