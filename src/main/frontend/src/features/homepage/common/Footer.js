@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
 import { ImLocation } from 'react-icons/im';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
@@ -95,7 +97,7 @@ const MailIcon = styled(IoIosMail)`
   font-size: large;
 `;
 
-const QuickLink = styled.a`
+const QuickLink = styled(Link)`
   color: white;
   text-decoration: none;
   margin-bottom: 15px;
@@ -205,10 +207,10 @@ export const Footer = () => {
         <ContentContainer>
           <ContentLabel>QUICK LINKS</ContentLabel>
           <ContentFrame>
-            <QuickLink href='/about-us'>About Us</QuickLink>
-            <QuickLink href='/products'>Products</QuickLink>
-            <QuickLink href='/contact-us'>Contact us</QuickLink>
-            <QuickLink href='/covid-19'>Covid 19</QuickLink>
+            <QuickLink to='/about-us'>About Us</QuickLink>
+            <QuickLink to='/products'>Products</QuickLink>
+            <QuickLink to='/contact-us'>Contact us</QuickLink>
+            <QuickLink to='/covid-19'>Covid 19</QuickLink>
           </ContentFrame>
         </ContentContainer>
 
