@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 
+import ScrollToTop from './features/utils/ScrollToTop';
 import { Products } from './features/products/Products';
 import { AboutUs } from './features/aboutus/AboutUs';
 import { ContactUs } from './features/contactus/ContactUs';
@@ -72,6 +73,8 @@ function App() {
         <Body>
           <Navbar />
           <CartSideBar />
+          <ScrollToTop />
+
           <Switch>
             <Route path='/login' component={LoginPage} />
             <Route path='/products' component={Products} />
