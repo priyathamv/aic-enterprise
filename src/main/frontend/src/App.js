@@ -68,8 +68,8 @@ function App() {
 
   return (
     <>
-      <Body>
-        <Router>
+      <Router>
+        <Body>
           <Navbar />
           <CartSideBar />
           <Switch>
@@ -84,10 +84,10 @@ function App() {
             <Route path='/' component={Homepage} />
           </Switch>
           <GLogin style={{ visibility: 'hidden', position: 'absolute'}} />
-        </Router>
-      </Body>
+        </Body>
 
-      <Footer />
+        <Footer />
+      </Router>
     </>
   );
 }
