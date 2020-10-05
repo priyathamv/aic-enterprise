@@ -113,7 +113,7 @@ export const NewsLetter = () => {
     <Container>
       <ContentBox style={{ marginRight: '20px' }}>
         <Label>Best Services</Label>
-        <div>123-456-7890</div>
+        <div>080-28364174</div>
       </ContentBox>
 
       <ContentBox>

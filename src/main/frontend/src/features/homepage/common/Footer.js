@@ -63,6 +63,13 @@ const ContentContainer = styled.div`
   margin-bottom: 50px;
 `;
 
+const ContactContainer = styled.div`
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+`;
+
 const ContentLabel = styled.div`
   font-size: 14px;
   margin-bottom: 30px;
@@ -212,7 +219,7 @@ export const Footer = () => {
           </ContentFrame>
         </ContentContainer>
 
-        <ContentContainer>
+        <ContactContainer>
           <ContentLabel>GET IN TOUCH</ContentLabel>
           <ContentFrame>
             <ContentText>
@@ -222,15 +229,20 @@ export const Footer = () => {
 
             <ContentText>
               <PhoneIcon />
-              <Mail href='tel:+918028364174'>+91 8028364174</Mail>
+              <Mail href='tel:+918028364174'>Bangalore:<br/> 080-28364174/75/76/77</Mail>
+            </ContentText>
+            
+            <ContentText>
+              <div style={{ marginRight: '25px' }}/>
+              <Mail href='tel:+918028364174'>Chennai:<br/> 044- 28416127/28550686/28515025</Mail>
             </ContentText>
 
             <ContentText>
               <MailIcon />
-              <Mail href='mailto:info@aicgroup.co.in?subject=Website Query'>info@aicgroup.co.in</Mail>
+              <Mail href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</Mail>
             </ContentText>
           </ContentFrame>
-        </ContentContainer>
+        </ContactContainer>
 
         <NewsSignUp>
           <ContentLabel>NEWS LETTER</ContentLabel>

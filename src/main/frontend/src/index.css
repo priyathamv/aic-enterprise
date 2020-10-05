@@ -219,6 +219,10 @@ code {
   margin-bottom: 30px;
 }
 
+.margin-right50 {
+  margin-right: 50px;
+}
+
 .ReactCollapse--collapse {
   transition: height 500ms;
 }

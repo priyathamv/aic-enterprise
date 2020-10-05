@@ -78,7 +78,7 @@ export const CoverImageSlider = () => {
 
           <Content>
             <Title>Efficient Customer Service</Title>
-            <Description>Our Team at AIC is dutifully bound to the service-based work culture wherein bestowing the best solutions to customers is the penultimate priority.</Description>
+            <Description>"With our qualified team, prompt responses to enquiries and a personalised touch added to our services, we are widely known for our quality of services provided over the past few decades."</Description>
             <Button href='/about-us' >EXPLORE</Button>
           </Content>
         </div>
@@ -88,7 +88,7 @@ export const CoverImageSlider = () => {
           
           <Content>
             <Title>On time delivery</Title>
-            <Description>"Time is Money" - AIC values the same. Our strong network across the supply chain system leverages our business with prompt deliverables across the country and beyon</Description>
+            <Description>"Our strong and robust supply chain network supports us in ensuring that deliveries are on time and as per the needs of our customers."</Description>
             <Button href='/contact-us' >EXPLORE</Button>
           </Content>
         </div>
@@ -96,8 +96,8 @@ export const CoverImageSlider = () => {
         <div className='cover-image'>
           <Image src="/images/cover_image0.png" />
           <Content>
-            <Title>Wide Range of Products</Title>
-            <Description>"AIC: Your one-stop-destination for all the Bioscience requisites."<br />We are India’s leading distributor of Micro Infrastructural Equipment across the verticals of Chemicals, Pharmaceuticals, Biomedical and Agro & Life Science Laboratory.</Description>
+            <Title>Wide range of products</Title>
+            <Description>"AIC: Your one-stop-destination for all the scientific requisites. We are one of the prominent distributors of all scientific needs across the verticals of chemicals, life science, instruments and much more!"</Description>
             <Button href='/products' >EXPLORE</Button>
           </Content>
         </div>

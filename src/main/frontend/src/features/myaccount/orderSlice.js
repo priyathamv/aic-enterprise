@@ -24,7 +24,7 @@ export const fetchUserOrdersAsync = email => async dispatch => {
   try {
     const queryParams = { email };
     const orderHistoryResponse = await axios.get('/api/orders', { params: queryParams });
-    console.log('orderHistoryResponse', orderHistoryResponse);
+    // console.log('orderHistoryResponse', orderHistoryResponse);
 
     dispatch(updateOrderHistory(orderHistoryResponse.data.payload));
   } catch (err) {

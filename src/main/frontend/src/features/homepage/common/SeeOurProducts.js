@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { device } from '../../utils/viewport';
-import { Button } from './Button';
 
 const Container = styled.div`
   background-color: #ccc;
@@ -37,6 +37,17 @@ const Content = styled.div`
   }
 `;
 
+const CustomLink = styled(Link)`
+  text-decoration: none;
+  background-color: #232162;
+  color: #FFF;
+  border-radius: 5px;
+  font-weight: bold;
+  border: none;
+  font-size: 12px;
+  padding: 15px 30px;
+`;
+
 
 export const SeeOurProducts = () => {
   const handleOnClick = () => {}
@@ -46,14 +57,14 @@ export const SeeOurProducts = () => {
       <Heading>See our products</Heading>
 
       <Content>
-        The biggest strength of AIC is the massive range of products that we offer, and the accessibility to it at all times and places. Having been well connected across the country, AIC carries out the role of being responsible associ- ates and authorized distributors to various brands.
+        We carry with us the legacy of offering the widest range of products in this field owing to being the authorised distributors and channel partners for multiple companies.
       </Content>
       
       <Content>
-        With a price range that suits all kinds of requirements, set-ups and working conditions, AIC offers the highest quality of products
+        With a price range that suits all kinds of requirements, set-ups and working conditions, we are here to meet all your needs. Log on to our products page to see what we have to offer.
       </Content>
 
-      <Button label='KNOW MORE' handleOnClick={handleOnClick} />
+      <CustomLink to='/products'>KNOW MORE</CustomLink>
     </Container>
   )
 }

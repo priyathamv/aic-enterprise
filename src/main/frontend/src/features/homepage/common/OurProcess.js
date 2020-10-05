@@ -66,7 +66,7 @@ export const OurProcess = () => {
           dataStyle={{ marginLeft: '-33px' }}
           number='1'
           heading='Find Your Product'
-          content='Search through our wide range of products. AIC Enterprises poses over 1Lakh products.'
+          content='Search through our wide range of products. AIC Group poses over One Lakh products.'
           isLeftAlign={false}
         />
       </Fade>
@@ -76,7 +76,7 @@ export const OurProcess = () => {
           dataStyle={{ marginRight: '-33px' }}
           number='2'
           heading='Place an Enquiry'
-          content='Fill our Enquiry form with the respective details of the product you are interested to buy from us..'
+          content='Fill our enquiry form with the details of the products that you wish to place an order for.'
           isLeftAlign={true}
         />
       </Fade>
@@ -86,7 +86,7 @@ export const OurProcess = () => {
           dataStyle={{ marginLeft: '-33px' }}
           number='3'
           heading='AIC Support'
-          content='Our back-end sales team will connect with you and provide you with further details and ship the product to you in time.'
+          content='On receipt of your enquiry, our back end team will promptly connect with you and respond with the required details.'
           isLeftAlign={false}
         />
       </Fade>

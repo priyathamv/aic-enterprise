@@ -23,16 +23,15 @@ const Image = styled.img`
 `;
 
 const Content = styled.div`
-  // width: 100%;
-  padding: 20px;
+  padding: 40px 20px;
 
   @media ${device.tablet} { 
-    padding: 40px;
+    padding: 80px 40px;
   }
   
   @media ${device.laptop} { 
     width: 45vw;
-    padding: 50px;
+    padding: 100px 50px;
   }
 `;
 
@@ -49,9 +48,9 @@ const Item = styled.div`
 
 const Title = styled.div`
   font-weight: bold;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
   font-size: 16px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 
   @media ${device.laptop} { 
     font-size: 40px;  
@@ -79,7 +78,6 @@ const Text = styled.div`
 const ItemComponent = ({ title, subHeader, text }) => (
   <Item>
     <Title>{title}</Title>
-    <SubHeader>{subHeader}</SubHeader>
     <Text>{text}</Text>
   </Item>
 )
@@ -93,13 +91,13 @@ export const WhyChooseUs = () => {
         <Title style={{ marginBottom: '50px' }}>WHY CHOOSE US?</Title>
         
         <Box>
-          <ItemComponent title='50+' subHeader='Years of Experiance' text='Lorem ipsum dolor sit amet, consec-' />
+          <ItemComponent title='50+' text='Years of Experiance' />
 
-          <ItemComponent title='1K+' subHeader='Happy Clients' text='Lorem ipsum dolor sit amet, consec-' />
+          <ItemComponent title='1K+' text='Happy Clients' />
 
-          <ItemComponent title='50+' subHeader='Years of Experiance' text='Lorem ipsum dolor sit amet, consec-' />
+          <ItemComponent title='10+' text='Awards' />
 
-          <ItemComponent title='1K+' subHeader='Happy Clients' text='Lorem ipsum dolor sit amet, consec-' />
+          <ItemComponent title='15+' text='Partners' />
         </Box>
       </Content>
     </Container>

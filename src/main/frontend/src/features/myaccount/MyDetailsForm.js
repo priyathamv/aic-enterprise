@@ -8,7 +8,7 @@ import axios from 'axios';
 import { selectGoogleAuth, selectEmailAuth, updateEmailAuthDetails, updateGoogleAuthDetails } from '../auth/authSlice';
 import { Line } from '../homepage/common/Line';
 import { Input } from '../utils/Input';
-import { countries } from '../utils/countries';
+import { countries, indianStates } from '../utils/countries';
 import { selectUserDetails } from '../auth/authSlice';
 import { Spinner } from '../utils/Spinner';
 
@@ -59,6 +59,17 @@ const Message = styled.div`
   margin-bottom: 20px;
 `;
 
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    padding: '2px 0',
+    cursor: 'pointer'
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    cursor: 'pointer'
+  })
+}
 
 export const MyDetailsForm = () => {
   const dispatch = useDispatch();
@@ -76,6 +87,7 @@ export const MyDetailsForm = () => {
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [streetLocal, setStreetLocal] = useState('');
   const [cityLocal, setCityLocal] = useState('');
+  const [stateLocal, setStateLocal] = useState('');
   const [zipLocal, setZipLocal] = useState('');
   const [countryLocal, setCountryLocal] = useState('');
   
@@ -86,8 +98,11 @@ export const MyDetailsForm = () => {
     if (addressList.length) {
       setStreetLocal(addressList[0].street);
       setCityLocal(addressList[0].city);
+      setStateLocal(addressList[0].state);
       setZipLocal(addressList[0].zip);
       setCountryLocal(addressList[0].country ? addressList[0].country : 'India');
+    } else {
+      setCountryLocal('India');
     }
   }, [firstName, lastName, email, phoneNumber, addressList]);
 
@@ -183,14 +198,35 @@ export const MyDetailsForm = () => {
           />
         </FormFrame>
 
-        <Select
-          className='dropdown-wrapper'
-          value={countryLocal ? {'label': countryLocal, 'value': countryLocal} : null}
-          isSearchable={true}
-          placeholder='Country'
-          options={countries.map(curCountry => ({label: curCountry, value: curCountry}))} 
-          onChange={e => setCountryLocal(e.value)} 
-        />
+        <FormFrame>
+          {countryLocal === 'India' ? 
+          <Select
+            styles={customStyles}
+            className='dropdown-wrapper margin-right50'
+            value={stateLocal ? {'label': stateLocal, 'value': stateLocal} : null}
+            isSearchable={true}
+            placeholder='State'
+            options={indianStates.map(curState => ({label: curState, value: curState}))} 
+            onChange={e => setStateLocal(e.value)} 
+          /> :
+          <Input 
+            styleObj={{ flex: 1, marginRight: '50px' }}
+            value={stateLocal} 
+            handleOnChange={e => setStateLocal(e.target.value)} 
+            isRequired={false} 
+            label='State' 
+          />}
+
+          <Select
+            styles={customStyles}
+            className='dropdown-wrapper'
+            value={countryLocal ? {'label': countryLocal, 'value': countryLocal} : null}
+            isSearchable={true}
+            placeholder='Country'
+            options={countries.map(curCountry => ({label: curCountry, value: curCountry}))} 
+            onChange={e => {setStateLocal(''); setCountryLocal(e.value)}} 
+          />
+        </FormFrame>
 
         <Button 
           onClick={() => handleUpdateInfo({
@@ -198,7 +234,7 @@ export const MyDetailsForm = () => {
             firstName: firstNameLocal,
             lastName: lastNameLocal,
             phoneNumber: phoneNumberLocal,
-            addressList: [{ street: streetLocal, city: cityLocal, zip: zipLocal, country: countryLocal }]
+            addressList: [{ street: streetLocal, city: cityLocal, zip: zipLocal, state: stateLocal, country: countryLocal }]
           })}
           disabled={isLoading}
         >

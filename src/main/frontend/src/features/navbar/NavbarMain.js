@@ -39,7 +39,7 @@ const Logo = styled.img`
 const Brand = styled.div`
   font-size: 42px;
   font-weight: bold;
-  letter-spacing: 2px;
+  // letter-spacing: 2px;
   margin-right: 20px;
 `;
 
@@ -83,10 +83,10 @@ export const NavbarMain = () => {
 
       {!isMobile && <ContantInfo>
         <MailIcon size='1.5em'></MailIcon>
-        <MailText href='mailto:info@aicgroup.co.in?subject=Website Query'>Info@aicgroup.co.in</MailText>
+        <MailText href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</MailText>
 
         <PhoneIcon size='1.3em'></PhoneIcon>
-        <MailText href='tel:+918028364174'>+91 8028364174</MailText>
+        <MailText href='tel:+918028364174'>080-28364174</MailText>
       </ContantInfo>}
 
       <UserCart />

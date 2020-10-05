@@ -26,15 +26,15 @@ const Image = styled.img`
 
 const Content = styled.div`
   // width: 100%;
-  padding: 20px;
+  padding: 40px 20px;
 
   @media ${device.tablet} { 
-    padding: 40px;
+    padding: 80px 40px;
   }
   
   @media ${device.laptop} { 
     width: 55vw;
-    padding: 50px 100px;
+    padding: 100px 50px;
   }
 `;
 
@@ -53,14 +53,13 @@ const ArrowIcon = styled(RiArrowRightSLine)`
 
 const Item = styled.div`
   display: flex;
-  letter-spacing: 1px;
 `;
 
 
 const Title = styled.div`
   font-size: 16px;
   font-weight: bold;
-  letter-spacing: 3px;
+  letter-spacing: 1px;
 
   @media ${device.laptop} { 
     font-size: 40px;  
@@ -88,7 +87,7 @@ export const KeyBenefits = () => {
         <Box>
           <Item>
             <ArrowIcon size='1em' style={{ marginTop: '-7px' }} />
-            <Text>Individual consultation and in-time delivery</Text>
+            <Text>Individual consultation and on-time delivery</Text>
           </Item>
 
           <Item>
@@ -98,12 +97,12 @@ export const KeyBenefits = () => {
 
           <Item>
             <ArrowIcon size='1.7em' style={{ marginTop: '-22px' }} />
-            <Text>Dedicated marketing and sales network to fulfill customers every requirement</Text>
+            <Text>Dedicated marketing team and a broad sales network to cater to and fulfil all your requirements</Text>
           </Item>
 
           <Item>
             <ArrowIcon size='0.9em' style={{ marginTop: '-7px' }} />
-            <Text>Individual consultation and in-time delivery</Text>
+            <Text>Broad and diversified products range</Text>
           </Item>
         </Box>
       </Content>

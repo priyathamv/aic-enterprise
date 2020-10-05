@@ -71,8 +71,8 @@ export const AboutUs = () => {
         <Title>About Us</Title>
 
         <Description>
-          Associated Instruments and Chemicals popularly known as AIC, is a Five Decade-old company that was founded in the year 1964 by Shri B.N. Kapila. Pioneers in dedicated service to the scientific community’s necessities by being a one-stop Shoppe for all laboratory requisites.<br/><br/>
-          Aptly supported by a talented and dedicated staff, this selfless service has taken AIC to great heights in terms of market share and customer satisfaction. AIC’s customers have been with them since their inception, which clearly indicates the quality of unmatched service provided by AIC. Having offices at Chennai, Pondicherry, and Bangalore the group caters to customers with a personalized touch.
+          Associated Instruments and Chemicals popularly known as AIC, is a five decade old company that was founded in the year 1964 by Shri B.N. Kapila. We are pioneers who are dedicated in serving the scientific community by being a one stop solution for all the scientific needs.<br/><br/>
+          Aptly supported by a talented and dedicated staff, this selfless service has taken AIC to great heights in terms of market share and customer satisfaction. Our customers have been with us since our inception and is a symbol of our unmatched and high quality of services. Having offices at Chennai, Pondicherry, and Bangalore the group caters to customers with a personalized touch.
         </Description>
       </IntroFrame>
 
@@ -85,11 +85,11 @@ export const AboutUs = () => {
           <StrengthDesc>
             <ul>
               <Li>Broadest product range</Li>
-              <Li>Individual consultation and in-time delivery</Li>
+              <Li>Individual consultation and on-time delivery</Li>
               <Li>Dedicated marketing and sales network to fulfill customers every requirement</Li>
               <Li>Technical support by qualified and experienced personnel</Li>
               <Li>Integrated ERP Solutions for efficient customer services</Li>
-              <Li>Wide accessibility through Branches</Li>
+              <Li>Wide accessibility through branches</Li>
               <Li>Well connected dealer network</Li>
             </ul>
           </StrengthDesc>
