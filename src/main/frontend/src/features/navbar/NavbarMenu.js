@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import { UserCart } from './UserCart';
 import { ProductsMenu } from './ProductsMenu';
@@ -33,7 +34,7 @@ const MenuItemWrap = styled.div`
   position: relative;
 `;
 
-const MenuItem = styled.a`
+const MenuItem = styled(Link)`
   flex: 1;
   text-decoration: none;
   border-right: 1px solid #CCC;
@@ -132,12 +133,12 @@ export const NavbarMenu = () => {
           onMouseEnter={() => document.getElementById('products_menu_id').style.display = 'grid'} 
           onMouseLeave={() => document.getElementById('products_menu_id').style.display = 'none'}
         >
-          <MenuItem style={curPageStyle('/products') || curPageStyle('/product-list')} href='/products'>Products</MenuItem>
+          <MenuItem style={curPageStyle('/products') || curPageStyle('/product-list')} to='/products'>Products</MenuItem>
           <ProductsMenu />
         </MenuItemWrap>
-        <MenuItem style={curPageStyle('/about-us')} href='/about-us'>About us</MenuItem>
-        <MenuItem style={curPageStyle('/contact-us')} href='/contact-us'>Contact us</MenuItem>
-        <MenuItem>Covid 19</MenuItem>
+        <MenuItem style={curPageStyle('/about-us')} to='/about-us'>About us</MenuItem>
+        <MenuItem style={curPageStyle('/contact-us')} to='/contact-us'>Contact us</MenuItem>
+        <MenuItem to="/">Covid 19</MenuItem>
       </MenuItems>
 
       {isMobile ? null : <Search />}
