@@ -103,10 +103,10 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
     if (response.error === 'popup_closed_by_user') {
       console.log('Please enable 3rd party cookies or add an exception for stackblitz.io to resolve.')
     } else {
-      dispatch(logoutUserAction());
+      // dispatch(logoutUserAction());
       // closeModal && closeModal();
     }
-    loginRedirect();
+    // loginRedirect();
   }
 
   return (

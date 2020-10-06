@@ -53,8 +53,8 @@ public class OrderServiceImpl implements OrderService {
                 nonNull(user.getAddressList()) &&
                 !user.getAddressList().isEmpty() &&
                 TAMIL_NADU.equals(user.getAddressList().get(0).getState()) ?
-                        Arrays.asList("vinnakotapriyatham@gmail.com", "ananthvy@tractionmonkey.com") :
-                        Arrays.asList("vinnakota4201@gmail.com", "ananthvy@tractionmonkey.com");
+                        Arrays.asList("sales.tn@aicgroup.in", "vinnakotapriyatham@gmail.com") :
+                        Arrays.asList("sales@aicgroup.in", "vinnakota4201@gmail.com");
 
         boolean mailStatus = sendOrderMail(userCart, toAddresses);
 

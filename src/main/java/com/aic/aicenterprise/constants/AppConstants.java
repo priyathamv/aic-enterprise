@@ -25,6 +25,7 @@ public class AppConstants {
     public static final String HEADER_STRING = "Authorization";
 
     public static final String SUCCESS = "success";
+    public static final String ADMIN = "admin";
     public static final String APP_DOMAIN = "https://aicgroup.co.in";
     public static final String TAMIL_NADU = "Tamil Nadu";
 }

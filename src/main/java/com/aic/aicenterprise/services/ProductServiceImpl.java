@@ -1,6 +1,7 @@
 package com.aic.aicenterprise.services;
 
 import com.aic.aicenterprise.entities.Product;
+import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
 import com.aic.aicenterprise.repositories.ProductRepository;
 import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.aic.aicenterprise.constants.AppConstants.ADMIN;
+import static com.aic.aicenterprise.constants.AppConstants.TAMIL_NADU;
 import static com.aic.aicenterprise.constants.DBConstants.BRAND;
 import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
 import static com.aic.aicenterprise.constants.DBConstants.PRODUCTS;
@@ -32,11 +35,13 @@ public class ProductServiceImpl implements ProductService {
 
     private ProductRepository productRepository;
     private MongoTemplate mongoTemplate;
+    private EmailService emailService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate) {
+    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate, EmailService emailService) {
         this.productRepository = productRepository;
         this.mongoTemplate = mongoTemplate;
+        this.emailService = emailService;
     }
 
 
@@ -135,6 +140,31 @@ public class ProductServiceImpl implements ProductService {
         return divisionList;
     }
 
+    @Override
+    public boolean productEnquiry(ProductEnquiryRequest request) {
+        List<String> toAddresses =
+                TAMIL_NADU.equals(request.getState()) ?
+                        Arrays.asList(/*"sales.tn@aicgroup.in", */"vinnakotapriyatham@gmail.com") :
+                        Arrays.asList(/*"sales@aicgroup.in", */"vinnakota4201@gmail.com");
+
+        String productEnquiryHtml = getProductEnquiryHtml(request);
+
+        // Send mail
+        return toAddresses.stream()
+                .allMatch(toAddress -> {
+                    try {
+                        return emailService.sendMail(toAddress, "Product enquiry", productEnquiryHtml);
+                    } catch (IOException e) {
+                        log.info("Exception while sending mail: {}", e);
+                        return false;
+                    }
+                });
+    }
+
+    private String getProductEnquiryHtml(ProductEnquiryRequest request) {
+        return null;
+    }
+
     private Product getProductFromRow(Row row, DataFormatter dataFormatter) {
         String code = dataFormatter.formatCellValue(row.getCell(0)).trim();
         String name = dataFormatter.formatCellValue(row.getCell(1)).trim();
@@ -152,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCapacity(capacity);
         product.setPack(pack);
         product.setDivision(division);
-        product.setOwner("admin");
+        product.setOwner(ADMIN);
         product.setCreateTs(curDate);
         product.setUpdateTs(curDate);
         return product;

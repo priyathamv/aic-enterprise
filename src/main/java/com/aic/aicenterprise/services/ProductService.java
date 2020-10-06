@@ -1,6 +1,7 @@
 package com.aic.aicenterprise.services;
 
 import com.aic.aicenterprise.entities.Product;
+import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.io.IOException;
@@ -16,4 +17,6 @@ public interface ProductService {
     List<String> getAllBrands();
 
     List<String> getDivisions(String brand);
+
+    boolean productEnquiry(ProductEnquiryRequest request);
 }

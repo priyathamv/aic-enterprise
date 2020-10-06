@@ -87,8 +87,8 @@ export const MyDetailsForm = () => {
   const [phoneNumberLocal, setPhoneNumberLocal] = useState('');
   const [streetLocal, setStreetLocal] = useState('');
   const [cityLocal, setCityLocal] = useState('');
-  const [stateLocal, setStateLocal] = useState('');
   const [zipLocal, setZipLocal] = useState('');
+  const [stateLocal, setStateLocal] = useState('');
   const [countryLocal, setCountryLocal] = useState('');
   
   useEffect(() => {
