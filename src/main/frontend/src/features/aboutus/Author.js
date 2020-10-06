@@ -3,17 +3,24 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   display: flex;
-  width: 40vw;
 `;
 
-const BlueBg = styled.div`
-  flex: 2;
-  background-color: #232162;
+const ImgContainer = styled.div`
+  flex: 1;
+`;
+
+const AuthorImg = styled.div`
+  background-image: url(/images/bn_kapila.jpeg);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  width: 100%;
+  height: 100%;
 `;
 
 const AuthorFrame = styled.div`
-  flex: 3;
-  padding: 75px 40px;
+  flex: 4;
+  padding: 30px;
   background-color: #F2F4F3;
 `;
 
@@ -36,16 +43,22 @@ const AboutMe = styled.div`
 
 
 export const Author = ({ style, name, designation, aboutMe }) => {
+  const createMarkup = () => {
+    return { __html: aboutMe };
+  };
+
   return (
     <Container style={style}>
-      <BlueBg>&nbsp;</BlueBg>
+      <ImgContainer>
+        <AuthorImg />
+      </ImgContainer>
 
       <AuthorFrame>
         <Name>{name}</Name>
 
         <Designation>{designation}</Designation>
 
-        <AboutMe>{aboutMe}</AboutMe>
+        <AboutMe dangerouslySetInnerHTML={createMarkup()}></AboutMe>
       </AuthorFrame>
     </Container>
   )

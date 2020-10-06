@@ -25,5 +25,5 @@ public class AppConstants {
     public static final String HEADER_STRING = "Authorization";
 
     public static final String SUCCESS = "success";
-    public static final String APP_DOMAIN = "https://aic-enterprises.el.r.appspot.com";
+    public static final String APP_DOMAIN = "https://aicgroup.co.in";
 }

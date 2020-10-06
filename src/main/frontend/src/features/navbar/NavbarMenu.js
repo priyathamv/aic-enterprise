@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { UserCart } from './UserCart';
 import { ProductsMenu } from './ProductsMenu';
@@ -64,8 +65,17 @@ const Blank = styled.div`
   flex: 1;
 `;
 
+const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
+const ABOUT_US_PAGE = 'ABOUT_US_PAGE';
+const CONTACT_US_PAGE = 'CONTACT_US_PAGE';
+const curPageStyle = { 
+  marginBottom: '-1px', 
+  borderBottom: '5px solid #232162' 
+};
 
 export const NavbarMenu = () => {
+  const history = useHistory();
+
   const viewportWidth = window.outerWidth;
   const isMobile = viewportWidth < 1024;
 
@@ -111,14 +121,31 @@ export const NavbarMenu = () => {
 
   useEffect(() => window.addEventListener('scroll', scrollCallback), []);
 
-  const curPageStyle = path => {
-    const currentPath = window.location.pathname;
-    return currentPath.includes(path) ? { marginBottom: '-1px', borderBottom: '5px solid #232162' } : null;
+  const [curPage, setCurPage] = useState(null);
+
+  const handleCurPageChange = () => {
+    const currentPath = history.location.pathname;
+
+    if (currentPath.includes('/products') || currentPath.includes('/product-list'))
+      setCurPage(PRODUCTS_PAGE);
+    else if (currentPath.includes('/about-us'))
+      setCurPage(ABOUT_US_PAGE);
+    else if (currentPath.includes('/contact-us'))
+      setCurPage(CONTACT_US_PAGE);
+    else
+      setCurPage(null);
   }
 
   // To update curPageStyle on every path change
-  // useEffect(() => {
-  // }, [window.location.pathname])
+  useEffect(() => {
+    handleCurPageChange();
+    const historyListener = history.listen(handleCurPageChange);
+    return () => historyListener();
+  }, [handleCurPageChange, history]);
+
+  const displayProductMenu = showMenu => {
+    document.getElementById('products_menu_id').style.display = showMenu ? 'grid' : 'none';
+  }
 
   return (
     <Container id='navbar_menu_id'>
@@ -126,18 +153,24 @@ export const NavbarMenu = () => {
         {isMobile ? 
           null : 
           <BlankMenuItem style={{ paddingTop: '8px' }}>
-            {showLogo ? <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
+            {showLogo ? 
+              <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
           </BlankMenuItem>  
         }
         <MenuItemWrap
-          onMouseEnter={() => document.getElementById('products_menu_id').style.display = 'grid'} 
-          onMouseLeave={() => document.getElementById('products_menu_id').style.display = 'none'}
+          onMouseEnter={() => displayProductMenu(true)} 
+          onMouseLeave={() => displayProductMenu(false)}
         >
-          <MenuItem style={curPageStyle('/products') || curPageStyle('/product-list')} to='/products'>Products</MenuItem>
+          <MenuItem 
+            to='/products' 
+            style={curPage === PRODUCTS_PAGE ? curPageStyle : null} 
+            onClick={() => displayProductMenu(false)}>
+              Products
+          </MenuItem>
           <ProductsMenu />
         </MenuItemWrap>
-        <MenuItem style={curPageStyle('/about-us')} to='/about-us'>About us</MenuItem>
-        <MenuItem style={curPageStyle('/contact-us')} to='/contact-us'>Contact us</MenuItem>
+        <MenuItem style={curPage === ABOUT_US_PAGE ? curPageStyle : null} to='/about-us'>About us</MenuItem>
+        <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>Contact us</MenuItem>
         <MenuItem to="/">Covid 19</MenuItem>
       </MenuItems>
 
