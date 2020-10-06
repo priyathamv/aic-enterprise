@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Button } from '../homepage/common/Button';
 import Select from 'react-select';
 
+import { device } from '../utils/viewport';
 import { Input } from '../utils/Input';
 import { countries, indianStates } from '../utils/countries';
 import { selectUserDetails } from '../auth/authSlice';
@@ -20,10 +21,11 @@ const Label = styled.div`
 
 const EmailsFrame = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
+  @media ${device.tablet} {
+    flex-direction: row;
   }
 `;
 
@@ -112,7 +114,7 @@ export const EnquiryForm = ({ styles }) => {
       <Input value={address} handleOnChange={e => setAddress(e.target.value)} label='Address' />
       
       <EmailsFrame>
-        <Input styleObj={{flex: 1, marginRight: '50px'}} value={city} handleOnChange={e => setCity(e.target.value)} label='City' />
+        <Input styleObj={{flex: 1, marginRight: '2vw'}} value={city} handleOnChange={e => setCity(e.target.value)} label='City' />
         <Input styleObj={{flex: 1}} value={zip} handleOnChange={e => setZip(e.target.value)} label='Zip' />
       </EmailsFrame>
 

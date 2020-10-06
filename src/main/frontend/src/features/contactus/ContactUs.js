@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { ImLocation } from 'react-icons/im';
+import { device } from '../utils/viewport';
 
 import { Line } from '../homepage/common/Line';
 import { EnquiryForm } from './EnquiryForm';
@@ -23,12 +24,13 @@ const Heading = styled.div`
 
 const GetInTouchFrame = styled.div`
   display: flex;
+  flex-direction: column;
   background-color: #FFF;
   margin: -350px 10vw 50px 10vw;
   box-shadow: 0 5px 6px -6px black;
 
-  @media (max-width: 768px) {
-    flex-direction: column;
+  @media ${device.tablet} {
+    flex-direction: row;
   }
 `;
 
