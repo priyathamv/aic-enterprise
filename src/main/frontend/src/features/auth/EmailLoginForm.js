@@ -186,7 +186,7 @@ export const EmailLoginForm = ({ closeModal, handleShowForgotPassword }) => {
       <ErrorMsg>{errorMsg}</ErrorMsg>
 
       {errorMsg === 'Email not verified' && 
-      <SendMail onClick={handleSendMail}>Click here to get verification mail</SendMail>}
+      <SendMail onClick={handleSendMail}>Click here to get verification mail again</SendMail>}
 
       {message && <Message>Email sent, check your inbox to confirm</Message>}
 

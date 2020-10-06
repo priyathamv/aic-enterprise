@@ -45,7 +45,7 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
       'Content-Type': 'application/json'
     }
     try {
-      const savedUserResponse = await axios.post('/api/users/save', userDetails, { headers });
+      const savedUserResponse = await axios.post('/api/users/save-google-user', userDetails, { headers });
       return savedUserResponse.data.payload;
     } catch (err) {
       console.log('Error while saving user', err.message);
@@ -54,7 +54,7 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
   }
 
   const googleSuccessCallback = async response => {
-    console.log('Google login success =>', response);
+    // console.log('Google login success =>', response);
     dispatch(updateIsLoading(true));
 
     try {
@@ -81,6 +81,7 @@ export const GLogin = React.forwardRef(({ label, style, closeModal }, ref) => {
         ...userDetails, 
         imageUrl: (savedUser.imageUrl ? savedUser.imageUrl : userDetails.imageUrl),
         phoneNumber: savedUser.phoneNumber,
+        userRole: savedUser.userRole,
         addressList: (savedUser.addressList ? savedUser.addressList : [])
       };
 

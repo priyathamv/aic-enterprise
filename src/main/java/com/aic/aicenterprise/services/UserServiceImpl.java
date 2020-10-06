@@ -50,11 +50,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public UserEntity signUpUser(UserEntity userEntity) throws IOException {
+    public UserEntity signUpEmailUser(UserEntity userEntity) throws IOException {
         userEntity.setConfirmed(false);
 
-        UserEntity userFromDB = saveUser(userEntity);
-        if (isNull(userFromDB)) { // User alredy exist in DB
+        UserEntity userFromDB = saveSignUpUser(userEntity);
+        if (isNull(userFromDB)) { // User trying to create a duplicate account
             return null;
         }
 
@@ -143,34 +143,56 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public UserEntity saveUser(UserEntity userEntity) {
+    public UserEntity saveSignUpUser(UserEntity userEntity) {
         UserEntity userFromDB = userRepository.findByEmail(userEntity.getEmail());
 
         if (nonNull(userFromDB)) { // User already created an account
-            if (nonNull(userFromDB.getPassword())) { // User already created an Email account
-                if (nonNull(userEntity.getPassword())) {
-                    if (userFromDB.isConfirmed()) // User trying to create a duplicate Email account
-                        return null;
-                    else { // User is signing up again(last time the email was not confirmed)
-                        userEntity.setPassword(userFromDB.getPassword());
-                    }
-                } else { // Merging existing email with new Gmail login
-                    userEntity.setPassword(userFromDB.getPassword());
-                    userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
-                    userEntity.setAddressList(userFromDB.getAddressList());
-                    userEntity.setImageUrl(nonNull(userFromDB.getImageUrl()) ? userFromDB.getImageUrl() : userEntity.getImageUrl());
-                }
-            } else { // User already created a Gmail account
-                userEntity.setImageUrl(userFromDB.getImageUrl());
-                userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
-                userEntity.setAddressList(userFromDB.getAddressList());
-                userEntity.setPassword(userFromDB.getPassword());
-            }
-            userEntity.setResetPasswordExpires(userFromDB.getResetPasswordExpires());
-            userEntity.setConfirmed(userFromDB.isConfirmed());
-        }
+            if (nonNull(userFromDB.getPassword())) { // User already created an account using Email
+                return userFromDB.isConfirmed() ?
+                        null : // Email verified
+                        userRepository.save(userEntity); // Email not verified
+            } else { // User already created an account using Gmail
+                Query query = new Query(new Criteria(EMAIL).is(userEntity.getEmail()));
+                Update update = new Update()
+                        .set(FIRST_NAME, userEntity.getFirstName())
+                        .set(LAST_NAME, userEntity.getLastName())
+                        .set(PHONE_NUMBER, userEntity.getPhoneNumber())
+                        .set(PASSWORD, userEntity.getPassword());
 
-        return userRepository.save(userEntity);
+                UpdateResult updateResult = mongoTemplate.updateFirst(query, update, UserEntity.class);
+                return updateResult.getModifiedCount() == 1 ?
+                        userEntity :
+                        null;
+            }
+        } else // User creating a new account for the first time
+            return userRepository.save(userEntity);
+    }
+
+    @Override
+    public UserEntity saveGoogleUser(UserEntity userEntity) {
+        UserEntity userFromDB = userRepository.findByEmail(userEntity.getEmail());
+
+        // Pick User image from DB, if null use Gmail image
+        String imageUrl = (nonNull(userFromDB) && nonNull(userFromDB.getImageUrl())) ?
+                userFromDB.getImageUrl() :
+                userEntity.getImageUrl();
+
+        if (isNull(userFromDB)) { // User logging in for the first time using Gmail
+            return userRepository.save(userEntity);
+        } else {
+            Query query = new Query(new Criteria(EMAIL).is(userEntity.getEmail()));
+            Update update = new Update()
+                    .set(FIRST_NAME, userEntity.getFirstName())
+                    .set(LAST_NAME, userEntity.getLastName())
+                    .set(IMAGE_URL, imageUrl);
+            mongoTemplate.updateFirst(query, update, UserEntity.class);
+
+            userEntity.setImageUrl(imageUrl);
+            userEntity.setUserRole(userFromDB.getUserRole());
+            userEntity.setPhoneNumber(userFromDB.getPhoneNumber());
+            userEntity.setAddressList(userFromDB.getAddressList());
+            return userEntity;
+        }
     }
 
     @Override

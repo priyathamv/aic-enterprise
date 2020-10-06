@@ -52,7 +52,7 @@ public class SubscriberController {
         return subscriberListResponse;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping("/save")
     public SaveResponse saveSubscriber(@RequestBody Subscriber subscriber) {
         log.info("Saving subscriber: {}", subscriber);
 

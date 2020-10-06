@@ -50,7 +50,7 @@ public class CartController {
         return cartResponse;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping("/save")
     public SaveResponse saveUserCart(@RequestBody UserCart userCart) {
         log.info("Saving user cart: {}", userCart);
 

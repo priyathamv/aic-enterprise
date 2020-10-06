@@ -95,7 +95,7 @@ export const EmailSignUpForm = ({ closeModal }) => {
           setMessage('This Email address is already registered');
         } else if (signUpResponse.data.status === 200) {
           setMessage('Email sent, check your inbox to confirm');
-          setTimeout(() => history.push('/'), 10000);
+          setTimeout(() => history.push('/'), 15000);
         } else {
           setMessage('Something went wrong, try again later');
         }
@@ -143,14 +143,16 @@ export const EmailSignUpForm = ({ closeModal }) => {
         <label className='material-label'>Confirm Password*</label>
       </div>
 
-      <Button onClick={handleOnSignUp} disabled={isLoading} >
+      <Button onClick={handleOnSignUp} disabled={isLoading || (message === 'Email sent, check your inbox to confirm')} >
         {!isLoading && 'Sign Up'}
         {isLoading ? 
           <Spinner loaderStyle={{ fontSize: '15px', color: '#FFF' }} /> : 
           null}
       </Button>
 
-      <Message style={ message === 'Email sent, check your inbox to confirm' ? { color: 'green'} : null }>{message}</Message>
+      <Message style={ message === 'Email sent, check your inbox to confirm' ? { color: 'green'} : null }>
+        {message}
+      </Message>
 
       <Separator>
         <Line style={{ width: '100px', marginLeft: '0', marginRight: '0' }}/>

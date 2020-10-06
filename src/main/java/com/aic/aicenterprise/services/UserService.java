@@ -9,9 +9,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface UserService {
-    UserEntity signUpUser(UserEntity userEntity) throws IOException;
+    UserEntity signUpEmailUser(UserEntity userEntity) throws IOException;
 
-    UserEntity saveUser(UserEntity userEntity);
+    UserEntity saveSignUpUser(UserEntity userEntity);
+
+    UserEntity saveGoogleUser(UserEntity userEntity);
 
     boolean updateUser(UserEntity userEntity);
 

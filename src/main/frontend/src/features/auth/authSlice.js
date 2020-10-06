@@ -4,6 +4,7 @@ const initialGoogleAuth = {
   firstName: '',
   lastName: '',
   email: '',
+  userRole: 'DEFAULT',
   imageUrl: '',
   phoneNumber: '',
   token: '',
@@ -14,6 +15,7 @@ const initialEmailAuth = {
   firstName: '',
   lastName: '',
   email: '',
+  userRole: 'DEFAULT',
   phoneNumber: '',
   imageUrl: '',
   addressList: []
@@ -32,6 +34,7 @@ export const authSlice = createSlice({
       state.googleAuth.email = action.payload.email;
       state.googleAuth.firstName = action.payload.firstName;
       state.googleAuth.lastName = action.payload.lastName ? action.payload.lastName : '';
+      state.googleAuth.userRole = action.payload.userRole;
       state.googleAuth.imageUrl = action.payload.imageUrl;
       state.googleAuth.phoneNumber = action.payload.phoneNumber;
       state.googleAuth.addressList = action.payload.addressList;
@@ -43,6 +46,7 @@ export const authSlice = createSlice({
       state.emailAuth.email = action.payload.email;
       state.emailAuth.firstName = action.payload.firstName;
       state.emailAuth.lastName = action.payload.lastName ? action.payload.lastName : '';
+      state.emailAuth.userRole = action.payload.userRole;
       state.emailAuth.imageUrl = action.payload.imageUrl;
       state.emailAuth.phoneNumber = action.payload.phoneNumber;
       state.emailAuth.addressList = action.payload.addressList ? action.payload.addressList : [];

@@ -27,7 +27,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        String[] allowedPaths = {
+        String[] allowedPathsGET = {
                 "/auth/**",
                 "/static/**",
                 "/images/**",
@@ -47,9 +47,26 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/account/**",
                 "/confirm-email"
         };
+
+//        String[] allowedPathsPOST = {
+//            "/api/products/load-products",
+//            "/api/orders/place-order",
+//            "/api/users/sign-up",
+//            "/api/users/save",
+//            "/api/users/update",
+//            "/api/users/forgot-password",
+//            "/api/users/reset-password",
+//            "/api/users/user-image",
+//            "/api/users/confirm-email",
+//            "/api/users/send-confirm-email",
+//            "/api/users/update-role",
+//            "/api/subscribers/save",
+//            "/api/cart/save"
+//        };
+
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers(HttpMethod.GET, allowedPaths).permitAll()
+                .antMatchers(HttpMethod.GET, allowedPathsGET).permitAll()
                 .antMatchers(HttpMethod.POST, "/**").permitAll()
                 .antMatchers(HttpMethod.PUT, "/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/**").permitAll()

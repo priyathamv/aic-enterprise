@@ -3,6 +3,7 @@ package com.aic.aicenterprise.services;
 import com.aic.aicenterprise.entities.Order;
 import com.aic.aicenterprise.entities.ProductDetails;
 import com.aic.aicenterprise.entities.UserCart;
+import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.repositories.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.aic.aicenterprise.constants.AppConstants.APP_DOMAIN;
+import static com.aic.aicenterprise.constants.AppConstants.TAMIL_NADU;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -22,11 +25,13 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
     private EmailService emailService;
+    private UserService userService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, EmailService emailService) {
+    public OrderServiceImpl(OrderRepository orderRepository, EmailService emailService, UserService userService) {
         this.orderRepository = orderRepository;
         this.emailService = emailService;
+        this.userService = userService;
     }
 
 
@@ -42,7 +47,16 @@ public class OrderServiceImpl implements OrderService {
         Order orderSaved = orderRepository.save(order);
         boolean orderStatus = userCart.getEmail().equals(orderSaved.getEmail());
 
-        boolean mailStatus = sendOrderMail(userCart);
+        UserEntity user = userService.findUserByEmail(userCart.getEmail());
+
+        List<String> toAddresses =
+                nonNull(user.getAddressList()) &&
+                !user.getAddressList().isEmpty() &&
+                TAMIL_NADU.equals(user.getAddressList().get(0).getState()) ?
+                        Arrays.asList("vinnakotapriyatham@gmail.com", "ananthvy@tractionmonkey.com") :
+                        Arrays.asList("vinnakota4201@gmail.com", "ananthvy@tractionmonkey.com");
+
+        boolean mailStatus = sendOrderMail(userCart, toAddresses);
 
         return orderStatus && mailStatus;
     }
@@ -52,9 +66,8 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByEmail(email);
     }
 
-    private boolean sendOrderMail(UserCart userCart) {
+    private boolean sendOrderMail(UserCart userCart, List<String> toAddresses) {
         String subject = "Website order query";
-        List<String> toAddresses = Arrays.asList("vinnakotapriyatham@gmail.com", "ananthvy@tractionmonkey.com");
         String cartBodyHtml = getCartBodyHtml(userCart);
 
         // Send mail

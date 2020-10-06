@@ -44,7 +44,9 @@ public class UserController {
 
         UserDetailsResponse userSaveResponse;
         try {
-            UserEntity savedUser = userService.signUpUser(userEntity);
+            UserEntity savedUser = userService.signUpEmailUser(userEntity);
+            savedUser.setPassword(null);
+
             userSaveResponse = UserDetailsResponse.builder()
                     .payload(savedUser)
                     .msg(nonNull(savedUser) ? SUCCESS : "User already exists")
@@ -63,13 +65,13 @@ public class UserController {
         return userSaveResponse;
     }
 
-    @PostMapping(value = "/save")
+    @PostMapping(value = "/save-google-user")
     public UserDetailsResponse saveUser(@RequestBody UserEntity userEntity) {
         log.info("Saving userEntity: {}", userEntity);
 
         UserDetailsResponse userSaveResponse;
         try {
-            UserEntity savedUser = userService.saveUser(userEntity);
+            UserEntity savedUser = userService.saveGoogleUser(userEntity);
             userSaveResponse = UserDetailsResponse.builder()
                     .payload(savedUser)
                     .msg(nonNull(savedUser) ? SUCCESS : "User already exists")
