@@ -22,10 +22,11 @@ export const GLogout = () => {
 
 
   const logoutGoogle = (response) => {
-    dispatch(logoutUserAction());
+    
   }
 
   const handleLogout = () => {
+    dispatch(logoutUserAction());
     window.location.href = '/';
   }
 

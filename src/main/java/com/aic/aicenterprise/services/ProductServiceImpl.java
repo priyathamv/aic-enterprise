@@ -144,8 +144,8 @@ public class ProductServiceImpl implements ProductService {
     public boolean productEnquiry(ProductEnquiryRequest request) {
         List<String> toAddresses =
                 TAMIL_NADU.equals(request.getState()) ?
-                        Arrays.asList(/*"sales.tn@aicgroup.in", */"vinnakotapriyatham@gmail.com") :
-                        Arrays.asList(/*"sales@aicgroup.in", */"vinnakota4201@gmail.com");
+                        Arrays.asList("sales.tn@aicgroup.in", "vinnakotapriyatham@gmail.com") :
+                        Arrays.asList("sales@aicgroup.in", "vinnakota4201@gmail.com");
 
         String productEnquiryHtml = getProductEnquiryHtml(request);
 

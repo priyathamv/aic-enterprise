@@ -4,12 +4,16 @@ import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import { Collapse } from 'react-collapse';
 
 import { getDateString } from '../utils/Utils';
+import { device } from '../utils/viewport';
+import { Line } from '../homepage/common/Line';
+
 
 const Container = styled.div`
 `;
 
 const OrderFrame = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   background-color: #f6f6f6;
   border: 1px #ddd solid;
@@ -17,15 +21,34 @@ const OrderFrame = styled.div`
   color: #565959;
   padding: 20px;
   margin-top: 20px;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const OrderIdBox = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+    align-items: center;
+  }
 `;
 
 const LabelBox = styled.div`
-  margin-right: 20px;
+  margin-right: 0;
+  display: flex;
+  align-items: baseline;
+  width: 100%;
+  justify-content: space-between;
+
+  @media ${device.tablet} {
+    margin-right: 20px;
+    display: block;
+  }
 `;
 
 const Text = styled.div`
@@ -34,7 +57,11 @@ const Text = styled.div`
 `;
 
 const SubText = styled.div`
-  font-size: 14px;
+  font-size: 12px;
+
+  @media ${device.tablet} {
+    font-size: 14px;
+  }
 `;
 
 const ExpandIcon = styled(IoIosArrowDown)`
@@ -55,8 +82,15 @@ const OrderDetails = styled.div`
 `;
 
 const ProductFrame = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
   padding: 20px;
+
+  @media ${device.tablet} {
+    grid-template-columns: 2fr 6fr 2fr 1fr;
+  }
 `;
 
 const Label = styled.div`
@@ -96,12 +130,16 @@ export const OrderContainer = ({ orderDetails }) => {
       <Collapse isOpened={isExpand}>
         <OrderDetails>
           {orderDetails.productList.map((curProduct, index) => 
-            <ProductFrame key={index}>
-              <Label>{curProduct.code}</Label>
-              <Label style={{ flex: 6 }}>{curProduct.name}</Label>
-              <Label>{curProduct.brand}</Label>
-              <Label style={{ flex: 1 }}>Qty: {curProduct.quantity}</Label>
-            </ProductFrame>)}
+            <div key={index}>
+              <ProductFrame key={index}>
+                <Label>{curProduct.code}</Label>
+                <Label style={{ flex: 6 }}>{curProduct.name}</Label>
+                <Label>{curProduct.brand}</Label>
+                <Label style={{ flex: 1 }}>Qty: {curProduct.quantity}</Label>
+              </ProductFrame>
+              {index < (orderDetails.productList.length - 1) && <Line style={{ width: '95%' }}/>}
+            </div>)
+          }
         </OrderDetails>        
       </Collapse>
     </Container>

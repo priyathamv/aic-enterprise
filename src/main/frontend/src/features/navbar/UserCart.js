@@ -151,9 +151,9 @@ export const UserCart = ({ style }) => {
 
     const cookies = new Cookies();
     cookies.remove('auth_token');
-    
+
     dispatch(logoutUserAction());
-    window.location.href = '/';
+    setTimeout(() => window.location.href = '/', 0);
   }
 
   return (

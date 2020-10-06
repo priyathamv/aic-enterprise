@@ -1,12 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../utils/viewport';
+
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const ImgContainer = styled.div`
   flex: 1;
+  height: 375px;
+  
+  @media ${device.tablet} {
+    height: 375px;
+    align-self: center;
+    flex: 2;
+  }
+  
+  @media ${device.laptop} {
+    flex: 1;
+    height: 100%;
+  }
 `;
 
 const AuthorImg = styled.div`

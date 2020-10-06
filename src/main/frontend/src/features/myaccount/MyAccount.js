@@ -5,14 +5,23 @@ import { useHistory } from 'react-router-dom';
 import { MyDetailsForm } from './MyDetailsForm';
 import { MyOrders } from './MyOrders';
 import { MyImage } from './MyImage';
-
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr;
   grid-column-gap: 50px;
   grid-row-gap: 50px;
-  margin: 50px 15vw;
+  margin: 50px 20px;
+  
+  @media ${device.tablet} {
+    grid-template-columns: 1fr 4fr;
+    margin: 50px 10vw;
+  }
+  @media ${device.laptop} {
+    grid-template-columns: 1fr 4fr;
+    margin: 50px 15vw;
+  }
 `;
 
 const LeftPanel = styled.div`

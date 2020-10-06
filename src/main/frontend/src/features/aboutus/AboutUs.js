@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import { Author } from './Author'
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
   margin: 100px 10vw;
@@ -12,8 +13,13 @@ const Container = styled.div`
 
 const IntroFrame = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 50px;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const Title = styled.div`
@@ -22,6 +28,11 @@ const Title = styled.div`
   font-weight: bold;
   color: #232162;
   letter-spacing: 1px;
+  margin-bottom: 20px;
+
+  @media ${device.tablet} {
+    margin-bottom: 0;
+  }  
 `;
 
 const Description = styled.div`
@@ -32,8 +43,13 @@ const Description = styled.div`
 
 const StrengthFrame = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 75px;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const StrengthImage = styled.img`
@@ -65,8 +81,11 @@ const Blank = styled.div`
 `;
 
 export const AboutUs = () => {
+  const viewportWidth = window.outerWidth;
+  const isMobile = viewportWidth < 768;
+
   return (
-    <Container>
+    <Container id='about_us_id'>
       <IntroFrame>
         <Title>About Us</Title>
 
@@ -82,7 +101,7 @@ export const AboutUs = () => {
       </IntroFrame>
 
       <StrengthFrame>
-        <StrengthImage src='/images/strength.png'></StrengthImage>
+        {!isMobile && <StrengthImage src='/images/strength.png'></StrengthImage>}
 
         <Strength>
           <Title style={{ textAlign: 'center' }}>AIC's strength lies in</Title>

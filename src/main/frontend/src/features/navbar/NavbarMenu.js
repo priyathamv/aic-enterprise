@@ -176,7 +176,7 @@ export const NavbarMenu = () => {
 
       {isMobile ? null : <Search />}
 
-      {showLogo ? <UserCart /> : (isMobile ? null : <Blank />)}
+      {(showLogo && !isMobile) ? <UserCart /> : (isMobile ? null : <Blank />)}
     </Container>
   )
 }

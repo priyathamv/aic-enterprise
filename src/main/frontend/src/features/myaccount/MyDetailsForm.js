@@ -11,7 +11,7 @@ import { Input } from '../utils/Input';
 import { countries, indianStates } from '../utils/countries';
 import { selectUserDetails } from '../auth/authSlice';
 import { Spinner } from '../utils/Spinner';
-
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
 
@@ -36,6 +36,11 @@ const AccountForm = styled.div`
 
 const FormFrame = styled.div`
   display: flex;
+  flex-direction: column;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
 `;
 
 const Button = styled.button`
@@ -72,6 +77,9 @@ const customStyles = {
 }
 
 export const MyDetailsForm = () => {
+  const viewportWidth = window.outerWidth;
+  const isMobile = viewportWidth < 768;
+
   const dispatch = useDispatch();
   
   const [updateMsg, setUpdateMsg] = useState(null);
@@ -126,6 +134,8 @@ export const MyDetailsForm = () => {
     setIsLoading(false);
   }
 
+  const mobileInputStyle = { flex: 1, marginRight: '50px' }
+
   return (
     <Container>
       <Header>
@@ -138,7 +148,7 @@ export const MyDetailsForm = () => {
       <AccountForm>
         <FormFrame>
           <Input 
-            styleObj={{ flex: 1, marginRight: '50px' }}
+            styleObj={isMobile ? null : mobileInputStyle}
             value={firstNameLocal} 
             handleOnChange={e => setFirstNameLocal(e.target.value)} 
             isRequired={false} 
@@ -156,7 +166,7 @@ export const MyDetailsForm = () => {
 
         <FormFrame>
           <Input 
-            styleObj={{ flex: 1, marginRight: '50px' }}
+            styleObj={isMobile ? null : mobileInputStyle}
             value={email} 
             handleOnChange={() => {}}
             isRequired={false} 
@@ -182,7 +192,7 @@ export const MyDetailsForm = () => {
 
         <FormFrame>
           <Input 
-            styleObj={{ flex: 1, marginRight: '50px' }}
+            styleObj={isMobile ? null : mobileInputStyle}
             value={cityLocal} 
             handleOnChange={e => setCityLocal(e.target.value)} 
             isRequired={false} 
@@ -210,7 +220,7 @@ export const MyDetailsForm = () => {
             onChange={e => setStateLocal(e.value)} 
           /> :
           <Input 
-            styleObj={{ flex: 1, marginRight: '50px' }}
+            styleObj={isMobile ? null : mobileInputStyle}
             value={stateLocal} 
             handleOnChange={e => setStateLocal(e.target.value)} 
             isRequired={false} 
