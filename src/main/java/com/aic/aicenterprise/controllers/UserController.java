@@ -3,7 +3,13 @@ package com.aic.aicenterprise.controllers;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.exceptions.EmailNotFoundException;
 import com.aic.aicenterprise.exceptions.ResetPasswordLinkExpiredException;
-import com.aic.aicenterprise.models.*;
+import com.aic.aicenterprise.models.requests.ConfirmEmailRequest;
+import com.aic.aicenterprise.models.requests.ForgotPasswordRequest;
+import com.aic.aicenterprise.models.requests.ResetPasswordRequest;
+import com.aic.aicenterprise.models.requests.UpdateRoleRequest;
+import com.aic.aicenterprise.models.responses.ImageUrlResponse;
+import com.aic.aicenterprise.models.responses.SaveResponse;
+import com.aic.aicenterprise.models.responses.UserDetailsResponse;
 import com.aic.aicenterprise.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 import static com.aic.aicenterprise.constants.AppConstants.USER_PATH;
-import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
 @Slf4j
@@ -258,6 +263,28 @@ public class UserController {
             confirmResponse = SaveResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while checking if email already exists")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return confirmResponse;
+    }
+
+    @PostMapping("/update-role")
+    public SaveResponse updateUserRole(@RequestBody UpdateRoleRequest request) {
+        SaveResponse confirmResponse;
+        try {
+            boolean updateStatus = userService.updateUserRole(request.getEmail(), request.getUserRole());
+            confirmResponse = SaveResponse.builder()
+                    .payload(updateStatus)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+        } catch (Exception ex) {
+            log.info("Exception while updating user role: {}", ex);
+            confirmResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while updating user role")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(false)
                     .build();

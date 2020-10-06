@@ -1,7 +1,7 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.UserEntity;
-import com.aic.aicenterprise.models.UserDetailsResponse;
+import com.aic.aicenterprise.models.responses.UserDetailsResponse;
 import com.aic.aicenterprise.services.UserService;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;

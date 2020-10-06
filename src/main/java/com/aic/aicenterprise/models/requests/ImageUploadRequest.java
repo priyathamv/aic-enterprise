@@ -1,4 +1,4 @@
-package com.aic.aicenterprise.models;
+package com.aic.aicenterprise.models.requests;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

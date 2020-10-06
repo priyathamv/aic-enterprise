@@ -1,8 +1,8 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Product;
-import com.aic.aicenterprise.models.BrandListResponse;
-import com.aic.aicenterprise.models.ProductListResponse;
+import com.aic.aicenterprise.models.responses.BrandListResponse;
+import com.aic.aicenterprise.models.responses.ProductListResponse;
 import com.aic.aicenterprise.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

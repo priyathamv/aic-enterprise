@@ -2,8 +2,8 @@ package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Order;
 import com.aic.aicenterprise.entities.UserCart;
-import com.aic.aicenterprise.models.OrderHistoryResponse;
-import com.aic.aicenterprise.models.SaveResponse;
+import com.aic.aicenterprise.models.responses.OrderHistoryResponse;
+import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

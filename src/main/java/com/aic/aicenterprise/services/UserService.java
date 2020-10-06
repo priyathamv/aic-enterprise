@@ -1,8 +1,9 @@
 package com.aic.aicenterprise.services;
 
 import com.aic.aicenterprise.entities.UserEntity;
-import com.aic.aicenterprise.models.ForgotPasswordRequest;
-import com.aic.aicenterprise.models.ResetPasswordRequest;
+import com.aic.aicenterprise.models.UserRole;
+import com.aic.aicenterprise.models.requests.ForgotPasswordRequest;
+import com.aic.aicenterprise.models.requests.ResetPasswordRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,4 +28,6 @@ public interface UserService {
     boolean sendEmailConfirmationMail(String email) throws IOException;
 
     boolean isEmailConfirmed(String email);
+
+    boolean updateUserRole(String email, UserRole userRole);
 }

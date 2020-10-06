@@ -1,5 +1,5 @@
 package com.aic.aicenterprise.models;
 
-public enum UserType {
+public enum UserRole {
     DEFAULT, PREMIUM, ADMIN
 }

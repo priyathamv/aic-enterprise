@@ -1,8 +1,8 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.UserCart;
-import com.aic.aicenterprise.models.SaveResponse;
-import com.aic.aicenterprise.models.CartResponse;
+import com.aic.aicenterprise.models.responses.SaveResponse;
+import com.aic.aicenterprise.models.responses.CartResponse;
 import com.aic.aicenterprise.services.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

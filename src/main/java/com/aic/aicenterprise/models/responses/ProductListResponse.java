@@ -1,4 +1,4 @@
-package com.aic.aicenterprise.models;
+package com.aic.aicenterprise.models.responses;
 
 import com.aic.aicenterprise.entities.Product;
 import lombok.Builder;

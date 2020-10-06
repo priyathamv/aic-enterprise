@@ -1,6 +1,6 @@
 package com.aic.aicenterprise.entities;
 
-import com.aic.aicenterprise.models.UserType;
+import com.aic.aicenterprise.models.UserRole;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -29,7 +29,7 @@ public class UserEntity {
 
     private String confirmationToken;
 
-    private UserType userType = UserType.DEFAULT;
+    private UserRole userRole = UserRole.DEFAULT;
 
     private String imageUrl;
 

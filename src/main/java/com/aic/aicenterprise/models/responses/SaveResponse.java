@@ -1,4 +1,4 @@
-package com.aic.aicenterprise.models;
+package com.aic.aicenterprise.models.responses;
 
 import lombok.Builder;
 import lombok.Getter;

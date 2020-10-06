@@ -115,6 +115,10 @@ export const NavbarMenu = () => {
     return currentPath.includes(path) ? { marginBottom: '-1px', borderBottom: '5px solid #232162' } : null;
   }
 
+  // To update curPageStyle on every path change
+  // useEffect(() => {
+  // }, [window.location.pathname])
+
   return (
     <Container id='navbar_menu_id'>
       <MenuItems>

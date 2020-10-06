@@ -1,8 +1,8 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Subscriber;
-import com.aic.aicenterprise.models.SubscriberListResponse;
-import com.aic.aicenterprise.models.SaveResponse;
+import com.aic.aicenterprise.models.responses.SubscriberListResponse;
+import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.SubscriberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

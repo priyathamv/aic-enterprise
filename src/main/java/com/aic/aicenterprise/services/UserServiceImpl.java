@@ -3,8 +3,9 @@ package com.aic.aicenterprise.services;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.exceptions.EmailNotFoundException;
 import com.aic.aicenterprise.exceptions.ResetPasswordLinkExpiredException;
-import com.aic.aicenterprise.models.ForgotPasswordRequest;
-import com.aic.aicenterprise.models.ResetPasswordRequest;
+import com.aic.aicenterprise.models.UserRole;
+import com.aic.aicenterprise.models.requests.ForgotPasswordRequest;
+import com.aic.aicenterprise.models.requests.ResetPasswordRequest;
 import com.aic.aicenterprise.repositories.UserRepository;
 import com.aic.aicenterprise.services.image.ImageService;
 import com.mongodb.client.result.UpdateResult;
@@ -312,6 +313,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         );
     }
 
+    @Override
+    public boolean updateUserRole(String email, UserRole userRole) {
+        Query query = new Query(new Criteria(EMAIL).is(email));
+        Update update = new Update().set("userRole", userRole);
 
+        UpdateResult updateResult = mongoTemplate.updateFirst(query, update, UserEntity.class);
+        return updateResult.getModifiedCount() == 1;
+    }
 
 }
