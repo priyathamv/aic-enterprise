@@ -68,7 +68,7 @@ const SubHeader = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: 12px;
+  font-size: 16px;
 
   @media ${device.laptop} { 
     font-size: 18px;
@@ -88,7 +88,7 @@ export const WhyChooseUs = () => {
       <Image src='/images/why_choose_us.jpg' />
 
       <Content>
-        <Title style={{ marginBottom: '50px' }}>WHY CHOOSE US?</Title>
+        <Title style={{ marginBottom: '30px' }}>WHY CHOOSE US?</Title>
         
         <Box>
           <ItemComponent title='50+' text='Years of Experiance' />

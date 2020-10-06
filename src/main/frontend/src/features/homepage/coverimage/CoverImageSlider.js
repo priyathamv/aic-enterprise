@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
@@ -16,16 +17,39 @@ const Container = styled.div`
   }
 `;
 
-const Image = styled.img`
+const Image0 = styled.div`
+  background-image: url(/images/cover_image0.png);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
   width: 100vw;
+  height: 100%;
 `;
 
-const Button = styled.a`
+const Image1 = styled.div`
+  background-image: url(/images/cover_image1.png);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  width: 100vw;
+  height: 100%;
+`;
+
+const Image2 = styled.div`
+  background-image: url(/images/cover_image2.png);
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  width: 100vw;
+  height: 100%;
+`;
+
+const Button = styled(Link)`
   text-decoration: none;
   color: black;
   border: 1px solid black;
   padding: 10px;
-  font-size: 16px;
+  font-size: 14px;
   
   @media ${device.laptop} { 
     padding: 15px 30px;
@@ -41,15 +65,30 @@ const Content = styled.div`
 
 const Title = styled.div`
   font-weight: bold;
-  font-size: 36px;
-  margin-bottom: 40px;
+  font-size: 18px;
+  margin-bottom: 18px;
+
+  @media ${device.tablet} { 
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  @media ${device.laptop} { 
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
 `;
 
 const Description = styled.div`
   width: 40vw;
   letter-spacing: 1px;
-  margin-bottom: 40px;
-  font-size: 20px;
+  margin-bottom: 30px;
+  font-size: 12px;
+
+  @media ${device.tablet} { 
+    font-size: 14px;
+    margin-bottom: 40px;
+  }
   
   @media ${device.laptop} { 
     margin-bottom: 80px;
@@ -69,36 +108,36 @@ export const CoverImageSlider = () => {
       <AutoplaySlider
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
-        interval={5000}
+        interval={5000000}
         bullets={false}
         style={ viewportWidth < 1024 ? { height: '378px' } : { height: '450px' }}
       >
         <div className='cover-image'>
-          <Image src="/images/cover_image1.png" />
+          <Image0 />
 
           <Content>
             <Title>Efficient Customer Service</Title>
             <Description>"With our qualified team, prompt responses to enquiries and a personalised touch added to our services, we are widely known for our quality of services provided over the past few decades."</Description>
-            <Button href='/about-us' >EXPLORE</Button>
+            <Button to='/about-us' >EXPLORE</Button>
           </Content>
         </div>
         
         <div className='cover-image'>
-          <Image src="/images/cover_image2.png" />
+          <Image1 />
           
           <Content>
             <Title>On time delivery</Title>
             <Description>"Our strong and robust supply chain network supports us in ensuring that deliveries are on time and as per the needs of our customers."</Description>
-            <Button href='/contact-us' >EXPLORE</Button>
+            <Button to='/contact-us' >EXPLORE</Button>
           </Content>
         </div>
 
         <div className='cover-image'>
-          <Image src="/images/cover_image0.png" />
+          <Image2 />
           <Content>
             <Title>Wide range of products</Title>
             <Description>"AIC: Your one-stop-destination for all the scientific requisites. We are one of the prominent distributors of all scientific needs across the verticals of chemicals, life science, instruments and much more!"</Description>
-            <Button href='/products' >EXPLORE</Button>
+            <Button to='/products' >EXPLORE</Button>
           </Content>
         </div>
       </AutoplaySlider>

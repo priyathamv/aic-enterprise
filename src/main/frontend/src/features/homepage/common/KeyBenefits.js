@@ -67,7 +67,7 @@ const Title = styled.div`
 `;
 
 const Text = styled.div`
-  font-size: 32px;
+  font-size: 16px;
 
   @media ${device.laptop} { 
     font-size: 18px;
@@ -83,7 +83,7 @@ export const KeyBenefits = () => {
       {viewportWidth < 1024 && <Image src='/images/key_benefits.jpg' />}
 
       <Content>
-        <Title style={{ marginBottom: '50px' }}>KEY BENEFITS?</Title>
+        <Title style={{ marginBottom: '30px' }}>KEY BENEFITS?</Title>
         <Box>
           <Item>
             <ArrowIcon size='1em' style={{ marginTop: '-7px' }} />
