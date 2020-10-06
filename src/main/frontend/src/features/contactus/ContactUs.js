@@ -26,6 +26,10 @@ const GetInTouchFrame = styled.div`
   background-color: #FFF;
   margin: -350px 10vw 50px 10vw;
   box-shadow: 0 5px 6px -6px black;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const LocationPanel = styled.div`

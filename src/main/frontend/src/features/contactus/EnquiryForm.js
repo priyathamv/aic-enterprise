@@ -21,6 +21,10 @@ const Label = styled.div`
 const EmailsFrame = styled.div`
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 const ButtonWrapper = styled.div`
@@ -94,12 +98,12 @@ export const EnquiryForm = ({ styles }) => {
       <Input value={name} handleOnChange={e => setName(e.target.value)} label='Name' />
       
       <EmailsFrame>
-        <Input styleObj={{flex: 1, marginRight: '50px'}} value={phoneNumber} handleOnChange={e => setPhoneNumber(e.target.value)} label='Phone Number' />
+        <Input styleObj={{flex: 1, marginRight: '2vw'}} value={phoneNumber} handleOnChange={e => setPhoneNumber(e.target.value)} label='Phone Number' />
         <Input styleObj={{flex: 1}} value={email} handleOnChange={e => setEmail(e.target.value.toLowerCase())} isRequired={true} label='Email*' />
       </EmailsFrame>
       
       <EmailsFrame>
-        <Input styleObj={{flex: 1, marginRight: '50px'}} value={company} handleOnChange={e => setCompany(e.target.value)} label='Company Name' />
+        <Input styleObj={{flex: 1, marginRight: '2vw'}} value={company} handleOnChange={e => setCompany(e.target.value)} label='Company Name' />
         <Input styleObj={{flex: 1}} value={cas} handleOnChange={e => setCas(e.target.value)} label='CAS Number of product' />
       </EmailsFrame>
       
@@ -143,7 +147,7 @@ export const EnquiryForm = ({ styles }) => {
       </EmailsFrame>
 
       <ButtonWrapper>
-        <Button style={{ width: '27%', fontSize: '14px', marginBottom: '10px' }} label='SUBMIT' handleOnClick={handleOnClick} />
+        <Button style={{ fontSize: '14px', marginBottom: '10px' }} label='SUBMIT' handleOnClick={handleOnClick} />
 
         <Message>{message}</Message>
       </ButtonWrapper>
