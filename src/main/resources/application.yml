@@ -7,9 +7,9 @@ server:
     min-response-size: 1024
 
 # Actuator configurations
-health:
-  diskspace:
-    enabled: false
+#health:
+#  diskspace:
+#    enabled: false
 endpoints:
   health:
     sensitive: false
@@ -19,6 +19,9 @@ management:
   endpoint:
     health:
       show-details: always
+  health:
+    diskSpace:
+      enabled: false
 
 spring:
   mail:
