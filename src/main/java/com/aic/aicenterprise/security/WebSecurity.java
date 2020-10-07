@@ -46,7 +46,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/reset-password",
                 "/account/**",
                 "/confirm-email",
-                "/actuator/health"
+                "/actuator/**"
         };
 
 //        String[] allowedPathsPOST = {
