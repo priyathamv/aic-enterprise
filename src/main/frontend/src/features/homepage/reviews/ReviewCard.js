@@ -15,6 +15,11 @@ const Container = styled.div`
   background-color: #FFF;
   position: relative;
   overflow: hidden;
+  margin: 0 20px;
+
+  @media ${device.laptop} { 
+    margin: 0;
+  }
 `;
 
 const Triangle = styled.div`
@@ -36,13 +41,14 @@ const QuotesIcon = styled(ImQuotesLeft)`
 `;
 
 const Text = styled.div`
-  line-height: 27px;
   margin-bottom: 10px;
   color: #000000a3;
-  font-size: 24px;
+  font-size: 14px;
+  line-height: 22px;
   
   @media ${device.laptop} { 
     font-size: 14px;
+    line-height: 27px;
   }
 `;
 
@@ -54,6 +60,11 @@ const UserFrame = styled.div`
 
 const UserName = styled.div`
   font-style: italic;
+  font-size: 14px;
+
+  @media ${device.laptop} { 
+    font-size: 16px;
+  }  
 `;
 
 const Rating = styled.div`

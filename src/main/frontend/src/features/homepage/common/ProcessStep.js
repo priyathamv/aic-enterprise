@@ -30,7 +30,7 @@ const Number = styled.div`
 const Process = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 10px;
   background-color: #0000000a;
   border-bottom: 2px solid #232162;
 
@@ -42,7 +42,7 @@ const Process = styled.div`
 const Header = styled.div`
   color: #232162;
   margin-bottom: 10px;
-  font-size: 26px;
+  font-size: 16px;
 
   @media ${device.laptop} { 
     font-size: 18px;
@@ -50,7 +50,7 @@ const Header = styled.div`
 `;
 
 const Content = styled.div`
-  font-size: 24px;
+  font-size: 14px;
 
   @media ${device.laptop} { 
     font-size: 14px;

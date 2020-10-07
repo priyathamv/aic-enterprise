@@ -69,15 +69,19 @@ export const FeaturedCarousel = () => {
   //   }
   // });
 
+  const viewportWidth = window.outerWidth;
+  const noOfItemsPerSlide = viewportWidth >= 1024 ? 3 : (viewportWidth >= 768 ? 2 : 1);
+
+
   return (
     <AwesomeSlider className='featured-slider'>
       {products
-        .map((curProduct, index) => index % 3 === 0 ? index : null)
+        .map((curProduct, index) => index % noOfItemsPerSlide === 0 ? index : null)
         .filter(index => index !== null)
         .map(indexOf3 => 
           <div key={indexOf3} className='product-frame'>
             {
-              Array(3).fill()
+              Array(noOfItemsPerSlide).fill()
                 .map((_, i) => {
                   const curIndex = indexOf3 + i;
                   return curIndex < products.length ? <Product key={curIndex} productDetails={products[curIndex]} /> : <BlankProduct key={curIndex} />;

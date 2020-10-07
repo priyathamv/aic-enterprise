@@ -18,12 +18,13 @@ const Container = styled.div`
 
 const Title = styled.div`
   color: #232162;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
   margin-bottom: 20px;
   display: flex;
   
   @media ${device.laptop} { 
+    font-size: 32px;
     margin-bottom: 40px;
   }
 `;
@@ -31,11 +32,11 @@ const Title = styled.div`
 const SubTitle = styled.div`
   font-weight: bold;
   color: #000000ab;
-  letter-spacing: 2px;
-  font-size: 10px;
   margin-bottom: 20px;
+  font-size: 14px;
+  letter-spacing: 1px;
 
-  @media ${device.laptop} { 
+  @media ${device.tablet} { 
     font-size: 16px;
     margin-bottom: 40px;
   }
@@ -62,8 +63,8 @@ const Image = styled.img`
 `;
 
 const Content = styled.div`
-  font-size: 32px;
-  // line-height: 25px;
+  font-size: 16px;
+  line-height: 24px;
 
   @media ${device.laptop} {
     width: 30vw;

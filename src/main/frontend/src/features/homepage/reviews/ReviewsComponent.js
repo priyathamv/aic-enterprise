@@ -40,30 +40,33 @@ const reviews = [
     'text': 'It\'s been a  wonderful experience with AIC Enterprises as a distributor of so many molecular biology reagents, chemicals and other diagnostic kits for animal diseases. You have been serving our ICAR-NIVEDI as and when required. Some of the products that you have supplied for our routine service projects are commendable. Keep serving our scientific community for the betterment of both animal and human health.',
     'rating': 5
   }
-]
+];
+
+const viewportWidth = window.outerWidth;
+const noOfItemsPerSlide = viewportWidth >= 1024 ? 2 : 1;
 
 export const ReviewsComponent = () => {
   return (
     <Container>
       <AwesomeSlider className='reviews-slider' bullets={false}>
         {reviews
-          .map((curReview, index) => index % 2 === 0 ? index : null)
+          .map((curReview, index) => index % noOfItemsPerSlide === 0 ? index : null)
           .filter(index => index !== null)
           .map(indexOf2 => 
             <div key={indexOf2} className='reviews-frame'>
               {
-                Array(2).fill()
+                Array(noOfItemsPerSlide).fill()
                   .map((_, i) => {
                     const curIndex = indexOf2 + i;
                     return curIndex < reviews.length ? 
                     <ReviewCard 
                       key={curIndex}
-                      style={curIndex % 2 === 0 ? { marginTop: '-75px' } : { marginBottom: '-75px' }} 
+                      style={curIndex % noOfItemsPerSlide === 0 ? { marginTop: '-75px' } : { marginBottom: '-75px' }} 
                       rating={reviews[curIndex].rating} 
                       name={reviews[curIndex].name}
                       text={reviews[curIndex].text}
                     /> : 
-                      <BlankReview key={curIndex} />;
+                    <BlankReview key={curIndex} />;
                   })
               }
             </div>

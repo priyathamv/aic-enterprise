@@ -10,30 +10,30 @@ const Container = styled.div`
   padding: 20px;
   
   @media ${device.laptop} { 
-    padding: 40px 200px;
+    padding: 50px 200px;
   }
 `;
   
 const Heading = styled.div`
   font-weight: bold;
   color: #232162;
-  font-size: 18px;
+  font-size: 28px;
   margin-bottom: 20px;
 
   @media ${device.laptop} { 
-    font-size: 26px;
-    margin-bottom: 40px;
+    // font-size: 32px;
+    margin-bottom: 20px;
   }
 `;
   
 const Content = styled.div`
   margin-bottom: 20px;
   // line-height: 30px;
-  font-size: 12px;
+  font-size: 16px;
 
   @media ${device.laptop} { 
     font-size: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -46,11 +46,11 @@ const CustomLink = styled(Link)`
   border: none;
   font-size: 12px;
   padding: 15px 30px;
+  display: inline-block;
 `;
 
 
 export const SeeOurProducts = () => {
-  const handleOnClick = () => {}
 
   return (
     <Container>

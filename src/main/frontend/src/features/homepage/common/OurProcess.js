@@ -31,16 +31,17 @@ const VerticalLine = styled.div`
   z-index: -1;
   border-left: 1px dashed #232162;
 
+  @media ${device.mobile} { 
+    height: 500px;
+    top: 75px;
+  }
+  @media ${device.tablet} { 
+    height: 78%;
+    top: 75px;
+  }
   @media ${device.laptop} { 
     height: 90%;
     top: 50px;
-  }
-  @media ${device.tablet} { 
-    height: 75%;
-    top: 75px;
-  }
-  @media ${device.mobile} { 
-    height: 85%;
   }
 `;
 

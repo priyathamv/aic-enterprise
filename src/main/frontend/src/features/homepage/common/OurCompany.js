@@ -39,15 +39,16 @@ const AboutUs = styled.div`
 const Title = styled.div`
   color: #232162;
   font-size: 26px;
+  font-weight: bold;
   margin-bottom: 20px;
 
   @media ${device.laptop} { 
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
 `;
 
 const Content = styled.div`
-  font-size: 14px;
+  font-size: 16px;
   line-height: 25px;
   margin-bottom: 20px;
 
