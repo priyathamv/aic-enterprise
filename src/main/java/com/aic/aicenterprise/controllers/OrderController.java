@@ -30,12 +30,12 @@ public class OrderController {
 
 
     @PostMapping(value = "/place-order")
-    public SaveResponse placeOrder(@RequestBody UserCart userCart) {
-        log.info("Placing order: {}", userCart);
+    public SaveResponse placeOrder(@RequestBody Order order) {
+        log.info("Placing order: {}", order);
 
         SaveResponse orderPlacedResponse;
         try {
-            boolean orderPlaceStatus = orderService.placeOrder(userCart);
+            boolean orderPlaceStatus = orderService.placeOrder(order);
             orderPlacedResponse = SaveResponse.builder()
                     .payload(orderPlaceStatus)
                     .msg(SUCCESS)

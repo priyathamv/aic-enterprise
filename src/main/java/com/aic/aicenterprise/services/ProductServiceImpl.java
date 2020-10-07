@@ -21,6 +21,7 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static com.aic.aicenterprise.constants.AppConstants.ADMIN;
 import static com.aic.aicenterprise.constants.AppConstants.TAMIL_NADU;
@@ -159,6 +160,15 @@ public class ProductServiceImpl implements ProductService {
                         return false;
                     }
                 });
+    }
+
+    @Override
+    public boolean saveProducts(List<Product> productList) {
+        Iterable<Product> products = productRepository.saveAll(productList);
+
+        List<Product> savedProducts = StreamSupport.stream(products.spliterator(), false).collect(Collectors.toList());
+
+        return productList.size() == savedProducts.size();
     }
 
     private String getProductEnquiryHtml(ProductEnquiryRequest request) {

@@ -97,7 +97,7 @@ export const CartSideBar = () => {
     } else {
       setIsLoading(true);
       try {
-        await placeOrderAsync({ email, name, cartItems});
+        await placeOrderAsync({ email, name, productList: cartItems, orderStatus: 'NEW' });
       } catch(err) {
         console.log('Error while placing order: ', err.message);
       }

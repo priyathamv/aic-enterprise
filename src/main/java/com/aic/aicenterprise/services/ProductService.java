@@ -19,4 +19,6 @@ public interface ProductService {
     List<String> getDivisions(String brand);
 
     boolean productEnquiry(ProductEnquiryRequest request);
+
+    boolean saveProducts(List<Product> productList);
 }

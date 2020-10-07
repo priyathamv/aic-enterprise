@@ -7,6 +7,7 @@ public class DBConstants {
     /* Collection names */
     public static final String PRODUCTS = "products";
     public static final String USERS = "users";
+    public static final String ORDERS = "orders";
 
     /* Field names */
     public static final String EMAIL = "email";
@@ -21,4 +22,6 @@ public class DBConstants {
 
     public static final String DIVISION = "division";
     public static final String BRAND = "brand";
+
+    public static final String CART_ITEMS = "cartItems";
 }

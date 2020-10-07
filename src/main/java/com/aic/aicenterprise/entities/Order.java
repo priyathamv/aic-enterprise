@@ -1,18 +1,21 @@
 package com.aic.aicenterprise.entities;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.aic.aicenterprise.models.OrderStatus;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 import java.util.List;
 
+import static com.aic.aicenterprise.constants.DBConstants.ORDERS;
+
 @Setter
 @Getter
 @Builder
-@Document(collection = "orders")
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = ORDERS)
 public class Order {
     @Id
     private String id;
@@ -20,6 +23,8 @@ public class Order {
     private String email;
 
     private String name;
+
+    private OrderStatus orderStatus;
 
     private List<ProductDetails> productList;
 

@@ -6,7 +6,7 @@ import com.aic.aicenterprise.entities.UserCart;
 import java.util.List;
 
 public interface OrderService {
-    boolean placeOrder(UserCart userCart);
+    boolean placeOrder(Order order);
 
     List<Order> getOrderHistory(String email);
 }

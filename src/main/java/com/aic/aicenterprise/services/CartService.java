@@ -7,4 +7,5 @@ public interface CartService {
 
     boolean saveUserCart(UserCart userCart);
 
+    boolean clearUserCart(String email);
 }

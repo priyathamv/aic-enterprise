@@ -2,7 +2,6 @@ package com.aic.aicenterprise.services;
 
 import com.aic.aicenterprise.entities.Order;
 import com.aic.aicenterprise.entities.ProductDetails;
-import com.aic.aicenterprise.entities.UserCart;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.repositories.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -26,28 +25,29 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     private EmailService emailService;
     private UserService userService;
+    private CartService cartService;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, EmailService emailService, UserService userService) {
+    public OrderServiceImpl(OrderRepository orderRepository, EmailService emailService, UserService userService, CartService cartService) {
         this.orderRepository = orderRepository;
         this.emailService = emailService;
         this.userService = userService;
+        this.cartService = cartService;
     }
 
 
     @Override
-    public boolean placeOrder(UserCart userCart) {
-        Order order = Order.builder()
-                .email(userCart.getEmail())
-                .name(userCart.getName())
-                .productList(userCart.getCartItems())
-                .createTs(new Date())
-                .build();
+    public boolean placeOrder(Order order) {
+        order.setCreateTs(new Date());
 
         Order orderSaved = orderRepository.save(order);
-        boolean orderStatus = userCart.getEmail().equals(orderSaved.getEmail());
+        boolean orderSaveStatus = order.getEmail().equals(orderSaved.getEmail());
+        boolean clearCartStatus = cartService.clearUserCart(order.getEmail());
 
-        UserEntity user = userService.findUserByEmail(userCart.getEmail());
+        boolean orderStatus = orderSaveStatus && clearCartStatus;
+        log.info("Order Status: {} Clear Cart status: {}", orderSaveStatus, clearCartStatus);
+
+        UserEntity user = userService.findUserByEmail(order.getEmail());
 
         List<String> toAddresses =
                 nonNull(user.getAddressList()) &&
@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
                         Arrays.asList("sales.tn@aicgroup.in", "vinnakotapriyatham@gmail.com") :
                         Arrays.asList("sales@aicgroup.in", "vinnakota4201@gmail.com");
 
-        boolean mailStatus = sendOrderMail(userCart, toAddresses);
+        boolean mailStatus = sendOrderMail(order, toAddresses);
 
         return orderStatus && mailStatus;
     }
@@ -66,9 +66,9 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findByEmail(email);
     }
 
-    private boolean sendOrderMail(UserCart userCart, List<String> toAddresses) {
+    private boolean sendOrderMail(Order order, List<String> toAddresses) {
         String subject = "Website order query";
-        String cartBodyHtml = getCartBodyHtml(userCart);
+        String cartBodyHtml = getCartBodyHtml(order);
 
         // Send mail
         return toAddresses.stream()
@@ -82,7 +82,7 @@ public class OrderServiceImpl implements OrderService {
                 });
     }
 
-    private String getCartBodyHtml(UserCart userCart) {
+    private String getCartBodyHtml(Order order) {
         return "<!doctype html>\n" +
                 "<html lang=\"en\">\n" +
                 "  <head></head>\n" +
@@ -90,8 +90,8 @@ public class OrderServiceImpl implements OrderService {
                 "    <div style='padding: 50px 15vw;'>\n" +
                 "      <div style='margin-bottom: 30px;'>\n" +
                 "        <div style='display: inline-block; margin-top: 30px;'>\n" +
-                "          <div style='margin-bottom: 10px;'><b>Company Name:&nbsp;</b>" + userCart.getName() + "</div>\n" +
-                "          <div><b>Email:&nbsp;</b>" + userCart.getEmail() + "</div>\n" +
+                "          <div style='margin-bottom: 10px;'><b>Company Name:&nbsp;</b>" + order.getName() + "</div>\n" +
+                "          <div><b>Email:&nbsp;</b>" + order.getEmail() + "</div>\n" +
                 "        </div>\n" +
                 "        <img style='width: 100px; height: 100px; float: right; margin-bottom: 30px;' src='" + APP_DOMAIN + "/images/aic_logo.png' alt=''/>\n" +
                 "      </div>\n" +
@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
                 "          </tr>\n" +
                 "        </thead>\n" +
                 "        <tbody>\n" +
-                            userCart.getCartItems().stream().map(this::getTableRow).collect(Collectors.joining()) +
+                            order.getProductList().stream().map(this::getTableRow).collect(Collectors.joining()) +
                 "        </tbody>\n" +
                 "      </table>\n" +
                 "    </div>\n" +

@@ -65,6 +65,29 @@ public class ProductController {
         return productListResponse;
     }
 
+    @PostMapping
+    public SaveResponse saveProducts(List<Product> productList) {
+        SaveResponse confirmResponse;
+        try {
+            boolean saveStatus = productService.saveProducts(productList);
+            confirmResponse = SaveResponse.builder()
+                    .payload(saveStatus)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while saving products: {}", ex);
+            confirmResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while saving products")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return confirmResponse;
+    }
+
     @GetMapping(value = "/brands")
     public BrandListResponse getAllBrands() {
         log.info("Getting all brands");
