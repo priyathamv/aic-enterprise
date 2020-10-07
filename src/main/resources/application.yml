@@ -6,6 +6,16 @@ server:
     mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
     min-response-size: 1024
 
+endpoints:
+  health:
+    sensitive: false
+management:
+  security:
+    enabled: false
+  endpoint:
+    health:
+      show-details: always
+
 spring:
   mail:
     host: smtp.gmail.com
