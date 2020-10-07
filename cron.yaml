@@ -1,0 +1,4 @@
+cron:
+- description: "Keep App Engine alive"
+  url: /actuator/health
+  schedule: every 2 mins
