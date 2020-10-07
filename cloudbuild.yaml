@@ -16,5 +16,9 @@ steps:
 - name: gcr.io/cloud-builders/gcloud
   args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise']
 
+# Cron job to keep the App Engine alive
+- name: gcr.io/cloud-builders/gcloud
+  args: ['app', 'deploy', 'cron.yaml']
+
 images:
 - gcr.io/aic-enterprises/aic-enterprise
