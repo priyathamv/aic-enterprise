@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 const Image0 = styled.div`
-  background-image: url(/images/cover_image0.png);
+  background-image: url(/images/cover_image0.jpg);
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
@@ -27,7 +27,7 @@ const Image0 = styled.div`
 `;
 
 const Image1 = styled.div`
-  background-image: url(/images/cover_image1.png);
+  background-image: url(/images/cover_image1.jpg);
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
@@ -36,7 +36,7 @@ const Image1 = styled.div`
 `;
 
 const Image2 = styled.div`
-  background-image: url(/images/cover_image2.png);
+  background-image: url(/images/cover_image2.jpg);
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
