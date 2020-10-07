@@ -80,7 +80,7 @@ export const KeyBenefits = () => {
 
   return (
     <Container>
-      {viewportWidth < 1024 && <Image src='/images/key_benefits.jpg' />}
+      {viewportWidth < 1024 && <Image src='/images/key_benefits.jpg' alt='Key Benefits'/>}
 
       <Content>
         <Title style={{ marginBottom: '30px' }}>KEY BENEFITS?</Title>
@@ -107,7 +107,7 @@ export const KeyBenefits = () => {
         </Box>
       </Content>
 
-      {viewportWidth >= 1024 && <Image src='/images/key_benefits.jpg' />}
+      {viewportWidth >= 1024 && <Image src='/images/key_benefits.jpg' alt='Key Benefits' />}
     </Container>
   )
 }

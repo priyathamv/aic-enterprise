@@ -76,7 +76,7 @@ export const NavbarMain = () => {
   return (
     <Container>
       <BrandFrame>
-        <Logo src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo>
+        <Logo src='/images/aic_logo.png' alt='AIC Logo' onClick={() => window.location.href='/'}></Logo>
 
         <Brand>AIC Group</Brand>
       </BrandFrame>

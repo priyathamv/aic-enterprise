@@ -154,7 +154,7 @@ export const NavbarMenu = () => {
           null : 
           <BlankMenuItem style={{ paddingTop: '8px' }}>
             {showLogo ? 
-              <Logo id='navmenu_logo_id' src='/images/aic_logo.png' onClick={() => window.location.href='/'}></Logo> : null}
+              <Logo id='navmenu_logo_id' src='/images/aic_logo.png' alt='AIC Logo' onClick={() => window.location.href='/'}></Logo> : null}
           </BlankMenuItem>  
         }
         <MenuItemWrap

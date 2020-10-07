@@ -101,7 +101,7 @@ export const AboutUs = () => {
       </IntroFrame>
 
       <StrengthFrame>
-        {!isMobile && <StrengthImage src='/images/strength.png'></StrengthImage>}
+        {!isMobile && <StrengthImage src='/images/strength.png' alt='AIC Strength'></StrengthImage>}
 
         <Strength>
           <Title style={{ textAlign: 'center' }}>AIC's strength lies in</Title>

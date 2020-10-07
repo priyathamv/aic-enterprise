@@ -73,7 +73,7 @@ export const OurCompany = () => {
 
   return (
     <Container>
-      <Image src='/images/our_company.jpg' />
+      <Image src='/images/our_company.jpg' alt='Our Company' />
 
       <AboutUs>
         <Title>Our Company</Title>

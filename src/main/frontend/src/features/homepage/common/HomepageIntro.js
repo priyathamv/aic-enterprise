@@ -82,7 +82,7 @@ export const HomepageIntro = () => {
       </SubTitle>
 
       <ContentFrame>
-        <Image src='/images/intro.jpg' />
+        <Image src='/images/intro.jpg' alt='AIC Intro'/>
         
         <Content>
           We at AIC are devoted to contributing and serving the scientific community across the country by being a one-stop solution for all the laboratory requisites. Good quality products, a diversified product range, customer satisfaction, on-time deliveries and value addition to the stakeholders associated with us, has been our strength for the past six decades and we continue to build on the same in the years to come. "Serving the Science" is our motto and are proud to be a part of the same.
