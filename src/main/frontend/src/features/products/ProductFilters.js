@@ -20,6 +20,7 @@ const TabContainer = styled.div`
   width: 100%;
   max-width: 50vw;
   flex: 3;
+  margin-right: 20px;
 `;
 
 const Search = styled.div`
@@ -30,7 +31,7 @@ const Search = styled.div`
 `;
 
 const SearchInput = styled.input`
-  width: 15vw;
+  width: 100%;
   border-radius: 3px;
   padding: 10px 30px 10px 30px;
   border: 1px solid #CCC;
@@ -41,7 +42,7 @@ const SearchIcon = styled(AiOutlineSearch)`
   position: absolute;
   color: #848484;
   top: 10px;
-  left: 1.3vw;
+  left: 3%;
 `;
 
 const CancelIcon = styled(MdClear)`

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components';
 
 import { CategoryFrame } from './CategoryFrame';
+import { device } from '../../utils/viewport';
 
 
 const Container = styled.div`
@@ -30,8 +31,13 @@ const Name = styled.div`
 
 
 const Image = styled.img`
-  max-width: 150px;
-  max-height: 150px;
+  max-width: 100px;
+  max-height: 100px;
+
+  @media ${device.laptop} { 
+    max-width: 150px;
+    max-height: 150px;
+  }
 `;
 
 

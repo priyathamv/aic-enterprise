@@ -1,16 +1,27 @@
 import React from 'react';
 // import { useDispatch} from 'react-redux';
 import styled from 'styled-components';
+import { device } from '../../utils/viewport';
 
 // import { fetchBrandsAsync, selectBrands } from './brandsSlice';
 
 
 const Container = styled.div`
-  margin: 50px 15vw 100px 15vw;
+  margin: 50px 20px 100px 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-column-gap: 30px;
   grid-row-gap: 30px;
+
+  @media ${device.tablet} { 
+    margin: 50px 100px 100px 100px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  
+  @media ${device.laptop} { 
+    margin: 50px 15vw 100px 15vw;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  }
 `;
 
 const Brand = styled.a`

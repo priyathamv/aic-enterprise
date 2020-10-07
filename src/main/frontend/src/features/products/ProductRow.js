@@ -7,19 +7,27 @@ import { QuantityBox } from '../cart/QuantityBox';
 import { selectCartItems } from '../cart/cartSlice';
 import { updateUserCartAsync } from '../cart/cartSlice';
 import { selectUserEmail } from '../auth/authSlice';
-
+import { device } from '../utils/viewport';
 
 const Tr = styled.tr`
   box-shadow: 0 0 10px 1px rgba(188,188,188,0.3);
 `;
 
 const Td = styled.td`
-  padding: 20px 30px;
+  padding: 10px;
+
+  @media ${device.laptop} { 
+    padding: 20px 30px;
+  }
 `;
 
 const CustomTd = styled.td`
-  padding: 0 30px;
+  padding: 0 10px;
   text-align: center;
+
+  @media ${device.laptop} { 
+    padding: 0 30px;
+  }
 `;
 
 
@@ -49,6 +57,12 @@ export const ProductRow = ({ productDetails }) => {
       dispatch(updateUserCartAsync('UPDATE_CART_ITEM', userEmail, cartItems, { ...productDetails, quantity: newQuantity }));
   }
 
+  const viewportWidth = window.outerWidth;
+  const isMobile = viewportWidth < 768;
+  const buttonStyle = isMobile ? 
+    ({padding: '10px', fontSize: '10px', minWidth: '100px'}) : 
+    ({padding: '12px 25px', fontSize: '10px', minWidth: '120px'});
+
   return (
     <Tr>
       <Td>{productDetails.code}</Td>
@@ -59,7 +73,7 @@ export const ProductRow = ({ productDetails }) => {
         {
           quantity === 0 ?
           <Button 
-            style={{padding: '12px 25px', fontSize: '10px', minWidth: '120px'}} 
+            style={buttonStyle} 
             label='ADD TO CART' 
             handleOnClick={() => { setQuantity(1); handleAddToCart(productDetails); }} 
           /> :

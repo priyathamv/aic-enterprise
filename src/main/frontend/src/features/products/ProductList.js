@@ -8,10 +8,14 @@ import { getNextPageAsync, updateBrand, updateDivision, selectProducts, selectHa
 import { ProductRow } from './ProductRow';
 import { ProductFilters } from './ProductFilters';
 import { productData } from './productData';
-
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
-  margin: 0 15vw 50px 15vw;
+  margin: 0 20px 50px 20px;
+  
+  @media ${device.laptop} { 
+    margin: 0 15vw 50px 15vw;
+  }
 `;
 
 const ProductIntro = styled.div`
@@ -22,18 +26,32 @@ const ProductIntro = styled.div`
 `;
 
 const ProductName = styled.div`
-  font-size: 42px;
+  font-size: 32px;
+
+  @media ${device.laptop} { 
+    font-size: 42px;
+  }
 `;
 
 const ProductDesc = styled.div`
-  font-size: 18px;
+  font-size: 16px;
   margin-top: 30px;
+  line-height: 25px;
+
+  @media ${device.laptop} { 
+    font-size: 18px;
+  }
 `;
 
 const Table = styled.table`
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 5px;
+  font-size: 12px;
+
+  @media ${device.laptop} { 
+    font-size: 16px;
+  }
 `;
 
 const TableHeader = styled.tr`
@@ -46,8 +64,12 @@ const Tr = styled.tr`
 `;
 
 const Th = styled.th`
-  padding: 20px 30px;
+  padding: 10px;
   text-align: left;
+  
+  @media ${device.laptop} { 
+    padding: 20px 30px;
+  }
 `;
 
 const Dummy = styled.td`
