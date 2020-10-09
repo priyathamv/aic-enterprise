@@ -21,8 +21,13 @@ const Container = styled.div`
 const ProductIntro = styled.div`
   color: #232162;
   background-color: #F8F8FF;
-  padding: 50px 15vw;
-  margin: 0 -15vw 50px -15vw;
+  padding: 50px 20px;
+  margin: 0 -20px 50px -20px;
+
+  @media ${device.laptop} { 
+    padding: 50px 15vw;
+    margin: 0 -15vw 50px -15vw;
+  }
 `;
 
 const ProductName = styled.div`
@@ -41,6 +46,11 @@ const ProductDesc = styled.div`
   @media ${device.laptop} { 
     font-size: 18px;
   }
+`;
+
+const TableWrapper = styled.div`
+  width: 100%;
+  overflow: scroll;
 `;
 
 const Table = styled.table`
@@ -135,31 +145,33 @@ export const ProductList = () => {
 
       <ProductFilters divisionList={divisionList} setPageNo={setPageNo} />
 
-      <Table>
-        <thead>
-          <TableHeader>
-            <Th>Code</Th>
-            <Th>Name</Th>
-            <Th>Brand</Th>
-            <Th>Capacity</Th>
-            <Th></Th>
-          </TableHeader>
-        </thead>
-        
-        <tbody>
-        {
-          productList.map((curProduct, index) => 
-            <ProductRow
-              key={index}
-              productDetails={curProduct}
-            />)
-        }
-          {hasMore ?
-            <Tr>
-              <Dummy colSpan='5' ref={dummyRef}>Loading more products...</Dummy>
-            </Tr> : null}
-        </tbody>
-      </Table>
+      <TableWrapper>
+        <Table>
+          <thead>
+            <TableHeader>
+              <Th>Code</Th>
+              <Th>Name</Th>
+              <Th>Brand</Th>
+              <Th>Capacity</Th>
+              <Th></Th>
+            </TableHeader>
+          </thead>
+          
+          <tbody>
+          {
+            productList.map((curProduct, index) => 
+              <ProductRow
+                key={index}
+                productDetails={curProduct}
+              />)
+          }
+            {hasMore ?
+              <Tr>
+                <Dummy colSpan='5' ref={dummyRef}>Loading more products...</Dummy>
+              </Tr> : null}
+          </tbody>
+        </Table>
+      </TableWrapper>
     </Container>
   )
 }
