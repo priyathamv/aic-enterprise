@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
   display: flex;
@@ -7,12 +8,17 @@ const Container = styled.div`
 
 const QuantityOperator = styled.button`
   width: 25px;
+  font-size: 16px;
   text-align: center;
   border-radius: 0;
   border: 1px solid #ccc;
-  font-size: 20px;
   background-color: #f3f3f3;
   cursor: pointer;
+
+  @media ${device.laptop} { 
+    width: 28px;
+    font-size: 20px;
+  }
 `;
 
 const Quantity = styled.input`

@@ -72,7 +72,7 @@ export const ProductFilters = ({ divisionList, setPageNo }) => {
         pageNo: 0, 
         limit: 20
       }
-      if (searchValue === '' || searchValue.length >= 3) {
+      if (brand && (searchValue === '' || searchValue.length >= 3)) {
         const productsResponse = await axios.get('/api/products', { params: queryParams });
         dispatch(changeProductList(productsResponse.data.payload));
       }

@@ -8,6 +8,7 @@ import { CartItem } from './CartItem';
 import { selectShowCartPage, displayCartPage, selectCartItems, clearCart, placeOrderAsync } from '../cart/cartSlice';
 import { selectUserEmail, selectUserName } from '../auth/authSlice';
 import { Spinner } from '../utils/Spinner';
+import { device } from '../utils/viewport';
 
 
 const CartHeader = styled.div`
@@ -50,18 +51,25 @@ const ButtonWrapper = styled.div`
 `;
 
 const Button = styled.button`
-  width: 180px;
   background-color: #232162;
   color: #FFF;
   border: none;
-  padding: 15px 0;
-  font-size: 14px;
   cursor: pointer;
   position: relative;
-  min-height: 46px;
   border-radius: 5px;
   margin-top: 10px;
   margin-bottom: 10px;
+  padding: 0;
+  font-size: 12px;
+  min-height: 36px;
+  width: 140px;
+
+  @media ${device.laptop} { 
+    padding: 10px 0;
+    font-size: 14px;
+    width: 160px;
+    min-height: 42px;
+  }
 `;
 
 

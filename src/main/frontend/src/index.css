@@ -207,6 +207,7 @@ code {
   top: 0;
   height: 100vh !important;
   z-index: 100000000 !important;
+  min-width: 300px;
 }
 
 .bm-menu {

@@ -1,16 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import { device } from '../utils/viewport';
+
 
 const Container = styled.div`
   top: 75px;
   position: absolute;
-
   display: none;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-  
   border-radius: 3px;
   padding: 15px;
   margin-bottom: 50px;
@@ -18,10 +18,23 @@ const Container = styled.div`
   background-color: #FFF;
   z-index: 10000;
   box-shadow: 0 0 10px 1px rgba(188,188,188,0.3);
+  height: 60vh;
+  overflow: scroll;
+
+  @media ${device.tablet} { 
+    grid-template-columns: 1fr 1fr 1fr;
+    height: auto;
+  }
+  
+  @media ${device.laptop} { 
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    height: auto;
+  }
 `;
 
 const Brand = styled.a`
   text-decoration: none;
+  align-self: center;
   color: #232162;
   padding: 15px 20px;
   border-radius: 3px;

@@ -106,7 +106,7 @@ export const ProductList = () => {
   }, [brand])
 
   useEffect(() => {
-    if (hasMore) {
+    if (hasMore && brand) {
       dispatch(getNextPageAsync({ brand, division, searchValue, pageNo })); 
     }
   }, [dispatch, hasMore, brand, division, pageNo]);
