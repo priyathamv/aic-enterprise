@@ -82,7 +82,12 @@ const Th = styled.th`
   }
 `;
 
-const Dummy = styled.td`
+const Dummy = styled.div`
+  display: inline-block;
+  position: absolute
+`;
+
+const ScrollObserver = styled.td`
   padding: 15px 25px;
   text-align: center;
 `;
@@ -167,7 +172,9 @@ export const ProductList = () => {
           }
             {hasMore ?
               <Tr>
-                <Dummy colSpan='5' ref={dummyRef}>Loading more products...</Dummy>
+                <ScrollObserver colSpan='5'>
+                  <Dummy ref={dummyRef}>&nbsp;</Dummy>Loading more products...
+                </ScrollObserver>
               </Tr> : null}
           </tbody>
         </Table>
