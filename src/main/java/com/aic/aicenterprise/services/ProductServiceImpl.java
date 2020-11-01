@@ -166,7 +166,8 @@ public class ProductServiceImpl implements ProductService {
     public boolean saveProducts(List<Product> productList) {
         Iterable<Product> products = productRepository.saveAll(productList);
 
-        List<Product> savedProducts = StreamSupport.stream(products.spliterator(), false).collect(Collectors.toList());
+        List<Product> savedProducts = StreamSupport.stream(products.spliterator(), false)
+                .collect(Collectors.toList());
 
         return productList.size() == savedProducts.size();
     }

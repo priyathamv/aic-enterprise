@@ -8,6 +8,9 @@ public class DBConstants {
     public static final String PRODUCTS = "products";
     public static final String USERS = "users";
     public static final String ORDERS = "orders";
+    public static final String BRANDS = "brands";
+    public static final String SUBSCRIBERS = "subscribers";
+    public static final String CARTS = "carts";
 
     /* Field names */
     public static final String EMAIL = "email";

@@ -65,7 +65,7 @@ public class ProductController {
         return productListResponse;
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public SaveResponse saveProducts(List<Product> productList) {
         SaveResponse confirmResponse;
         try {
@@ -86,31 +86,6 @@ public class ProductController {
                     .build();
         }
         return confirmResponse;
-    }
-
-    @GetMapping(value = "/brands")
-    public BrandListResponse getAllBrands() {
-        log.info("Getting all brands");
-
-        BrandListResponse brandListResponse;
-        try {
-            List<String> brandList = productService.getAllBrands();
-            brandListResponse = BrandListResponse.builder()
-                    .payload(brandList)
-                    .msg(SUCCESS)
-                    .status(HttpStatus.OK.value())
-                    .build();
-
-        } catch (Exception ex) {
-            log.info("Exception while fetching brands: {}", ex);
-            brandListResponse = BrandListResponse.builder()
-                    .error(ex.toString())
-                    .msg("Exception while fetching brands")
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .payload(null)
-                    .build();
-        }
-        return brandListResponse;
     }
 
     @GetMapping(value = "/divisions")

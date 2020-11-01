@@ -8,10 +8,12 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+import static com.aic.aicenterprise.constants.DBConstants.CARTS;
+
 @Setter
 @Getter
 @ToString
-@Document(collection = "carts")
+@Document(collection = CARTS)
 public class UserCart {
 
     @Id
