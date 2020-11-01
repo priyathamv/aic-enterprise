@@ -4,6 +4,7 @@ import com.aic.aicenterprise.entities.Order;
 import com.aic.aicenterprise.entities.ProductDetails;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.models.OrderStatus;
+import com.aic.aicenterprise.models.OrderSummary;
 import com.aic.aicenterprise.repositories.OrderRepository;
 import com.mongodb.client.result.UpdateResult;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +17,12 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.aic.aicenterprise.constants.AppConstants.APP_DOMAIN;
 import static com.aic.aicenterprise.constants.AppConstants.TAMIL_NADU;
@@ -92,6 +95,31 @@ public class OrderServiceImpl implements OrderService {
         return isNull(orderStatus) ?
                 orderRepository.findAll(pageable).getContent() :
                 orderRepository.findByOrderStatus(orderStatus.toString(), pageable);
+    }
+
+    @Override
+    public OrderSummary getOrderSummary() {
+        List<Order> orderList = orderRepository.findAll();
+
+        long newOrders = orderList.stream()
+                .filter(curOrder -> OrderStatus.NEW.equals(curOrder.getOrderStatus()))
+                .count();
+        long acceptedOrders = orderList.stream()
+                .filter(curOrder -> OrderStatus.ACCEPTED.equals(curOrder.getOrderStatus()))
+                .count();
+        long dispatchedOrders = orderList.stream()
+                .filter(curOrder -> OrderStatus.DISPATCHED.equals(curOrder.getOrderStatus()))
+                .count();
+        long fulfilledOrders = orderList.stream()
+                .filter(curOrder -> OrderStatus.FULFILLED.equals(curOrder.getOrderStatus()))
+                .count();
+
+        return OrderSummary.builder()
+                .pendingOrders(newOrders)
+                .acceptedOrders(acceptedOrders)
+                .dispatchedOrders(dispatchedOrders)
+                .fulfilledOrders(fulfilledOrders)
+                .build();
     }
 
     private boolean sendOrderMail(Order order, List<String> toAddresses) {

@@ -1,11 +1,10 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Product;
+import com.aic.aicenterprise.models.OrderSummary;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
 import com.aic.aicenterprise.models.requests.SaveProductsRequest;
-import com.aic.aicenterprise.models.responses.BrandListResponse;
-import com.aic.aicenterprise.models.responses.ProductListResponse;
-import com.aic.aicenterprise.models.responses.SaveResponse;
+import com.aic.aicenterprise.models.responses.*;
 import com.aic.aicenterprise.services.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,6 +156,31 @@ public class ProductController {
                     .build();
         }
         return confirmResponse;
+    }
+
+    @GetMapping(value = "/count")
+    public CountResponse getSummary() {
+        log.info("Getting products count");
+
+        CountResponse countResponse;
+        try {
+            long totalProducts = productService.getTotalProducts();
+            countResponse = CountResponse.builder()
+                    .payload(totalProducts)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while fetching products count: {}", ex);
+            countResponse = CountResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching products count")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return countResponse;
     }
 
     @PostMapping(value = "/load-products")

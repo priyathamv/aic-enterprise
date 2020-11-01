@@ -2,6 +2,7 @@ package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Brand;
 import com.aic.aicenterprise.models.responses.BrandsResponse;
+import com.aic.aicenterprise.models.responses.CountResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.BrandService;
 import lombok.extern.slf4j.Slf4j;
@@ -118,6 +119,31 @@ public class BrandController {
                     .build();
         }
         return confirmResponse;
+    }
+
+    @GetMapping(value = "/count")
+    public CountResponse getSummary() {
+        log.info("Getting brands count");
+
+        CountResponse countResponse;
+        try {
+            long totalBrands = brandService.fetchBrands().size();
+            countResponse = CountResponse.builder()
+                    .payload(totalBrands)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while fetching brands count: {}", ex);
+            countResponse = CountResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching brands count")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return countResponse;
     }
 
 }

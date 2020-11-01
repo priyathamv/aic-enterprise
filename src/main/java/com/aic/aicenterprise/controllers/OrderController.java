@@ -2,8 +2,10 @@ package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Order;
 import com.aic.aicenterprise.models.OrderStatus;
+import com.aic.aicenterprise.models.OrderSummary;
 import com.aic.aicenterprise.models.requests.OrderStatusRequest;
 import com.aic.aicenterprise.models.responses.OrderListResponse;
+import com.aic.aicenterprise.models.responses.OrderSummaryResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -134,6 +136,31 @@ public class OrderController {
                     .build();
         }
         return orderStatusResponse;
+    }
+
+    @GetMapping(value = "/summary")
+    public OrderSummaryResponse getSummary() {
+        log.info("Getting order summary");
+
+        OrderSummaryResponse orderSummaryResponse;
+        try {
+            OrderSummary orderSummary = orderService.getOrderSummary();
+            orderSummaryResponse = OrderSummaryResponse.builder()
+                    .payload(orderSummary)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while fetching product summary: {}", ex);
+            orderSummaryResponse = OrderSummaryResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching product summary")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return orderSummaryResponse;
     }
 
 }
