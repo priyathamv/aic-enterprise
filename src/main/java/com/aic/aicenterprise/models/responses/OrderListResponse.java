@@ -9,10 +9,10 @@ import java.util.List;
 
 @Getter
 @Setter
-public class OrderHistoryResponse extends BaseResponse<List<Order>> {
+public class OrderListResponse extends BaseResponse<List<Order>> {
 
     @Builder
-    public OrderHistoryResponse(int status, String error, String msg, List<Order> payload) {
+    public OrderListResponse(int status, String error, String msg, List<Order> payload) {
         super(status, error, msg, payload);
     }
 

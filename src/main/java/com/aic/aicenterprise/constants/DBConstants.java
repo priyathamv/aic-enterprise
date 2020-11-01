@@ -13,6 +13,7 @@ public class DBConstants {
     public static final String CARTS = "carts";
 
     /* Field names */
+    public static final String ID = "_id";
     public static final String EMAIL = "email";
     public static final String FIRST_NAME = "firstName";
     public static final String LAST_NAME = "lastName";
@@ -22,6 +23,8 @@ public class DBConstants {
     public static final String PHONE_NUMBER = "phoneNumber";
     public static final String PASSWORD = "password";
     public static final String ADDRESS_LIST = "addressList";
+
+    public static final String ORDER_STATUS = "orderStatus";
 
     public static final String DIVISION = "division";
     public static final String BRAND = "brand";

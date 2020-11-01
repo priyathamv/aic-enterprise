@@ -54,6 +54,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/login",
                 "/api/products/load-products",
                 "/api/orders/place-order",
+                "/api/orders/update-status", // TODO: remove later
                 "/api/users/sign-up",
                 "/api/users/save",
                 "/api/users/save-google-user",
