@@ -1,8 +1,6 @@
 package com.aic.aicenterprise.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,6 +11,8 @@ import static com.aic.aicenterprise.constants.DBConstants.CARTS;
 @Setter
 @Getter
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = CARTS)
 public class UserCart {
 

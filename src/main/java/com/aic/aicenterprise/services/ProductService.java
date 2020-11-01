@@ -21,4 +21,6 @@ public interface ProductService {
     boolean productEnquiry(ProductEnquiryRequest request);
 
     boolean saveProducts(List<Product> productList);
+
+    boolean deleteProduct(String code);
 }

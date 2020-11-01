@@ -6,6 +6,7 @@ public class DBConstants {
 
     /* Collection names */
     public static final String PRODUCTS = "products";
+    public static final String FEATURED_PRODUCTS = "featured_products";
     public static final String USERS = "users";
     public static final String ORDERS = "orders";
     public static final String BRANDS = "brands";

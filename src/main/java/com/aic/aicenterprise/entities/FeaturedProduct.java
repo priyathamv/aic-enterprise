@@ -9,14 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-import static com.aic.aicenterprise.constants.DBConstants.PRODUCTS;
+import static com.aic.aicenterprise.constants.DBConstants.FEATURED_PRODUCTS;
 
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = PRODUCTS)
-public class Product {
+@Document(collection = FEATURED_PRODUCTS)
+public class FeaturedProduct {
     @Id
     private String code;
     private String name;
@@ -26,6 +26,7 @@ public class Product {
     private String pack;
     private String owner;
     private String imageUrl;
+    private boolean isCovid = false;
     private Date createTs;
     private Date updateTs;
 }

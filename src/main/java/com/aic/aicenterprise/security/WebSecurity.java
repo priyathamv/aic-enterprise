@@ -34,6 +34,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/api/cart/**",
                 "/api/orders/**",
                 "/api/products/**",
+                "/api/featured-products/**",
                 "/api/subscribers/**",
                 "/api/users/**",
                 "/api/brands/**",
@@ -53,6 +54,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         String[] allowedPathsPOST = {
                 "/login",
                 "/api/products/load-products",
+                "/api/products/save", // TODO: remove later
+                "/api/products/delete", // TODO: remove later
+                "/api/featured-products/save", // TODO: remove later
+                "/api/featured-products/delete", // TODO: remove later
                 "/api/orders/place-order",
                 "/api/orders/update-status", // TODO: remove later
                 "/api/users/sign-up",

@@ -172,6 +172,14 @@ public class ProductServiceImpl implements ProductService {
         return productList.size() == savedProducts.size();
     }
 
+    @Override
+    public boolean deleteProduct(String code) {
+        log.info("Deleting product: {}", code);
+
+        productRepository.deleteById(code);
+        return true;
+    }
+
     private String getProductEnquiryHtml(ProductEnquiryRequest request) {
         return null;
     }

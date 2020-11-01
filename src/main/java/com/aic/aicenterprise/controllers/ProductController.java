@@ -2,6 +2,7 @@ package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
+import com.aic.aicenterprise.models.requests.SaveProductsRequest;
 import com.aic.aicenterprise.models.responses.BrandListResponse;
 import com.aic.aicenterprise.models.responses.ProductListResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
@@ -65,10 +66,10 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    public SaveResponse saveProducts(List<Product> productList) {
+    public SaveResponse saveProducts(@RequestBody SaveProductsRequest request) {
         SaveResponse confirmResponse;
         try {
-            boolean saveStatus = productService.saveProducts(productList);
+            boolean saveStatus = productService.saveProducts(request.getProductList());
             confirmResponse = SaveResponse.builder()
                     .payload(saveStatus)
                     .msg(SUCCESS)
@@ -85,6 +86,29 @@ public class ProductController {
                     .build();
         }
         return confirmResponse;
+    }
+
+    @PostMapping("/delete")
+    public SaveResponse deleteProduct(@RequestBody Product product) {
+        SaveResponse deleteResponse;
+        try {
+            boolean deleteStatus = productService.deleteProduct(product.getCode());
+            deleteResponse = SaveResponse.builder()
+                    .payload(deleteStatus)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while deleting product: {}", ex);
+            deleteResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while deleting product")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return deleteResponse;
     }
 
     @GetMapping(value = "/divisions")
