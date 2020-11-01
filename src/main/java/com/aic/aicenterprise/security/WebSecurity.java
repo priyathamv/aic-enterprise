@@ -63,7 +63,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/api/users/user-image",
                 "/api/users/confirm-email",
                 "/api/users/send-confirm-email",
-                "/api/users/update-role",
+                "/api/users/update-role", // TODO: remove later
                 "/api/subscribers/save",
                 "/api/cart/save",
                 "/api/brands/save", // TODO: remove later

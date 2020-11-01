@@ -52,7 +52,6 @@ public class ProductController {
                     .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
-
         } catch (Exception ex) {
             log.info("Exception while fetching products: {}", ex);
             productListResponse = ProductListResponse.builder()

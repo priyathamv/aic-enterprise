@@ -1,12 +1,15 @@
 package com.aic.aicenterprise.services;
 
 import com.aic.aicenterprise.entities.UserEntity;
+import com.aic.aicenterprise.models.UserMini;
 import com.aic.aicenterprise.models.UserRole;
 import com.aic.aicenterprise.models.requests.ForgotPasswordRequest;
 import com.aic.aicenterprise.models.requests.ResetPasswordRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface UserService {
     UserEntity signUpEmailUser(UserEntity userEntity) throws IOException;
@@ -32,4 +35,6 @@ public interface UserService {
     boolean isEmailConfirmed(String email);
 
     boolean updateUserRole(String email, UserRole userRole);
+
+    List<UserMini> getUserList(Pageable pageable);
 }

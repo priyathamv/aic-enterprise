@@ -3,6 +3,7 @@ package com.aic.aicenterprise.controllers;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.exceptions.EmailNotFoundException;
 import com.aic.aicenterprise.exceptions.ResetPasswordLinkExpiredException;
+import com.aic.aicenterprise.models.UserMini;
 import com.aic.aicenterprise.models.requests.ConfirmEmailRequest;
 import com.aic.aicenterprise.models.requests.ForgotPasswordRequest;
 import com.aic.aicenterprise.models.requests.ResetPasswordRequest;
@@ -10,13 +11,18 @@ import com.aic.aicenterprise.models.requests.UpdateRoleRequest;
 import com.aic.aicenterprise.models.responses.ImageUrlResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.models.responses.UserDetailsResponse;
+import com.aic.aicenterprise.models.responses.UserListResponse;
 import com.aic.aicenterprise.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 import static com.aic.aicenterprise.constants.AppConstants.USER_PATH;
@@ -292,6 +298,33 @@ public class UserController {
                     .build();
         }
         return confirmResponse;
+    }
+
+    @GetMapping("/all")
+    public UserListResponse getUserList(@RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+                                        @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
+        log.info("Getting User list for pageNo: {} and limit: {}", pageNo, limit);
+
+        UserListResponse userListResponse;
+        try {
+            Pageable pageable = PageRequest.of(pageNo, limit);
+            List<UserMini> userList = userService.getUserList(pageable);
+
+            userListResponse = UserListResponse.builder()
+                    .payload(userList)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+        } catch (Exception ex) {
+            log.info("Exception while fetching User list: {}", ex);
+            userListResponse = UserListResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching User list")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return userListResponse;
     }
 
 }
