@@ -23,4 +23,6 @@ public interface ProductService {
     boolean saveProducts(List<Product> productList);
 
     boolean deleteProduct(String code);
+
+    void deleteProductsByBrand(String brand);
 }

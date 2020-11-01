@@ -180,6 +180,11 @@ public class ProductServiceImpl implements ProductService {
         return true;
     }
 
+    @Override
+    public void deleteProductsByBrand(String brand) {
+        productRepository.deleteByBrand(brand);
+    }
+
     private String getProductEnquiryHtml(ProductEnquiryRequest request) {
         return null;
     }

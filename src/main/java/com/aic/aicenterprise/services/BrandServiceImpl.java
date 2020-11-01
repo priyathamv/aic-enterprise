@@ -5,6 +5,7 @@ import com.aic.aicenterprise.repositories.BrandRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -57,10 +58,12 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override
+    @Transactional
     public boolean deleteBrand(String brand) {
         log.info("Deleting brand: {}", brand);
 
         brandRepository.deleteById(brand);
+        productService.deleteProductsByBrand(brand);
         return true;
     }
 }
