@@ -24,6 +24,11 @@ const BrandFrame = styled.div`
   background-color: #F8F8FF;
   height: 100%;
 
+
+  @media ${device.tablet} { 
+    flex: 2;
+  }
+  
   @media ${device.laptop} { 
     flex: 3;
   }
@@ -67,11 +72,21 @@ const ContantInfo = styled.div`
   grid-row: auto auto;
   grid-column-gap: 5px;
   grid-row-gap: 5px;
-  align-items: center;
+  // align-items: center;
+  align-items: flex-start;
+
+  @media ${device.tablet} { 
+    flex: 1;
+  }
+
+  @media ${device.laptop} { 
+    grid-template-columns: 20px 140px 20px 140px;
+    flex: 3;
+  }
 `;
 
 const MailIcon = styled(IoIosMail)`
-
+  margin-top: 1px;
 `;
 
 const MailText = styled.a`
@@ -80,13 +95,19 @@ const MailText = styled.a`
 `;
 
 const PhoneIcon = styled(ImPhone)`
-  margin-left: 2px;
+  margin-left: 5px;
+  margin-top: 3px;
+`;
+
+const SubText = styled.div`
+  font-size: 14px;
 `;
 
 
 export const NavbarMain = () => {
   const viewportWidth = window.outerWidth;
-  const isMobile = viewportWidth < 1024;
+  const isMobile = viewportWidth < 768;
+  const isLaptop = viewportWidth >= 1024;
 
   return (
     <Container>
@@ -96,13 +117,20 @@ export const NavbarMain = () => {
         <Brand>AIC Group</Brand>
       </BrandFrame>
 
-      {!isMobile && <ContantInfo>
-        <MailIcon size='1.5em'></MailIcon>
-        <MailText href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</MailText>
+      {!isMobile && 
+        <ContantInfo>
+          <MailIcon size='1.3em'></MailIcon>
+          <div>
+            <MailText href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</MailText>
+            {isLaptop && <SubText>Get an estimate</SubText>}
+          </div>
 
-        <PhoneIcon size='1.3em'></PhoneIcon>
-        <MailText href='tel:+918028364174'>080-28364174</MailText>
-      </ContantInfo>}
+          <PhoneIcon size='1em'></PhoneIcon>
+          <div>
+            <MailText style={{ fontSize: '15px' }} href='tel:+918028364174'>080-28364174</MailText>
+            {isLaptop && <SubText>Contact us</SubText>}
+          </div>
+        </ContantInfo>}
 
       <UserCart />
     </Container>

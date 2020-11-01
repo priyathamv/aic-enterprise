@@ -21,6 +21,7 @@ public class Product {
     private String capacity;
     private String pack;
     private String owner;
+    private String imageUrl;
     private Date createTs;
     private Date updateTs;
 }

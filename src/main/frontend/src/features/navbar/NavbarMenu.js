@@ -89,6 +89,7 @@ export const NavbarMenu = () => {
     const productsDom = document.getElementById('products_id');
     const productListDom = document.getElementById('product_list_id');
     const myAccountDom = document.getElementById('my_account_id');
+    const covid19Dom = document.getElementById('covid19_id');
 
     if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
       if (navbarMenuDom) {
@@ -102,6 +103,7 @@ export const NavbarMenu = () => {
       productsDom && (productsDom.style.paddingTop = '75px');
       productListDom && (productListDom.style.paddingTop = '75px');
       myAccountDom && (myAccountDom.style.paddingTop = '75px');
+      covid19Dom && (covid19Dom.style.paddingTop = '75px');
       setShowLogo(true);
     } else {
       setShowLogo(false);
@@ -116,6 +118,7 @@ export const NavbarMenu = () => {
       productsDom && (productsDom.style.paddingTop = '0');
       productListDom && (productListDom.style.paddingTop = '0');
       myAccountDom && (myAccountDom.style.paddingTop = '0');
+      covid19Dom && (covid19Dom.style.paddingTop = '0');
     }
   }
 
@@ -171,7 +174,7 @@ export const NavbarMenu = () => {
         </MenuItemWrap>
         <MenuItem style={curPage === ABOUT_US_PAGE ? curPageStyle : null} to='/about-us'>About us</MenuItem>
         <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>Contact us</MenuItem>
-        <MenuItem to="/">Covid 19</MenuItem>
+        <MenuItem to="/covid19">Covid 19</MenuItem>
       </MenuItems>
 
       {isMobile ? null : <Search />}

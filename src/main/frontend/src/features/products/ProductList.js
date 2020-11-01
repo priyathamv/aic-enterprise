@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash.debounce';
 import axios from 'axios';
 
-import { getNextPageAsync, updateBrand, updateDivision, selectProducts, selectHasMore, selectSearchValue, selectDivision } from './productsSlice';
+import { getNextPageAsync, selectProducts, selectHasMore, selectSearchValue, selectDivision } from './productsSlice';
 import { ProductRow } from './ProductRow';
 import { ProductFilters } from './ProductFilters';
 import { productData } from './productData';
+import { ProductIntro } from './ProductIntro';
 import { device } from '../utils/viewport';
 
 const Container = styled.div`
@@ -15,36 +16,6 @@ const Container = styled.div`
   
   @media ${device.laptop} { 
     margin: 0 15vw 50px 15vw;
-  }
-`;
-
-const ProductIntro = styled.div`
-  color: #232162;
-  background-color: #F8F8FF;
-  padding: 50px 20px;
-  margin: 0 -20px 50px -20px;
-
-  @media ${device.laptop} { 
-    padding: 50px 15vw;
-    margin: 0 -15vw 50px -15vw;
-  }
-`;
-
-const ProductName = styled.div`
-  font-size: 32px;
-
-  @media ${device.laptop} { 
-    font-size: 42px;
-  }
-`;
-
-const ProductDesc = styled.div`
-  font-size: 16px;
-  margin-top: 30px;
-  line-height: 25px;
-
-  @media ${device.laptop} { 
-    font-size: 18px;
   }
 `;
 
@@ -143,10 +114,7 @@ export const ProductList = () => {
 
   return (
     <Container id='product_list_id'>
-      <ProductIntro>
-        <ProductName>{brand}</ProductName>
-        {productData[brand] && <ProductDesc>{productData[brand]}</ProductDesc>}
-      </ProductIntro>
+      <ProductIntro brand={brand} description={productData[brand]} />
 
       <ProductFilters divisionList={divisionList} setPageNo={setPageNo} />
 

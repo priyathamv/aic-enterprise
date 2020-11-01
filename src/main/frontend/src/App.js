@@ -7,6 +7,7 @@ import axios from 'axios';
 
 import ScrollToTop from './features/utils/ScrollToTop';
 import { Products } from './features/products/Products';
+import { Covid19 } from './features/covid/Covid19';
 import { AboutUs } from './features/aboutus/AboutUs';
 import { ContactUs } from './features/contactus/ContactUs';
 import { Navbar } from './features/navbar/Navbar';
@@ -79,6 +80,7 @@ function App() {
             <Route path='/login' component={LoginPage} />
             <Route path='/products' component={Products} />
             <Route path='/product-list' component={ProductList} />
+            <Route path='/covid19' component={Covid19} />
             <Route path='/about-us' component={AboutUs} />
             <Route path='/contact-us' component={ContactUs} />
             <Route path='/reset-password' component={ResetPassword} />

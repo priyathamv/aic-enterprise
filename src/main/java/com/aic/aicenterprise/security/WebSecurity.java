@@ -42,7 +42,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/products",
                 "/contact-us",
                 "/about-us",
-                "/covid-19",
+                "/covid19",
                 "/reset-password",
                 "/account/**",
                 "/confirm-email",

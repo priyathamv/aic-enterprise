@@ -11,5 +11,6 @@ public class ProductDetails {
     private String brand;
     private String capacity;
     private String pack;
+    private String imageUrl;
     private int quantity;
 }
