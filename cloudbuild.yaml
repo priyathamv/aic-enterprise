@@ -14,7 +14,7 @@ steps:
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy', 'target/aic-enterprise.jar']
+  args: ['app', 'deploy', '-Djava.security.edg=file:/dev/./urandom', '-Djasypt.encryptor.password=supersecretkey', '-Dspring.data.mongodb.uri=mongodb+srv://aic_admin:D%40mnpassword1%21@aic-cluster.ihdn0.gcp.mongodb.net/aic-group?retryWrites=true&w=majority', 'target/aic-enterprise.jar']
 
 #  args:
 #  - 'run'
