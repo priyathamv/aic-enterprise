@@ -6,7 +6,7 @@ steps:
 
 # Build the container image
 - name: gcr.io/cloud-builders/docker
-  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
+  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise:1.0.1', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
