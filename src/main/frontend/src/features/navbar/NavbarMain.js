@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import Cookies from 'universal-cookie';
 import 'reactjs-popup/dist/index.css';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { UserCart } from './UserCart';
 import { device } from '../utils/viewport';
+import { selectGoogleAuth, logoutUserAction } from '../auth/authSlice';
+import { GLogout } from '../auth/GLogout';
 
 
 const Container = styled.div`
@@ -103,21 +107,63 @@ const SubText = styled.div`
   font-size: 14px;
 `;
 
+const LogoutWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #F8F8FF;
+  height: 100%;
+`;
 
-export const NavbarMain = () => {
+const GLogoutWrapper = styled.div`
+  background-color: #232162;
+  color: #FFF;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 14px;
+  margin-right: 20px;
+`;
+
+const Logout = styled.button`
+  border: none;
+  font-size: 16px;
+  background-color: #232162;
+  color: #FFF;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 14px;
+  height: 35px;
+  margin-right: 20px;
+`;
+
+
+export const NavbarMain = ({ isAdmin }) => {
+  const dispatch = useDispatch();
+
   const viewportWidth = window.outerWidth;
   const isMobile = viewportWidth < 768;
   const isLaptop = viewportWidth >= 1024;
 
+  const googleAuth = useSelector(selectGoogleAuth);
+  const isUserGoogleLoggedIn = googleAuth.email;
+
+  const logoutUser = () => {
+    const cookies = new Cookies();
+    cookies.remove('auth_token');
+
+    dispatch(logoutUserAction());
+    setTimeout(() => window.location.href = '/', 0);
+  }
+
   return (
     <Container>
-      <BrandFrame>
+      <BrandFrame style={ isAdmin ? { justifyContent: 'flex-start', marginLeft: '20px' } : null}>
         <Logo src='/images/aic_logo.png' alt='AIC Logo' onClick={() => window.location.href='/'}></Logo>
 
         <Brand>AIC Group</Brand>
       </BrandFrame>
 
-      {!isMobile && 
+      {(!isMobile && !isAdmin) &&
         <ContantInfo>
           <MailIcon size='1.3em'></MailIcon>
           <div>
@@ -132,7 +178,17 @@ export const NavbarMain = () => {
           </div>
         </ContantInfo>}
 
-      <UserCart />
+      {!isAdmin ? 
+        <UserCart /> : 
+          <LogoutWrapper>
+            {isUserGoogleLoggedIn ? 
+              <GLogoutWrapper>
+                <GLogout logoutStyle={{ padding: '0' }}/>
+              </GLogoutWrapper> : 
+              <Logout onClick={logoutUser}>Log Out</Logout>
+            }
+          </LogoutWrapper>
+      }
     </Container>
   )
 }

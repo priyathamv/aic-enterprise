@@ -301,14 +301,15 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public UserListResponse getUserList(@RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+    public UserListResponse getUserList(@RequestParam(value = "searchValue", required = false, defaultValue = "") String searchValue,
+                                        @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
                                         @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
         log.info("Getting User list for pageNo: {} and limit: {}", pageNo, limit);
 
         UserListResponse userListResponse;
         try {
             Pageable pageable = PageRequest.of(pageNo, limit);
-            List<UserMini> userList = userService.getUserList(pageable);
+            List<UserMini> userList = userService.getUserList(searchValue, pageable);
 
             userListResponse = UserListResponse.builder()
                     .payload(userList)

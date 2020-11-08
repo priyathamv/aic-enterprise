@@ -16,7 +16,7 @@ const LogoutButton = styled.div`
 `;
 
 
-export const GLogout = () => {
+export const GLogout = ({ logoutStyle }) => {
 
   const dispatch = useDispatch();
 
@@ -38,6 +38,7 @@ export const GLogout = () => {
       render={renderProps => (
         <div onClick={renderProps.onClick} disabled={renderProps.disabled}>
           <LogoutButton 
+            style={logoutStyle}
             onClick={handleLogout}
           >
             <span>Log Out</span>

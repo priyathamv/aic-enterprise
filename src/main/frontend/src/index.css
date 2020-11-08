@@ -260,3 +260,18 @@ code {
     padding: 20px !important;
   }
 }
+
+/* React toastify styles */
+.Toastify__toast-container {
+  height: 40px !important;
+  margin: 0 0 50px 20px !important;
+}
+
+.Toastify__toast {
+  border-radius: 3px !important;
+  padding: 0 20px !important;
+}
+
+.Toastify__close-button {
+  display: none;
+}

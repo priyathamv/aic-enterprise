@@ -349,14 +349,22 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public List<UserMini> getUserList(Pageable pageable) {
-        List<UserEntity> userEntityList = userRepository.findAll(pageable).getContent();
+    public List<UserMini> getUserList(String searchValue, Pageable pageable) {
+        List<UserEntity> userEntityList = isNull(searchValue) || searchValue.isEmpty() ?
+                userRepository.findAll(pageable).getContent() :
+                userRepository.findByFirstNameLikeIgnoreCaseOrLastNameLikeIgnoreCaseOrEmailLikeIgnoreCase(searchValue, searchValue, searchValue, pageable);
         log.info("User list fetched");
 
         return userEntityList
                 .stream()
                 .map(this::generateUserMini)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAdmin(String email) {
+        UserEntity user = userRepository.findByEmail(email);
+        return nonNull(user) && UserRole.ADMIN.equals(user.getUserRole());
     }
 
     private UserMini generateUserMini(UserEntity userEntity) {

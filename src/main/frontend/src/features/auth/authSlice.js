@@ -4,7 +4,7 @@ const initialGoogleAuth = {
   firstName: '',
   lastName: '',
   email: '',
-  userRole: 'DEFAULT',
+  userRole: '',
   imageUrl: '',
   phoneNumber: '',
   token: '',
@@ -15,7 +15,7 @@ const initialEmailAuth = {
   firstName: '',
   lastName: '',
   email: '',
-  userRole: 'DEFAULT',
+  userRole: '',
   phoneNumber: '',
   imageUrl: '',
   addressList: []
@@ -92,6 +92,14 @@ export const selectUserName = state => {
   else if (state.auth.emailAuth.firstName)
     return `${state.auth.emailAuth.firstName} ${state.auth.emailAuth.lastName}`.trim();
   return null;
+}
+
+export const selectUserRole = state => {
+  if (state.auth.googleAuth.email)
+    return state.auth.googleAuth.userRole;
+  else if (state.auth.emailAuth.email)
+    return state.auth.emailAuth.userRole;
+  return 'DEFAULT';
 }
 
 export default authSlice.reducer;

@@ -10,7 +10,7 @@ import { GiShoppingCart } from 'react-icons/gi';
 import { BiChevronDown } from 'react-icons/bi';
 import { GLogout } from '../auth/GLogout';
 import { LoginModal } from '../auth/LoginModal';
-import { selectGoogleAuth, selectEmailAuth, selectUserImage, logoutUserAction } from '../auth/authSlice';
+import { selectGoogleAuth, selectEmailAuth, selectUserImage, selectUserRole, logoutUserAction } from '../auth/authSlice';
 import { selectShowCartPage, selectCartItems, displayCartPage } from '../cart/cartSlice';
 
 const Container = styled.div`
@@ -133,6 +133,8 @@ export const UserCart = ({ style }) => {
   const showCartPage = useSelector(selectShowCartPage);
   const noOfcartItems = useSelector(selectCartItems).length;
 
+  const isAdmin = useSelector(selectUserRole) === 'ADMIN';
+
   useEffect(() => {
     function handleOutsideClick(e) {
       if (
@@ -191,6 +193,8 @@ export const UserCart = ({ style }) => {
         <UserOptions ref={userOptionsRef}>
           <UserOptionAnchor to='/account/my-account' onClick={() => setShowUserOptions(false)}>My Account</UserOptionAnchor>
           <UserOptionAnchor to='/account/my-orders' onClick={() => setShowUserOptions(false)}>My Orders</UserOptionAnchor>
+          {isAdmin && 
+            <UserOptionAnchor to='/admin/overview' onClick={() => setShowUserOptions(false)}>Admin Panel</UserOptionAnchor>}
 
           {isUserGoogleLoggedIn ? 
             <div onClick={() => setShowUserOptions(false)}><GLogout /></div> : 

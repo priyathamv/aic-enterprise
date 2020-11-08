@@ -36,5 +36,7 @@ public interface UserService {
 
     boolean updateUserRole(String email, UserRole userRole);
 
-    List<UserMini> getUserList(Pageable pageable);
+    List<UserMini> getUserList(String searchValue, Pageable pageable);
+
+    boolean isAdmin(String email);
 }
