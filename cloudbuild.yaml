@@ -14,7 +14,7 @@ steps:
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise']
+  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise:latest']
 
 # Cron job to keep the App Engine alive
 - name: gcr.io/cloud-builders/gcloud
