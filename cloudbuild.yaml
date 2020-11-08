@@ -10,11 +10,11 @@ steps:
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
+  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise:1.0.0']
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise:latest']
+  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise:1.0.0']
 
 # Cron job to keep the App Engine alive
 - name: gcr.io/cloud-builders/gcloud
