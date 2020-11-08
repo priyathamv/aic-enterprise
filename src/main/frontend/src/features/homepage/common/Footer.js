@@ -257,7 +257,7 @@ export const Footer = () => {
               onChange={e => setSignUpEmail(e.target.value)}
             />
 
-            <SignUpButton onClick={handleOnSignUp}>Sign Up</SignUpButton>
+            <SignUpButton onClick={handleOnSignUp}>Sign Up!</SignUpButton>
 
             <Message>{signUpMessage}</Message>
           </ContentFrame>
