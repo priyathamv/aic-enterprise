@@ -6,18 +6,29 @@ steps:
 
 # Build the container image
 - name: gcr.io/cloud-builders/docker
-  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise:1.0.1', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
+  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
 
 # Push the container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise:1.0.1']
+  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise:1.0.1']
+  args:
+  - 'run'
+  - 'deploy'
+  - 'cloudrunservice'
+  - '--image'
+  - 'gcr.io/aic-enterprises/aic-enterprise'
+  - '--region'
+  - 'asia-south1'
+  - '--platform'
+  - 'managed'
+  - '--allow-unauthenticated'
+#  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise']
 
 # Cron job to keep the App Engine alive
 - name: gcr.io/cloud-builders/gcloud
   args: ['app', 'deploy', 'cron.yaml']
 
-images: ['gcr.io/aic-enterprises/aic-enterprise:1.0.1']
+images: ['gcr.io/aic-enterprises/aic-enterprise']
