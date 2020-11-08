@@ -31,6 +31,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/auth/**",
                 "/static/**",
                 "/images/**",
+                "/favicon.ico",
                 "/api/cart/**",
                 "/api/orders/**",
                 "/api/products/**",
@@ -46,6 +47,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/about-us",
                 "/covid19",
                 "/reset-password",
+                "/admin/**",
                 "/account/**",
                 "/confirm-email",
                 "/actuator/**"
