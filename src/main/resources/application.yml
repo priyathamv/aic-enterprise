@@ -24,6 +24,9 @@ management:
       enabled: false
 
 spring:
+  data:
+    mongodb:
+      uri: 'mongodb+srv://aic_admin:D%40mnpassword1%21@aic-cluster.ihdn0.gcp.mongodb.net/aic-group?retryWrites=true&w=majority'
   mail:
     host: smtp.gmail.com
     port: 587
@@ -49,6 +52,11 @@ jasypt:
   encryptor:
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
     algorithm: PBEWithMD5AndDES
+    password: supersecretkey
+
+java:
+  security:
+    edg: 'file:/dev/./urandom'
 
 sendgrid:
   apikey: ENC(IdUHaO4lI9tBC3GFdq2yQ8eaWUh63F+YjkteX3fT1YApEEFd0plFXQdZlgfH15op8H1ipzUQ/NpMbM7zf3k2fEzC8C4TyGec3icfdBJNcmM=)
