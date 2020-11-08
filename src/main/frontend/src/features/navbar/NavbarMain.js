@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import Cookies from 'universal-cookie';
 import 'reactjs-popup/dist/index.css';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { UserCart } from './UserCart';
 import { device } from '../utils/viewport';
+import { selectGoogleAuth, logoutUserAction } from '../auth/authSlice';
+import { GLogout } from '../auth/GLogout';
 
 
 const Container = styled.div`
@@ -24,6 +28,11 @@ const BrandFrame = styled.div`
   background-color: #F8F8FF;
   height: 100%;
 
+
+  @media ${device.tablet} { 
+    flex: 2;
+  }
+  
   @media ${device.laptop} { 
     flex: 3;
   }
@@ -67,11 +76,21 @@ const ContantInfo = styled.div`
   grid-row: auto auto;
   grid-column-gap: 5px;
   grid-row-gap: 5px;
-  align-items: center;
+  // align-items: center;
+  align-items: flex-start;
+
+  @media ${device.tablet} { 
+    flex: 1;
+  }
+
+  @media ${device.laptop} { 
+    grid-template-columns: 20px 140px 20px 140px;
+    flex: 3;
+  }
 `;
 
 const MailIcon = styled(IoIosMail)`
-
+  margin-top: 1px;
 `;
 
 const MailText = styled.a`
@@ -80,31 +99,96 @@ const MailText = styled.a`
 `;
 
 const PhoneIcon = styled(ImPhone)`
-  margin-left: 2px;
+  margin-left: 5px;
+  margin-top: 3px;
+`;
+
+const SubText = styled.div`
+  font-size: 14px;
+`;
+
+const LogoutWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #F8F8FF;
+  height: 100%;
+`;
+
+const GLogoutWrapper = styled.div`
+  background-color: #232162;
+  color: #FFF;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 14px;
+  margin-right: 20px;
+`;
+
+const Logout = styled.button`
+  border: none;
+  font-size: 16px;
+  background-color: #232162;
+  color: #FFF;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 10px 20px;
+  font-size: 14px;
+  height: 35px;
+  margin-right: 20px;
 `;
 
 
-export const NavbarMain = () => {
+export const NavbarMain = ({ isAdmin }) => {
+  const dispatch = useDispatch();
+
   const viewportWidth = window.outerWidth;
-  const isMobile = viewportWidth < 1024;
+  const isMobile = viewportWidth < 768;
+  const isLaptop = viewportWidth >= 1024;
+
+  const googleAuth = useSelector(selectGoogleAuth);
+  const isUserGoogleLoggedIn = googleAuth.email;
+
+  const logoutUser = () => {
+    const cookies = new Cookies();
+    cookies.remove('auth_token');
+
+    dispatch(logoutUserAction());
+    setTimeout(() => window.location.href = '/', 0);
+  }
 
   return (
     <Container>
-      <BrandFrame>
+      <BrandFrame style={ isAdmin ? { justifyContent: 'flex-start', marginLeft: '20px' } : null}>
         <Logo src='/images/aic_logo.png' alt='AIC Logo' onClick={() => window.location.href='/'}></Logo>
 
         <Brand>AIC Group</Brand>
       </BrandFrame>
 
-      {!isMobile && <ContantInfo>
-        <MailIcon size='1.5em'></MailIcon>
-        <MailText href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</MailText>
+      {(!isMobile && !isAdmin) &&
+        <ContantInfo>
+          <MailIcon size='1.3em'></MailIcon>
+          <div>
+            <MailText href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</MailText>
+            {isLaptop && <SubText>Get an estimate</SubText>}
+          </div>
 
-        <PhoneIcon size='1.3em'></PhoneIcon>
-        <MailText href='tel:+918028364174'>080-28364174</MailText>
-      </ContantInfo>}
+          <PhoneIcon size='1em'></PhoneIcon>
+          <div>
+            <MailText style={{ fontSize: '15px' }} href='tel:+918028364174'>080-28364174</MailText>
+            {isLaptop && <SubText>Contact us</SubText>}
+          </div>
+        </ContantInfo>}
 
-      <UserCart />
+      {!isAdmin ? 
+        <UserCart /> : 
+          <LogoutWrapper>
+            {isUserGoogleLoggedIn ? 
+              <GLogoutWrapper>
+                <GLogout logoutStyle={{ padding: '0' }}/>
+              </GLogoutWrapper> : 
+              <Logout onClick={logoutUser}>Log Out</Logout>
+            }
+          </LogoutWrapper>
+      }
     </Container>
   )
 }

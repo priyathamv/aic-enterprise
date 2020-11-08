@@ -25,7 +25,6 @@ export const { displayCartPage, addItemToCart, updateUserCart, clearCart } = car
 // Single method to update/delete the cart items and persist in the DB
 export const updateUserCartAsync = (actionType, userEmail, cartItemsOld, data) => async dispatch => {
   let cartItemsNew;
-
   if (actionType === 'UPDATE_CART_ITEM') {
     cartItemsNew = [...cartItemsOld];
     const itemIndexToBeUpdated = cartItemsOld.findIndex(curItem => curItem.code === data.code);
@@ -56,7 +55,7 @@ const persistUserCart = async payload => {
 
   try {
     const cartSaveResponse = await axios.post('/api/cart/save', payload, { headers });
-    console.log('cartSaveResponse', cartSaveResponse);
+    // console.log('cartSaveResponse', cartSaveResponse);
   } catch(err) {
     console.log('Error while saving user cart', err.message);
   }

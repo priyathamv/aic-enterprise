@@ -34,41 +34,54 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/api/cart/**",
                 "/api/orders/**",
                 "/api/products/**",
+                "/api/featured-products/**",
                 "/api/subscribers/**",
                 "/api/users/**",
+                "/api/brands/**",
                 "/",
                 "/login",
                 "/product-list",
                 "/products",
                 "/contact-us",
                 "/about-us",
-                "/covid-19",
+                "/covid19",
                 "/reset-password",
                 "/account/**",
                 "/confirm-email",
                 "/actuator/**"
         };
 
-//        String[] allowedPathsPOST = {
-//            "/api/products/load-products",
-//            "/api/orders/place-order",
-//            "/api/users/sign-up",
-//            "/api/users/save",
-//            "/api/users/update",
-//            "/api/users/forgot-password",
-//            "/api/users/reset-password",
-//            "/api/users/user-image",
-//            "/api/users/confirm-email",
-//            "/api/users/send-confirm-email",
-//            "/api/users/update-role",
-//            "/api/subscribers/save",
-//            "/api/cart/save"
-//        };
+        String[] allowedPathsPOST = {
+                "/login",
+                "/api/products/load-products",
+                "/api/products/save", // TODO: remove later
+                "/api/products/delete", // TODO: remove later
+                "/api/featured-products/save", // TODO: remove later
+                "/api/featured-products/delete", // TODO: remove later
+                "/api/featured-products/load-products", // TODO: remove later
+                "/api/featured-products/delete-products", // TODO: remove later
+                "/api/orders/place-order",
+                "/api/orders/update-status", // TODO: remove later
+                "/api/users/sign-up",
+                "/api/users/save",
+                "/api/users/save-google-user",
+                "/api/users/update",
+                "/api/users/forgot-password",
+                "/api/users/reset-password",
+                "/api/users/user-image",
+                "/api/users/confirm-email",
+                "/api/users/send-confirm-email",
+                "/api/users/update-role", // TODO: remove later
+                "/api/subscribers/save",
+                "/api/cart/save",
+                "/api/brands/save", // TODO: remove later
+                "/api/brands/delete" // TODO: remove later
+        };
 
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .antMatchers(HttpMethod.GET, allowedPathsGET).permitAll()
-                .antMatchers(HttpMethod.POST, "/**").permitAll()
+                .antMatchers(HttpMethod.POST, allowedPathsPOST).permitAll()
                 .antMatchers(HttpMethod.PUT, "/**").permitAll()
                 .antMatchers(HttpMethod.DELETE, "/**").permitAll()
                 .anyRequest().authenticated()

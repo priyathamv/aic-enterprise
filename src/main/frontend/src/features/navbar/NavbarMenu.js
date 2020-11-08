@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { UserCart } from './UserCart';
 import { ProductsMenu } from './ProductsMenu';
@@ -89,6 +88,8 @@ export const NavbarMenu = () => {
     const productsDom = document.getElementById('products_id');
     const productListDom = document.getElementById('product_list_id');
     const myAccountDom = document.getElementById('my_account_id');
+    const covid19Dom = document.getElementById('covid19_id');
+    const featuredDom = document.getElementById('featured_id');
 
     if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
       if (navbarMenuDom) {
@@ -102,6 +103,8 @@ export const NavbarMenu = () => {
       productsDom && (productsDom.style.paddingTop = '75px');
       productListDom && (productListDom.style.paddingTop = '75px');
       myAccountDom && (myAccountDom.style.paddingTop = '75px');
+      covid19Dom && (covid19Dom.style.paddingTop = '75px');
+      featuredDom && (featuredDom.style.paddingTop = '75px');
       setShowLogo(true);
     } else {
       setShowLogo(false);
@@ -116,6 +119,8 @@ export const NavbarMenu = () => {
       productsDom && (productsDom.style.paddingTop = '0');
       productListDom && (productListDom.style.paddingTop = '0');
       myAccountDom && (myAccountDom.style.paddingTop = '0');
+      covid19Dom && (covid19Dom.style.paddingTop = '0');
+      featuredDom && (featuredDom.style.paddingTop = '0');
     }
   }
 

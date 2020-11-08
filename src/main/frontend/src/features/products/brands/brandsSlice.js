@@ -23,8 +23,9 @@ export const { updateBrandsList, updateLoading } = brandsSlice.actions;
 export const fetchBrandsAsync = () => async dispatch => {
   try {
     dispatch(updateLoading(true));
-    const brandsResponse = await axios.get('/api/products/brands');
-    dispatch(updateBrandsList(brandsResponse.data.payload));
+    const brandsResponse = await axios.get('/api/brands');
+    const brandNames = brandsResponse.data.payload.map(curBrand => curBrand.name);
+    dispatch(updateBrandsList(brandNames));
   } catch (err) {
     console.log('Exception while fetching brands: ', err.message);
     dispatch(updateBrandsList([]));

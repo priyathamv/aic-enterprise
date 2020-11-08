@@ -4,8 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Button } from '../homepage/common/Button';
 import { QuantityBox } from '../cart/QuantityBox';
-import { selectCartItems } from '../cart/cartSlice';
-import { updateUserCartAsync } from '../cart/cartSlice';
+import { selectCartItems, updateUserCartAsync } from '../cart/cartSlice';
 import { selectUserEmail } from '../auth/authSlice';
 import { device } from '../utils/viewport';
 

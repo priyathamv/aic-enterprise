@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from "react-router-dom";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 
 import ScrollToTop from './features/utils/ScrollToTop';
 import { Products } from './features/products/Products';
+import { Covid19 } from './features/covid/Covid19';
 import { AboutUs } from './features/aboutus/AboutUs';
 import { ContactUs } from './features/contactus/ContactUs';
 import { Navbar } from './features/navbar/Navbar';
@@ -21,8 +24,11 @@ import { fetchUserCart, fetchUserCartFromLocalStorage } from './features/cart/ca
 import { ProductList } from './features/products/ProductList';
 import { ResetPassword } from './features/auth/ResetPassword';
 import { MyAccount } from './features/myaccount/MyAccount';
+import { PublicRoute } from './PublicRoute';
 import { ProtectedRoute } from './ProtectedRoute';
+import { AdminRoute } from './AdminRoute';
 import { EmailConfirmation } from './features/auth/EmailConfirmation';
+import { AdminHome } from './features/admin/AdminHome';
 
 const Body = styled.div`
   flex: 1 0 auto;
@@ -70,27 +76,35 @@ function App() {
   return (
     <>
       <Router>
-        <Body>
-          <Navbar />
-          <CartSideBar />
-          <ScrollToTop />
+        <Switch>
+          <PublicRoute path='/login' component={LoginPage} />
+          <PublicRoute path='/products' component={Products} />
+          <PublicRoute path='/product-list' component={ProductList} />
+          <PublicRoute path='/covid19' component={Covid19} />
+          <PublicRoute path='/about-us' component={AboutUs} />
+          <PublicRoute path='/contact-us' component={ContactUs} />
+          <PublicRoute path='/reset-password' component={ResetPassword} />
+          <PublicRoute path='/confirm-email' component={EmailConfirmation} />
+          <ProtectedRoute path='/account' email={email} component={MyAccount} />
+          <AdminRoute path='/admin/overview' email={email} component={AdminHome} />
+          <AdminRoute path='/admin' email={email} component={AdminHome} />
+          <PublicRoute path='/' component={Homepage} />
+        </Switch>
 
-          <Switch>
-            <Route path='/login' component={LoginPage} />
-            <Route path='/products' component={Products} />
-            <Route path='/product-list' component={ProductList} />
-            <Route path='/about-us' component={AboutUs} />
-            <Route path='/contact-us' component={ContactUs} />
-            <Route path='/reset-password' component={ResetPassword} />
-            <Route path='/confirm-email' component={EmailConfirmation} />
-            <ProtectedRoute path='/account' email={email} component={MyAccount} />
-            <Route path='/' component={Homepage} />
-          </Switch>
-          <GLogin style={{ visibility: 'hidden', position: 'absolute'}} />
-        </Body>
-
-        <Footer />
+        <GLogin style={{ visibility: 'hidden', position: 'absolute'}} />
       </Router>
+
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable={false}
+        pauseOnHover
+      />
     </>
   );
 }

@@ -7,11 +7,13 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import static com.aic.aicenterprise.constants.DBConstants.SUBSCRIBERS;
+
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "subscribers")
+@Document(collection = SUBSCRIBERS)
 public class Subscriber {
     @Id
     private String email;

@@ -1,7 +1,11 @@
 package com.aic.aicenterprise.services;
 
+import com.aic.aicenterprise.entities.Order;
 import com.aic.aicenterprise.entities.Product;
+import com.aic.aicenterprise.models.OrderStatus;
+import com.aic.aicenterprise.models.OrderSummary;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
+import com.aic.aicenterprise.repositories.BrandRepository;
 import com.aic.aicenterprise.repositories.ProductRepository;
 import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,12 +41,16 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private MongoTemplate mongoTemplate;
     private EmailService emailService;
+    private BrandRepository brandRepository;
+    private OrderService orderService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate, EmailService emailService) {
+    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate, EmailService emailService, BrandRepository brandRepository, OrderService orderService) {
         this.productRepository = productRepository;
         this.mongoTemplate = mongoTemplate;
         this.emailService = emailService;
+        this.brandRepository = brandRepository;
+        this.orderService = orderService;
     }
 
 
@@ -166,9 +174,28 @@ public class ProductServiceImpl implements ProductService {
     public boolean saveProducts(List<Product> productList) {
         Iterable<Product> products = productRepository.saveAll(productList);
 
-        List<Product> savedProducts = StreamSupport.stream(products.spliterator(), false).collect(Collectors.toList());
+        List<Product> savedProducts = StreamSupport.stream(products.spliterator(), false)
+                .collect(Collectors.toList());
 
         return productList.size() == savedProducts.size();
+    }
+
+    @Override
+    public boolean deleteProduct(String code) {
+        log.info("Deleting product: {}", code);
+
+        productRepository.deleteById(code);
+        return true;
+    }
+
+    @Override
+    public void deleteProductsByBrand(String brand) {
+        productRepository.deleteByBrand(brand);
+    }
+
+    @Override
+    public long getTotalProducts() {
+        return StreamSupport.stream(productRepository.findAll().spliterator(), false).count();
     }
 
     private String getProductEnquiryHtml(ProductEnquiryRequest request) {

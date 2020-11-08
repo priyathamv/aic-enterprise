@@ -14,6 +14,8 @@ const QuantityOperator = styled.button`
   border: 1px solid #ccc;
   background-color: #f3f3f3;
   cursor: pointer;
+  -moz-outline:0 none;
+  outline:0 none;
 
   @media ${device.laptop} { 
     width: 28px;

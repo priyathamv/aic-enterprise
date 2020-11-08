@@ -1,6 +1,7 @@
 package com.aic.aicenterprise.services;
 
 import com.aic.aicenterprise.entities.Product;
+import com.aic.aicenterprise.models.OrderSummary;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -21,4 +22,10 @@ public interface ProductService {
     boolean productEnquiry(ProductEnquiryRequest request);
 
     boolean saveProducts(List<Product> productList);
+
+    boolean deleteProduct(String code);
+
+    void deleteProductsByBrand(String brand);
+
+    long getTotalProducts();
 }

@@ -1,12 +1,17 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Order;
-import com.aic.aicenterprise.entities.UserCart;
-import com.aic.aicenterprise.models.responses.OrderHistoryResponse;
+import com.aic.aicenterprise.models.OrderStatus;
+import com.aic.aicenterprise.models.OrderSummary;
+import com.aic.aicenterprise.models.requests.OrderStatusRequest;
+import com.aic.aicenterprise.models.responses.OrderListResponse;
+import com.aic.aicenterprise.models.responses.OrderSummaryResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -55,13 +60,13 @@ public class OrderController {
     }
 
     @GetMapping(value = "")
-    public OrderHistoryResponse ordersHistory(@RequestParam String email) {
+    public OrderListResponse ordersHistory(@RequestParam String email) {
         log.info("Fetching Users order history: {}", email);
 
-        OrderHistoryResponse orderHistoryResponse;
+        OrderListResponse orderListResponse;
         try {
             List<Order> orderHistory = orderService.getOrderHistory(email);
-            orderHistoryResponse = OrderHistoryResponse.builder()
+            orderListResponse = OrderListResponse.builder()
                     .payload(orderHistory)
                     .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
@@ -69,14 +74,93 @@ public class OrderController {
 
         } catch (Exception ex) {
             log.info("Exception while fetching order history: {}", ex);
-            orderHistoryResponse = OrderHistoryResponse.builder()
+            orderListResponse = OrderListResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while fetching order history")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(Collections.emptyList())
                     .build();
         }
-        return orderHistoryResponse;
+        return orderListResponse;
+    }
+
+    @GetMapping("/all")
+    public OrderListResponse getOrdersByStatus(
+            @RequestParam(value = "orderStatus", required = false) OrderStatus orderStatus,
+            @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
+        log.info("Fetching orders by status: {}", orderStatus);
+
+        OrderListResponse orderListResponse;
+        try {
+            Pageable pageable = PageRequest.of(pageNo, limit);
+            List<Order> orderList = orderService.fetchOrdersByStatus(orderStatus, pageable);
+            orderListResponse = OrderListResponse.builder()
+                    .payload(orderList)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while fetching orders by status: {}", ex);
+            orderListResponse = OrderListResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching orders by status")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return orderListResponse;
+    }
+
+    @PostMapping("/update-status")
+    public SaveResponse updateOrderStatus(@RequestBody OrderStatusRequest request) {
+        log.info("Updating order status: {}", request);
+
+        SaveResponse orderStatusResponse;
+        try {
+            boolean orderStatus = orderService.updateOrderStatus(request.getId(), request.getOrderStatus());
+            orderStatusResponse = SaveResponse.builder()
+                    .payload(orderStatus)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while updating order status: {}", ex);
+            orderStatusResponse = SaveResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while updating order status")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(false)
+                    .build();
+        }
+        return orderStatusResponse;
+    }
+
+    @GetMapping(value = "/summary")
+    public OrderSummaryResponse getSummary() {
+        log.info("Getting order summary");
+
+        OrderSummaryResponse orderSummaryResponse;
+        try {
+            OrderSummary orderSummary = orderService.getOrderSummary();
+            orderSummaryResponse = OrderSummaryResponse.builder()
+                    .payload(orderSummary)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while fetching product summary: {}", ex);
+            orderSummaryResponse = OrderSummaryResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching product summary")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return orderSummaryResponse;
     }
 
 }

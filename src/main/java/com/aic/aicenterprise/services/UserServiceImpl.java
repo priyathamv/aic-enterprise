@@ -3,6 +3,7 @@ package com.aic.aicenterprise.services;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.exceptions.EmailNotFoundException;
 import com.aic.aicenterprise.exceptions.ResetPasswordLinkExpiredException;
+import com.aic.aicenterprise.models.UserMini;
 import com.aic.aicenterprise.models.UserRole;
 import com.aic.aicenterprise.models.requests.ForgotPasswordRequest;
 import com.aic.aicenterprise.models.requests.ResetPasswordRequest;
@@ -11,6 +12,7 @@ import com.aic.aicenterprise.services.image.ImageService;
 import com.mongodb.client.result.UpdateResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -24,7 +26,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.aic.aicenterprise.constants.AppConstants.APP_DOMAIN;
 import static com.aic.aicenterprise.constants.DBConstants.*;
@@ -342,6 +346,35 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, UserEntity.class);
         return updateResult.getModifiedCount() == 1;
+    }
+
+    @Override
+    public List<UserMini> getUserList(String searchValue, Pageable pageable) {
+        List<UserEntity> userEntityList = isNull(searchValue) || searchValue.isEmpty() ?
+                userRepository.findAll(pageable).getContent() :
+                userRepository.findByFirstNameLikeIgnoreCaseOrLastNameLikeIgnoreCaseOrEmailLikeIgnoreCase(searchValue, searchValue, searchValue, pageable);
+        log.info("User list fetched");
+
+        return userEntityList
+                .stream()
+                .map(this::generateUserMini)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean isAdmin(String email) {
+        UserEntity user = userRepository.findByEmail(email);
+        return nonNull(user) && UserRole.ADMIN.equals(user.getUserRole());
+    }
+
+    private UserMini generateUserMini(UserEntity userEntity) {
+        return UserMini.builder()
+                .firstName(userEntity.getFirstName())
+                .lastName(userEntity.getLastName())
+                .email(userEntity.getEmail())
+                .imageUrl(userEntity.getImageUrl())
+                .userRole(userEntity.getUserRole())
+                .build();
     }
 
 }

@@ -1,6 +1,8 @@
 package com.aic.aicenterprise.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,6 +13,8 @@ import static com.aic.aicenterprise.constants.DBConstants.PRODUCTS;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = PRODUCTS)
 public class Product {
     @Id
@@ -21,6 +25,7 @@ public class Product {
     private String capacity;
     private String pack;
     private String owner;
+    private String imageUrl;
     private Date createTs;
     private Date updateTs;
 }
