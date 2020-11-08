@@ -58,6 +58,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 "/api/products/delete", // TODO: remove later
                 "/api/featured-products/save", // TODO: remove later
                 "/api/featured-products/delete", // TODO: remove later
+                "/api/featured-products/load-products", // TODO: remove later
+                "/api/featured-products/delete-products", // TODO: remove later
                 "/api/orders/place-order",
                 "/api/orders/update-status", // TODO: remove later
                 "/api/users/sign-up",

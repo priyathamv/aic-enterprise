@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.aic.aicenterprise.constants.AppConstants.FEATURED_PRODUCTS_PATH;
@@ -31,10 +32,10 @@ public class FeaturedProductController {
     }
 
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/all")
     public FeaturedProductListResponse getAllFeaturedProducts(
             @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
-            @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
+            @RequestParam(value = "limit", required = false, defaultValue = "500") Integer limit) {
         log.info("Fetching featured products for pageNo: {}, limit: {}", pageNo, limit);
         FeaturedProductListResponse featuredProductListResponse;
         try {
@@ -52,6 +53,34 @@ public class FeaturedProductController {
             featuredProductListResponse = FeaturedProductListResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while fetching featured products")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return featuredProductListResponse;
+    }
+
+    @GetMapping(value = "/covid19")
+    public FeaturedProductListResponse getCovid19Products(
+            @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "limit", required = false, defaultValue = "500") Integer limit) {
+        log.info("Fetching Covid19 products for pageNo: {}, limit: {}", pageNo, limit);
+        FeaturedProductListResponse featuredProductListResponse;
+        try {
+            Pageable pageable = PageRequest.of(pageNo, limit);
+
+            List<FeaturedProduct> productList = featuredProductService.getCovid19ProductList(pageable);
+
+            featuredProductListResponse = FeaturedProductListResponse.builder()
+                    .payload(productList)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+        } catch (Exception ex) {
+            log.info("Exception while fetching Covid19 products: {}", ex);
+            featuredProductListResponse = FeaturedProductListResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching Covid19 products")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(null)
                     .build();
@@ -103,6 +132,18 @@ public class FeaturedProductController {
                     .build();
         }
         return deleteResponse;
+    }
+
+    @PostMapping(value = "/load-products")
+    public boolean loadProducts() throws IOException {
+        log.info("Loading all featured products from excel sheets...");
+        return featuredProductService.loadFromExcel();
+    }
+
+    @PostMapping(value = "/delete-products")
+    public boolean deleteProducts() throws IOException {
+        log.info("Deleting all featured products...");
+        return featuredProductService.deleteAllProducts();
     }
 
 }

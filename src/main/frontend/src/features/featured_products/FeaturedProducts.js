@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
-import { CovidProduct } from './CovidProduct';
+import { CovidProduct } from '../covid/CovidProduct';
 import { ProductIntro } from '../products/ProductIntro'
 import { device } from '../utils/viewport';
 
@@ -30,30 +30,30 @@ const ProductsGrid = styled.div`
 `;
 
 
-export const Covid19 = () => {
-  const [covid19Products, setCovid19Products] = useState([]);
+export const FeaturedProducts = () => {
+  const [featuredProducts, setFeaturedProducts] = useState([]);
 
-  const fetchCovid19Products = async () => {
+  const fetchFeaturedProducts = async () => {
     try {
-      const covid19ProductsResponse = await axios.get('/api/featured-products/covid19');
-      console.log('covid19ProductsResponse.data.payload', covid19ProductsResponse.data.payload);
-      setCovid19Products(covid19ProductsResponse.data.payload);
+      const featuredProductsResponse = await axios.get('/api/featured-products/all');
+      console.log('featuredProductsResponse.data.payload', featuredProductsResponse.data.payload);
+      setFeaturedProducts(featuredProductsResponse.data.payload);
 
     } catch (err) {
-      console.log('Error while fetching Covid19 products', err.message);
+      console.log('Error while fetching Featured products', err.message);
     }
   }
 
   useEffect(() => {
-    fetchCovid19Products();
+    fetchFeaturedProducts();
   }, [])
 
   return (
-    <Container id='covid19_id'>
-      <ProductIntro brand='COVID-19' description='Covid19 products' />
+    <Container id='featured_id'>
+      <ProductIntro brand='Featured Products' description='Featured products' />
       
       <ProductsGrid>
-        {covid19Products.map((curProduct, index) => <CovidProduct key={index} productDetails={curProduct} />)}
+        {featuredProducts.map((curProduct, index) => <CovidProduct key={index} productDetails={curProduct} />)}
       </ProductsGrid>
     </Container>
   )
