@@ -126,7 +126,7 @@ export const AdminUserList = () => {
       setLoading(true);
 
       try {
-        const userListResponse = await axios.get('/api/users/all', { params: { searchValue, pageNo: 0, limit: 4 } });
+        const userListResponse = await axios.get('/api/users/all', { params: { searchValue, pageNo: 0, limit: 20 } });
         setHasMore(userListResponse.data.payload.length > 0 ? true : false);
         setPageNo(1);
         setUserList(userListResponse.data.payload);
@@ -143,7 +143,7 @@ export const AdminUserList = () => {
       setLoading(true);
 
       try {
-        const userListResponse = await axios.get('/api/users/all', { params: { searchValue, pageNo, limit: 4 } });
+        const userListResponse = await axios.get('/api/users/all', { params: { searchValue, pageNo, limit: 20 } });
         setHasMore(userListResponse.data.payload.length > 0 ? true : false);
         setPageNo(pageNo + 1);
         setUserList([...userList, ...userListResponse.data.payload]);

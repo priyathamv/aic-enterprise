@@ -1,11 +1,7 @@
 package com.aic.aicenterprise.services;
 
-import com.aic.aicenterprise.entities.Order;
 import com.aic.aicenterprise.entities.Product;
-import com.aic.aicenterprise.models.OrderStatus;
-import com.aic.aicenterprise.models.OrderSummary;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
-import com.aic.aicenterprise.repositories.BrandRepository;
 import com.aic.aicenterprise.repositories.ProductRepository;
 import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,16 +37,12 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private MongoTemplate mongoTemplate;
     private EmailService emailService;
-    private BrandRepository brandRepository;
-    private OrderService orderService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate, EmailService emailService, BrandRepository brandRepository, OrderService orderService) {
+    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate, EmailService emailService) {
         this.productRepository = productRepository;
         this.mongoTemplate = mongoTemplate;
         this.emailService = emailService;
-        this.brandRepository = brandRepository;
-        this.orderService = orderService;
     }
 
 
@@ -195,7 +187,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public long getTotalProducts() {
-        return StreamSupport.stream(productRepository.findAll().spliterator(), false).count();
+        return mongoTemplate.query(Product.class)
+                .distinct("_id")
+                .as(String.class)
+                .all()
+                .size();
     }
 
     private String getProductEnquiryHtml(ProductEnquiryRequest request) {
