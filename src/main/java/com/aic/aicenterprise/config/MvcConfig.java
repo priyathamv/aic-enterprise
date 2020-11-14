@@ -26,7 +26,9 @@ public class MvcConfig {
                 registry.addViewController("/admin/users").setViewName(INDEX_HTML);
                 registry.addViewController("/admin/orders").setViewName(INDEX_HTML);
                 registry.addViewController("/admin/products").setViewName(INDEX_HTML);
+                registry.addViewController("/admin/products/new").setViewName(INDEX_HTML);
                 registry.addViewController("/admin/brands").setViewName(INDEX_HTML);
+                registry.addViewController("/admin/brands/new").setViewName(INDEX_HTML);
                 registry.addViewController("/account/my-account").setViewName(INDEX_HTML);
                 registry.addViewController("/account/my-orders").setViewName(INDEX_HTML);
                 registry.addViewController("/login").setViewName(INDEX_HTML);
