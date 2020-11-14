@@ -5,7 +5,9 @@ import { useSelector } from 'react-redux';
 
 import { AdminOverview } from './AdminOverview';
 import { AdminUserList } from './AdminUserList';
+import { AdminBrandList } from './brands/AdminBrandList';
 import { selectUserRole } from '../auth/authSlice';
+import { AdminNewBrand } from './brands/AdminNewBrand';
 
 const Container = styled.div`
   display: flex;
@@ -41,6 +43,7 @@ const Content = styled.div`
 
 const OVERVIEW_PAGE = 'OVERVIEW_PAGE';
 const BRANDS_PAGE = 'BRANDS_PAGE';
+const NEW_BRANDS_PAGE = 'NEW_BRANDS_PAGE';
 const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
 const USERS_PAGE = 'USERS_PAGE';
 const ORDERS_PAGE = 'ORDERS_PAGE';
@@ -63,6 +66,8 @@ export const AdminHome = () => {
 
     if (currentPath.includes('/admin/overview'))
       setCurPage(OVERVIEW_PAGE);
+    else if (currentPath.includes('/admin/brands/new'))
+      setCurPage(NEW_BRANDS_PAGE);
     else if (currentPath.includes('/admin/brands'))
       setCurPage(BRANDS_PAGE);
     else if (currentPath.includes('/admin/products'))
@@ -86,7 +91,7 @@ export const AdminHome = () => {
     <Container>
       <SideBar>
         <Menu to='/admin/overview' style={curPage === OVERVIEW_PAGE ? curPageStyle : null} >Overview</Menu>
-        <Menu to='/admin/brands' style={curPage === BRANDS_PAGE ? curPageStyle : null} >Brands</Menu>
+        <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE)? curPageStyle : null} >Brands</Menu>
         <Menu to='/admin/products' style={curPage === PRODUCTS_PAGE ? curPageStyle : null} >Products</Menu>
         <Menu to='/admin/users' style={curPage === USERS_PAGE ? curPageStyle : null} >Users</Menu>
         <Menu to='/admin/orders'  style={curPage === ORDERS_PAGE ? curPageStyle : { border: '1px solid #232162' }} >Orders</Menu>
@@ -95,6 +100,8 @@ export const AdminHome = () => {
       <Content>
         {curPage === OVERVIEW_PAGE && <AdminOverview />}
         {curPage === USERS_PAGE && <AdminUserList />}
+        {curPage === NEW_BRANDS_PAGE && <AdminNewBrand />}
+        {curPage === BRANDS_PAGE && <AdminBrandList />}
       </Content>
       
     </Container>

@@ -85,7 +85,7 @@ export const AdminOverview = () => {
   return (
     <Container>
       <Content>Total no of Brands: { (brandsCount !== null && brandsCount >= 0) ? <Value>{brandsCount}</Value> : getSpinner() }</Content>
-      <Content>Total no of Products: { (productsCount !== null && productsCount >= 0) ? <Value>{productsCount}</Value> : getSpinner() }</Content>
+      <Content>Total no of Products: { (productsCount !== null && productsCount >= 0) ? <Value>{productsCount.toLocaleString()}</Value> : getSpinner() }</Content>
       <Content>Total no of Dispatched orders: { (dispatched !== null && dispatched >= 0) ? <Value>{dispatched}</Value> : getSpinner() }</Content>
       <Content>Total no of Accepted orders: { (accepted !== null && accepted >= 0) ? <Value>{accepted}</Value> : getSpinner() }</Content>
       <Content>Total no of Pending orders: { (pending !== null && pending >= 0) ? <Value>{pending}</Value> : getSpinner() }</Content>

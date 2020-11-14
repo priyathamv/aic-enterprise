@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Spinner } from '../utils/Spinner';
 
 const Container = styled.div`
-  // margin-bottom: 100px;
 `;
 
 const Header = styled.div`
@@ -169,11 +168,11 @@ export const AdminUserList = () => {
     try {
       const headers = { 'Content-Type': 'application/json' };
       const updateRoleResponse = await axios.post('/api/users/update-role', { email, userRole }, { headers });
-      if (updateRoleResponse.data.payload) {
+      
+      if (updateRoleResponse.data.payload)
         toast.success('User role updated successfully', { variant: 'success'});
-      } else {
+      else
         toast.error('User role updation failed', { variant: 'error'});
-      }
     } catch(err) {
       console.log('Error while updating User role', err.message);
       toast.error('User role updation failed', { variant: 'error'});
