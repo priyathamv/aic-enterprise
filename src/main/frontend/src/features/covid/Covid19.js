@@ -38,9 +38,7 @@ export const Covid19 = () => {
   const fetchCovid19Products = async () => {
     try {
       const covid19ProductsResponse = await axios.get('/api/featured-products/covid19');
-      console.log('covid19ProductsResponse.data.payload', covid19ProductsResponse.data.payload);
       setCovid19Products(covid19ProductsResponse.data.payload);
-
     } catch (err) {
       console.log('Error while fetching Covid19 products', err.message);
     }

@@ -11,9 +11,6 @@ export const productsSlice = createSlice({
     hasMore: true,
   },
   reducers: {
-    changeProductList: (state, action) => {
-      state.productList = action.payload;
-    },
     updateProductList: (state, action) => {
       state.productList = [...state.productList, ...action.payload];
     },

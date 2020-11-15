@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -8,7 +8,6 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { MdClear } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 
 import { Spinner } from '../utils/Spinner';
 
@@ -195,7 +194,6 @@ export const AdminUserList = () => {
   }
 
   const handleOnSearch = searchValue => {
-    console.log('searchValue', searchValue)
     setSearchValue(searchValue);
     if (searchValue.length === 0 || searchValue.length > 2)
       fetchFilteredUsers(searchValue);

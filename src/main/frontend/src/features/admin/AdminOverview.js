@@ -10,6 +10,7 @@ const Container = styled.div`
   grid-template-columns: 1fr;
   grid-column-gap: 30px;
   grid-row-gap: 30px;
+  margin-bottom: 50px;
   
   @media ${device.tablet} { 
     grid-template-columns: 1fr 1fr;

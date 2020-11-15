@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { AdminOverview } from './AdminOverview';
 import { AdminUserList } from './AdminUserList';
 import { AdminBrandList } from './brands/AdminBrandList';
+import { AdminProductList } from './products/AdminProductList';
 import { selectUserRole } from '../auth/authSlice';
 import { AdminNewBrand } from './brands/AdminNewBrand';
 import { device } from '../utils/viewport';
@@ -44,6 +45,7 @@ const Menu = styled(Link)`
   text-align: center;
   color: #232162;
   padding: 20px 5px;
+  min-height: 20px;
   border: 1px solid #232162;
   border-bottom: 1px solid #232162;
   
@@ -75,6 +77,7 @@ const OVERVIEW_PAGE = 'OVERVIEW_PAGE';
 const BRANDS_PAGE = 'BRANDS_PAGE';
 const NEW_BRANDS_PAGE = 'NEW_BRANDS_PAGE';
 const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
+const NEW_PRODUCTS_PAGE = 'NEW_PRODUCTS_PAGE';
 const USERS_PAGE = 'USERS_PAGE';
 const ORDERS_PAGE = 'ORDERS_PAGE';
 
@@ -100,6 +103,8 @@ export const AdminHome = () => {
       setCurPage(NEW_BRANDS_PAGE);
     else if (currentPath.includes('/admin/brands'))
       setCurPage(BRANDS_PAGE);
+    else if (currentPath.includes('/admin/products/new'))
+      setCurPage(NEW_PRODUCTS_PAGE);
     else if (currentPath.includes('/admin/products'))
       setCurPage(PRODUCTS_PAGE);
     else if (currentPath.includes('/admin/users'))
@@ -121,8 +126,8 @@ export const AdminHome = () => {
     <Container>
       <SideBar>
         <Menu to='/admin/overview' style={curPage === OVERVIEW_PAGE ? curPageStyle : null} >Overview</Menu>
-        <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE)? curPageStyle : null} >Brands</Menu>
-        <Menu to='/admin/products' style={curPage === PRODUCTS_PAGE ? curPageStyle : null} >Products</Menu>
+        <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE) ? curPageStyle : null} >Brands</Menu>
+        <Menu to='/admin/products' style={(curPage === PRODUCTS_PAGE || curPage === NEW_PRODUCTS_PAGE) ? curPageStyle : null} >Products</Menu>
         <Menu to='/admin/users' style={curPage === USERS_PAGE ? curPageStyle : null} >Users</Menu>
         <Menu to='/admin/orders'  style={curPage === ORDERS_PAGE ? curPageStyle : { border: '1px solid #232162' }} >Orders</Menu>
       </SideBar>
@@ -132,6 +137,7 @@ export const AdminHome = () => {
         {curPage === USERS_PAGE && <AdminUserList />}
         {curPage === NEW_BRANDS_PAGE && <AdminNewBrand />}
         {curPage === BRANDS_PAGE && <AdminBrandList />}
+        {curPage === PRODUCTS_PAGE && <AdminProductList />}
       </Content>
       
     </Container>
