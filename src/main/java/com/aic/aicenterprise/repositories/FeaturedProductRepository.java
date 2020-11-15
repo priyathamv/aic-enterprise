@@ -16,4 +16,10 @@ public interface FeaturedProductRepository extends PagingAndSortingRepository<Fe
     List<FeaturedProduct> findByIsFeaturedFalse(Pageable pageable);
 
     List<FeaturedProduct> findByIsFeaturedTrue(Pageable pageable);
+
+    List<FeaturedProduct> findByBrandIgnoreCaseAndNameLikeIgnoreCase(String brand, String searchValue, Pageable pageable);
+
+    List<FeaturedProduct> findByBrandIgnoreCase(String brand, Pageable pageable);
+
+    List<FeaturedProduct> findByNameLikeIgnoreCase(String searchValue, Pageable pageable);
 }

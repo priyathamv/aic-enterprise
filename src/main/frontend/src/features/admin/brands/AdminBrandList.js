@@ -19,11 +19,9 @@ const MenuWrapper = styled.div`
 `;
 
 const NewBrandLink = styled(Link)`
-  text-decoration: none;
-  background-color: #232162;
-  color: #FFF;
-  padding: 12px 30px;
-  border-radius: 3px;
+  color: #232162;
+  margin-right: 10px;
+  text-decoration: underline;
 `;
 
 const Header = styled.div`

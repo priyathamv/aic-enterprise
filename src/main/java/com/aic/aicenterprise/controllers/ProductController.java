@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -181,6 +182,30 @@ public class ProductController {
         }
         return countResponse;
     }
+
+    @PostMapping("/upload-images")
+    public ImageUrlsResponse uploadProductImage(@RequestParam("files") List<MultipartFile> files) {
+        ImageUrlsResponse productImageResponse;
+        try {
+            List<String> imageUrls = productService.uploadImages(files);
+            productImageResponse = ImageUrlsResponse.builder()
+                    .payload(imageUrls)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+
+        } catch (Exception ex) {
+            log.info("Exception while uploading product image: {}", ex);
+            productImageResponse = ImageUrlsResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while uploading product image")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return productImageResponse;
+    }
+
 
     @PostMapping(value = "/load-products")
     public boolean loadProducts() throws IOException {

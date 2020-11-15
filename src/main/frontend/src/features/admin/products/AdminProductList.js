@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
-import InfiniteScroll from 'react-infinite-scroller';
+import Select from 'react-select';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdClear } from 'react-icons/md';
 import debounce from 'lodash.debounce';
@@ -31,16 +31,24 @@ const MenuWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 15px;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
+  
+  @media ${device.laptop} { 
+    align-items: flex-end;
+    flex-direction: row;
+  }
 `;
 
 const NewProductLink = styled(Link)`
-  text-decoration: none;
-  background-color: #232162;
-  color: #FFF;
-  padding: 12px 30px;
-  border-radius: 3px;
+  color: #232162;
   margin-right: 10px;
+  text-decoration: underline;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    margin-bottom: 0;
+  }
 `;
 
 const ProductListWrapper = styled.div`
@@ -115,23 +123,21 @@ const ProductRow = styled.div`
   padding: 10px 20px;
   margin: 5px 0;
   min-width: 700px;
-
-  // @media ${device.tablet} { 
-  //   padding: 10px 50px;
-  // }
 `;
 
-const SpinnerWrapper = styled.div`
-  position: relative;
-  height: 100%;
-`;
 
 const Search = styled.div`
-  width: 300px;
+  width: 100%;
   display: flex;
   justify-content: flex-end;
   position: relative;
   height: 38px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    width: 225px;
+    margin-bottom: 0;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -167,6 +173,38 @@ const ScrollObserver = styled.div`
   text-align: center;
 `;
 
+const FilterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @media ${device.laptop} { 
+    width: auto;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+`;
+
+const BrandFilterWrapper = styled.div`
+  width: 100%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} { 
+    width: 225px;
+    margin-bottom: 0;
+  }
+`;
+
+const ALL_BRANDS = {
+  label: 'All Brands',
+  value: null
+}
+
+const isFeaturedOptions = [
+  {label: 'Featured Products', value: 'Featured Products'},
+  {label: 'Non Featured Products', value: 'Non Featured Products'}
+]
 
 export const AdminProductList = () => {
   const dispatch = useDispatch();
@@ -174,20 +212,26 @@ export const AdminProductList = () => {
   const hasMore = useSelector(selectAdminHasMore);
   const searchValue = useSelector(selectAdminSearchValue);
 
+  const [isFeatured, setIsFeatured] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [placeholder, setPlaceholder] = useState('Search by Products name');
 
+  const [brand, setBrand] = useState(null);
+  const [brandList, setBrandList] = useState([]);
+
   const dummyRef = useRef(null);
 
-  const updateProductListOnSearch = async () => {
+  const updateProductListOnSearchOrFilter = async () => {
     try {
       const queryParams = {
-        searchValue: (searchValue === '' ? null : searchValue), 
+        searchValue: ((searchValue === '' || searchValue.length < 3) ? null : searchValue), 
+        brand,
         pageNo: 0, 
         limit: 20
       }
       if (searchValue === '' || searchValue.length >= 3) {
-        const adminProductsResponse = await axios.get('/api/products', { params: queryParams });
+        const url = isFeatured ? '/api/featured-products' : '/api/products';
+        const adminProductsResponse = await axios.get(url, { params: queryParams });
         dispatch(changeAdminProductList(adminProductsResponse.data.payload));
       }
     } catch (err) {
@@ -196,7 +240,7 @@ export const AdminProductList = () => {
   }
 
   useEffect(() => {
-    updateProductListOnSearch();
+    updateProductListOnSearchOrFilter();
   }, [searchValue])
 
   
@@ -207,10 +251,9 @@ export const AdminProductList = () => {
 
 
   useEffect(() => {
-    if (hasMore) {
-      dispatch(getNextPageAsync({ searchValue, pageNo })); 
-    }
-  }, [dispatch, hasMore, pageNo]);
+    if (hasMore)
+      dispatch(getNextPageAsync({ isFeatured, brand, searchValue, pageNo })); 
+  }, [dispatch, hasMore, isFeatured, brand, pageNo]);
 
 
   const handleObserver = (entities) => {
@@ -226,16 +269,14 @@ export const AdminProductList = () => {
     (hasMore || pageNo === 0) && dummyRef.current && observer.observe(dummyRef.current);
   }, [hasMore, pageNo]);
 
-
-
   
-  const handleOnDelete = async name => {
+  const handleOnDelete = async (code, name) => {
     const headers = { 'Content-Type': 'application/json' };
 
     try {
-      const productDeleteResponse = await axios.post('/api/products/delete', { name, description: name }, headers);
-      console.log('productDeleteResponse.data.payload', productDeleteResponse.data.payload);
-
+      const url = isFeatured ? '/api/featured-products/delete' : '/api/products/delete';
+      const productDeleteResponse = await axios.post(url, { code, name }, headers);
+      
       if (productDeleteResponse.data.payload) {
         toast.success(`${name} product deleted successfully`, { variant: 'success'});
         setTimeout(() => window.location.reload(), 5000);
@@ -248,23 +289,74 @@ export const AdminProductList = () => {
     }
   }
 
+  const fetchBrandList = async () => {
+    try {
+      const brandListResponse = await axios.get('/api/brands');
+      setBrandList(brandListResponse.data.payload.map(curBrandObj => curBrandObj.name));
+    } catch(err) {
+      console.log('Error while fetching brands: ', err.message);
+      setBrandList([]);
+    }
+  }
+
+  useEffect(() => {
+    fetchBrandList();
+  }, []);
+
+  const handleIsFeaturedChange = e => {
+    if (e.value === isFeaturedOptions[0].value)
+      setIsFeatured(true);
+    else
+      setIsFeatured(false);
+
+    dispatch(updateHasMore(true));
+    setBrand(null); 
+    setPageNo(0);
+  }
+
+  const handleBrandChange = e => {
+    dispatch(updateHasMore(true)); 
+    setPageNo(0);
+    setBrand(e.value); 
+  }
+
   return (
     <Container>
       <MenuWrapper>
-        <NewProductLink to='/admin/products/new' >Add new product</NewProductLink>
+        <NewProductLink to='/admin/products/new' >Add a new product</NewProductLink>
 
-        <Search>
-          <SearchInput 
-            value={searchValue}
-            placeholder={placeholder} 
-            onChange={e => handleOnSearch(e.target.value)}
-            onBlur={() => setPlaceholder('Search by Products name')} 
-            onFocus={() => setPlaceholder('Type at least 3 characters')} 
-          />
+        <FilterWrapper>
+          <BrandFilterWrapper>
+            <Select
+              value={isFeatured ? isFeaturedOptions[0] : isFeaturedOptions[1]}
+              options={isFeaturedOptions} 
+              onChange={handleIsFeaturedChange} 
+            />
+          </BrandFilterWrapper>
+          
+          <BrandFilterWrapper>
+            <Select
+              isSearchable={true}
+              placeholder='Brand filter'
+              value={brand ? {label: brand, value: brand} : null}
+              options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]} 
+              onChange={handleBrandChange} 
+            />
+          </BrandFilterWrapper>
 
-          <SearchIcon size='1.2em'/>
-          <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
-        </Search>
+          <Search>
+            <SearchInput 
+              value={searchValue}
+              placeholder={placeholder} 
+              onChange={e => handleOnSearch(e.target.value)}
+              onBlur={() => setPlaceholder('Search by Products name')} 
+              onFocus={() => setPlaceholder('Type at least 3 characters')} 
+            />
+
+            <SearchIcon size='1.2em'/>
+            <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
+          </Search>
+        </FilterWrapper>
       </MenuWrapper>
 
 
@@ -296,7 +388,7 @@ export const AdminProductList = () => {
                     <div className="content">Are you sure you want to delete the product {curProduct.name}?</div>
 
                     <div className="actions">
-                      <DeleteButtonPop onClick={() => handleOnDelete(curProduct.name)} >Yes, delete</DeleteButtonPop>
+                      <DeleteButtonPop onClick={() => handleOnDelete(curProduct.code, curProduct.name)} >Yes, delete</DeleteButtonPop>
                       
                       <CloseButton autoFocus className="button" onClick={() => close()} >Close</CloseButton>
                     </div>

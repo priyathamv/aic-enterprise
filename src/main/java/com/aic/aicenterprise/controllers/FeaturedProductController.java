@@ -31,6 +31,36 @@ public class FeaturedProductController {
         this.featuredProductService = featuredProductService;
     }
 
+    @GetMapping(value = "")
+    public FeaturedProductListResponse getAllProducts(
+            @RequestParam(value = "brand", required = false) String brand,
+            @RequestParam(value = "searchValue", required = false) String searchValue,
+            @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+            @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
+        log.info("Getting featured products under the brand: {} and searchValue: {}", brand, searchValue);
+        FeaturedProductListResponse productListResponse;
+        try {
+            Pageable pageable = PageRequest.of(pageNo, limit);
+
+            List<FeaturedProduct> productList = featuredProductService.getFilteredProductList(brand, searchValue, pageable);
+
+            productListResponse = FeaturedProductListResponse.builder()
+                    .payload(productList)
+                    .msg(SUCCESS)
+                    .status(HttpStatus.OK.value())
+                    .build();
+        } catch (Exception ex) {
+            log.info("Exception while fetching featured products: {}", ex);
+            productListResponse = FeaturedProductListResponse.builder()
+                    .error(ex.toString())
+                    .msg("Exception while fetching featured products")
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .payload(null)
+                    .build();
+        }
+        return productListResponse;
+    }
+
 
     @GetMapping(value = "/all")
     public FeaturedProductListResponse getAllFeaturedProducts(

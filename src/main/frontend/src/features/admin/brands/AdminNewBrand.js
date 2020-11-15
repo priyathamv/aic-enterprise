@@ -45,7 +45,7 @@ export const AdminNewBrand = () => {
 
   return (
     <Container>
-      <Heading>Add new Brand</Heading>
+      <Heading>Add a new Brand</Heading>
 
       <Input styleObj={{ maxWidth: '300px' }} value={name} handleOnChange={e => setName(e.target.value)} label='Name*' />
 

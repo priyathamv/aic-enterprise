@@ -18,4 +18,6 @@ public interface FeaturedProductService {
     boolean loadFromExcel() throws IOException;
 
     boolean deleteAllProducts();
+
+    List<FeaturedProduct> getFilteredProductList(String brand, String searchValue, Pageable pageable);
 }

@@ -26,20 +26,26 @@ export const adminProductListSlice = createSlice({
 
 export const { changeAdminProductList, updateAdminProductList, updateHasMore, updateSearch } = adminProductListSlice.actions;
 
-export const getNextPageAsync = ({ searchValue, pageNo }) => async dispatch => {
+export const getNextPageAsync = ({ isFeatured, brand, searchValue, pageNo }) => async dispatch => {
   try {
-    const queryParams = { pageNo, searchValue: (searchValue === '' ? null : searchValue), limit: 20 };
-    const adminProductListResponse = await axios.get('/api/products', { params: queryParams });
+    const queryParams = { pageNo, brand, searchValue: (searchValue === '' ? null : searchValue), limit: 20 };
+    
+    const url = isFeatured ? '/api/featured-products' : '/api/products';
+    const adminProductListResponse = await axios.get(url, { params: queryParams });
     
     const newAdminProductList = adminProductListResponse.data.payload;
 
-    if (newAdminProductList.length > 0) {
+    if (newAdminProductList.length === 0) {
+      if (pageNo === 0)
+        dispatch(changeAdminProductList([]));
+      else
+        dispatch(updateHasMore(false));  
+    } else if (newAdminProductList.length > 0) {
       if (pageNo === 0)
         dispatch(changeAdminProductList(newAdminProductList));
       else
         dispatch(updateAdminProductList(newAdminProductList));
-    } else
-      dispatch(updateHasMore(false));
+    }
     
   } catch (err) {
     console.log('Exception while fetching admin product list: ', err.message);

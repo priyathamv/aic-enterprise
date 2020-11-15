@@ -3,6 +3,7 @@ package com.aic.aicenterprise.services;
 import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
 import com.aic.aicenterprise.repositories.ProductRepository;
+import com.aic.aicenterprise.services.image.ImageService;
 import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.openxml4j.util.ZipSecureFile;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,12 +39,15 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
     private MongoTemplate mongoTemplate;
     private EmailService emailService;
+    private ImageService imageService;
 
     @Autowired
-    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate, EmailService emailService) {
+    public ProductServiceImpl(ProductRepository productRepository, MongoTemplate mongoTemplate, EmailService emailService, ImageService imageService) {
         this.productRepository = productRepository;
         this.mongoTemplate = mongoTemplate;
         this.emailService = emailService;
+        this.imageService = imageService;
+
     }
 
 
@@ -192,6 +197,21 @@ public class ProductServiceImpl implements ProductService {
                 .as(String.class)
                 .all()
                 .size();
+    }
+
+    @Override
+    public List<String> uploadImages(List<MultipartFile> files) throws IOException {
+        return files.stream()
+                .map(file -> {
+                    try {
+                        return imageService.getImageUrl(file);
+                    } catch (IOException e) {
+                        log.info("Exception while uploading product image: {}", e.getMessage());
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     private String getProductEnquiryHtml(ProductEnquiryRequest request) {

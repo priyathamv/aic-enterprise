@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.aic.aicenterprise.constants.AppConstants.ADMIN;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -64,6 +65,18 @@ public class FeaturedProductServiceImpl implements FeaturedProductService {
     public boolean deleteAllProducts() {
         featuredProductRepository.deleteAll();
         return true;
+    }
+
+    @Override
+    public List<FeaturedProduct> getFilteredProductList(String brand, String searchValue, Pageable pageable) {
+        if (nonNull(brand) && nonNull(searchValue))
+            return featuredProductRepository.findByBrandIgnoreCaseAndNameLikeIgnoreCase(brand, searchValue, pageable);
+        else if (nonNull(brand))
+            return featuredProductRepository.findByBrandIgnoreCase(brand, pageable);
+        else if (nonNull(searchValue))
+            return featuredProductRepository.findByNameLikeIgnoreCase(searchValue, pageable);
+        else
+            return featuredProductRepository.findAll(pageable).getContent();
     }
 
     @Override
