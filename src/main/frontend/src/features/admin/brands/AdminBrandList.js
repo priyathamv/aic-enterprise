@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
 
 import { Spinner } from '../../utils/Spinner';
+import { device } from '../../utils/viewport';
 
 const Container = styled.div`
 `;
@@ -48,6 +49,22 @@ const DeleteButton = styled.button`
   margin-right: 20px;
 `;
 
+const DeleteButtonPop = styled.button`
+  background-color: #ff0000d1;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 30px;
+  color: #FFF;
+  cursor: pointer;
+  margin-right: 0;
+  margin-bottom: 20px;
+
+  @media ${device.tablet} { 
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+`;
+
 const CloseButton = styled.button`
   border: none;
   border-radius: 3px;
@@ -60,8 +77,12 @@ const BrandRow = styled.div`
   align-items: center;
   border-radius: 3px;
   box-shadow: 0 0 5px 1px rgba(188,188,188,0.3);
-  padding: 10px 50px;
+  padding: 10px;
   margin: 5px 0;
+
+  @media ${device.tablet} { 
+    padding: 10px 50px;
+  }
 `;
 
 const SpinnerWrapper = styled.div`
@@ -145,7 +166,7 @@ export const AdminBrandList = () => {
                       <div className="content">Are you sure you want to delete the brand {curBrand.name}?</div>
 
                       <div className="actions">
-                        <DeleteButton onClick={() => handleOnDelete(curBrand.name)} >Yes, delete</DeleteButton>
+                        <DeleteButtonPop onClick={() => handleOnDelete(curBrand.name)} >Yes, delete</DeleteButtonPop>
                         
                         <CloseButton autoFocus className="button" onClick={() => close()} >Close</CloseButton>
                       </div>

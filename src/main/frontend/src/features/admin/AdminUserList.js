@@ -22,14 +22,19 @@ const Header = styled.div`
   padding: 15px 20px;
   border-radius: 3px;
   font-weight: bold;
+  min-width: 700px;
 `;
 
 const SmallColumn = styled.div`
   flex: 1;
 `;
 
-const BigColumn = styled.div`
+const MediumColumn = styled.div`
   flex: 2;
+`;
+
+const BigColumn = styled.div`
+  flex: 3;
 `;
 
 const UserRow = styled.div`
@@ -39,6 +44,7 @@ const UserRow = styled.div`
   box-shadow: 0 0 5px 1px rgba(188,188,188,0.3);
   padding: 10px 20px;
   margin: 5px 0;
+  min-width: 700px;
 `;
 
 const UserImage = styled.img`
@@ -56,6 +62,12 @@ const SearchWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   margin-bottom: 10px;
+`;
+
+const UserListWrapper = styled.div`
+  width: 100%;
+  overflow: scroll;
+  white-space: nowrap;
 `;
 
 const Search = styled.div`
@@ -90,6 +102,9 @@ const CancelIcon = styled(MdClear)`
 
 
 const customStyles = {
+  container: (provided, state) => ({
+    width: '120px',
+  }),
   control: (provided, state) => ({
     ...provided,
     padding: '2px 0',
@@ -203,40 +218,42 @@ export const AdminUserList = () => {
         </Search>
       </SearchWrapper>
 
-      <Header>
-        <SmallColumn>Image</SmallColumn>
-        <BigColumn>Name</BigColumn>
-        <BigColumn>Email</BigColumn>
-        <SmallColumn>Role</SmallColumn>
-      </Header>
+      <UserListWrapper>
+        <Header>
+          <SmallColumn>Image</SmallColumn>
+          <MediumColumn>Name</MediumColumn>
+          <BigColumn>Email</BigColumn>
+          <MediumColumn>Role</MediumColumn>
+        </Header>
 
-      <InfiniteScroll
-        pageStart={0}
-        loadMore={fetchMoreUsers}
-        hasMore={hasMore}
-        loader={<Spinner key={0} containerStyle={{ marginTop: '15px', position: 'inherit' }} loaderStyle={{ fontSize: '15px' }} />}
-      >
-        {userList.map((curUser, index) => 
-          <UserRow key={index}>
-            <SmallColumn>
-              {curUser.imageUrl ? <UserImage src={curUser.imageUrl} /> : <UserIcon size='2.2em'/>}
-            </SmallColumn>
-            
-            <BigColumn>{`${curUser.firstName ? curUser.firstName : ''} ${curUser.lastName ? curUser.lastName : ''}`}</BigColumn>
-            
-            <BigColumn>{curUser.email}</BigColumn>
-            
-            <SmallColumn>
-              <Select
-                styles={customStyles}
-                value={curUser.userRole ? {label: curUser.userRole, value: curUser.userRole} : null}
-                placeholder='Role'
-                options={roleList} 
-                onChange={e => updateUserRole(curUser.email, e.value, index)} 
-              />
-            </SmallColumn>
-          </UserRow>)}
-      </InfiniteScroll>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={fetchMoreUsers}
+          hasMore={hasMore}
+          loader={<Spinner key={0} containerStyle={{ marginTop: '15px', position: 'inherit' }} loaderStyle={{ fontSize: '15px' }} />}
+        >
+          {userList.map((curUser, index) => 
+            <UserRow key={index}>
+              <SmallColumn>
+                {curUser.imageUrl ? <UserImage src={curUser.imageUrl} /> : <UserIcon size='2.2em'/>}
+              </SmallColumn>
+              
+              <MediumColumn>{`${curUser.firstName ? curUser.firstName : ''} ${curUser.lastName ? curUser.lastName : ''}`}</MediumColumn>
+              
+              <BigColumn>{curUser.email}</BigColumn>
+              
+              <MediumColumn>
+                <Select
+                  styles={customStyles}
+                  value={curUser.userRole ? {label: curUser.userRole, value: curUser.userRole} : null}
+                  placeholder='Role'
+                  options={roleList} 
+                  onChange={e => updateUserRole(curUser.email, e.value, index)} 
+                />
+              </MediumColumn>
+            </UserRow>)}
+        </InfiniteScroll>
+      </UserListWrapper>
     </Container>
   )
 }

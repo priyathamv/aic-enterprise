@@ -157,8 +157,13 @@ export const NavbarMain = ({ isAdmin }) => {
 
   return (
     <Container>
-      <BrandFrame style={ isAdmin ? { justifyContent: 'flex-start', marginLeft: '20px' } : null}>
-        <Logo src='/images/aic_logo.png' alt='AIC Logo' onClick={() => window.location.href='/'}></Logo>
+      <BrandFrame style={ isAdmin ? { justifyContent: 'flex-start' } : null}>
+        <Logo 
+          style={ isAdmin ? { marginLeft: '20px' } : null }
+          src='/images/aic_logo.png' 
+          alt='AIC Logo' 
+          onClick={() => window.location.href='/'}
+        />
 
         <Brand>AIC Group</Brand>
       </BrandFrame>

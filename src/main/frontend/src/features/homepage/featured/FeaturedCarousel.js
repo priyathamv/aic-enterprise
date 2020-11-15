@@ -15,43 +15,43 @@ const products = [
     'code': '1',
     'name': '1300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES',
     'description': 'Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod',
-    'imageUrl': '/images/products/ThermoScientific.jpg'
+    'imageUrls': ['/images/products/ThermoScientific.jpg']
   },
   {
     'code': '2',
     'name': '2300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES',
     'description': 'Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod',
-    'imageUrl': '/images/products/TheKIMTECHPURE.jpg'
+    'imageUrls': ['/images/products/TheKIMTECHPURE.jpg']
   },
   {
     'code': '3',
     'name': '3300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES',
     'description': 'Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod',
-    'imageUrl': '/images/products/1300SeriesA2.jpg'
+    'imageUrls': ['/images/products/1300SeriesA2.jpg']
   },
   {
     'code': '4',
     'name': '4300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES',
     'description': 'Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod',
-    'imageUrl': '/images/products/ReageconBuffer.jpg'
+    'imageUrls': ['/images/products/ReageconBuffer.jpg']
   },
   {
     'code': '5',
     'name': '5300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES',
     'description': 'Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod',
-    'imageUrl': '/images/products/NuncEasYFlask.jpg'
+    'imageUrls': ['/images/products/NuncEasYFlask.jpg']
   },
   {
     'code': '6',
     'name': '6300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES',
     'description': 'Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod',
-    'imageUrl': '/images/products/DuranlaboratoryGlassware.jpg'
+    'imageUrls': ['/images/products/DuranlaboratoryGlassware.jpg']
   },
   {
     'code': '7',
     'name': '7300 SERIES A2 BIOLOGICAL SAFETY CABINET PACKAGES',
     'description': 'Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod. Lorem ipsum dolor sit amet, con- tetuer adipiscing elit, sed diam nonummy nibh euismod',
-    'imageUrl': '/images/products/ThermoScientificTrace.jpg'
+    'imageUrls': ['/images/products/ThermoScientificTrace.jpg']
   }
 ];
 

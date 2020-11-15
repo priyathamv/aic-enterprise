@@ -8,37 +8,67 @@ import { AdminUserList } from './AdminUserList';
 import { AdminBrandList } from './brands/AdminBrandList';
 import { selectUserRole } from '../auth/authSlice';
 import { AdminNewBrand } from './brands/AdminNewBrand';
+import { device } from '../utils/viewport';
+
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
+
+  @media ${device.laptop} {
+    flex-direction: row;
+  }
 `;
 
 const SideBar = styled.div`
   flex: 1;
   display: flex;
-  flex-direction: column;
-  margin: 50px 50px 50px 100px;
-  position: sticky;
+  flex-direction: row;
+  margin: 30px auto;
+  position: initial;
   top: 50px;
+
+  @media ${device.tablet} { 
+    flex-direction: column;
+    margin: 50px;
+  }
+
+  @media ${device.laptop} {
+    position: sticky;
+    margin: 50px 50px 50px 100px;
+  }
 `;
 
 const Menu = styled(Link)`
   text-decoration: none;
   text-align: center;
   color: #232162;
-  padding: 20px 10px;
+  padding: 20px 5px;
   border: 1px solid #232162;
-  border-bottom: none;
-
+  border-bottom: 1px solid #232162;
+  
   &:hover {
     color: #232162;
     background-color: #F8F8FF;
+  }
+
+  @media ${device.tablet} {
+    padding: 20px 10px;
+    border-bottom: none;  
   }
 `;
 
 const Content = styled.div`
   flex: 4;
-  margin: 50px 100px 50px 50px;
+  margin: 20px;
+
+  @media ${device.tablet} { 
+    margin: 50px 100px 50px 50px;
+  }
+
+  @media ${device.laptop} {
+    margin: 50px 100px 50px 50px;
+  }
 `;
 
 const OVERVIEW_PAGE = 'OVERVIEW_PAGE';

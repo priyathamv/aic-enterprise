@@ -3,13 +3,21 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import { Spinner } from '../utils/Spinner';
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr;
   grid-column-gap: 30px;
   grid-row-gap: 30px;
-  // margin: 60px 120px;
+  
+  @media ${device.tablet} { 
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media ${device.laptop} {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;
 
 const Content = styled.div`

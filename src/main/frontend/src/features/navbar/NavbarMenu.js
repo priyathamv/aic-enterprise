@@ -176,7 +176,7 @@ export const NavbarMenu = () => {
         </MenuItemWrap>
         <MenuItem style={curPage === ABOUT_US_PAGE ? curPageStyle : null} to='/about-us'>About us</MenuItem>
         <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>Contact us</MenuItem>
-        <MenuItem to="/">Covid 19</MenuItem>
+        <MenuItem to="/covid19">Covid 19</MenuItem>
       </MenuItems>
 
       {isMobile ? null : <Search />}

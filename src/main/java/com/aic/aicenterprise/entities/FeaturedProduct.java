@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+import java.util.List;
 
 import static com.aic.aicenterprise.constants.DBConstants.FEATURED_PRODUCTS;
 
@@ -24,7 +25,7 @@ public class FeaturedProduct {
     private String pack;
     private String description;
     private String owner;
-    private String imageUrl;
+    private List<String> imageUrls;
     private boolean isFeatured = true;
     private Date createTs;
     private Date updateTs;

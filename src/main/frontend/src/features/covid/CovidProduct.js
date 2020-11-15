@@ -15,11 +15,16 @@ const Container = styled.div`
 const Image = styled.img`
   width: 100%;
   height: 300px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   @media ${device.laptop} { 
     
   }
+`;
+
+const ProductName = styled.div`
+  margin-bottom: 10px;
+  text-align: center;
 `;
 
 const Code = styled.div`
@@ -72,7 +77,9 @@ export const CovidProduct = ({ productDetails }) => {
 
   return (
     <Container>
-      <Image src={productDetails.imageUrl} />
+      <Image src={productDetails.imageUrls[0]} />
+
+      <ProductName>{productDetails.name}</ProductName>
 
       <ProductPopup 
         label='ORDER NOW'

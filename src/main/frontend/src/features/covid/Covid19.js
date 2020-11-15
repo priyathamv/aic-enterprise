@@ -22,10 +22,12 @@ const ProductsGrid = styled.div`
 
   @media ${device.tablet} { 
     grid-template-columns: 1fr 1fr;
+    grid-row-gap: 100px;
   }
   
   @media ${device.laptop} { 
     grid-template-columns: 1fr 1fr 1fr;
+    grid-row-gap: 100px;
   }
 `;
 

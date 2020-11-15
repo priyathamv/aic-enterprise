@@ -23,7 +23,7 @@ const Container = styled.div`
 const ItemDetails = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 `;
 
 const ItemImage = styled.img`
@@ -33,7 +33,7 @@ const ItemImage = styled.img`
 
 const ItemDesc = styled.div`
   font-size: 14px;
-  margin: 0 10px;
+  margin-right: 10px;
 `;
 
 const DeleteIcon = styled(BsFillTrashFill)`
@@ -81,7 +81,7 @@ export const CartItem = ({ itemDetails }) => {
   return (
     <Container>
       <ItemDetails>
-        {itemDetails.imageUrl && <ItemImage src={itemDetails.imageUrl}></ItemImage>}
+        {itemDetails.imageUrls && itemDetails.imageUrls[0] && <ItemImage src={itemDetails.imageUrls[0]}></ItemImage>}
 
         <ItemDesc>{itemDetails.name}</ItemDesc>
 

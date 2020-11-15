@@ -34,7 +34,7 @@ export const Product = ({ productDetails }) => {
 
   return (
     <Container>
-      <Image src={productDetails.imageUrl} />
+      <Image src={productDetails.imageUrls[0]} />
       
       <ProductPopup 
         label='KNOW MORE'

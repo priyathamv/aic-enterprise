@@ -17,10 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -133,6 +130,37 @@ public class FeaturedProductServiceImpl implements FeaturedProductService {
         String description = dataFormatter.formatCellValue(row.getCell(7)).trim();
         Date curDate = new Date();
 
+        List<String> imageUrls;
+        if (name.equals("Vrial RNA Mini Kit"))
+            imageUrls = Arrays.asList("/images/covid19/ViralRnaMiniKit.png");
+        else if (name.equals("Conical Sterile PP Centrifuge Tubes"))
+            imageUrls = Arrays.asList("/images/covid19/ConicalSterilePPCentrifugeTubesthermofisher.png", "/images/covid19/ConicalSterilePPCentrifugeTubesthermofisher2.png", "/images/covid19/ConicalSterilePPCentrifugeTubesthermofisher3.png");
+        else if (name.equals("Filter Pipette Tips"))
+            imageUrls = Arrays.asList("/images/covid19/FilterPipetteHeads.png", "/images/covid19/FilterPipetteHeads2.png");
+        else if (name.equals("Micro Centrifuge Tubes PP"))
+            imageUrls = Arrays.asList("/images/covid19/MicroCentrifugeTubesPP.png");
+        else if (name.equals("Disposable 3 Ply Mask"))
+            imageUrls = Arrays.asList("/images/covid19/3plymask.png", "/images/covid19/3plymask2.png");
+        else if (name.equals("ART Barrier Hinged Racj Pippete Tips"))
+            imageUrls = Arrays.asList("/images/covid19/ARTBarrierHingedRacjPippeteTips.png", "/images/covid19/ARTBarrierHingedRacjPippeteTips2.png", "/images/covid19/ARTBarrierHingedRacjPippeteTips3.png");
+        else if (name.equals("Purple Nitrile Gloves"))
+            imageUrls = Arrays.asList("/images/covid19/PurpleNitrileGloves.png", "/images/covid19/PurpleNitrileGloves2.png");
+        else if (name.equals("Hand Sanitizer"))
+            imageUrls = Arrays.asList("/images/covid19/HandSanitiserAgme.png");
+        else if (name.equals("Vortex Mixer"))
+            imageUrls = Arrays.asList("/images/covid19/VortexMixer.png", "/images/covid19/VortexMixer2.png");
+        else if (name.equals("High Speed Centrifuge"))
+            imageUrls = Arrays.asList("/images/covid19/HighSpeedCentrifuge.png", "/images/covid19/HighSpeedCentrifuge2.png", "/images/covid19/Highspeedcentrifuge3.png");
+        else if (name.equals("Dry Bath Incubator"))
+            imageUrls = Arrays.asList("/images/covid19/DryBathUncubator.png");
+        else if (name.equals("Micro Pipettes"))
+            imageUrls = Arrays.asList("/images/covid19/Micropipettes.png", "/images/covid19/Micropipettes2.png");
+        else if (name.equals("qPCR Strips &Plates For RT-PCR"))
+            imageUrls = Arrays.asList("/images/covid19/QCRplaytes.png", "/images/covid19/QCRplayes2.png");
+        else
+            imageUrls = Arrays.asList();
+
+
         FeaturedProduct product = new FeaturedProduct();
         product.setCode(code);
         product.setName(name);
@@ -141,6 +169,7 @@ public class FeaturedProductServiceImpl implements FeaturedProductService {
         product.setPack(pack);
         product.setDivision(division);
         product.setDescription(description);
+        product.setImageUrls(imageUrls);
         product.setOwner(ADMIN);
         product.setFeatured(false);
         product.setCreateTs(curDate);
