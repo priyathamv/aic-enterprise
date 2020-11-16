@@ -26,6 +26,9 @@ public class DBConstants {
     public static final String ADDRESS_LIST = "addressList";
 
     public static final String ORDER_STATUS = "orderStatus";
+    public static final String ACCEPTED_TS = "acceptedTs";
+    public static final String DISPATCHED_TS = "dispatchedTs";
+    public static final String FULFILLED_TS = "fulfilledTs";
 
     public static final String DIVISION = "division";
     public static final String BRAND = "brand";

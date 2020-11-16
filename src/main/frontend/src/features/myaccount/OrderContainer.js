@@ -15,7 +15,7 @@ const OrderFrame = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #f6f6f6;
+  background-color: #FAFAFA;
   border: 1px #ddd solid;
   border-radius: 4px 4px 0 0;
   color: #565959;

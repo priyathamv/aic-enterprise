@@ -28,5 +28,11 @@ public class Order {
 
     private List<ProductDetails> productList;
 
+    private Date acceptedTs;
+
+    private Date dispatchedTs;
+
+    private Date fulfilledTs;
+
     private Date createTs;
 }

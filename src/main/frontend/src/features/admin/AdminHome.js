@@ -11,6 +11,7 @@ import { selectUserRole } from '../auth/authSlice';
 import { AdminNewBrand } from './brands/AdminNewBrand';
 import { device } from '../utils/viewport';
 import { AdminNewProduct } from './products/AdminNewProduct';
+import { AdminOrdersHome } from './orders/AdminOrdersHome';
 
 
 const Container = styled.div`
@@ -140,6 +141,7 @@ export const AdminHome = () => {
         {curPage === BRANDS_PAGE && <AdminBrandList />}
         {curPage === NEW_PRODUCTS_PAGE && <AdminNewProduct />}
         {curPage === PRODUCTS_PAGE && <AdminProductList />}
+        {curPage === ORDERS_PAGE && <AdminOrdersHome />}
       </Content>
       
     </Container>

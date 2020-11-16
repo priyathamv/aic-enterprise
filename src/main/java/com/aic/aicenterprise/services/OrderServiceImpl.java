@@ -17,19 +17,17 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static com.aic.aicenterprise.constants.AppConstants.APP_DOMAIN;
-import static com.aic.aicenterprise.constants.AppConstants.TAMIL_NADU;
-import static com.aic.aicenterprise.constants.DBConstants.ID;
-import static com.aic.aicenterprise.constants.DBConstants.ORDER_STATUS;
+import static com.aic.aicenterprise.constants.DBConstants.*;
+import static com.aic.aicenterprise.models.OrderStatus.ACCEPTED;
+import static com.aic.aicenterprise.models.OrderStatus.DISPATCHED;
+import static com.aic.aicenterprise.models.OrderStatus.FULFILLED;
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -64,12 +62,12 @@ public class OrderServiceImpl implements OrderService {
 
         UserEntity user = userService.findUserByEmail(order.getEmail());
 
-        List<String> toAddresses =
-                nonNull(user.getAddressList()) &&
-                !user.getAddressList().isEmpty() &&
-                TAMIL_NADU.equals(user.getAddressList().get(0).getState()) ?
-                        Arrays.asList("sales.tn@aicgroup.in", "vinnakotapriyatham@gmail.com") :
-                        Arrays.asList("sales@aicgroup.in", "vinnakota4201@gmail.com");
+        List<String> toAddresses = Arrays.asList("vinnakota4201@gmail.com");
+//                nonNull(user.getAddressList()) &&
+//                !user.getAddressList().isEmpty() &&
+//                TAMIL_NADU.equals(user.getAddressList().get(0).getState()) ?
+//                        Arrays.asList("sales.tn@aicgroup.in", "vinnakotapriyatham@gmail.com") :
+//                        Arrays.asList("sales@aicgroup.in", "vinnakota4201@gmail.com");
 
         boolean mailStatus = sendOrderMail(order, toAddresses);
 
@@ -84,7 +82,14 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public boolean updateOrderStatus(String id, OrderStatus orderStatus) {
         Query query = new Query(new Criteria(ID).is(id));
-        Update update = new Update().set(ORDER_STATUS, orderStatus);
+
+        String statusColumn = ACCEPTED.equals(orderStatus) ? ACCEPTED_TS :
+                DISPATCHED.equals(orderStatus) ? DISPATCHED_TS :
+                FULFILLED.equals(orderStatus) ? FULFILLED_TS : ACCEPTED_TS;
+
+        Update update = new Update()
+                .set(ORDER_STATUS, orderStatus)
+                .set(statusColumn, new Date());
 
         UpdateResult updateResult = mongoTemplate.updateFirst(query, update, Order.class);
         return updateResult.getModifiedCount() == 1;
@@ -105,13 +110,13 @@ public class OrderServiceImpl implements OrderService {
                 .filter(curOrder -> OrderStatus.NEW.equals(curOrder.getOrderStatus()))
                 .count();
         long acceptedOrders = orderList.stream()
-                .filter(curOrder -> OrderStatus.ACCEPTED.equals(curOrder.getOrderStatus()))
+                .filter(curOrder -> ACCEPTED.equals(curOrder.getOrderStatus()))
                 .count();
         long dispatchedOrders = orderList.stream()
                 .filter(curOrder -> OrderStatus.DISPATCHED.equals(curOrder.getOrderStatus()))
                 .count();
         long fulfilledOrders = orderList.stream()
-                .filter(curOrder -> OrderStatus.FULFILLED.equals(curOrder.getOrderStatus()))
+                .filter(curOrder -> FULFILLED.equals(curOrder.getOrderStatus()))
                 .count();
 
         return OrderSummary.builder()

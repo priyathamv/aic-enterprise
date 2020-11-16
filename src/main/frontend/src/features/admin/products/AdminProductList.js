@@ -11,7 +11,6 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { MdClear } from 'react-icons/md';
 import debounce from 'lodash.debounce';
 
-import { Spinner } from '../../utils/Spinner';
 import { device } from '../../utils/viewport';
 import { 
   changeAdminProductList, 
