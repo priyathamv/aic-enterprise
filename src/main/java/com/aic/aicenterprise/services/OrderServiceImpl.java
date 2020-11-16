@@ -23,11 +23,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.aic.aicenterprise.constants.AppConstants.APP_DOMAIN;
+import static com.aic.aicenterprise.constants.AppConstants.TAMIL_NADU;
 import static com.aic.aicenterprise.constants.DBConstants.*;
 import static com.aic.aicenterprise.models.OrderStatus.ACCEPTED;
 import static com.aic.aicenterprise.models.OrderStatus.DISPATCHED;
 import static com.aic.aicenterprise.models.OrderStatus.FULFILLED;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 @Slf4j
 @Service
@@ -62,12 +64,12 @@ public class OrderServiceImpl implements OrderService {
 
         UserEntity user = userService.findUserByEmail(order.getEmail());
 
-        List<String> toAddresses = Arrays.asList("vinnakota4201@gmail.com");
-//                nonNull(user.getAddressList()) &&
-//                !user.getAddressList().isEmpty() &&
-//                TAMIL_NADU.equals(user.getAddressList().get(0).getState()) ?
-//                        Arrays.asList("sales.tn@aicgroup.in", "vinnakotapriyatham@gmail.com") :
-//                        Arrays.asList("sales@aicgroup.in", "vinnakota4201@gmail.com");
+        List<String> toAddresses =
+                nonNull(user.getAddressList()) &&
+                !user.getAddressList().isEmpty() &&
+                TAMIL_NADU.equals(user.getAddressList().get(0).getState()) ?
+                        Arrays.asList("sales.tn@aicgroup.in", "vinnakotapriyatham@gmail.com") :
+                        Arrays.asList("sales@aicgroup.in", "vinnakota4201@gmail.com");
 
         boolean mailStatus = sendOrderMail(order, toAddresses);
 
