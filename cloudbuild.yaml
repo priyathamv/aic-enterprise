@@ -4,13 +4,13 @@ steps:
   entrypoint: mvn
   args: ['package', '-Dmaven.test.skip=true']
 
-# Build the container image
-- name: gcr.io/cloud-builders/docker
-  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
-
-# Push the container image to Container Registry
-- name: gcr.io/cloud-builders/docker
-  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
+## Build the container image
+#- name: gcr.io/cloud-builders/docker
+#  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
+#
+## Push the container image to Container Registry
+#- name: gcr.io/cloud-builders/docker
+#  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
 
 # Copy app jar to current folder where app.yaml is
 - name: gsutil
@@ -40,4 +40,4 @@ steps:
 - name: gcr.io/cloud-builders/gcloud
   args: ['app', 'deploy', 'cron.yaml']
 
-images: ['gcr.io/aic-enterprises/aic-enterprise']
+#images: ['gcr.io/aic-enterprises/aic-enterprise']
