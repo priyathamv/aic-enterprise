@@ -3,6 +3,7 @@ steps:
 - name: maven:3-jdk-8
   entrypoint: mvn
   args: ['package', '-Dmaven.test.skip=true']
+#  args: ['package', 'appengine:deploy', '-Dapp.deploy.projectId=aic-enterprises', '-Dmaven.test.skip=true']
 
 # Build the container image
 - name: gcr.io/cloud-builders/docker
@@ -12,13 +13,13 @@ steps:
 - name: gcr.io/cloud-builders/docker
   args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
 
-# Copy app jar to current folder where app.yaml is
-- name: gcr.io/cloud-builders/gsutil
-  args: ['cp', 'target/aic-enterprise.jar', 'src/main/appengine/']
+# Copy app jar to current folder where app-custom.yaml is
+#- name: gcr.io/cloud-builders/gsutil
+#  args: ['cp', 'target/aic-enterprise.jar', 'src/main/appengine/']
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy']
+  args: ['app', 'deploy', '~/aic-enterprise/app-custom.yaml']
 #  args: ['app', 'deploy', '--image-url', 'gcr.io/aic-enterprises/aic-enterprise']
 
 #  args: ['app', 'deploy', 'target/aic-enterprise.jar']
