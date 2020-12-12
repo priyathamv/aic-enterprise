@@ -13,7 +13,7 @@ steps:
 #  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
 
 # Copy app jar to current folder where app.yaml is
-- name: gsutil
+- name: gcr.io/cloud-builders/gsutil
   args: ['cp', 'target/aic-enterprise.jar', './']
 
 # Deploy container image to App Engine
