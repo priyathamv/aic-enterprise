@@ -18,7 +18,8 @@ steps:
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy', '--image-url', 'gcr.io/aic-enterprises/aic-enterprise']
+  args: ['app', 'deploy']
+#  args: ['app', 'deploy', '--image-url', 'gcr.io/aic-enterprises/aic-enterprise']
 
 #  args: ['app', 'deploy', 'target/aic-enterprise.jar']
 
