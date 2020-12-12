@@ -1,0 +1,15 @@
+<!--https://cloud.google.com/appengine/docs/standard/java/config/appref#scaling_elements-->
+
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+    <application>aic-enterprises</application>
+    <module>default</module>
+    <version>uno</version>
+    <threadsafe>true</threadsafe>
+    <instance-class>F2</instance-class>
+    <automatic-scaling>
+        <target-cpu-utilization>0.65</target-cpu-utilization>
+        <min-instances>5</min-instances>
+        <max-instances>auto</max-instances>
+        <max-concurrent-requests>50</max-concurrent-requests>
+    </automatic-scaling>
+</appengine-web-app>
