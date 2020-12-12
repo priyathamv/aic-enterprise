@@ -12,4 +12,4 @@ automatic_scaling:
   max_pending_latency: automatic
   max_concurrent_requests: 50
 
-entrypoint: java -jar ../../../target/aic-enterprise.jar
+entrypoint: java -jar aic-enterprise.jar
