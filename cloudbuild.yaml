@@ -9,12 +9,18 @@ steps:
   args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
 
 # Push the container image to Container Registry
-- name: 'gcr.io/cloud-builders/docker'
+- name: gcr.io/cloud-builders/docker
   args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
+
+# Copy app.yaml to target folder where the jar is
+- name: gcr.io/cloud-builders/gcloud
+  args: ['compute', 'copy-files', 'target/aic-enterprise.jar', './']
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
-  args: ['app', 'deploy', 'target/aic-enterprise.jar']
+  args: ['app', 'deploy']
+
+#  args: ['app', 'deploy', 'target/aic-enterprise.jar']
 
 #  args:
 #  - 'run'
