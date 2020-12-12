@@ -12,9 +12,9 @@ steps:
 - name: gcr.io/cloud-builders/docker
   args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
 
-# Copy app.yaml to target folder where the jar is
-- name: gcr.io/cloud-builders/gcloud
-  args: ['compute', 'copy-files', 'target/aic-enterprise.jar', './']
+# Copy app jar to current folder where app.yaml is
+- name: gsutil
+  args: ['cp', 'target/aic-enterprise.jar', './']
 
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
