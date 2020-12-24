@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 
 import { UserCart } from './UserCart';
-import { ProductsMenu } from './ProductsMenu';
+// import { ProductsMenu } from './ProductsMenu';
+import { ProductsMenu2 } from './products/ProductsMenu2';
 
 const Container = styled.div`
   display: flex;
@@ -149,7 +150,8 @@ export const NavbarMenu = () => {
   }, [handleCurPageChange, history]);
 
   const displayProductMenu = showMenu => {
-    document.getElementById('products_menu_id').style.display = showMenu ? 'grid' : 'none';
+    // document.getElementById('products_menu_id').style.display = showMenu ? 'grid' : 'none';
+    document.getElementById('products_menu_id2').style.display = showMenu ? 'block' : 'none';
   }
 
   return (
@@ -172,7 +174,8 @@ export const NavbarMenu = () => {
             onClick={() => displayProductMenu(false)}>
               Products
           </MenuItem>
-          <ProductsMenu />
+          {/* <ProductsMenu /> */}
+          <ProductsMenu2 />
         </MenuItemWrap>
         <MenuItem style={curPage === ABOUT_US_PAGE ? curPageStyle : null} to='/about-us'>About us</MenuItem>
         <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>Contact us</MenuItem>

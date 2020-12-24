@@ -6,10 +6,10 @@ service: default
 
 automatic_scaling:
   target_cpu_utilization: 0.65
-  min_instances: 2
+  min_instances: 1
   max_instances: 10
   min_pending_latency: 30ms
   max_pending_latency: automatic
-  max_concurrent_requests: 50
+  max_concurrent_requests: 10
 
 entrypoint: java -jar target/aic-enterprise.jar
