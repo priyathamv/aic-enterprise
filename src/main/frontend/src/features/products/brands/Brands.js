@@ -7,19 +7,19 @@ import { device } from '../../utils/viewport';
 
 
 const Container = styled.div`
-  margin: 50px 20px 100px 20px;
+  margin: 30px 20px 100px 20px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 30px;
   grid-row-gap: 30px;
 
   @media ${device.tablet} { 
-    margin: 50px 100px 100px 100px;
+    margin: 30px 100px 100px 100px;
     grid-template-columns: 1fr 1fr 1fr;
   }
   
   @media ${device.laptop} { 
-    margin: 50px 15vw 100px 15vw;
+    margin: 30px 15vw 100px 15vw;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 `;

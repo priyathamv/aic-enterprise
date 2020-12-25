@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
+import { device } from '../../utils/viewport';
 import { applicationsArr, appToCategoryMap, categoryToBrandMap } from '../../utils/productHierarchy';
 
 const Container = styled.div`
-  top: 75px;
-  position: absolute;
-  display: none;
-  border-radius: 3px;
-  margin-bottom: 50px;
-  background-color: #FFF;
-  z-index: 10000;
-  box-shadow: 0 0 10px 1px rgba(188,188,188,0.3);
-`;
-
-const ProductMenuWrapper = styled.div`
+  margin: 30px 20px 100px 20px;
   display: flex;
+  
+  @media ${device.tablet} { 
+    margin: 30px 100px 100px 100px;
+  }
+  
+  @media ${device.laptop} { 
+    margin: 30px 15vw 100px 15vw;
+  }
 `;
 
 const ApplicationBox = styled.div`
+  flex: 1;
   background-color: #232162;
   height: 70vh;
-  width: 20vw;
+  // width: 20vw;
   color: #FFFFFF;
   text-align: left;
   overflow: scroll;
@@ -36,23 +36,30 @@ const Heading = styled.div`
 const ApplicationItem = styled.div`
   padding: 15px 60px;
   font-size: 16px;
+  cursor: pointer;
+
+  &:hover {
+    font-weight: bold;
+  }
 `;
 
 const CategoriesBox = styled.div`
+  flex: 1;
   background-color: #0000001a;
   height: 70vh;
-  width: 20vw;
+  // width: 20vw;
   text-align: left;
-  display: none;
+  visibility: hidden;
   overflow: scroll;
 `;
 
 const BrandsBox = styled.div`
-  background-color: #FFFFF;
+  flex: 1;
+  background-color: #FAFAFA;
   height: 70vh;
-  width: 20vw;
+  // width: 20vw;
   text-align: left;
-  display: none;
+  visibility: hidden;
   overflow: scroll;
 `;
 
@@ -67,46 +74,33 @@ const BrandItem = styled.a`
   }
 `;
 
-
-export const ProductsMenu2 = () => {
+export const Divisions = () => {
   const [application, setApplication] = useState(null);
   const [category, setCategory] = useState(null);
   
-
-
-  const displayProductsMenu = displayFlag => {
-    document.getElementById('products_menu_id2').style.display = displayFlag ? 'block' : 'none';
-  }
-  
   const displayCategories = displayFlag => {
-    document.getElementById('categories_menu_id2').style.display = displayFlag ? 'block' : 'none';
+    document.getElementById('categories_division_id2').style.visibility = displayFlag ? 'visible' : 'hidden';
   }
 
   const displayBrands = displayFlag => {
-    document.getElementById('brands_menu_id2').style.display = displayFlag ? 'block' : 'none';
+    document.getElementById('brands_division_id2').style.visibility = displayFlag ? 'visible' : 'hidden';
   }
 
   return (
-    <Container id='products_menu_id2'>
-      <ProductMenuWrapper>
-        <ApplicationBox>
+    <Container>
+      <ApplicationBox>
           <Heading>Applications</Heading>
 
           {applicationsArr.map((curApplication, index) => 
             <ApplicationItem 
               key={index}
               style={curApplication == application ? {fontWeight: 'bold'} : null}
-              onMouseEnter={() => {displayCategories(true); setApplication(curApplication)}} 
-              onMouseLeave={() => displayCategories(false)}
+              onClick={() => {displayCategories(true); setApplication(curApplication)}} 
             >{curApplication}</ApplicationItem>  
           )}
         </ApplicationBox>
 
-        <CategoriesBox 
-          id='categories_menu_id2'
-          onMouseEnter={() => displayCategories(true)} 
-          onMouseLeave={() => displayCategories(false)}
-        >
+        <CategoriesBox id='categories_division_id2'>
           <Heading>Categories</Heading>
 
           {appToCategoryMap[application] && 
@@ -114,15 +108,13 @@ export const ProductsMenu2 = () => {
             <ApplicationItem
               key={index}
               style={curCategory == category ? {fontWeight: 'bold', color: 'black'} : {color: 'black'}}
-              onMouseEnter={() => {displayBrands(true); setCategory(curCategory)}} 
-              onMouseLeave={() => displayBrands(false)}
+              onClick={() => {displayBrands(true); setCategory(curCategory)}} 
             >{curCategory}</ApplicationItem>)}
         </CategoriesBox>
 
         <BrandsBox 
-          id='brands_menu_id2'
-          onMouseEnter={() => {displayCategories(true); displayBrands(true)}} 
-          onMouseLeave={() => {displayCategories(false); displayBrands(false)}}
+          id='brands_division_id2'
+          onClick={() => {displayCategories(true); displayBrands(true)}} 
         >
           <Heading>Brands</Heading>
 
@@ -131,13 +123,11 @@ export const ProductsMenu2 = () => {
               <BrandItem 
                 key={index}
                 href={`/product-list?brand=${curBrand.value}`} 
-                onClick={() => displayProductsMenu(false)}
               >
                 {curBrand.name}
               </BrandItem>
             )}
         </BrandsBox>
-      </ProductMenuWrapper>
     </Container>
   )
 }

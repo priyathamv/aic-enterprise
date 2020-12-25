@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Categories } from './categories/Categories';
+// import { Categories } from './categories/Categories';
+import { Divisions } from './divisions/Divisions';
 import { Brands } from './brands/Brands';
 import { device } from '../utils/viewport';
 
@@ -29,7 +30,8 @@ export const Products = () => {
   return (
     <Container id='products_id'>
       <Header>Divisions</Header>
-      <Categories />
+      <Divisions />
+      {/* <Categories /> */}
       
       <Header id='brands_id'>Brands</Header>
       <Brands />
