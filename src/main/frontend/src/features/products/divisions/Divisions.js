@@ -20,7 +20,7 @@ const Container = styled.div`
 const ApplicationBox = styled.div`
   flex: 1;
   background-color: #232162;
-  height: 70vh;
+  height: 300px;
   // width: 20vw;
   color: #FFFFFF;
   text-align: left;
@@ -46,7 +46,7 @@ const ApplicationItem = styled.div`
 const CategoriesBox = styled.div`
   flex: 1;
   background-color: #0000001a;
-  height: 70vh;
+  height: 300px;
   // width: 20vw;
   text-align: left;
   visibility: hidden;
@@ -56,7 +56,7 @@ const CategoriesBox = styled.div`
 const BrandsBox = styled.div`
   flex: 1;
   background-color: #FAFAFA;
-  height: 70vh;
+  height: 300px;
   // width: 20vw;
   text-align: left;
   visibility: hidden;

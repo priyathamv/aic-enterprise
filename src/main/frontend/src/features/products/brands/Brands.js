@@ -50,9 +50,11 @@ const Brand = styled.a`
 export const Brands = () => {
   // const dispatch = useDispatch();
 
+  // Removed Brands '3M', 'Acme', 'Erma', 'Thermo CCP', 'Blue Star', 'VELTEK', 'Merck Biomonitoring'
+  
   const brandsObj = {
     isLoading: false,
-    brandList: ['3M', 'Abdos', 'Acme', 'AXIVA', 'Blue Star', 'CDH', 'Conda', 'Dupont', 'Difco', 'Erma', 'Eutech', 'Exmire', 'Thermo TPP', 'Invitrogen', 'Orion', 'Oxoid', 'Thermo chromatography', 'Thermo CCP', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand', 'Genaxy', 'HAMILTON', 'HIMEDIA', 'Honeywell', 'Kimberly-Clark', 'LOBA', 'MagGenome', 'Merck', 'Merck Biomonitoring', 'SIGMA-ALDRICH', 'Millipore', 'NEB', 'NICE', 'Nupore', 'Polylab', 'Qiagen', 'Reagecon', 'RIVIERA', 'Spectrochem', 'SRL', 'VELTEK', 'Waters', 'Whatman']
+    brandList: ['Abdos', 'AXIVA', 'CDH', 'Conda', 'Dupont', 'Difco', 'Eutech', 'Exmire', 'Thermo TPP', 'Invitrogen', 'Orion', 'Oxoid', 'Thermo chromatography', 'Thermo LPE', 'Fisher Scientific', 'Fisher Bio Reagents', 'Fisherbrand', 'Genaxy', 'HAMILTON', 'HIMEDIA', 'Honeywell', 'Kimberly-Clark', 'LOBA', 'MagGenome', 'Merck', 'SIGMA-ALDRICH', 'Millipore', 'NEB', 'NICE', 'Nupore', 'Polylab', 'Qiagen', 'Reagecon', 'RIVIERA', 'Spectrochem', 'SRL', 'Waters', 'Whatman']
   };
   // const brandsObj = useSelector(selectBrands);
   

@@ -20,7 +20,7 @@ const ProductMenuWrapper = styled.div`
 
 const ApplicationBox = styled.div`
   background-color: #232162;
-  height: 70vh;
+  height: 300px;
   width: 20vw;
   color: #FFFFFF;
   text-align: left;
@@ -40,7 +40,7 @@ const ApplicationItem = styled.div`
 
 const CategoriesBox = styled.div`
   background-color: #0000001a;
-  height: 70vh;
+  height: 300px;
   width: 20vw;
   text-align: left;
   display: none;
@@ -49,7 +49,7 @@ const CategoriesBox = styled.div`
 
 const BrandsBox = styled.div`
   background-color: #FFFFF;
-  height: 70vh;
+  height: 300px;
   width: 20vw;
   text-align: left;
   display: none;
