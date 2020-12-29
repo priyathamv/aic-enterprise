@@ -10,6 +10,6 @@ automatic_scaling:
   max_instances: 10
   min_pending_latency: 30ms
   max_pending_latency: automatic
-  max_concurrent_requests: 10
+  max_concurrent_requests: 80
 
 entrypoint: java -jar target/aic-enterprise.jar
