@@ -9,18 +9,18 @@ import { brandList } from '../../utils/brands';
 const Container = styled.div`
   margin: 30px 20px 100px 20px;
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
   grid-column-gap: 30px;
   grid-row-gap: 30px;
 
   @media ${device.tablet} { 
     margin: 30px 100px 100px 100px;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
   
   @media ${device.laptop} { 
     margin: 30px 15vw 100px 15vw;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
   }
 `;
 
@@ -73,8 +73,8 @@ export const Brands = () => {
     <Container>
       {brandList.map((curBrand, index) => 
         <Brand href={`/product-list?brand=${curBrand.name}`} key={index}>
-          <BrandLogo src={`/images/brand_logos/${curBrand.imageName}.png`} />
-          <BrandName>{curBrand.name}</BrandName>
+          <BrandLogo src={`/images/brand_logos2/${curBrand.imageName}.png`} />
+          {/* <BrandName>{curBrand.name}</BrandName> */}
         </Brand>
         )
       }
