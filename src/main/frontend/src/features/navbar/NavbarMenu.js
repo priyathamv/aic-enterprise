@@ -91,6 +91,7 @@ export const NavbarMenu = () => {
     const myAccountDom = document.getElementById('my_account_id');
     const covid19Dom = document.getElementById('covid19_id');
     const featuredDom = document.getElementById('featured_id');
+    const productCatalogueDom = document.getElementById('product_catalogue_id');
 
     if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
       if (navbarMenuDom) {
@@ -106,6 +107,7 @@ export const NavbarMenu = () => {
       myAccountDom && (myAccountDom.style.paddingTop = '75px');
       covid19Dom && (covid19Dom.style.paddingTop = '75px');
       featuredDom && (featuredDom.style.paddingTop = '75px');
+      productCatalogueDom && (productCatalogueDom.style.paddingTop = '75px');
       setShowLogo(true);
     } else {
       setShowLogo(false);
@@ -122,6 +124,7 @@ export const NavbarMenu = () => {
       myAccountDom && (myAccountDom.style.paddingTop = '0');
       covid19Dom && (covid19Dom.style.paddingTop = '0');
       featuredDom && (featuredDom.style.paddingTop = '0');
+      productCatalogueDom && (productCatalogueDom.style.paddingTop = '0');
     }
   }
 

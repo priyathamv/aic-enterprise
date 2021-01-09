@@ -1,7 +1,7 @@
 export const brandList = [
   {name: 'Abdos', imageName: 'abdos'}, 
   {name: 'AXIVA', imageName: 'Axiva-Logo'}, 
-  {name: 'CDH', imageName: ''}, 
+  // {name: 'CDH', imageName: ''}, TODO: add later
   {name: 'Conda', imageName: 'conda'}, 
   {name: 'Dupont', imageName: 'DuPont'}, 
   {name: 'Difco', imageName: 'DIFCO'}, 
@@ -27,7 +27,7 @@ export const brandList = [
   {name: 'SIGMA-ALDRICH', imageName: 'Sigma-Aldrich'}, 
   {name: 'Millipore', imageName: 'Millipore_Corporation_Logo.svg'}, 
   {name: 'NEB', imageName: 'NEB'}, 
-  {name: 'NICE', imageName: 'NICE'}, 
+  // {name: 'NICE', imageName: 'NICE'}, TODO: add later
   {name: 'Nupore', imageName: 'nupore-logo-cropped'}, 
   {name: 'Polylab', imageName: 'polylab'}, 
   {name: 'Qiagen', imageName: '1200px-Qiagen.svg'}, 

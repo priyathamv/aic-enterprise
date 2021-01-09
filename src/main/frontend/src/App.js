@@ -29,6 +29,7 @@ import { ProtectedRoute } from './ProtectedRoute';
 import { AdminRoute } from './AdminRoute';
 import { EmailConfirmation } from './features/auth/EmailConfirmation';
 import { AdminHome } from './features/admin/AdminHome';
+import { ProductCatalogue } from './features/products/catalogue/ProductCatalogue';
 
 const Body = styled.div`
   flex: 1 0 auto;
@@ -85,6 +86,7 @@ function App() {
           <PublicRoute path='/contact-us' component={ContactUs} />
           <PublicRoute path='/reset-password' component={ResetPassword} />
           <PublicRoute path='/confirm-email' component={EmailConfirmation} />
+          <PublicRoute path='/borosil' component={ProductCatalogue} />
           <ProtectedRoute path='/account' email={email} component={MyAccount} />
           <AdminRoute path='/admin/overview' email={email} component={AdminHome} />
           <AdminRoute path='/admin' email={email} component={AdminHome} />
