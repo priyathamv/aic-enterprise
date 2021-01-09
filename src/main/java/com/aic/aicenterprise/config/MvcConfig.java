@@ -33,6 +33,7 @@ public class MvcConfig {
                 registry.addViewController("/account/my-orders").setViewName(INDEX_HTML);
                 registry.addViewController("/login").setViewName(INDEX_HTML);
                 registry.addViewController("/confirm-email").setViewName(INDEX_HTML);
+                registry.addViewController("/borosil").setViewName(INDEX_HTML);
             }
         };
     }
