@@ -28,15 +28,35 @@ const ApplicationBox = styled.div`
 `;
 
 const Heading = styled.div`
-  font-size: 22px;
-  padding: 30px 30px 15px 30px;
+  font-size: 16px;
+  padding: 30px 10px 15px 10px;
+
+  @media ${device.tablet} { 
+    font-size: 20px;
+    padding: 30px 20px 15px 20px;
+  }
+
+  @media ${device.laptop} { 
+    font-size: 22px;
+    padding: 30px 30px 15px 30px;
+  }
 `;
 
 
 const ApplicationItem = styled.div`
-  padding: 15px 60px;
-  font-size: 16px;
+  padding: 15px 20px;
+  font-size: 14px;
   cursor: pointer;
+
+  @media ${device.tablet} { 
+    font-size: 16px;
+    padding: 15px 40px;
+  }
+
+  @media ${device.laptop} { 
+    font-size: 16px;
+    padding: 15px 60px;
+  }
 
   &:hover {
     font-weight: bold;
@@ -66,8 +86,19 @@ const BrandsBox = styled.div`
 const BrandItem = styled.a`
   text-decoration: none;
   color: black;
-  padding: 15px 60px;
+  padding: 15px 20px;
   display: block;
+  font-size: 14px;
+
+  @media ${device.tablet} { 
+    font-size: 16px;
+    padding: 15px 40px;
+  }
+
+  @media ${device.laptop} { 
+    font-size: 16px;
+    padding: 15px 60px;
+  }
 
   &:hover {
     text-decoration: underline;
