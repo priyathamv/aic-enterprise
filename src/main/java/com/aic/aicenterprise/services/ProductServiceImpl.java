@@ -126,7 +126,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<String> getAllBrands() {
-        MongoCursor<String> brandListCursor = mongoTemplate.getCollection(PRODUCTS).distinct(BRAND, String.class).iterator();
+        MongoCursor<String> brandListCursor = mongoTemplate
+                .getCollection(PRODUCTS)
+                .distinct(BRAND, String.class)
+                .iterator();
+
         List<String> brandList = new ArrayList<>();
         brandListCursor.forEachRemaining(brandList::add);
         return brandList;
@@ -134,10 +138,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<String> getDivisions(String brand) {
-        MongoCursor<String> divisionListIterator = mongoTemplate.getCollection(PRODUCTS)
+        MongoCursor<String> divisionListIterator = mongoTemplate
+                .getCollection(PRODUCTS)
                 .distinct(DIVISION, String.class)
                 .filter(new Document(BRAND, brand))
                 .iterator();
+
         List<String> divisionList = new ArrayList<>();
         divisionListIterator.forEachRemaining(curDivision -> {
             if (nonNull(curDivision) && !curDivision.isEmpty())
@@ -187,6 +193,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProductsByBrand(String brand) {
+        log.info("Deleting products of brand: {}", brand);
+
         productRepository.deleteByBrand(brand);
     }
 

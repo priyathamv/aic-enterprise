@@ -55,7 +55,7 @@ const buttonStyles = {
 }
 
 
-export const AdminProductImage = ({ imageUrls, setImageUrls }) => {
+export const AuxilaryImage = ({ imageUrl, setImageUrl }) => {
   const imageUploadRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false);
   const [imageUploaderKey, setImageUploaderKey] = useState(0);
@@ -73,10 +73,10 @@ export const AdminProductImage = ({ imageUrls, setImageUrls }) => {
     
     try {
       const imageUploadResponse = await axios.post('/api/products/upload-images', formData, {});
-      setImageUrls(imageUploadResponse.data.payload);
+      setImageUrl(imageUploadResponse.data.payload[0]);
       setIsLoading(false);
     } catch(err) {
-      console.log('Error while uploading product image', err.message);
+      console.log('Error while uploading auxilary image', err.message);
       setIsLoading(false);
     }
   };
@@ -86,7 +86,7 @@ export const AdminProductImage = ({ imageUrls, setImageUrls }) => {
       <ImageUploader
         key={imageUploaderKey} // 1st time uploaded images are retained in 2nd upload
         ref={imageUploadRef}
-        singleImage={false}
+        singleImage={true}
         withIcon={false}
         buttonStyles={buttonStyles}
         fileContainerStyle={{ display: 'none' }}
@@ -99,8 +99,8 @@ export const AdminProductImage = ({ imageUrls, setImageUrls }) => {
       />
       <ImageBox onClick={e => imageUploadRef.current.triggerFileUpload(e)}>
         {isLoading && <Spinner containerStyle={{ marginTop: '10px', marginBottom: '10px', position: 'initial' }} />}
-        {!isLoading && !imageUrls.length && <ImageIcon size='2em' />}
-        <Label>{imageUrls.length ? 'Update image(s)' : ''}</Label>
+        {!isLoading && !imageUrl && <ImageIcon size='2em' />}
+        <Label>{imageUrl ? 'Update image' : ''}</Label>
       </ImageBox>
     </Container>
   )

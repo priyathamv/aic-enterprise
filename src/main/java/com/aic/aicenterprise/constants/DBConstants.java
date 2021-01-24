@@ -13,6 +13,8 @@ public class DBConstants {
     public static final String SUBSCRIBERS = "subscribers";
     public static final String CARTS = "carts";
 
+    public static final String ANALYTICAL_PRODUCTS = "analytical_products";
+
     /* Field names */
     public static final String ID = "_id";
     public static final String EMAIL = "email";

@@ -6,6 +6,7 @@ import brandsReducer from '../features/products/brands/brandsSlice';
 import productsReducer from '../features/products/productsSlice';
 import orderReducer from '../features/myaccount/orderSlice';
 import adminProductListReducer from '../features/admin/products/adminProductListSlice';
+import adminProductListReducer2 from '../features/admin/products/adminProductListSlice2';
 
 export default configureStore({
   reducer: {
@@ -15,6 +16,7 @@ export default configureStore({
     products: productsReducer,
     orders: orderReducer,
     adminProducts: adminProductListReducer,
+    adminProducts2: adminProductListReducer2,
     counter: counterReducer
   },
 });

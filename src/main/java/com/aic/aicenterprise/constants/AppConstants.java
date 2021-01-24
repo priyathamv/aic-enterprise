@@ -12,6 +12,8 @@ public class AppConstants {
 
     public static final String PRODUCTS_PATH = BASE_PATH + "/products";
 
+    public static final String ANALYTICAL_PRODUCTS_PATH = BASE_PATH + "/analytical-products";
+
     public static final String FEATURED_PRODUCTS_PATH = BASE_PATH + "/featured-products";
 
     public static final String BRANDS_PATH = BASE_PATH + "/brands";
