@@ -305,3 +305,7 @@ code {
   border-radius: 18px;
   border: 1px solid #cfcece;
 }
+
+textarea { 
+  font-family: inherit; font-size: inherit; 
+}

@@ -5,7 +5,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CapacityPack {
+public class ProductMetrics {
+    private String catalogueCode;
+    private String od;
+    private String height;
     private String capacity;
     private String pack;
+    private double price;
 }

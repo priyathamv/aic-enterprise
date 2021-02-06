@@ -81,6 +81,16 @@ const BigColumn = styled.div`
   white-space: normal;
 `;
 
+const EditLink = styled(Link)`
+  background-color: green;
+  border: none;
+  border-radius: 3px;
+  padding: 8px 24px;
+  color: #FFF;
+  cursor: pointer;
+  margin-right: 20px;
+`;
+
 const DeleteButton = styled.button`
   background-color: #ff0000d1;
   border: none;
@@ -269,22 +279,22 @@ export const AdminProductList2 = () => {
   }, [hasMore, pageNo]);
 
   
-  const handleOnDelete = async (code, name) => {
+  const handleOnDelete = async productId => {
     const headers = { 'Content-Type': 'application/json' };
 
     try {
       const url = (category === 'Analytical') ? '/api/analytical-products/delete' : '/api/featured-products/delete';
-      const productDeleteResponse = await axios.post(url, { code, name }, headers);
+      const productDeleteResponse = await axios.post(url, { productId }, headers);
       
       if (productDeleteResponse.data.payload) {
-        toast.success(`${name} product deleted successfully`, { variant: 'success'});
+        toast.success(`Product deleted successfully`, { variant: 'success'});
         setTimeout(() => window.location.reload(), 5000);
       } else {
-        toast.error(`${name} product deletion failed`, { variant: 'error'});
+        toast.error(`Product deletion failed`, { variant: 'error'});
       }
     } catch (err) {
       console.log('Error while deleting product: ', err.message);
-      toast.error(`${name} product deletion failed`, { variant: 'error'});
+      toast.error(`Product deletion failed`, { variant: 'error'});
     }
   }
 
@@ -358,21 +368,22 @@ export const AdminProductList2 = () => {
 
       <ProductListWrapper>
         <Header>
-          <MediumColumn>Code</MediumColumn>
+          <MediumColumn>Product Id</MediumColumn>
           <BigColumn>Name</BigColumn>
           <MediumColumn>Brand</MediumColumn>
-          <SmallColumn>Action</SmallColumn>
+          <MediumColumn>Action</MediumColumn>
         </Header>
 
         {productList.map((curProduct, index) => 
           <ProductRow key={index} >
-            <MediumColumn>{curProduct.code}</MediumColumn>
+            <MediumColumn>{curProduct.productId}</MediumColumn>
             
             <BigColumn>{curProduct.name}</BigColumn>
 
             <MediumColumn>{curProduct.brand}</MediumColumn>
             
-            <SmallColumn>
+            <MediumColumn style={{ display: 'flex' }}>
+              <EditLink to={{ pathname: `/admin/products2/edit/${curProduct.productId}`}}>Edit</EditLink>
               <Popup
                 trigger={<DeleteButton style={{ padding: '8px 24px' }}>Delete</DeleteButton>}
                 modal
@@ -384,14 +395,14 @@ export const AdminProductList2 = () => {
                     <div className="content">Are you sure you want to delete the product {curProduct.name}?</div>
 
                     <div className="actions">
-                      <DeleteButtonPop onClick={() => handleOnDelete(curProduct.code, curProduct.name)} >Yes, delete</DeleteButtonPop>
+                      <DeleteButtonPop onClick={() => handleOnDelete(curProduct.productId)} >Yes, delete</DeleteButtonPop>
                       
                       <CloseButton autoFocus className="button" onClick={() => close()} >Close</CloseButton>
                     </div>
                   </div>
                 )}
               </Popup>
-            </SmallColumn>
+            </MediumColumn>
           </ProductRow>)
         }
         {hasMore ?

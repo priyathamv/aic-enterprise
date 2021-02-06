@@ -86,6 +86,7 @@ const NEW_PRODUCTS_PAGE = 'NEW_PRODUCTS_PAGE';
 const NEW_PRODUCTS_PAGE2 = 'NEW_PRODUCTS_PAGE2';
 const USERS_PAGE = 'USERS_PAGE';
 const ORDERS_PAGE = 'ORDERS_PAGE';
+const EDIT_ANALYTICAL_PRODUCT_PAGE = 'EDIT_ANALYTICAL_PRODUCT_PAGE';
 
 const curPageStyle = { 
   color: '#FFF',
@@ -111,6 +112,8 @@ export const AdminHome = () => {
       setCurPage(BRANDS_PAGE);
     else if (currentPath.includes('/admin/products2/new'))
       setCurPage(NEW_PRODUCTS_PAGE2);
+    else if (currentPath.includes('/admin/products2/edit'))
+      setCurPage(EDIT_ANALYTICAL_PRODUCT_PAGE);
     else if (currentPath.includes('/admin/products2'))
       setCurPage(PRODUCTS_PAGE2);
     else if (currentPath.includes('/admin/products/new'))
@@ -138,7 +141,10 @@ export const AdminHome = () => {
         <Menu to='/admin/overview' style={curPage === OVERVIEW_PAGE ? curPageStyle : null} >Overview</Menu>
         <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE) ? curPageStyle : null} >Brands</Menu>
         {/* <Menu to='/admin/products' style={(curPage === PRODUCTS_PAGE || curPage === NEW_PRODUCTS_PAGE) ? curPageStyle : null} >Products</Menu> */}
-        <Menu to='/admin/products2' style={(curPage === PRODUCTS_PAGE2 || curPage === NEW_PRODUCTS_PAGE2) ? curPageStyle : null} >Products</Menu>
+        <Menu to='/admin/products2' style={(
+          curPage === PRODUCTS_PAGE2 || 
+          curPage === NEW_PRODUCTS_PAGE2 || 
+          curPage === EDIT_ANALYTICAL_PRODUCT_PAGE) ? curPageStyle : null} >Products</Menu>
         <Menu to='/admin/users' style={curPage === USERS_PAGE ? curPageStyle : null} >Users</Menu>
         <Menu to='/admin/orders'  style={curPage === ORDERS_PAGE ? curPageStyle : { border: '1px solid #232162' }} >Orders</Menu>
       </SideBar>
@@ -150,7 +156,7 @@ export const AdminHome = () => {
         {curPage === BRANDS_PAGE && <AdminBrandList />}
         {curPage === NEW_PRODUCTS_PAGE && <AdminNewProduct />}
         {curPage === PRODUCTS_PAGE && <AdminProductList />}
-        {curPage === NEW_PRODUCTS_PAGE2 && <AdminNewProduct2 />}
+        {(curPage === NEW_PRODUCTS_PAGE2 || curPage === EDIT_ANALYTICAL_PRODUCT_PAGE) && <AdminNewProduct2 />}
         {curPage === PRODUCTS_PAGE2 && <AdminProductList2 />}
         {curPage === ORDERS_PAGE && <AdminOrdersHome />}
       </Content>

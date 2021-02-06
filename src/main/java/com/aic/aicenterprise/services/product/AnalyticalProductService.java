@@ -21,4 +21,6 @@ public interface AnalyticalProductService {
     void deleteProductsByBrand(String brand);
 
     long getTotalProducts();
+
+    AnalyticalProduct getProductDetails(String productId);
 }

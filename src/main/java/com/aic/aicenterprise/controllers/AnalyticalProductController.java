@@ -4,6 +4,7 @@ import com.aic.aicenterprise.entities.product.AnalyticalProduct;
 import com.aic.aicenterprise.models.requests.SaveAnalyticalProductsRequest;
 import com.aic.aicenterprise.models.responses.*;
 import com.aic.aicenterprise.services.product.AnalyticalProductService;
+import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -61,6 +62,32 @@ public class AnalyticalProductController {
         return productListResponse;
     }
 
+    @GetMapping(value = "/details")
+    public AnalyticalProductDetailResponse getAnalyticalProductDetails(
+        @RequestParam(value = "productId", required = false) String productId) {
+        log.info("Getting product details for Id: {}", productId);
+
+        AnalyticalProductDetailResponse productListResponse;
+        try {
+            AnalyticalProduct productDetails = analyticalProductService.getProductDetails(productId);
+
+            productListResponse = AnalyticalProductDetailResponse.builder()
+                .payload(productDetails)
+                .msg(SUCCESS)
+                .status(HttpStatus.OK.value())
+                .build();
+        } catch (Exception ex) {
+            log.info("Exception while fetching analytical product details: {}", ex);
+            productListResponse = AnalyticalProductDetailResponse.builder()
+                .error(ex.toString())
+                .msg("Exception while fetching analytical product details")
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .payload(null)
+                .build();
+        }
+        return productListResponse;
+    }
+
     @PostMapping("/save")
     public SaveResponse saveAnalyticalProducts(@RequestBody SaveAnalyticalProductsRequest request) {
         SaveResponse confirmResponse;
@@ -85,10 +112,10 @@ public class AnalyticalProductController {
     }
 
     @PostMapping("/delete")
-    public SaveResponse deleteAnalyticalProduct(@RequestBody AnalyticalProduct product) {
+    public SaveResponse deleteAnalyticalProduct(@RequestBody Map<String, String> productMap) {
         SaveResponse deleteResponse;
         try {
-            boolean deleteStatus = analyticalProductService.deleteProduct(product.getCode());
+            boolean deleteStatus = analyticalProductService.deleteProduct(productMap.get("productId"));
             deleteResponse = SaveResponse.builder()
                     .payload(deleteStatus)
                     .msg(SUCCESS)

@@ -1,6 +1,7 @@
 package com.aic.aicenterprise.services.product;
 
 import com.aic.aicenterprise.entities.product.AnalyticalProduct;
+import com.aic.aicenterprise.exceptions.AnalyticalProductNotFoundException;
 import com.aic.aicenterprise.repositories.product.AnalyticalProductRepository;
 import com.mongodb.client.MongoCursor;
 import lombok.extern.slf4j.Slf4j;
@@ -114,5 +115,12 @@ public class AnalyticalProductServiceImpl implements AnalyticalProductService {
                 .as(String.class)
                 .all()
                 .size();
+    }
+
+    @Override
+    public AnalyticalProduct getProductDetails(String productId) {
+        return analyticalProductRepository
+            .findById(productId)
+            .orElseThrow(AnalyticalProductNotFoundException::new);
     }
 }
