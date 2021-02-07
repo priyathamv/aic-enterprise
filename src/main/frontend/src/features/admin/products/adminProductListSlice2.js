@@ -27,11 +27,25 @@ export const adminProductListSlice2 = createSlice({
 
 export const { changeAdminProductList, updateAdminProductList, updateHasMore, updateSearch } = adminProductListSlice2.actions;
 
-export const getNextPageAsync = ({ category, brand, searchValue, pageNo }) => async dispatch => {
+export const getNextPageAsync = ({ application, category, brand, searchValue, pageNo }) => async dispatch => {
   try {
-    const queryParams = { pageNo, brand, searchValue: (searchValue === '' ? null : searchValue), limit: 20 };
+    const queryParams = { 
+      category,
+      pageNo, 
+      brand, 
+      searchValue: (searchValue === '' ? null : searchValue), 
+      limit: 20 
+    };
+
     
-    const url = (category === 'Analytical') ? '/api/analytical-products' : '/api/featured-products';
+    if (application !== 'Analytical') {
+      dispatch(changeAdminProductList([]));
+      dispatch(updateHasMore(false));  
+      return;
+    }
+    
+    
+    const url = (application === 'Analytical') ? '/api/analytical-products' : '/api/featured-products';
     const adminProductListResponse = await axios.get(url, { params: queryParams });
     
     const newAdminProductList = adminProductListResponse.data.payload;

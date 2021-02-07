@@ -9,6 +9,8 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -35,18 +37,32 @@ public class AnalyticalProductServiceImpl implements AnalyticalProductService {
     }
 
     @Override
-    public List<AnalyticalProduct> getProductList(String brand, String division, String searchValue, Pageable pageable) {
-        if (nonNull(brand) && nonNull(searchValue))
-            return analyticalProductRepository.findByBrandIgnoreCaseAndNameLikeIgnoreCase(brand, searchValue, pageable);
-        else if (nonNull(brand)) {
-            return nonNull(division) ?
-                    analyticalProductRepository.findByBrandIgnoreCaseAndDivisionIgnoreCase(brand, division, pageable) :
-                    analyticalProductRepository.findByBrandIgnoreCase(brand, pageable);
-        }
-        else if (nonNull(searchValue))
-            return analyticalProductRepository.findByNameLikeIgnoreCase(searchValue, pageable);
-        else
-            return analyticalProductRepository.findAll(pageable).getContent();
+    public List<AnalyticalProduct> getProductList(
+        String category,
+        String brand,
+        String division,
+        String searchValue,
+        Pageable pageable) {
+
+        final Query query = new Query().with(pageable);
+        final List<Criteria> criteria = new ArrayList<>();
+
+        if (nonNull(category) && !category.isEmpty())
+            criteria.add(Criteria.where("category").regex(category, "i"));
+
+        if (nonNull(division) && !division.isEmpty())
+            criteria.add(Criteria.where("division").regex(division, "i"));
+
+        if (nonNull(brand) && !brand.isEmpty())
+            criteria.add(Criteria.where("brand").regex(brand, "i"));
+
+        if (nonNull(searchValue) && !searchValue.isEmpty())
+            criteria.add(Criteria.where("name").regex(".*" + searchValue + ".*", "i"));
+
+        if (!criteria.isEmpty())
+            query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[0])));
+
+        return mongoTemplate.find(query, AnalyticalProduct.class);
     }
 
     @Override

@@ -33,6 +33,7 @@ public class AnalyticalProductController {
 
     @GetMapping(value = "")
     public AnalyticalProductListResponse getAllAnalyticalProducts(
+            @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "brand", required = false) String brand,
             @RequestParam(value = "division", required = false) String division,
             @RequestParam(value = "searchValue", required = false) String searchValue,
@@ -43,7 +44,7 @@ public class AnalyticalProductController {
         try {
             Pageable pageable = PageRequest.of(pageNo, limit);
 
-            List<AnalyticalProduct> productList = analyticalProductService.getProductList(brand, division, searchValue, pageable);
+            List<AnalyticalProduct> productList = analyticalProductService.getProductList(category, brand, division, searchValue, pageable);
 
             productListResponse = AnalyticalProductListResponse.builder()
                     .payload(productList)

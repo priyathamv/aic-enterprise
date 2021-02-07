@@ -12,6 +12,7 @@ import { MdClear } from 'react-icons/md';
 import debounce from 'lodash.debounce';
 
 import { device } from '../../utils/viewport';
+import { appToCategoryMap, categoryToDivisionMap } from '../../utils/productHierarchy';
 import { 
   changeAdminProductList, 
   updateAdminProductList, 
@@ -44,6 +45,7 @@ const NewProductLink = styled(Link)`
   margin-right: 10px;
   text-decoration: underline;
   margin-bottom: 20px;
+  margin-bottom: 5px;
 
   @media ${device.laptop} { 
     margin-bottom: 0;
@@ -82,23 +84,29 @@ const BigColumn = styled.div`
 `;
 
 const EditLink = styled(Link)`
-  background-color: green;
   border: none;
   border-radius: 3px;
-  padding: 8px 24px;
-  color: #FFF;
+  padding: 8px 14px;
+  color: royalblue;
   cursor: pointer;
-  margin-right: 20px;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const DeleteButton = styled.button`
-  background-color: #ff0000d1;
+  background: none;  
+  font-size: 16px;
   border: none;
   border-radius: 3px;
-  padding: 10px 30px;
-  color: #FFF;
+  padding: 8px 14px;
+  color: #ff0000d1;
   cursor: pointer;
-  margin-right: 20px;
+  text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 const DeleteButtonPop = styled.button`
@@ -186,6 +194,7 @@ const FilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  margin-bottom: 15px;
 
   @media ${device.laptop} { 
     width: auto;
@@ -210,17 +219,22 @@ const ALL_BRANDS = {
   value: null
 }
 
-const categoryOptions = [
-  {label: 'Analytical', value: 'Analytical'}
-]
+const applicationOptions = Object.keys(appToCategoryMap)
+  .map(curApplication => ({
+    label: curApplication, 
+    value: curApplication 
+  }));
 
 export const AdminProductList2 = () => {
+  const [categoryOptions, setCategoryOptions] = useState([]);
+
   const dispatch = useDispatch();
   const productList = useSelector(selectAdminProducts);
   const hasMore = useSelector(selectAdminHasMore);
   const searchValue = useSelector(selectAdminSearchValue);
 
-  const [category, setCategory] = useState('Analytical');
+  const [application, setApplication] = useState('Analytical');
+  const [category, setCategory] = useState('');
   const [pageNo, setPageNo] = useState(0);
   const [placeholder, setPlaceholder] = useState('Search by Products name');
 
@@ -229,23 +243,18 @@ export const AdminProductList2 = () => {
 
   const dummyRef = useRef(null);
 
-  const updateProductListOnSearchOrFilter = async () => {
-    try {
-      const queryParams = {
-        searchValue: ((searchValue === '' || searchValue.length < 3) ? null : searchValue), 
-        brand,
-        pageNo: 0, 
-        limit: 20
-      }
-      if (searchValue === '' || searchValue.length >= 3) {
-        const url = (category === 'Analytical') ? '/api/analytical-products' : '/api/featured-products';
-        const adminProductsResponse = await axios.get(url, { params: queryParams });
-        dispatch(changeAdminProductList(adminProductsResponse.data.payload));
-      }
-    } catch (err) {
-      console.log('Exception while fetching filtered admin product list: ', err.message);
-    }
-  }
+
+  // Updating Category dropdown options on Application change
+  useEffect(() => {
+    const categoryOptionsUpdated = appToCategoryMap[application]
+      .map(curCategory => ({
+        label: curCategory,
+        value: curCategory
+      }));
+
+    setCategoryOptions(categoryOptionsUpdated);
+    setCategory(null);
+  }, [application]);
 
   useEffect(() => {
     updateProductListOnSearchOrFilter();
@@ -256,13 +265,11 @@ export const AdminProductList2 = () => {
     dispatch(updateSearch(searchValue));
   }
 
-
-
   useEffect(() => {
     if (hasMore) {
-      dispatch(getNextPageAsync({ category, brand, searchValue, pageNo })); 
+      dispatch(getNextPageAsync({ application, category, brand, searchValue, pageNo })); 
     }
-  }, [dispatch, hasMore, category, brand, pageNo]);
+  }, [dispatch, hasMore, application, category, brand, pageNo]);
 
 
   const handleObserver = (entities) => {
@@ -278,12 +285,30 @@ export const AdminProductList2 = () => {
     (hasMore || pageNo === 0) && dummyRef.current && observer.observe(dummyRef.current);
   }, [hasMore, pageNo]);
 
+  const updateProductListOnSearchOrFilter = async () => {
+    try {
+      const queryParams = {
+        searchValue: ((searchValue === '' || searchValue.length < 3) ? null : searchValue), 
+        brand,
+        pageNo: 0, 
+        limit: 20
+      }
+      if (searchValue === '' || searchValue.length >= 3) {
+        const url = (application === 'Analytical') ? '/api/analytical-products' : '/api/featured-products';
+        const adminProductsResponse = await axios.get(url, { params: queryParams });
+        dispatch(changeAdminProductList(adminProductsResponse.data.payload));
+      }
+    } catch (err) {
+      console.log('Exception while fetching filtered admin product list: ', err.message);
+    }
+  }
+
   
   const handleOnDelete = async productId => {
     const headers = { 'Content-Type': 'application/json' };
 
     try {
-      const url = (category === 'Analytical') ? '/api/analytical-products/delete' : '/api/featured-products/delete';
+      const url = (application === 'Analytical') ? '/api/analytical-products/delete' : '/api/featured-products/???';
       const productDeleteResponse = await axios.post(url, { productId }, headers);
       
       if (productDeleteResponse.data.payload) {
@@ -312,6 +337,14 @@ export const AdminProductList2 = () => {
     fetchBrandList();
   }, []);
 
+  const handleApplicationChange = e => {
+    setApplication(e.value);
+
+    dispatch(updateHasMore(true));
+    setBrand(null); 
+    setPageNo(0);
+  }
+
   const handleCategoryChange = e => {
     setCategory(e.value);
 
@@ -330,40 +363,49 @@ export const AdminProductList2 = () => {
     <Container>
       <MenuWrapper>
         <NewProductLink to='/admin/products2/new' >Add a new product</NewProductLink>
-
-        <FilterWrapper>
-          <BrandFilterWrapper>
-            <Select
-              value={{label: category, value: category}}
-              options={categoryOptions} 
-              onChange={handleCategoryChange} 
-            />
-          </BrandFilterWrapper>
-          
-          <BrandFilterWrapper>
-            <Select
-              isSearchable={true}
-              placeholder='Brand filter'
-              value={brand ? {label: brand, value: brand} : null}
-              options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]} 
-              onChange={handleBrandChange} 
-            />
-          </BrandFilterWrapper>
-
-          <Search>
-            <SearchInput 
-              value={searchValue}
-              placeholder={placeholder} 
-              onChange={e => handleOnSearch(e.target.value)}
-              onBlur={() => setPlaceholder('Search by Products name')} 
-              onFocus={() => setPlaceholder('Type at least 3 characters')} 
-            />
-
-            <SearchIcon size='1.2em'/>
-            <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
-          </Search>
-        </FilterWrapper>
       </MenuWrapper>
+
+      <FilterWrapper>
+        <BrandFilterWrapper>
+          <Select
+            value={{label: application, value: application}}
+            options={applicationOptions} 
+            onChange={handleApplicationChange} 
+          />
+        </BrandFilterWrapper>
+
+        <BrandFilterWrapper>
+          <Select
+            placeholder='Category filter'
+            value={category ? {label: category, value: category} : null}
+            options={categoryOptions} 
+            onChange={handleCategoryChange} 
+          />
+        </BrandFilterWrapper>
+        
+        <BrandFilterWrapper>
+          <Select
+            isSearchable={true}
+            placeholder='Brand filter'
+            value={brand ? {label: brand, value: brand} : null}
+            options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]} 
+            onChange={handleBrandChange} 
+          />
+        </BrandFilterWrapper>
+
+        <Search>
+          <SearchInput 
+            value={searchValue}
+            placeholder={placeholder} 
+            onChange={e => handleOnSearch(e.target.value)}
+            onBlur={() => setPlaceholder('Search by Products name')} 
+            onFocus={() => setPlaceholder('Type at least 3 characters')} 
+          />
+
+          <SearchIcon size='1.2em'/>
+          <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
+        </Search>
+      </FilterWrapper>
 
 
       <ProductListWrapper>
@@ -385,7 +427,7 @@ export const AdminProductList2 = () => {
             <MediumColumn style={{ display: 'flex' }}>
               <EditLink to={{ pathname: `/admin/products2/edit/${curProduct.productId}`}}>Edit</EditLink>
               <Popup
-                trigger={<DeleteButton style={{ padding: '8px 24px' }}>Delete</DeleteButton>}
+                trigger={<DeleteButton style={{ padding: '8px 14px' }}>Delete</DeleteButton>}
                 modal
               >
                 {close => (
