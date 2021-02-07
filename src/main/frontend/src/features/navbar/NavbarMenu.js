@@ -88,6 +88,7 @@ export const NavbarMenu = () => {
     const contactUsDom = document.getElementById('contact_us_id');
     const productsDom = document.getElementById('products_id');
     const productListDom = document.getElementById('product_list_id');
+    const productListDom2 = document.getElementById('product_list_id2');
     const myAccountDom = document.getElementById('my_account_id');
     const covid19Dom = document.getElementById('covid19_id');
     const featuredDom = document.getElementById('featured_id');
@@ -104,6 +105,7 @@ export const NavbarMenu = () => {
       contactUsDom && (contactUsDom.style.paddingTop = '75px');
       productsDom && (productsDom.style.paddingTop = '75px');
       productListDom && (productListDom.style.paddingTop = '75px');
+      productListDom2 && (productListDom2.style.paddingTop = '75px');
       myAccountDom && (myAccountDom.style.paddingTop = '75px');
       covid19Dom && (covid19Dom.style.paddingTop = '75px');
       featuredDom && (featuredDom.style.paddingTop = '75px');
@@ -121,6 +123,7 @@ export const NavbarMenu = () => {
       contactUsDom && (contactUsDom.style.paddingTop = '0');
       productsDom && (productsDom.style.paddingTop = '0');
       productListDom && (productListDom.style.paddingTop = '0');
+      productListDom2 && (productListDom2.style.paddingTop = '0');
       myAccountDom && (myAccountDom.style.paddingTop = '0');
       covid19Dom && (covid19Dom.style.paddingTop = '0');
       featuredDom && (featuredDom.style.paddingTop = '0');

@@ -27,17 +27,18 @@ export const adminProductListSlice2 = createSlice({
 
 export const { changeAdminProductList, updateAdminProductList, updateHasMore, updateSearch } = adminProductListSlice2.actions;
 
-export const getNextPageAsync = ({ application, category, brand, searchValue, pageNo }) => async dispatch => {
+export const getNextPageAsync = ({ application, category, division, brand, searchValue, pageNo }) => async dispatch => {
   try {
     const queryParams = { 
       category,
+      division,
       pageNo, 
       brand, 
       searchValue: (searchValue === '' ? null : searchValue), 
       limit: 20 
     };
 
-    
+
     if (application !== 'Analytical') {
       dispatch(changeAdminProductList([]));
       dispatch(updateHasMore(false));  

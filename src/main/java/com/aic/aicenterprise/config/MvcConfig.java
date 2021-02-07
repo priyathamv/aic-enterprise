@@ -17,6 +17,9 @@ public class MvcConfig {
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/product-list").setViewName(INDEX_HTML);
                 registry.addViewController("/products").setViewName(INDEX_HTML);
+                registry.addViewController("/productlist").setViewName(INDEX_HTML);
+                registry.addViewController("/productlist/*").setViewName(INDEX_HTML);
+                registry.addViewController("/product-detail/*").setViewName(INDEX_HTML);
                 registry.addViewController("/contact-us").setViewName(INDEX_HTML);
                 registry.addViewController("/about-us").setViewName(INDEX_HTML);
                 registry.addViewController("/covid19").setViewName(INDEX_HTML);

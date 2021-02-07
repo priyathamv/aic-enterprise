@@ -22,6 +22,7 @@ import { CartSideBar } from './features/cart/CartSideBar';
 import { selectGoogleAuth, selectEmailAuth } from './features/auth/authSlice';
 import { fetchUserCart, fetchUserCartFromLocalStorage } from './features/cart/cartSlice';
 import { ProductList } from './features/products/ProductList';
+import { AdminProductList2 } from './features/admin/products/AdminProductList2';
 import { ResetPassword } from './features/auth/ResetPassword';
 import { MyAccount } from './features/myaccount/MyAccount';
 import { PublicRoute } from './PublicRoute';
@@ -30,6 +31,7 @@ import { AdminRoute } from './AdminRoute';
 import { EmailConfirmation } from './features/auth/EmailConfirmation';
 import { AdminHome } from './features/admin/AdminHome';
 import { ProductCatalogue } from './features/products/catalogue/ProductCatalogue';
+import { ProductDetail2 } from './features/products2/ProductDetail2';
 
 const Body = styled.div`
   flex: 1 0 auto;
@@ -81,6 +83,8 @@ function App() {
           <PublicRoute path='/login' component={LoginPage} />
           <PublicRoute path='/products' component={Products} />
           <PublicRoute path='/product-list' component={ProductList} />
+          <PublicRoute path='/productlist' component={AdminProductList2} />
+          <PublicRoute path='/product-detail/' component={ProductDetail2} />
           <PublicRoute path='/covid19' component={Covid19} />
           <PublicRoute path='/about-us' component={AboutUs} />
           <PublicRoute path='/contact-us' component={ContactUs} />

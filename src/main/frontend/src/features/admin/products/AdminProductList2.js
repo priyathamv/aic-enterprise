@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Popup from 'reactjs-popup';
-import Select from 'react-select';
-import { AiOutlineSearch } from 'react-icons/ai';
-import { MdClear } from 'react-icons/md';
 import debounce from 'lodash.debounce';
 
-import { device } from '../../utils/viewport';
 import { appToCategoryMap, categoryToDivisionMap } from '../../utils/productHierarchy';
+
+
 import { 
   changeAdminProductList, 
   updateAdminProductList, 
@@ -23,201 +20,11 @@ import {
   selectAdminHasMore,
   selectAdminSearchValue,
   selectAdminProducts } from './adminProductListSlice2';
+import { AdminProductList2View } from './AdminProductList2View';
+import { ProductList2 } from '../../products2/ProductList2';
 
 const Container = styled.div`
 `;
-
-const MenuWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  flex-direction: column;
-  align-items: center;
-  
-  @media ${device.laptop} { 
-    align-items: flex-end;
-    flex-direction: row;
-  }
-`;
-
-const NewProductLink = styled(Link)`
-  color: #232162;
-  margin-right: 10px;
-  text-decoration: underline;
-  margin-bottom: 20px;
-  margin-bottom: 5px;
-
-  @media ${device.laptop} { 
-    margin-bottom: 0;
-  }
-`;
-
-const ProductListWrapper = styled.div`
-  width: 100%;
-  overflow: scroll;
-  white-space: nowrap;
-`;
-
-const Header = styled.div`
-  display: flex;
-  background-color: #232162;
-  color: #FFF;
-  padding: 15px 20px;
-  border-radius: 3px;
-  font-weight: bold;
-  min-width: 700px;
-`;
-
-const SmallColumn = styled.div`
-  flex: 1;
-  white-space: normal;
-`;
-
-const MediumColumn = styled.div`
-  flex: 2;
-  white-space: normal;
-`;
-
-const BigColumn = styled.div`
-  flex: 3;
-  white-space: normal;
-`;
-
-const EditLink = styled(Link)`
-  border: none;
-  border-radius: 3px;
-  padding: 8px 14px;
-  color: royalblue;
-  cursor: pointer;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const DeleteButton = styled.button`
-  background: none;  
-  font-size: 16px;
-  border: none;
-  border-radius: 3px;
-  padding: 8px 14px;
-  color: #ff0000d1;
-  cursor: pointer;
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const DeleteButtonPop = styled.button`
-  background-color: #ff0000d1;
-  border: none;
-  border-radius: 3px;
-  padding: 10px 30px;
-  color: #FFF;
-  cursor: pointer;
-  margin-right: 0;
-  margin-bottom: 20px;
-
-  @media ${device.tablet} { 
-    margin-right: 20px;
-    margin-bottom: 0;
-  }
-`;
-
-const CloseButton = styled.button`
-  border: none;
-  border-radius: 3px;
-  padding: 10px 30px;
-  cursor: pointer;
-`;
-
-const ProductRow = styled.div`
-  display: flex;
-  align-items: center;
-  border-radius: 3px;
-  box-shadow: 0 0 5px 1px rgba(188,188,188,0.3);
-  padding: 10px 20px;
-  margin: 5px 0;
-  min-width: 700px;
-`;
-
-
-const Search = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  height: 38px;
-  margin-bottom: 20px;
-
-  @media ${device.laptop} { 
-    width: 225px;
-    margin-bottom: 0;
-  }
-`;
-
-const SearchInput = styled.input`
-  width: 100%;
-  border-radius: 3px;
-  padding: 10px 30px 10px 30px;
-  border: 1px solid #CCC;
-  font-size: 14px;
-`;
-
-const SearchIcon = styled(AiOutlineSearch)`
-  position: absolute;
-  color: #848484;
-  top: 10px;
-  left: 10px;
-`;
-
-const CancelIcon = styled(MdClear)`
-  position: absolute;
-  color: #848484;
-  top: 10px;
-  right: 10px;
-  cursor: pointer;
-`;
-
-const Dummy = styled.div`
-  display: inline-block;
-  position: absolute
-`;
-
-const ScrollObserver = styled.div`
-  padding: 15px 25px;
-  text-align: center;
-`;
-
-const FilterWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-bottom: 15px;
-
-  @media ${device.laptop} { 
-    width: auto;
-    flex-direction: row;
-    justify-content: flex-end;
-  }
-`;
-
-const BrandFilterWrapper = styled.div`
-  width: 100%;
-  margin-right: 20px;
-  margin-bottom: 20px;
-
-  @media ${device.laptop} { 
-    width: 225px;
-    margin-bottom: 0;
-  }
-`;
-
-const ALL_BRANDS = {
-  label: 'All Brands',
-  value: null
-}
 
 const applicationOptions = Object.keys(appToCategoryMap)
   .map(curApplication => ({
@@ -226,22 +33,26 @@ const applicationOptions = Object.keys(appToCategoryMap)
   }));
 
 export const AdminProductList2 = () => {
+  const dummyRef = useRef(null);
   const [categoryOptions, setCategoryOptions] = useState([]);
+  const [divisionOptions, setDivisionOptions] = useState([]);
 
   const dispatch = useDispatch();
   const productList = useSelector(selectAdminProducts);
+  
   const hasMore = useSelector(selectAdminHasMore);
   const searchValue = useSelector(selectAdminSearchValue);
 
   const [application, setApplication] = useState('Analytical');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState(null);
+  const [division, setDivision] = useState(null);
   const [pageNo, setPageNo] = useState(0);
   const [placeholder, setPlaceholder] = useState('Search by Products name');
 
   const [brand, setBrand] = useState(null);
   const [brandList, setBrandList] = useState([]);
 
-  const dummyRef = useRef(null);
+  
 
 
   // Updating Category dropdown options on Application change
@@ -254,7 +65,23 @@ export const AdminProductList2 = () => {
 
     setCategoryOptions(categoryOptionsUpdated);
     setCategory(null);
+    setDivisionOptions([]);
+    setDivision(null);
   }, [application]);
+
+  // Updating Divisions dropdown options on Category change
+  useEffect(() => {
+    if (category) {
+      const divisionOptionsUpdated = categoryToDivisionMap[category]
+        .map(curDivision => ({
+          label: curDivision,
+          value: curDivision
+        }));
+  
+      setDivisionOptions(divisionOptionsUpdated);
+      setDivision(null);
+    }
+  }, [category]);
 
   useEffect(() => {
     updateProductListOnSearchOrFilter();
@@ -267,9 +94,9 @@ export const AdminProductList2 = () => {
 
   useEffect(() => {
     if (hasMore) {
-      dispatch(getNextPageAsync({ application, category, brand, searchValue, pageNo })); 
+      dispatch(getNextPageAsync({ application, category, division, brand, searchValue, pageNo })); 
     }
-  }, [dispatch, hasMore, application, category, brand, pageNo]);
+  }, [dispatch, hasMore, application, category, division, brand, pageNo]);
 
 
   const handleObserver = (entities) => {
@@ -353,107 +180,95 @@ export const AdminProductList2 = () => {
     setPageNo(0);
   }
 
+  const handleDivisionChange = e => {
+    setDivision(e.value);
+
+    dispatch(updateHasMore(true));
+    setBrand(null); 
+    setPageNo(0);
+  }
+
   const handleBrandChange = e => {
     dispatch(updateHasMore(true)); 
     setPageNo(0);
     setBrand(e.value); 
   }
+  
+  const history = useHistory();
+
+  const curPath = history.location.pathname;
 
   return (
     <Container>
-      <MenuWrapper>
-        <NewProductLink to='/admin/products2/new' >Add a new product</NewProductLink>
-      </MenuWrapper>
-
-      <FilterWrapper>
-        <BrandFilterWrapper>
-          <Select
-            value={{label: application, value: application}}
-            options={applicationOptions} 
-            onChange={handleApplicationChange} 
-          />
-        </BrandFilterWrapper>
-
-        <BrandFilterWrapper>
-          <Select
-            placeholder='Category filter'
-            value={category ? {label: category, value: category} : null}
-            options={categoryOptions} 
-            onChange={handleCategoryChange} 
-          />
-        </BrandFilterWrapper>
-        
-        <BrandFilterWrapper>
-          <Select
-            isSearchable={true}
-            placeholder='Brand filter'
-            value={brand ? {label: brand, value: brand} : null}
-            options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]} 
-            onChange={handleBrandChange} 
-          />
-        </BrandFilterWrapper>
-
-        <Search>
-          <SearchInput 
-            value={searchValue}
-            placeholder={placeholder} 
-            onChange={e => handleOnSearch(e.target.value)}
-            onBlur={() => setPlaceholder('Search by Products name')} 
-            onFocus={() => setPlaceholder('Type at least 3 characters')} 
-          />
-
-          <SearchIcon size='1.2em'/>
-          <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
-        </Search>
-      </FilterWrapper>
-
-
-      <ProductListWrapper>
-        <Header>
-          <MediumColumn>Product Id</MediumColumn>
-          <BigColumn>Name</BigColumn>
-          <MediumColumn>Brand</MediumColumn>
-          <MediumColumn>Action</MediumColumn>
-        </Header>
-
-        {productList.map((curProduct, index) => 
-          <ProductRow key={index} >
-            <MediumColumn>{curProduct.productId}</MediumColumn>
+      {curPath.includes('/admin/products2') ?
+        <AdminProductList2View 
+          dummyRef={dummyRef}
+          applicationOptions={applicationOptions}
+          divisionOptions={divisionOptions}
+          categoryOptions={categoryOptions}
+          setCategoryOptions={setCategoryOptions}
+          productList={productList}
+          hasMore={hasMore}
+          searchValue={searchValue}
+          application={application}
+          setApplication={setApplication}
+          category={category}
+          setCategory={setCategory}
+          division={division}
+          setDivision={setDivision}
+          pageNo={pageNo}
+          setPageNo={setPageNo}
+          placeholder={placeholder}
+          setPlaceholder={setPlaceholder}
+          brand={brand}
+          setBrand={setBrand}
+          brandList={brandList}
+          
+          handleOnSearch={handleOnSearch}
+          handleObserver={handleObserver}
+          fetchBrandList={fetchBrandList}
+          handleApplicationChange={handleApplicationChange}
+          handleCategoryChange={handleCategoryChange}
+          handleDivisionChange={handleDivisionChange}
+          handleBrandChange={handleBrandChange}
+          handleOnDelete={handleOnDelete}
+          updateProductListOnSearchOrFilter={updateProductListOnSearchOrFilter}
+        /> : (
+        curPath.includes('/productlist') ? 
+          <ProductList2 
+            dummyRef={dummyRef}
+            applicationOptions={applicationOptions}
+            divisionOptions={divisionOptions}
+            categoryOptions={categoryOptions}
+            setCategoryOptions={setCategoryOptions}
+            productList={productList}
+            hasMore={hasMore}
+            searchValue={searchValue}
+            application={application}
+            setApplication={setApplication}
+            category={category}
+            setCategory={setCategory}
+            division={division}
+            setDivision={setDivision}
+            pageNo={pageNo}
+            setPageNo={setPageNo}
+            placeholder={placeholder}
+            setPlaceholder={setPlaceholder}
+            brand={brand}
+            setBrand={setBrand}
+            brandList={brandList}
             
-            <BigColumn>{curProduct.name}</BigColumn>
-
-            <MediumColumn>{curProduct.brand}</MediumColumn>
-            
-            <MediumColumn style={{ display: 'flex' }}>
-              <EditLink to={{ pathname: `/admin/products2/edit/${curProduct.productId}`}}>Edit</EditLink>
-              <Popup
-                trigger={<DeleteButton style={{ padding: '8px 14px' }}>Delete</DeleteButton>}
-                modal
-              >
-                {close => (
-                  <div className="admin-modal">
-                    <button className="close" onClick={close}>&times;</button>
-
-                    <div className="content">Are you sure you want to delete the product {curProduct.name}?</div>
-
-                    <div className="actions">
-                      <DeleteButtonPop onClick={() => handleOnDelete(curProduct.productId)} >Yes, delete</DeleteButtonPop>
-                      
-                      <CloseButton autoFocus className="button" onClick={() => close()} >Close</CloseButton>
-                    </div>
-                  </div>
-                )}
-              </Popup>
-            </MediumColumn>
-          </ProductRow>)
-        }
-        {hasMore ?
-          <div>
-            <ScrollObserver colSpan='5'>
-              <Dummy ref={dummyRef}>&nbsp;</Dummy>Loading more products...
-            </ScrollObserver>
-          </div> : null}
-      </ProductListWrapper>
+            handleOnSearch={handleOnSearch}
+            handleObserver={handleObserver}
+            fetchBrandList={fetchBrandList}
+            handleApplicationChange={handleApplicationChange}
+            handleCategoryChange={handleCategoryChange}
+            handleDivisionChange={handleDivisionChange}
+            handleBrandChange={handleBrandChange}
+            handleOnDelete={handleOnDelete}
+            updateProductListOnSearchOrFilter={updateProductListOnSearchOrFilter}
+          /> : null)
+      }
     </Container>
   )
 }
