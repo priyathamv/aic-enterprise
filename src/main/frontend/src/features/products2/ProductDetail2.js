@@ -44,7 +44,7 @@ const Image = styled.img`
 `;
 
 const AuxilaryImage = styled.img`
-  width: 300px;
+  max-width: 100%;
 `;
 
 const SizeFrame = styled.div`
@@ -52,6 +52,7 @@ const SizeFrame = styled.div`
 `;
 
 const CapacityFrame = styled.div`
+  display: flex;
   margin-top: 20px;
 `;
 
@@ -102,7 +103,7 @@ const Category = styled.div`
 `;
 
 const Description = styled.div`
-
+  font-size: 18px;
 `;
 
 const MetricItem = styled.div`
@@ -110,8 +111,13 @@ const MetricItem = styled.div`
   margin-bottom: 5px;
 `;
 
+const Separator = styled.div`
+  margin: 0 10px;
+`;
+
 const MetricName = styled.div`
   margin-right: 5px;
+  font-weight: bold;
 `;
 
 const MetricValue = styled.div`
@@ -153,6 +159,10 @@ export const ProductDetail2 = () => {
 
   const handleAddToCart = () => {}
 
+  const createMarkup = () => {
+    return { __html: productDetails.description };
+  }
+
   return (
     <Container id='product_catalogue_id'>
 
@@ -173,50 +183,6 @@ export const ProductDetail2 = () => {
 
               <Image src={mainImageUrl} />
             </ImageFrame>
-
-            <SizeFrame>
-              <CapacityFrame>
-                {/* <Header>Capacity</Header> */}
-                {productDetails.metricsList.map((curMetric, index) => 
-                  <Size 
-                    style={index === capacityIndex ? {backgroundColor: '#232162', color: '#FFFFFF'} : null}
-                    key={index} 
-                    onClick={() => handleCapacitySelection(index)}>
-                    {curMetric.capacity}
-                  </Size>
-                )}
-                
-                {/* <Header>Size</Header> */}
-                <>
-                  {productDetails.metricsList[capacityIndex].od && 
-                    <MetricItem>
-                      <MetricName>OD:</MetricName>
-                      <MetricValue>{productDetails.metricsList[capacityIndex].od}</MetricValue>
-                    </MetricItem>
-                  }
-                  {productDetails.metricsList[capacityIndex].height && 
-                    <MetricItem>
-                      <MetricName>Height:</MetricName>
-                      <MetricValue>{productDetails.metricsList[capacityIndex].height}</MetricValue>
-                    </MetricItem>
-                  }
-                  {productDetails.metricsList[capacityIndex].pack && 
-                    <MetricItem>
-                      <MetricName>Pack:</MetricName>
-                      <MetricValue>{productDetails.metricsList[capacityIndex].pack}</MetricValue>
-                    </MetricItem>
-                  }
-                  {productDetails.metricsList[capacityIndex].price && 
-                    <MetricItem>
-                      <MetricName>Price:</MetricName>
-                      <MetricValue>{productDetails.metricsList[capacityIndex].price}</MetricValue>
-                    </MetricItem>
-                  }
-                </>
-              </CapacityFrame>
-
-              <SizeBox></SizeBox>
-            </SizeFrame>
           </LeftFrame>
 
           <RightFrame>
@@ -228,14 +194,60 @@ export const ProductDetail2 = () => {
               <Info style={{ marginLeft: '10px' }}>{productDetails.brand}</Info>
             </ProductInfo>
 
-            <Description>{productDetails.description}</Description>
+            {productDetails.metricsList.map((curMetric, index) => 
+              <Size 
+                style={index === capacityIndex ? {backgroundColor: '#232162', color: '#FFFFFF'} : null}
+                key={index} 
+                onClick={() => handleCapacitySelection(index)}>
+                {curMetric.capacity}
+              </Size>
+            )}
 
-            {productDetails.auxilaryImageUrl && <AuxilaryImage src={productDetails.auxilaryImageUrl} />}
+            <Description dangerouslySetInnerHTML={createMarkup()}></Description>
+
+            <SizeFrame>
+              <CapacityFrame>
+                {productDetails.metricsList[capacityIndex].od && 
+                  <MetricItem>
+                    <MetricName>OD:</MetricName>
+                    <MetricValue>{productDetails.metricsList[capacityIndex].od}</MetricValue>
+                  </MetricItem>
+                }
+                
+                <Separator>|</Separator>
+                
+                {productDetails.metricsList[capacityIndex].height && 
+                  <MetricItem>
+                    <MetricName>Height:</MetricName>
+                    <MetricValue>{productDetails.metricsList[capacityIndex].height}</MetricValue>
+                  </MetricItem>
+                }
+                
+                <Separator>|</Separator>
+                
+                {productDetails.metricsList[capacityIndex].pack && 
+                  <MetricItem>
+                    <MetricName>Pack:</MetricName>
+                    <MetricValue>{productDetails.metricsList[capacityIndex].pack}</MetricValue>
+                  </MetricItem>
+                }
+                {/* {productDetails.metricsList[capacityIndex].price && 
+                  <MetricItem>
+                    <MetricName>Price:</MetricName>
+                    <MetricValue>{productDetails.metricsList[capacityIndex].price}</MetricValue>
+                  </MetricItem>
+                } */}
+              </CapacityFrame>
+
+              <SizeBox></SizeBox>
+            </SizeFrame>
 
             <Button 
-              style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px', marginTop: '20px'}} 
+              style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px', marginTop: '20px', display: 'block', marginBottom: '20px'}} 
               label='ADD TO CART' 
               handleOnClick={handleAddToCart} />
+
+            {productDetails.auxilaryImageUrl && <AuxilaryImage src={productDetails.auxilaryImageUrl} />}
           </RightFrame>
         </> : <SpinnerWrapper><Spinner/></SpinnerWrapper>
       }

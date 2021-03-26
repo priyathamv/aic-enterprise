@@ -5,15 +5,16 @@ import { useHistory, useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
+import { Editor } from '@tinymce/tinymce-react';
 import ReactDragListView from 'react-drag-listview/lib/index.js';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 
 import { Input } from '../../utils/Input';
 import { Button } from '../../homepage/common/Button';
 import { device } from '../../utils/viewport';
+import { Spinner } from '../../utils/Spinner';
 import { AdminProductImage } from './AdminProductImage';
 import { AuxilaryImage } from './AuxilaryImage';
-
 import { appToCategoryMap, categoryToDivisionMap } from '../../utils/productHierarchy';
 
 const { DragColumn } = ReactDragListView;
@@ -68,7 +69,9 @@ const Label = styled.div`
 `;
 
 const TextareaBox = styled.div`
-  
+  margin-bottom: 50px;
+  position: relative;
+  min-height: 250px;
 `;
 
 const Textarea = styled.textarea`
@@ -134,7 +137,7 @@ export const AdminNewProduct2 = () => {
   const [division, setDivision] = useState(null);
   const [name, setName] = useState('');
   const [hsnCode, setHsnCode] = useState('');
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState('<p></p>');
 
   const [metricsList, setMetricsList] = useState([
     { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0 }
@@ -145,6 +148,7 @@ export const AdminNewProduct2 = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const [auxilaryImageUrl, setAuxilaryImageUrl] = useState('');
   const [owner, setOwner] = useState('');
+  const [isEditorLoaded, setIsEditorLoaded] = useState(false);
 
   const history = useHistory();
   const location = useLocation();
@@ -309,6 +313,10 @@ export const AdminNewProduct2 = () => {
     setMetricsList([...metricsList, { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0 }]);
   }
 
+  const onDescriptionChange = (content, editor) => {
+    setDescription(content);
+  }
+
   return (
     <Container>
       <Heading>Add a new Product</Heading>
@@ -361,7 +369,21 @@ export const AdminNewProduct2 = () => {
 
       <TextareaBox>
         <Label>Description</Label>
-        <Textarea rows='4' value={description} onChange={e => setDescription(e.target.value)} />
+        
+        {isEditorLoaded ? null : <Spinner/>}
+        <Editor
+          apiKey='57iggjon3obykm4zg0x0i3j3jsbgmpwushmfoxsn84cawk1h'
+          value={description}
+          onEditorChange={onDescriptionChange}
+          init={{
+            height: 250,
+            plugins: 'link code wordcount preview lists paste',
+            toolbar:
+              'undo redo | bold italic blockquote | alignleft aligncenter alignright | numlist bullist checklist',
+            paste_as_text: true,
+            init_instance_callback: () => setIsEditorLoaded(true)
+          }}
+        />
       </TextareaBox>
 
       <MetricsWrapper>
