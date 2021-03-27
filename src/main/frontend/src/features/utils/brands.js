@@ -1,6 +1,7 @@
 export const brandList = [
   {name: 'Abdos', imageName: 'abdos'}, 
   {name: 'AXIVA', imageName: 'Axiva-Logo'}, 
+  {name: 'Borosil', imageName: '600w_Borosil-Final-Logo'}, 
   // {name: 'CDH', imageName: ''}, TODO: add later
   {name: 'Conda', imageName: 'conda'}, 
   {name: 'Dupont', imageName: 'DuPont'}, 

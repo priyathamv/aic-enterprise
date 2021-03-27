@@ -216,7 +216,7 @@ export const AdminNewProduct2 = () => {
 
 
   const handleOnSave = async () => {
-    if (!application || !category || !division || !brand || !name || !description || !hsnCode) {
+    if (!application || !category || !brand || !name || !description || !hsnCode) {
       toast.error(`Please fill the mandatory fields`, { variant: 'error'});
       return;
     }
@@ -343,7 +343,7 @@ export const AdminNewProduct2 = () => {
         <SelectWrapper>
           <Select
             isSearchable={true}
-            placeholder='Select a Division*'
+            placeholder='Select a Division'
             value={division ? {label: division, value: division} : null}
             options={divisionOptions} 
             onChange={e => setDivision(e.value)} 
