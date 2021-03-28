@@ -208,22 +208,26 @@ export const ProductDetail2 = () => {
             <SizeFrame>
               <CapacityFrame>
                 {productDetails.metricsList[capacityIndex].od && 
-                  <MetricItem>
-                    <MetricName>OD:</MetricName>
-                    <MetricValue>{productDetails.metricsList[capacityIndex].od}</MetricValue>
-                  </MetricItem>
+                  <>
+                    <MetricItem>
+                      <MetricName>OD:</MetricName>
+                      <MetricValue>{productDetails.metricsList[capacityIndex].od}</MetricValue>
+                    </MetricItem>
+
+                    <Separator>|</Separator>
+                  </>
                 }
-                
-                <Separator>|</Separator>
                 
                 {productDetails.metricsList[capacityIndex].height && 
-                  <MetricItem>
-                    <MetricName>Height:</MetricName>
-                    <MetricValue>{productDetails.metricsList[capacityIndex].height}</MetricValue>
-                  </MetricItem>
+                  <>
+                    <MetricItem>
+                      <MetricName>Height:</MetricName>
+                      <MetricValue>{productDetails.metricsList[capacityIndex].height}</MetricValue>
+                    </MetricItem>
+
+                    <Separator>|</Separator>
+                  </>
                 }
-                
-                <Separator>|</Separator>
                 
                 {productDetails.metricsList[capacityIndex].pack && 
                   <MetricItem>

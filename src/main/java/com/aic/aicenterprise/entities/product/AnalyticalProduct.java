@@ -27,6 +27,7 @@ public class AnalyticalProduct {
     private String name;
     private String hsnCode;
     private String description;
+    private String specification;
     private List<ProductMetrics> metricsList;
     private String model;
     private String volume;

@@ -10,6 +10,7 @@ import ReactDragListView from 'react-drag-listview/lib/index.js';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 
 import { Input } from '../../utils/Input';
+import { RichTextEditor } from '../../utils/RichTextEditor';
 import { Button } from '../../homepage/common/Button';
 import { device } from '../../utils/viewport';
 import { Spinner } from '../../utils/Spinner';
@@ -72,6 +73,7 @@ const TextareaBox = styled.div`
   margin-bottom: 50px;
   position: relative;
   min-height: 250px;
+  z-index: 0;
 `;
 
 const Textarea = styled.textarea`
@@ -138,9 +140,10 @@ export const AdminNewProduct2 = () => {
   const [name, setName] = useState('');
   const [hsnCode, setHsnCode] = useState('');
   const [description, setDescription] = useState('<p></p>');
+  const [specification, setSpecification] = useState('<p></p>');
 
   const [metricsList, setMetricsList] = useState([
-    { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0 }
+    { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0, specification: '' }
   ]);
   const [model, setModel] = useState('');
   const [volume, setVolume] = useState('');
@@ -148,7 +151,6 @@ export const AdminNewProduct2 = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const [auxilaryImageUrl, setAuxilaryImageUrl] = useState('');
   const [owner, setOwner] = useState('');
-  const [isEditorLoaded, setIsEditorLoaded] = useState(false);
 
   const history = useHistory();
   const location = useLocation();
@@ -167,6 +169,7 @@ export const AdminNewProduct2 = () => {
       setName(productDetails.name);
       setHsnCode(productDetails.hsnCode);
       setDescription(productDetails.description);
+      setSpecification(productDetails.specification);
       setMetricsList(productDetails.metricsList);
       setModel(productDetails.model);
       setVolume(productDetails.volume);
@@ -232,12 +235,12 @@ export const AdminNewProduct2 = () => {
 
     const requestBody = { 
       productList: [
-        { application, category, division, brand, productId, name, hsnCode, description, metricsList: metricsListFinal, model, volume, gauge, imageUrls, auxilaryImageUrl }
+        { application, category, division, brand, productId, name, hsnCode, description, specification, metricsList: metricsListFinal, model, volume, gauge, imageUrls, auxilaryImageUrl }
       ] 
     };
 
     try {
-      const url = (application === 'Analytical') ? '/api/analytical-products/save' : '/api/featured-products/save';
+      const url = (application === 'Analytical') ? '/api/analytical-products/save' : '/api/featured-products/saves';
 
       const newProductResponse = await axios.post(url, requestBody, headers);
       
@@ -298,6 +301,8 @@ export const AdminNewProduct2 = () => {
             return Object.assign({}, curMetrics, { pack: value });
           else if (type === 'PRICE')
             return Object.assign({}, curMetrics, { price: value });
+          else if (type === 'SPECIFICATION')
+            return Object.assign({}, curMetrics, { specification: value });
           else
             return curMetrics;
         }
@@ -310,16 +315,23 @@ export const AdminNewProduct2 = () => {
   }
   
   const addNewMetrics = () => {
-    setMetricsList([...metricsList, { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0 }]);
+    setMetricsList([
+      ...metricsList, 
+      { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0, specification: '' }
+    ]);
   }
 
   const onDescriptionChange = (content, editor) => {
     setDescription(content);
   }
+  
+  const onSpecificationChange = (content, editor) => {
+    setSpecification(content);
+  }
 
   return (
     <Container>
-      <Heading>Add a new Product</Heading>
+      <Heading>{`${isUpdate ? 'Edit Product details' : 'Add a new Product'}`}</Heading>
 
       <Form>
         <SelectWrapper>
@@ -328,6 +340,7 @@ export const AdminNewProduct2 = () => {
             value={{ label: application, value: application }}
             options={applicationOptions} 
             onChange={e => setApplication(e.value)} 
+            isDisabled={isUpdate}
           />
         </SelectWrapper>
         
@@ -370,21 +383,21 @@ export const AdminNewProduct2 = () => {
       <TextareaBox>
         <Label>Description</Label>
         
-        {isEditorLoaded ? null : <Spinner/>}
-        <Editor
-          apiKey='57iggjon3obykm4zg0x0i3j3jsbgmpwushmfoxsn84cawk1h'
+        <RichTextEditor 
           value={description}
-          onEditorChange={onDescriptionChange}
-          init={{
-            height: 250,
-            plugins: 'link code wordcount preview lists paste',
-            toolbar:
-              'undo redo | bold italic blockquote | alignleft aligncenter alignright | numlist bullist checklist',
-            paste_as_text: true,
-            init_instance_callback: () => setIsEditorLoaded(true)
-          }}
+          handleChange={onDescriptionChange}
         />
       </TextareaBox>
+
+      {application === 'Analytical' ? 
+        <TextareaBox>
+          <Label>Specification</Label>
+          
+          <RichTextEditor 
+            value={specification}
+            handleChange={onSpecificationChange}
+          />
+        </TextareaBox> : null}
 
       <MetricsWrapper>
         {metricsList.map((curMetrics, index) => 
@@ -396,19 +409,21 @@ export const AdminNewProduct2 = () => {
               label={`Catalogue Code ${index + 1}*`} 
             />
             
-            <Input 
-              styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
-              value={curMetrics.od} 
-              handleOnChange={e => handleMetricsChange('OD', index, e.target.value)} 
-              label={`OD ${index + 1}`} 
-            />
+            {application === 'Analytical' && category === 'Laboratory Glassware' ? 
+              <Input 
+                styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
+                value={curMetrics.od} 
+                handleOnChange={e => handleMetricsChange('OD', index, e.target.value)} 
+                label={`OD ${index + 1}`} 
+              /> : null}
 
-            <Input 
-              styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
-              value={curMetrics.height} 
-              handleOnChange={e => handleMetricsChange('HEIGHT', index, e.target.value)} 
-              label={`Height ${index + 1}`} 
-            />
+            {application === 'Analytical' && category === 'Laboratory Glassware' ? 
+              <Input 
+                styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
+                value={curMetrics.height} 
+                handleOnChange={e => handleMetricsChange('HEIGHT', index, e.target.value)} 
+                label={`Height ${index + 1}`} 
+              /> : null}
             
             <Input 
               styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
@@ -430,6 +445,15 @@ export const AdminNewProduct2 = () => {
               handleOnChange={e => handleMetricsChange('PRICE', index, e.target.value)} 
               label={`Price ${index + 1}`} 
             />
+
+            {application !== 'Analytical' ? 
+            <TextareaBox>
+              <RichTextEditor 
+                placeholder='Add specification...'
+                value={curMetrics.specification}
+                handleChange={(content, editor) => handleMetricsChange('SPECIFICATION', index, content)}
+              />
+            </TextareaBox> : null}
 
             {(metricsList.length - 1 !== index) &&  <DeleteButton onClick={() => deleteMetrics(index)} />}
             {(metricsList.length - 1 === index) &&  <AddButton onClick={addNewMetrics} />}

@@ -11,5 +11,6 @@ public class ProductMetrics {
     private String height;
     private String capacity;
     private String pack;
-    private double price;
+    private Double price;
+    private String specification;
 }
