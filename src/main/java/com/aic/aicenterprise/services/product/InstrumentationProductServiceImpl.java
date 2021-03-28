@@ -1,9 +1,19 @@
 package com.aic.aicenterprise.services.product;
 
-import com.aic.aicenterprise.entities.product.AnalyticalProduct;
+import static com.aic.aicenterprise.constants.AppConstants.INSTRUMENTATION_PRODUCT_SERVICE_BEAN;
+import static com.aic.aicenterprise.constants.DBConstants.INSTRUMENTATION_PRODUCTS;
+import static com.aic.aicenterprise.constants.DBConstants.BRAND;
+import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
+import static java.util.Objects.nonNull;
+
+import com.aic.aicenterprise.entities.product.InstrumentationProduct;
 import com.aic.aicenterprise.exceptions.Product2NotFoundException;
-import com.aic.aicenterprise.repositories.product.AnalyticalProductRepository;
+import com.aic.aicenterprise.repositories.product.InstrumentationProductRepository;
 import com.mongodb.client.MongoCursor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,33 +24,22 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static com.aic.aicenterprise.constants.AppConstants.ANALYTICAL_PRODUCT_SERVICE_BEAN;
-import static com.aic.aicenterprise.constants.DBConstants.ANALYTICAL_PRODUCTS;
-import static com.aic.aicenterprise.constants.DBConstants.BRAND;
-import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
-import static java.util.Objects.nonNull;
-
 @Slf4j
-@Qualifier(ANALYTICAL_PRODUCT_SERVICE_BEAN)
+@Qualifier(INSTRUMENTATION_PRODUCT_SERVICE_BEAN)
 @Service
-public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalProduct> {
+public class InstrumentationProductServiceImpl implements ProductService2<InstrumentationProduct> {
 
-    private AnalyticalProductRepository analyticalProductRepository;
+    private InstrumentationProductRepository instrumentationProductRepository;
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    public AnalyticalProductServiceImpl(AnalyticalProductRepository analyticalProductRepository, MongoTemplate mongoTemplate) {
-        this.analyticalProductRepository = analyticalProductRepository;
+    public InstrumentationProductServiceImpl(InstrumentationProductRepository instrumentationProductRepository, MongoTemplate mongoTemplate) {
+        this.instrumentationProductRepository = instrumentationProductRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
     @Override
-    public List<AnalyticalProduct> getProductList(
+    public List<InstrumentationProduct> getProductList(
         String category,
         String brand,
         String division,
@@ -65,19 +64,19 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
         if (!criteria.isEmpty())
             query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[0])));
 
-        return mongoTemplate.find(query, AnalyticalProduct.class);
+        return mongoTemplate.find(query, InstrumentationProduct.class);
     }
 
     @Override
     public boolean deleteAllProducts() {
-        analyticalProductRepository.deleteAll();
+        instrumentationProductRepository.deleteAll();
         return true;
     }
 
     @Override
     public List<String> getAllBrands() {
         MongoCursor<String> brandListCursor = mongoTemplate
-                .getCollection(ANALYTICAL_PRODUCTS)
+                .getCollection(INSTRUMENTATION_PRODUCTS)
                 .distinct(BRAND, String.class)
                 .iterator();
 
@@ -89,7 +88,7 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
     @Override
     public List<String> getDivisions(String brand) {
         MongoCursor<String> divisionListIterator = mongoTemplate
-                .getCollection(ANALYTICAL_PRODUCTS)
+                .getCollection(INSTRUMENTATION_PRODUCTS)
                 .distinct(DIVISION, String.class)
                 .filter(new Document(BRAND, brand))
                 .iterator();
@@ -103,10 +102,10 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
     }
 
     @Override
-    public boolean saveProducts(List<AnalyticalProduct> productList) {
-        Iterable<AnalyticalProduct> products = analyticalProductRepository.saveAll(productList);
+    public boolean saveProducts(List<InstrumentationProduct> productList) {
+        Iterable<InstrumentationProduct> products = instrumentationProductRepository.saveAll(productList);
 
-        List<AnalyticalProduct> savedProducts = StreamSupport.stream(products.spliterator(), false)
+        List<InstrumentationProduct> savedProducts = StreamSupport.stream(products.spliterator(), false)
                 .collect(Collectors.toList());
 
         return productList.size() == savedProducts.size();
@@ -114,22 +113,22 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
 
     @Override
     public boolean deleteProduct(String code) {
-        log.info("Deleting analytical product: {}", code);
+        log.info("Deleting instrumentation product: {}", code);
 
-        analyticalProductRepository.deleteById(code);
+        instrumentationProductRepository.deleteById(code);
         return true;
     }
 
     @Override
     public void deleteProductsByBrand(String brand) {
-        log.info("Deleting analytical products of brand: {}", brand);
+        log.info("Deleting instrumentation products of brand: {}", brand);
 
-        analyticalProductRepository.deleteByBrand(brand);
+        instrumentationProductRepository.deleteByBrand(brand);
     }
 
     @Override
     public long getTotalProducts() {
-        return mongoTemplate.query(AnalyticalProduct.class)
+        return mongoTemplate.query(InstrumentationProduct.class)
                 .distinct("_id")
                 .as(String.class)
                 .all()
@@ -137,8 +136,8 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
     }
 
     @Override
-    public AnalyticalProduct getProductDetails(String productId) {
-        return analyticalProductRepository
+    public InstrumentationProduct getProductDetails(String productId) {
+        return instrumentationProductRepository
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
     }

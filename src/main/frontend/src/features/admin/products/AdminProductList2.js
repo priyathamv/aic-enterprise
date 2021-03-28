@@ -63,6 +63,7 @@ export const AdminProductList2 = () => {
         value: curCategory
       }));
 
+    updateProductListOnSearchOrFilter();
     setCategoryOptions(categoryOptionsUpdated);
     setCategory(null);
     setDivisionOptions([]);
@@ -121,7 +122,11 @@ export const AdminProductList2 = () => {
         limit: 20
       }
       if (searchValue === '' || searchValue.length >= 3) {
-        const url = (application === 'Analytical') ? '/api/analytical-products' : '/api/featured-products';
+        const url = (application === 'Analytical') ? '/api/analytical-products' : 
+          (application === 'Life Science') ? '/api/life-science-products' : 
+          (application === 'Instrumentation') ? '/api/instrumentation-products' : 
+          (application === 'Industrial Safety and Clean room') ? '/api/industrial-products' : null;
+
         const adminProductsResponse = await axios.get(url, { params: queryParams });
         dispatch(changeAdminProductList(adminProductsResponse.data.payload));
       }
@@ -135,7 +140,12 @@ export const AdminProductList2 = () => {
     const headers = { 'Content-Type': 'application/json' };
 
     try {
-      const url = (application === 'Analytical') ? '/api/analytical-products/delete' : '/api/featured-products/???';
+      const url = (application === 'Analytical') ? '/api/analytical-products/delete' : 
+        (application === 'Life Science') ? '/api/life-science-products/delete' : 
+        (application === 'Instrumentation') ? '/api/instrumentation-products/delete' : 
+        (application === 'Industrial Safety and Clean room') ? '/api/industrial-products/delete' : null;
+
+
       const productDeleteResponse = await axios.post(url, { productId }, headers);
       
       if (productDeleteResponse.data.payload) {

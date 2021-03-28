@@ -14,6 +14,9 @@ public class DBConstants {
     public static final String CARTS = "carts";
 
     public static final String ANALYTICAL_PRODUCTS = "analytical_products";
+    public static final String LIFE_SCIENCE_PRODUCTS = "life_science_products";
+    public static final String INSTRUMENTATION_PRODUCTS = "instrumentation_products";
+    public static final String INDUSTRIAL_PRODUCTS = "industrial_products";
 
     /* Field names */
     public static final String ID = "_id";

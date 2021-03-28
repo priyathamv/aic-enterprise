@@ -1,6 +1,7 @@
-package com.aic.aicenterprise.models.responses;
+package com.aic.aicenterprise.models.responses.product;
 
 import com.aic.aicenterprise.entities.product.AnalyticalProduct;
+import com.aic.aicenterprise.models.responses.BaseResponse;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

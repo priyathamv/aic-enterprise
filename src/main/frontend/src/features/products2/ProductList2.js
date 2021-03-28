@@ -209,6 +209,10 @@ export const ProductList2 = ({
 
   }
 
+  const createMarkup = value => {
+    return { __html: value };
+  }
+
   return (
     <Container id='product_list_id2'>
       <SearchWrapper>
@@ -279,12 +283,12 @@ export const ProductList2 = ({
                 <ProductRow>
                   <Image 
                     src={curProduct.imageUrls[0]} 
-                    onClick={() => history.push(`/product-detail/${curProduct.productId}`)} />
+                    onClick={() => history.push(`/product-detail/${curProduct.application}/${curProduct.productId}`)} />
                   
                   <ProductDetails>
                     <div>
                       <ProductName
-                        onClick={() => history.push(`/product-detail/${curProduct.productId}`)}>
+                        onClick={() => history.push(`/product-detail/${curProduct.application}/${curProduct.productId}`)}>
                         {curProduct.name}
                       </ProductName>
 
@@ -294,11 +298,11 @@ export const ProductList2 = ({
                         <Info style={{ marginLeft: '10px' }}>{curProduct.brand}</Info>
                       </ProductInfo>
 
-                      <Description>{curProduct.description}</Description>
+                      <Description dangerouslySetInnerHTML={createMarkup(curProduct.description)} />
                     </div>
 
                     <ButtonFrame>
-                      <KnowMore to={`/product-detail/${curProduct.productId}`}>Know more</KnowMore>
+                      <KnowMore to={`/product-detail/${curProduct.application}/${curProduct.productId}`}>Know more</KnowMore>
 
                       <Button 
                         style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px'}} 

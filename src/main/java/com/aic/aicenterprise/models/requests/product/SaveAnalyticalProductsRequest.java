@@ -1,4 +1,4 @@
-package com.aic.aicenterprise.models.requests;
+package com.aic.aicenterprise.models.requests.product;
 
 import com.aic.aicenterprise.entities.product.AnalyticalProduct;
 import lombok.Getter;

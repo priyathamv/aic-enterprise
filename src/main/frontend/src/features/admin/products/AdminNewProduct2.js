@@ -155,10 +155,16 @@ export const AdminNewProduct2 = () => {
   const history = useHistory();
   const location = useLocation();
 
-  const fetchProductDetails = async productIdValue => {
+  const fetchProductDetails = async (productApplication, productIdValue) => {
     try {
       const queryParams = { productId: productIdValue };
-      const productDetailsResponse = await axios.get('/api/analytical-products/details', { params: queryParams });
+
+      const url = (productApplication === 'Analytical') ? '/api/analytical-products/details' : 
+        (productApplication === 'Life Science') ? '/api/life-science-products/details' : 
+        (productApplication === 'Instrumentation') ? '/api/instrumentation-products/details' : 
+        (productApplication === 'Industrial Safety and Clean room') ? '/api/industrial-products/details' : null;
+
+      const productDetailsResponse = await axios.get(url, { params: queryParams });
       const productDetails = productDetailsResponse.data.payload;
 
       setProductId(productDetails.productId);
@@ -183,8 +189,11 @@ export const AdminNewProduct2 = () => {
 
   useEffect(() => {
     if (location.pathname.includes('/admin/products2/edit/')) {
-      const productIdValue = location.pathname.split("/")[4];
-      fetchProductDetails(productIdValue);
+      const productApplication = location.pathname.split("/")[4];
+
+      console.log('productApplication', productApplication);
+      const productIdValue = location.pathname.split("/")[5];
+      fetchProductDetails(productApplication, productIdValue);
       setIsUpdate(true);
     }
  }, [location]);
@@ -240,7 +249,10 @@ export const AdminNewProduct2 = () => {
     };
 
     try {
-      const url = (application === 'Analytical') ? '/api/analytical-products/save' : '/api/featured-products/saves';
+      const url = (application === 'Analytical') ? '/api/analytical-products/save' : 
+        (application === 'Life Science') ? '/api/life-science-products/save' : 
+        (application === 'Instrumentation') ? '/api/instrumentation-products/save' : 
+        (application === 'Industrial Safety and Clean room') ? '/api/industrial-products/save' : null;
 
       const newProductResponse = await axios.post(url, requestBody, headers);
       

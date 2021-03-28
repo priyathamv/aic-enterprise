@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+// TODO: Deprecated
 public interface ProductService {
     List<Product> getProductList(String brand, String division, String searchValue, Pageable pageable);
 

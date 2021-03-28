@@ -1,11 +1,18 @@
 package com.aic.aicenterprise.controllers;
 
-import com.aic.aicenterprise.entities.product.AnalyticalProduct;
-import com.aic.aicenterprise.models.requests.product.SaveAnalyticalProductsRequest;
-import com.aic.aicenterprise.models.responses.*;
-import com.aic.aicenterprise.models.responses.product.AnalyticalProductDetailResponse;
-import com.aic.aicenterprise.models.responses.product.AnalyticalProductListResponse;
+import static com.aic.aicenterprise.constants.AppConstants.LIFE_SCIENCE_PRODUCTS_PATH;
+import static com.aic.aicenterprise.constants.AppConstants.LIFE_SCIENCE_PRODUCT_SERVICE_BEAN;
+import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
+
+import com.aic.aicenterprise.entities.product.LifeScienceProduct;
+import com.aic.aicenterprise.models.requests.product.SaveLifeScienceProductsRequest;
+import com.aic.aicenterprise.models.responses.product.LifeScienceProductDetailResponse;
+import com.aic.aicenterprise.models.responses.product.LifeScienceProductListResponse;
+import com.aic.aicenterprise.models.responses.BrandListResponse;
+import com.aic.aicenterprise.models.responses.CountResponse;
+import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.product.ProductService2;
+import java.util.List;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,53 +20,54 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-import static com.aic.aicenterprise.constants.AppConstants.ANALYTICAL_PRODUCTS_PATH;
-import static com.aic.aicenterprise.constants.AppConstants.ANALYTICAL_PRODUCT_SERVICE_BEAN;
-import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping(value = ANALYTICAL_PRODUCTS_PATH)
-public class AnalyticalProductController {
+@RequestMapping(value = LIFE_SCIENCE_PRODUCTS_PATH)
+public class LifeScienceProductController {
 
-    private ProductService2<AnalyticalProduct> analyticalProductService;
+    private ProductService2<LifeScienceProduct> lifeScienceProductService;
+
 
     @Autowired
-    public AnalyticalProductController(
-        @Qualifier(ANALYTICAL_PRODUCT_SERVICE_BEAN) ProductService2<AnalyticalProduct> analyticalProductService) {
-        this.analyticalProductService = analyticalProductService;
+    public LifeScienceProductController(@Qualifier(LIFE_SCIENCE_PRODUCT_SERVICE_BEAN) ProductService2<LifeScienceProduct> lifeScienceProductService) {
+        this.lifeScienceProductService = lifeScienceProductService;
     }
 
 
     @GetMapping(value = "")
-    public AnalyticalProductListResponse getAllAnalyticalProducts(
+    public LifeScienceProductListResponse getAllLifeScienceProducts(
             @RequestParam(value = "category", required = false) String category,
             @RequestParam(value = "brand", required = false) String brand,
             @RequestParam(value = "division", required = false) String division,
             @RequestParam(value = "searchValue", required = false) String searchValue,
             @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
             @RequestParam(value = "limit", required = false, defaultValue = "20") Integer limit) {
-        log.info("Getting analytical products under the brand: {} and division: {}", brand, division);
-        AnalyticalProductListResponse productListResponse;
+        log.info("Getting life science products under the brand: {} and division: {}", brand, division);
+        LifeScienceProductListResponse productListResponse;
         try {
             Pageable pageable = PageRequest.of(pageNo, limit);
 
-            List<AnalyticalProduct> productList = analyticalProductService.getProductList(category, brand, division, searchValue, pageable);
+            List<LifeScienceProduct> productList = lifeScienceProductService
+                .getProductList(category, brand, division, searchValue, pageable);
 
-            productListResponse = AnalyticalProductListResponse.builder()
+            productListResponse = LifeScienceProductListResponse.builder()
                     .payload(productList)
                     .msg(SUCCESS)
                     .status(HttpStatus.OK.value())
                     .build();
         } catch (Exception ex) {
-            log.info("Exception while fetching analytical products: {}", ex);
-            productListResponse = AnalyticalProductListResponse.builder()
+            log.info("Exception while fetching life science products: {}", ex);
+            productListResponse = LifeScienceProductListResponse.builder()
                     .error(ex.toString())
-                    .msg("Exception while fetching analytical products")
+                    .msg("Exception while fetching life science products")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(null)
                     .build();
@@ -68,24 +76,24 @@ public class AnalyticalProductController {
     }
 
     @GetMapping(value = "/details")
-    public AnalyticalProductDetailResponse getAnalyticalProductDetails(
+    public LifeScienceProductDetailResponse getLifeScienceProductDetails(
         @RequestParam(value = "productId", required = false) String productId) {
         log.info("Getting product details for Id: {}", productId);
 
-        AnalyticalProductDetailResponse productListResponse;
+        LifeScienceProductDetailResponse productListResponse;
         try {
-            AnalyticalProduct productDetails = analyticalProductService.getProductDetails(productId);
+            LifeScienceProduct productDetails = lifeScienceProductService.getProductDetails(productId);
 
-            productListResponse = AnalyticalProductDetailResponse.builder()
+            productListResponse = LifeScienceProductDetailResponse.builder()
                 .payload(productDetails)
                 .msg(SUCCESS)
                 .status(HttpStatus.OK.value())
                 .build();
         } catch (Exception ex) {
-            log.info("Exception while fetching analytical product details: {}", ex);
-            productListResponse = AnalyticalProductDetailResponse.builder()
+            log.info("Exception while fetching life science product details: {}", ex);
+            productListResponse = LifeScienceProductDetailResponse.builder()
                 .error(ex.toString())
-                .msg("Exception while fetching analytical product details")
+                .msg("Exception while fetching life science product details")
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .payload(null)
                 .build();
@@ -94,10 +102,10 @@ public class AnalyticalProductController {
     }
 
     @PostMapping("/save")
-    public SaveResponse saveAnalyticalProducts(@RequestBody SaveAnalyticalProductsRequest request) {
+    public SaveResponse saveLifeScienceProducts(@RequestBody SaveLifeScienceProductsRequest request) {
         SaveResponse confirmResponse;
         try {
-            boolean saveStatus = analyticalProductService.saveProducts(request.getProductList());
+            boolean saveStatus = lifeScienceProductService.saveProducts(request.getProductList());
             confirmResponse = SaveResponse.builder()
                     .payload(saveStatus)
                     .msg(SUCCESS)
@@ -105,10 +113,10 @@ public class AnalyticalProductController {
                     .build();
 
         } catch (Exception ex) {
-            log.info("Exception while saving analytical products: {}", ex);
+            log.info("Exception while saving life science products: {}", ex);
             confirmResponse = SaveResponse.builder()
                     .error(ex.toString())
-                    .msg("Exception while saving analytical products")
+                    .msg("Exception while saving life science products")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(false)
                     .build();
@@ -117,10 +125,10 @@ public class AnalyticalProductController {
     }
 
     @PostMapping("/delete")
-    public SaveResponse deleteAnalyticalProduct(@RequestBody Map<String, String> productMap) {
+    public SaveResponse deleteLifeScienceProduct(@RequestBody Map<String, String> productMap) {
         SaveResponse deleteResponse;
         try {
-            boolean deleteStatus = analyticalProductService.deleteProduct(productMap.get("productId"));
+            boolean deleteStatus = lifeScienceProductService.deleteProduct(productMap.get("productId"));
             deleteResponse = SaveResponse.builder()
                     .payload(deleteStatus)
                     .msg(SUCCESS)
@@ -128,10 +136,10 @@ public class AnalyticalProductController {
                     .build();
 
         } catch (Exception ex) {
-            log.info("Exception while deleting analytical product: {}", ex);
+            log.info("Exception while deleting life science product: {}", ex);
             deleteResponse = SaveResponse.builder()
                     .error(ex.toString())
-                    .msg("Exception while deleting analytical product")
+                    .msg("Exception while deleting life science product")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(false)
                     .build();
@@ -145,7 +153,7 @@ public class AnalyticalProductController {
 
         BrandListResponse brandListResponse;
         try {
-            List<String> divisionList = analyticalProductService.getDivisions(brand);
+            List<String> divisionList = lifeScienceProductService.getDivisions(brand);
             brandListResponse = BrandListResponse.builder()
                     .payload(divisionList)
                     .msg(SUCCESS)
@@ -166,11 +174,11 @@ public class AnalyticalProductController {
 
     @GetMapping(value = "/count")
     public CountResponse getSummary() {
-        log.info("Getting analytical products count");
+        log.info("Getting life science products count");
 
         CountResponse countResponse;
         try {
-            long totalProducts = analyticalProductService.getTotalProducts();
+            long totalProducts = lifeScienceProductService.getTotalProducts();
             countResponse = CountResponse.builder()
                     .payload(totalProducts)
                     .msg(SUCCESS)
@@ -178,10 +186,10 @@ public class AnalyticalProductController {
                     .build();
 
         } catch (Exception ex) {
-            log.info("Exception while fetching analytical products count: {}", ex);
+            log.info("Exception while fetching life science products count: {}", ex);
             countResponse = CountResponse.builder()
                     .error(ex.toString())
-                    .msg("Exception while fetching analytical products count")
+                    .msg("Exception while fetching life science products count")
                     .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .payload(null)
                     .build();
@@ -192,8 +200,8 @@ public class AnalyticalProductController {
 
     @DeleteMapping(value = "/delete-products")
     public boolean deleteProducts() {
-        log.info("Deleting all analytical products...");
-        return analyticalProductService.deleteAllProducts();
+        log.info("Deleting all life science products...");
+        return lifeScienceProductService.deleteAllProducts();
     }
 
 }

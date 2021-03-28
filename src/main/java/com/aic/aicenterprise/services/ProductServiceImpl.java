@@ -32,6 +32,7 @@ import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
 import static com.aic.aicenterprise.constants.DBConstants.PRODUCTS;
 import static java.util.Objects.nonNull;
 
+// TODO: Deprecated
 @Slf4j
 @Service
 public class ProductServiceImpl implements ProductService {

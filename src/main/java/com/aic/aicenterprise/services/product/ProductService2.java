@@ -5,8 +5,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
-public interface AnalyticalProductService {
-    List<AnalyticalProduct> getProductList(String category, String brand, String division, String searchValue, Pageable pageable);
+public interface ProductService2<T> {
+    List<T> getProductList(String category, String brand, String division, String searchValue, Pageable pageable);
 
     boolean deleteAllProducts();
 
@@ -14,7 +14,7 @@ public interface AnalyticalProductService {
 
     List<String> getDivisions(String brand);
 
-    boolean saveProducts(List<AnalyticalProduct> productList);
+    boolean saveProducts(List<T> productList);
 
     boolean deleteProduct(String code);
 
@@ -22,5 +22,5 @@ public interface AnalyticalProductService {
 
     long getTotalProducts();
 
-    AnalyticalProduct getProductDetails(String productId);
+    T getProductDetails(String productId);
 }

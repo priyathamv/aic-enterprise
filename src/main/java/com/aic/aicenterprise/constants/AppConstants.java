@@ -13,6 +13,14 @@ public class AppConstants {
     public static final String PRODUCTS_PATH = BASE_PATH + "/products";
 
     public static final String ANALYTICAL_PRODUCTS_PATH = BASE_PATH + "/analytical-products";
+    public static final String LIFE_SCIENCE_PRODUCTS_PATH = BASE_PATH + "/life-science-products";
+    public static final String INSTRUMENTATION_PRODUCTS_PATH = BASE_PATH + "/instrumentation-products";
+    public static final String INDUSTRIAL_PRODUCTS_PATH = BASE_PATH + "/industrial-products";
+
+    public static final String ANALYTICAL_PRODUCT_SERVICE_BEAN = "AnalyticalProductServiceBean";
+    public static final String LIFE_SCIENCE_PRODUCT_SERVICE_BEAN = "LifeScienceProductServiceBean";
+    public static final String INSTRUMENTATION_PRODUCT_SERVICE_BEAN = "InstrumentationProductServiceBean";
+    public static final String INDUSTRIAL_PRODUCT_SERVICE_BEAN = "IndustrialProductServiceBean";
 
     public static final String FEATURED_PRODUCTS_PATH = BASE_PATH + "/featured-products";
 

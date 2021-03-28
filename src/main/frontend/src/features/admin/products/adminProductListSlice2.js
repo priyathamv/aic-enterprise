@@ -37,16 +37,12 @@ export const getNextPageAsync = ({ application, category, division, brand, searc
       searchValue: (searchValue === '' ? null : searchValue), 
       limit: 20 
     };
-
-
-    if (application !== 'Analytical') {
-      dispatch(changeAdminProductList([]));
-      dispatch(updateHasMore(false));  
-      return;
-    }
     
-    
-    const url = (application === 'Analytical') ? '/api/analytical-products' : '/api/featured-products';
+    const url = (application === 'Analytical') ? '/api/analytical-products' : 
+        (application === 'Life Science') ? '/api/life-science-products' : 
+        (application === 'Instrumentation') ? '/api/instrumentation-products' : 
+        (application === 'Industrial Safety and Clean room') ? '/api/industrial-products' : null;
+
     const adminProductListResponse = await axios.get(url, { params: queryParams });
     
     const newAdminProductList = adminProductListResponse.data.payload;

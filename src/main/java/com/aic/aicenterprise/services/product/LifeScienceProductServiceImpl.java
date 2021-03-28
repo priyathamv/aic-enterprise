@@ -1,9 +1,19 @@
 package com.aic.aicenterprise.services.product;
 
-import com.aic.aicenterprise.entities.product.AnalyticalProduct;
+import static com.aic.aicenterprise.constants.AppConstants.LIFE_SCIENCE_PRODUCT_SERVICE_BEAN;
+import static com.aic.aicenterprise.constants.DBConstants.LIFE_SCIENCE_PRODUCTS;
+import static com.aic.aicenterprise.constants.DBConstants.BRAND;
+import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
+import static java.util.Objects.nonNull;
+
+import com.aic.aicenterprise.entities.product.LifeScienceProduct;
 import com.aic.aicenterprise.exceptions.Product2NotFoundException;
-import com.aic.aicenterprise.repositories.product.AnalyticalProductRepository;
+import com.aic.aicenterprise.repositories.product.LifeScienceProductRepository;
 import com.mongodb.client.MongoCursor;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,33 +24,22 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static com.aic.aicenterprise.constants.AppConstants.ANALYTICAL_PRODUCT_SERVICE_BEAN;
-import static com.aic.aicenterprise.constants.DBConstants.ANALYTICAL_PRODUCTS;
-import static com.aic.aicenterprise.constants.DBConstants.BRAND;
-import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
-import static java.util.Objects.nonNull;
-
 @Slf4j
-@Qualifier(ANALYTICAL_PRODUCT_SERVICE_BEAN)
+@Qualifier(LIFE_SCIENCE_PRODUCT_SERVICE_BEAN)
 @Service
-public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalProduct> {
+public class LifeScienceProductServiceImpl implements ProductService2<LifeScienceProduct> {
 
-    private AnalyticalProductRepository analyticalProductRepository;
+    private LifeScienceProductRepository lifeScienceProductRepository;
     private MongoTemplate mongoTemplate;
 
     @Autowired
-    public AnalyticalProductServiceImpl(AnalyticalProductRepository analyticalProductRepository, MongoTemplate mongoTemplate) {
-        this.analyticalProductRepository = analyticalProductRepository;
+    public LifeScienceProductServiceImpl(LifeScienceProductRepository lifeScienceProductRepository, MongoTemplate mongoTemplate) {
+        this.lifeScienceProductRepository = lifeScienceProductRepository;
         this.mongoTemplate = mongoTemplate;
     }
 
     @Override
-    public List<AnalyticalProduct> getProductList(
+    public List<LifeScienceProduct> getProductList(
         String category,
         String brand,
         String division,
@@ -65,19 +64,19 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
         if (!criteria.isEmpty())
             query.addCriteria(new Criteria().andOperator(criteria.toArray(new Criteria[0])));
 
-        return mongoTemplate.find(query, AnalyticalProduct.class);
+        return mongoTemplate.find(query, LifeScienceProduct.class);
     }
 
     @Override
     public boolean deleteAllProducts() {
-        analyticalProductRepository.deleteAll();
+        lifeScienceProductRepository.deleteAll();
         return true;
     }
 
     @Override
     public List<String> getAllBrands() {
         MongoCursor<String> brandListCursor = mongoTemplate
-                .getCollection(ANALYTICAL_PRODUCTS)
+                .getCollection(LIFE_SCIENCE_PRODUCTS)
                 .distinct(BRAND, String.class)
                 .iterator();
 
@@ -89,7 +88,7 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
     @Override
     public List<String> getDivisions(String brand) {
         MongoCursor<String> divisionListIterator = mongoTemplate
-                .getCollection(ANALYTICAL_PRODUCTS)
+                .getCollection(LIFE_SCIENCE_PRODUCTS)
                 .distinct(DIVISION, String.class)
                 .filter(new Document(BRAND, brand))
                 .iterator();
@@ -103,10 +102,10 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
     }
 
     @Override
-    public boolean saveProducts(List<AnalyticalProduct> productList) {
-        Iterable<AnalyticalProduct> products = analyticalProductRepository.saveAll(productList);
+    public boolean saveProducts(List<LifeScienceProduct> productList) {
+        Iterable<LifeScienceProduct> products = lifeScienceProductRepository.saveAll(productList);
 
-        List<AnalyticalProduct> savedProducts = StreamSupport.stream(products.spliterator(), false)
+        List<LifeScienceProduct> savedProducts = StreamSupport.stream(products.spliterator(), false)
                 .collect(Collectors.toList());
 
         return productList.size() == savedProducts.size();
@@ -114,22 +113,22 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
 
     @Override
     public boolean deleteProduct(String code) {
-        log.info("Deleting analytical product: {}", code);
+        log.info("Deleting life science product: {}", code);
 
-        analyticalProductRepository.deleteById(code);
+        lifeScienceProductRepository.deleteById(code);
         return true;
     }
 
     @Override
     public void deleteProductsByBrand(String brand) {
-        log.info("Deleting analytical products of brand: {}", brand);
+        log.info("Deleting life science products of brand: {}", brand);
 
-        analyticalProductRepository.deleteByBrand(brand);
+        lifeScienceProductRepository.deleteByBrand(brand);
     }
 
     @Override
     public long getTotalProducts() {
-        return mongoTemplate.query(AnalyticalProduct.class)
+        return mongoTemplate.query(LifeScienceProduct.class)
                 .distinct("_id")
                 .as(String.class)
                 .all()
@@ -137,8 +136,8 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
     }
 
     @Override
-    public AnalyticalProduct getProductDetails(String productId) {
-        return analyticalProductRepository
+    public LifeScienceProduct getProductDetails(String productId) {
+        return lifeScienceProductRepository
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
     }

@@ -306,7 +306,8 @@ export const AdminProductList2View = ({
             <MediumColumn>{curProduct.brand}</MediumColumn>
             
             <MediumColumn style={{ display: 'flex' }}>
-              <EditLink to={{ pathname: `/admin/products2/edit/${curProduct.productId}`}}>Edit</EditLink>
+              <EditLink to={{ pathname: `/admin/products2/edit/${curProduct.application}/${curProduct.productId}`}}>Edit</EditLink>
+              
               <Popup
                 trigger={<DeleteButton style={{ padding: '8px 14px' }}>Delete</DeleteButton>}
                 modal

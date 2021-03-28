@@ -40,7 +40,7 @@ const SmallImage = styled.img`
 `;
 
 const Image = styled.img`
-  width: 400px;
+  width: 300px;
 `;
 
 const AuxilaryImage = styled.img`
@@ -137,10 +137,17 @@ export const ProductDetail2 = () => {
   const [mainImageUrl, setMainImageUrl] = useState(null);
   const [capacityIndex, setCapacityIndex] = useState(0);
 
-  const fetchProductDetails = async productIdValue => {
+  const fetchProductDetails = async (productApplication, productIdValue) => {
     try {
       const queryParams = { productId: productIdValue };
-      const productDetailsResponse = await axios.get('/api/analytical-products/details', { params: queryParams });
+
+      const url = (productApplication === 'Analytical') ? '/api/analytical-products/details' : 
+        (productApplication === 'Life Science') ? '/api/life-science-products/details' : 
+        (productApplication === 'Instrumentation') ? '/api/instrumentation-products/details' : 
+        (productApplication === 'Industrial Safety and Clean room') ? '/api/industrial-products/details' : null;
+
+      const productDetailsResponse = await axios.get(url, { params: queryParams });
+      
       setProductDetails(productDetailsResponse.data.payload);
       setMainImageUrl(productDetailsResponse.data.payload.imageUrls[0]);
     } catch (error) {
@@ -150,8 +157,10 @@ export const ProductDetail2 = () => {
 
   useEffect(() => {
     if (location.pathname.includes('/product-detail/')) {
-      const productIdValue = location.pathname.split("/")[2];
-      fetchProductDetails(productIdValue);
+      const productApplication = location.pathname.split("/")[2];
+      const productIdValue = location.pathname.split("/")[3];
+
+      fetchProductDetails(productApplication, productIdValue);
     }
   }, [location]);
 
@@ -203,7 +212,7 @@ export const ProductDetail2 = () => {
               </Size>
             )}
 
-            <Description dangerouslySetInnerHTML={createMarkup()}></Description>
+            <Description dangerouslySetInnerHTML={createMarkup()} />
 
             <SizeFrame>
               <CapacityFrame>
