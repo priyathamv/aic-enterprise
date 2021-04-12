@@ -102,6 +102,12 @@ const Category = styled.div`
   margin-bottom: 15px;
 `;
 
+const Heading = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: -10px;
+`;
+
 const Description = styled.div`
   font-size: 18px;
 `;
@@ -168,10 +174,10 @@ export const ProductDetail2 = () => {
 
   const handleAddToCart = () => {}
 
-  const createMarkup = () => {
-    return { __html: productDetails.description };
+  const createMarkup = htmlValue => {
+    return { __html: htmlValue };
   }
-
+  
   return (
     <Container id='product_catalogue_id'>
 
@@ -212,7 +218,19 @@ export const ProductDetail2 = () => {
               </Size>
             )}
 
-            <Description dangerouslySetInnerHTML={createMarkup()} />
+            <Description dangerouslySetInnerHTML={createMarkup(productDetails.description)} />
+
+            {productDetails.specification ? 
+              <>
+                <Heading>Specifications:</Heading>
+                <Description dangerouslySetInnerHTML={createMarkup(productDetails.specification)} />
+              </> : null}
+            
+            {productDetails.metricsList.length && productDetails.metricsList[capacityIndex].specification ? 
+              <>
+                <Heading>Specifications:</Heading>
+                <Description dangerouslySetInnerHTML={createMarkup(productDetails.metricsList[capacityIndex].specification)} />
+              </> : null}
 
             <SizeFrame>
               <CapacityFrame>
