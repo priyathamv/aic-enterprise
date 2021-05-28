@@ -9,7 +9,7 @@ export const RichTextEditor = ({ value, handleChange, placeholder }) => {
   return (
     <>
       {isEditorLoaded ? null : <Spinner/>}
-      
+
       <Editor
         apiKey='57iggjon3obykm4zg0x0i3j3jsbgmpwushmfoxsn84cawk1h'
         value={value}
@@ -23,7 +23,7 @@ export const RichTextEditor = ({ value, handleChange, placeholder }) => {
           paste_as_text: true,
           init_instance_callback: () => setIsEditorLoaded(true)
         }}
-      /> 
+      />
     </>
   )
 }

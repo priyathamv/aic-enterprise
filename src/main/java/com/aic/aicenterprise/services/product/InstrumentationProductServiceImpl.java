@@ -1,9 +1,8 @@
 package com.aic.aicenterprise.services.product;
 
 import static com.aic.aicenterprise.constants.AppConstants.INSTRUMENTATION_PRODUCT_SERVICE_BEAN;
-import static com.aic.aicenterprise.constants.DBConstants.INSTRUMENTATION_PRODUCTS;
-import static com.aic.aicenterprise.constants.DBConstants.BRAND;
-import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
+import static com.aic.aicenterprise.constants.DBConstants.*;
+import static com.aic.aicenterprise.constants.DBConstants.CATEGORY;
 import static java.util.Objects.nonNull;
 
 import com.aic.aicenterprise.entities.product.InstrumentationProduct;
@@ -86,6 +85,18 @@ public class InstrumentationProductServiceImpl implements ProductService2<Instru
     }
 
     @Override
+    public List<String> getAllCategories() {
+        MongoCursor<String> categoryListCursor = mongoTemplate
+            .getCollection(INSTRUMENTATION_PRODUCTS)
+            .distinct(CATEGORY, String.class)
+            .iterator();
+
+        List<String> categoryList = new ArrayList<>();
+        categoryListCursor.forEachRemaining(categoryList::add);
+        return categoryList;
+    }
+
+    @Override
     public List<String> getDivisions(String brand) {
         MongoCursor<String> divisionListIterator = mongoTemplate
                 .getCollection(INSTRUMENTATION_PRODUCTS)
@@ -124,6 +135,13 @@ public class InstrumentationProductServiceImpl implements ProductService2<Instru
         log.info("Deleting instrumentation products of brand: {}", brand);
 
         instrumentationProductRepository.deleteByBrand(brand);
+    }
+
+    @Override
+    public void deleteProductsByCategory(String category) {
+        log.info("Deleting instrumentation products of category: {}", category);
+
+        instrumentationProductRepository.deleteByCategory(category);
     }
 
     @Override

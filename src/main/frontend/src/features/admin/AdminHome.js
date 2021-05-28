@@ -10,10 +10,12 @@ import { AdminProductList } from './products/AdminProductList';
 import { AdminProductList2 } from './products/AdminProductList2';
 import { selectUserRole } from '../auth/authSlice';
 import { AdminNewBrand } from './brands/AdminNewBrand';
+import { AdminNewCategory } from './category/AdminNewCategory';
 import { device } from '../utils/viewport';
 import { AdminNewProduct } from './products/AdminNewProduct';
 import { AdminNewProduct2 } from './products/AdminNewProduct2';
 import { AdminOrdersHome } from './orders/AdminOrdersHome';
+import { AdminCategoryList } from './category/AdminCategoryList';
 
 
 const Container = styled.div`
@@ -33,7 +35,7 @@ const SideBar = styled.div`
   position: initial;
   top: 50px;
 
-  @media ${device.tablet} { 
+  @media ${device.tablet} {
     flex-direction: column;
     margin: 50px;
   }
@@ -52,7 +54,7 @@ const Menu = styled(Link)`
   min-height: 20px;
   border: 1px solid #232162;
   border-bottom: 1px solid #232162;
-  
+
   &:hover {
     color: #232162;
     background-color: #F8F8FF;
@@ -60,7 +62,7 @@ const Menu = styled(Link)`
 
   @media ${device.tablet} {
     padding: 20px 10px;
-    border-bottom: none;  
+    border-bottom: none;
   }
 `;
 
@@ -68,7 +70,7 @@ const Content = styled.div`
   flex: 4;
   margin: 20px;
 
-  @media ${device.tablet} { 
+  @media ${device.tablet} {
     margin: 50px 100px 50px 50px;
   }
 
@@ -80,6 +82,8 @@ const Content = styled.div`
 const OVERVIEW_PAGE = 'OVERVIEW_PAGE';
 const BRANDS_PAGE = 'BRANDS_PAGE';
 const NEW_BRANDS_PAGE = 'NEW_BRANDS_PAGE';
+const CATEGORY_PAGE = 'CATEGORY_PAGE';
+const NEW_CATEGORY_PAGE = 'NEW_CATEGORY_PAGE';
 const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
 const PRODUCTS_PAGE2 = 'PRODUCTS_PAGE2';
 const NEW_PRODUCTS_PAGE = 'NEW_PRODUCTS_PAGE';
@@ -88,7 +92,7 @@ const USERS_PAGE = 'USERS_PAGE';
 const ORDERS_PAGE = 'ORDERS_PAGE';
 const EDIT_ANALYTICAL_PRODUCT_PAGE = 'EDIT_ANALYTICAL_PRODUCT_PAGE';
 
-const curPageStyle = { 
+const curPageStyle = {
   color: '#FFF',
   backgroundColor: '#232162'
 };
@@ -110,6 +114,10 @@ export const AdminHome = () => {
       setCurPage(NEW_BRANDS_PAGE);
     else if (currentPath.includes('/admin/brands'))
       setCurPage(BRANDS_PAGE);
+    else if (currentPath.includes('/admin/category/new'))
+      setCurPage(NEW_CATEGORY_PAGE);
+    else if (currentPath.includes('/admin/category'))
+      setCurPage(CATEGORY_PAGE);
     else if (currentPath.includes('/admin/products2/new'))
       setCurPage(NEW_PRODUCTS_PAGE2);
     else if (currentPath.includes('/admin/products2/edit'))
@@ -140,10 +148,11 @@ export const AdminHome = () => {
       <SideBar>
         <Menu to='/admin/overview' style={curPage === OVERVIEW_PAGE ? curPageStyle : null} >Overview</Menu>
         <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE) ? curPageStyle : null} >Brands</Menu>
+        <Menu to='/admin/category' style={(curPage === CATEGORY_PAGE || curPage === NEW_CATEGORY_PAGE) ? curPageStyle : null} >Category</Menu>
         {/* <Menu to='/admin/products' style={(curPage === PRODUCTS_PAGE || curPage === NEW_PRODUCTS_PAGE) ? curPageStyle : null} >Products</Menu> */}
         <Menu to='/admin/products2' style={(
-          curPage === PRODUCTS_PAGE2 || 
-          curPage === NEW_PRODUCTS_PAGE2 || 
+          curPage === PRODUCTS_PAGE2 ||
+          curPage === NEW_PRODUCTS_PAGE2 ||
           curPage === EDIT_ANALYTICAL_PRODUCT_PAGE) ? curPageStyle : null} >Products</Menu>
         <Menu to='/admin/users' style={curPage === USERS_PAGE ? curPageStyle : null} >Users</Menu>
         <Menu to='/admin/orders'  style={curPage === ORDERS_PAGE ? curPageStyle : { border: '1px solid #232162' }} >Orders</Menu>
@@ -154,13 +163,15 @@ export const AdminHome = () => {
         {curPage === USERS_PAGE && <AdminUserList />}
         {curPage === NEW_BRANDS_PAGE && <AdminNewBrand />}
         {curPage === BRANDS_PAGE && <AdminBrandList />}
+        {curPage === NEW_CATEGORY_PAGE && <AdminNewCategory />}
+        {curPage === CATEGORY_PAGE && <AdminCategoryList />}
         {curPage === NEW_PRODUCTS_PAGE && <AdminNewProduct />}
         {curPage === PRODUCTS_PAGE && <AdminProductList />}
         {(curPage === NEW_PRODUCTS_PAGE2 || curPage === EDIT_ANALYTICAL_PRODUCT_PAGE) && <AdminNewProduct2 />}
         {curPage === PRODUCTS_PAGE2 && <AdminProductList2 />}
         {curPage === ORDERS_PAGE && <AdminOrdersHome />}
       </Content>
-      
+
     </Container>
   )
 }

@@ -10,6 +10,7 @@ public class DBConstants {
     public static final String USERS = "users";
     public static final String ORDERS = "orders";
     public static final String BRANDS = "brands";
+    public static final String CATEGORIES = "categories";
     public static final String SUBSCRIBERS = "subscribers";
     public static final String CARTS = "carts";
 
@@ -37,6 +38,7 @@ public class DBConstants {
 
     public static final String DIVISION = "division";
     public static final String BRAND = "brand";
+    public static final String CATEGORY = "category";
 
     public static final String CART_ITEMS = "cartItems";
 }

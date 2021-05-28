@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { Spinner } from '../../utils/Spinner';
+import { RichTextEditor } from '../../utils/RichTextEditor';
 import { Input } from '../../utils/Input';
 import { Button } from '../../homepage/common/Button';
 
@@ -15,6 +15,12 @@ const Container = styled.div`
 const Heading = styled.div`
   margin-bottom: 35px;
   font-size: 22px;
+`;
+
+const RichTextWrapper = styled.div`
+  width: 400px;
+  margin-bottom: 20px;
+  position: relative;
 `;
 
 export const AdminNewBrand = () => {
@@ -31,7 +37,7 @@ export const AdminNewBrand = () => {
 
     try {
       const newBrandResponse = await axios.post('/api/brands/save', { name, description }, headers);
-      
+
       if (newBrandResponse.data.payload) {
         toast.success(`${name} brand created successfully`, { variant: 'success'});
         setTimeout(() => history.push('/admin/brands'), 5000);
@@ -49,11 +55,14 @@ export const AdminNewBrand = () => {
 
       <Input styleObj={{ maxWidth: '300px' }} value={name} handleOnChange={e => setName(e.target.value)} label='Name*' />
 
-      <Input styleObj={{ maxWidth: '300px' }} value={description} handleOnChange={e => setDescription(e.target.value)} label='Description' />
-      
-      <Button 
-        style={{ fontWeight: 'normal', fontSize: '14px', padding: '12px 30px', borderRadius: '3px' }} 
-        label='Save brand' 
+      {/* <Input styleObj={{ maxWidth: '300px' }} value={description} handleOnChange={e => setDescription(e.target.value)} label='Description' /> */}
+      <RichTextWrapper>
+        <RichTextEditor value={description} handleChange={setDescription} placeholder='Description' />
+      </RichTextWrapper>
+
+      <Button
+        style={{ fontWeight: 'normal', fontSize: '14px', padding: '12px 30px', borderRadius: '3px' }}
+        label='Save brand'
         handleOnClick={handleOnSave}
       />
     </Container>

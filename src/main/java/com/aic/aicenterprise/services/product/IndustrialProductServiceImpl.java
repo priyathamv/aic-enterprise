@@ -1,9 +1,8 @@
 package com.aic.aicenterprise.services.product;
 
 import static com.aic.aicenterprise.constants.AppConstants.INDUSTRIAL_PRODUCT_SERVICE_BEAN;
-import static com.aic.aicenterprise.constants.DBConstants.INDUSTRIAL_PRODUCTS;
-import static com.aic.aicenterprise.constants.DBConstants.BRAND;
-import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
+import static com.aic.aicenterprise.constants.DBConstants.*;
+import static com.aic.aicenterprise.constants.DBConstants.CATEGORY;
 import static java.util.Objects.nonNull;
 
 import com.aic.aicenterprise.entities.product.IndustrialProduct;
@@ -86,6 +85,18 @@ public class IndustrialProductServiceImpl implements ProductService2<IndustrialP
     }
 
     @Override
+    public List<String> getAllCategories() {
+        MongoCursor<String> categoryListCursor = mongoTemplate
+            .getCollection(INDUSTRIAL_PRODUCTS)
+            .distinct(CATEGORY, String.class)
+            .iterator();
+
+        List<String> categoryList = new ArrayList<>();
+        categoryListCursor.forEachRemaining(categoryList::add);
+        return categoryList;
+    }
+
+    @Override
     public List<String> getDivisions(String brand) {
         MongoCursor<String> divisionListIterator = mongoTemplate
                 .getCollection(INDUSTRIAL_PRODUCTS)
@@ -124,6 +135,13 @@ public class IndustrialProductServiceImpl implements ProductService2<IndustrialP
         log.info("Deleting industrial products of brand: {}", brand);
 
         industrialProductRepository.deleteByBrand(brand);
+    }
+
+    @Override
+    public void deleteProductsByCategory(String category) {
+        log.info("Deleting industrial products of category: {}", category);
+
+        industrialProductRepository.deleteByCategory(category);
     }
 
     @Override

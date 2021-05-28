@@ -12,6 +12,8 @@ public interface ProductService2<T> {
 
     List<String> getAllBrands();
 
+    List<String> getAllCategories();
+
     List<String> getDivisions(String brand);
 
     boolean saveProducts(List<T> productList);
@@ -19,6 +21,8 @@ public interface ProductService2<T> {
     boolean deleteProduct(String code);
 
     void deleteProductsByBrand(String brand);
+
+    void deleteProductsByCategory(String category);
 
     long getTotalProducts();
 

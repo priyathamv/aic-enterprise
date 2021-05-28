@@ -1,9 +1,8 @@
 package com.aic.aicenterprise.services.product;
 
 import static com.aic.aicenterprise.constants.AppConstants.LIFE_SCIENCE_PRODUCT_SERVICE_BEAN;
-import static com.aic.aicenterprise.constants.DBConstants.LIFE_SCIENCE_PRODUCTS;
-import static com.aic.aicenterprise.constants.DBConstants.BRAND;
-import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
+import static com.aic.aicenterprise.constants.DBConstants.*;
+import static com.aic.aicenterprise.constants.DBConstants.CATEGORY;
 import static java.util.Objects.nonNull;
 
 import com.aic.aicenterprise.entities.product.LifeScienceProduct;
@@ -86,6 +85,18 @@ public class LifeScienceProductServiceImpl implements ProductService2<LifeScienc
     }
 
     @Override
+    public List<String> getAllCategories() {
+        MongoCursor<String> categoryListCursor = mongoTemplate
+            .getCollection(LIFE_SCIENCE_PRODUCTS)
+            .distinct(CATEGORY, String.class)
+            .iterator();
+
+        List<String> categoryList = new ArrayList<>();
+        categoryListCursor.forEachRemaining(categoryList::add);
+        return categoryList;
+    }
+
+    @Override
     public List<String> getDivisions(String brand) {
         MongoCursor<String> divisionListIterator = mongoTemplate
                 .getCollection(LIFE_SCIENCE_PRODUCTS)
@@ -124,6 +135,13 @@ public class LifeScienceProductServiceImpl implements ProductService2<LifeScienc
         log.info("Deleting life science products of brand: {}", brand);
 
         lifeScienceProductRepository.deleteByBrand(brand);
+    }
+
+    @Override
+    public void deleteProductsByCategory(String category) {
+        log.info("Deleting life science products of category: {}", category);
+
+        lifeScienceProductRepository.deleteByCategory(category);
     }
 
     @Override

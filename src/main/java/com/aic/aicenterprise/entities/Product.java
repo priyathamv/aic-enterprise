@@ -17,6 +17,7 @@ import static com.aic.aicenterprise.constants.DBConstants.PRODUCTS;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = PRODUCTS)
+@Deprecated
 public class Product {
     @Id
     private String code;

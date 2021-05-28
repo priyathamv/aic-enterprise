@@ -20,9 +20,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static com.aic.aicenterprise.constants.AppConstants.ANALYTICAL_PRODUCT_SERVICE_BEAN;
-import static com.aic.aicenterprise.constants.DBConstants.ANALYTICAL_PRODUCTS;
-import static com.aic.aicenterprise.constants.DBConstants.BRAND;
-import static com.aic.aicenterprise.constants.DBConstants.DIVISION;
+import static com.aic.aicenterprise.constants.DBConstants.*;
 import static java.util.Objects.nonNull;
 
 @Slf4j
@@ -87,6 +85,18 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
     }
 
     @Override
+    public List<String> getAllCategories() {
+        MongoCursor<String> categoryListCursor = mongoTemplate
+            .getCollection(ANALYTICAL_PRODUCTS)
+            .distinct(CATEGORY, String.class)
+            .iterator();
+
+        List<String> categoryList = new ArrayList<>();
+        categoryListCursor.forEachRemaining(categoryList::add);
+        return categoryList;
+    }
+
+    @Override
     public List<String> getDivisions(String brand) {
         MongoCursor<String> divisionListIterator = mongoTemplate
                 .getCollection(ANALYTICAL_PRODUCTS)
@@ -125,6 +135,13 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
         log.info("Deleting analytical products of brand: {}", brand);
 
         analyticalProductRepository.deleteByBrand(brand);
+    }
+
+    @Override
+    public void deleteProductsByCategory(String category) {
+        log.info("Deleting analytical products of category: {}", category);
+
+        analyticalProductRepository.deleteByCategory(category);
     }
 
     @Override
