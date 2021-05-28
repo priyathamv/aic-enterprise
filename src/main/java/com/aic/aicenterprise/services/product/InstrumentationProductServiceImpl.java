@@ -145,6 +145,13 @@ public class InstrumentationProductServiceImpl implements ProductService2<Instru
     }
 
     @Override
+    public void deleteProductsByDivision(String division) {
+        log.info("Deleting analytical products of division: {}", division);
+
+        instrumentationProductRepository.deleteByDivision(division);
+    }
+
+    @Override
     public long getTotalProducts() {
         return mongoTemplate.query(InstrumentationProduct.class)
                 .distinct("_id")

@@ -11,6 +11,7 @@ public class DBConstants {
     public static final String ORDERS = "orders";
     public static final String BRANDS = "brands";
     public static final String CATEGORIES = "categories";
+    public static final String DIVISIONS = "divisions";
     public static final String SUBSCRIBERS = "subscribers";
     public static final String CARTS = "carts";
 

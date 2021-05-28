@@ -145,6 +145,13 @@ public class IndustrialProductServiceImpl implements ProductService2<IndustrialP
     }
 
     @Override
+    public void deleteProductsByDivision(String division) {
+        log.info("Deleting analytical products of division: {}", division);
+
+        industrialProductRepository.deleteByDivision(division);
+    }
+
+    @Override
     public long getTotalProducts() {
         return mongoTemplate.query(IndustrialProduct.class)
                 .distinct("_id")

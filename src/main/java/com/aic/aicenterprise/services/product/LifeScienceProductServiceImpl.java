@@ -145,6 +145,13 @@ public class LifeScienceProductServiceImpl implements ProductService2<LifeScienc
     }
 
     @Override
+    public void deleteProductsByDivision(String division) {
+        log.info("Deleting analytical products of division: {}", division);
+
+        lifeScienceProductRepository.deleteByDivision(division);
+    }
+
+    @Override
     public long getTotalProducts() {
         return mongoTemplate.query(LifeScienceProduct.class)
                 .distinct("_id")

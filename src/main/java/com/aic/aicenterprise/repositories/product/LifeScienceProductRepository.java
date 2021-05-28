@@ -24,4 +24,6 @@ public interface LifeScienceProductRepository extends PagingAndSortingRepository
     void deleteByBrand(String brand);
 
     void deleteByCategory(String category);
+
+    void deleteByDivision(String division);
 }
