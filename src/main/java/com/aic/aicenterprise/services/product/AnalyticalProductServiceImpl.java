@@ -166,4 +166,9 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
     }
+
+    @Override
+    public void deleteProductsByBrandAndCategory(String brand, String category) {
+        analyticalProductRepository.deleteByBrandAndCategory(brand, category);
+    }
 }

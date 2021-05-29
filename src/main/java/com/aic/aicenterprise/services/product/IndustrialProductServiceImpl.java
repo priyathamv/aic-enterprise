@@ -166,4 +166,9 @@ public class IndustrialProductServiceImpl implements ProductService2<IndustrialP
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
     }
+
+    @Override
+    public void deleteProductsByBrandAndCategory(String brand, String category) {
+        industrialProductRepository.deleteByBrandAndCategory(brand, category);
+    }
 }

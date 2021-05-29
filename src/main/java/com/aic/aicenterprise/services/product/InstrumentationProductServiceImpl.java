@@ -166,4 +166,9 @@ public class InstrumentationProductServiceImpl implements ProductService2<Instru
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
     }
+
+    @Override
+    public void deleteProductsByBrandAndCategory(String brand, String category) {
+        instrumentationProductRepository.deleteByBrandAndCategory(brand, category);
+    }
 }

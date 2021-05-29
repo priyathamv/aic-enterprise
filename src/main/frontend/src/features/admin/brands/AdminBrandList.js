@@ -8,6 +8,7 @@ import Popup from 'reactjs-popup';
 
 import { Spinner } from '../../utils/Spinner';
 import { device } from '../../utils/viewport';
+import { applicationsArr } from '../../utils/productHierarchy';
 
 const Container = styled.div`
 `;
@@ -57,7 +58,7 @@ const DeleteButtonPop = styled.button`
   margin-right: 0;
   margin-bottom: 20px;
 
-  @media ${device.tablet} { 
+  @media ${device.tablet} {
     margin-right: 20px;
     margin-bottom: 0;
   }
@@ -78,7 +79,7 @@ const BrandRow = styled.div`
   padding: 10px;
   margin: 5px 0;
 
-  @media ${device.tablet} { 
+  @media ${device.tablet} {
     padding: 10px 50px;
   }
 `;
@@ -92,7 +93,7 @@ const SpinnerWrapper = styled.div`
 export const AdminBrandList = () => {
   const [brandList, setBrandList] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+
   const fetchAllBrands = async () => {
     setLoading(true);
 
@@ -110,11 +111,16 @@ export const AdminBrandList = () => {
     fetchAllBrands();
   }, []);
 
-  const handleOnDelete = async name => {
+  const handleOnDelete = async ({name, application, category}) => {
     const headers = { 'Content-Type': 'application/json' };
 
     try {
-      const brandDeleteResponse = await axios.post('/api/brands/delete', { name, description: name }, headers);
+      const brandDeleteResponse = await axios.post('/api/brands/delete', {
+        compositeKey: `${application}-${category}-${name}`,
+        name,
+        application,
+        category
+      }, headers);
       console.log('brandDeleteResponse.data.payload', brandDeleteResponse.data.payload);
 
       if (brandDeleteResponse.data.payload) {
@@ -131,7 +137,7 @@ export const AdminBrandList = () => {
 
   return (
     <>
-      {loading ? 
+      {loading ?
         <SpinnerWrapper>
           <Spinner />
         </SpinnerWrapper> :
@@ -142,16 +148,22 @@ export const AdminBrandList = () => {
 
           <Header>
             <Column>Name</Column>
+            <Column>Application</Column>
+            <Column>Category</Column>
             <Column>Description</Column>
             <Column>Action</Column>
           </Header>
 
-          {brandList.map((curBrand, index) => 
+          {brandList.map((curBrand, index) =>
             <BrandRow key={index} >
               <Column>{curBrand.name}</Column>
-              
-              <Column>{curBrand.description}</Column>
-              
+
+              <Column>{curBrand.application}</Column>
+
+              <Column>{curBrand.category}</Column>
+
+              <Column dangerouslySetInnerHTML={{ __html: curBrand.description }}></Column>
+
               <Column>
                 <Popup
                   trigger={<DeleteButton style={{ padding: '8px 24px' }}>Delete</DeleteButton>}
@@ -164,8 +176,8 @@ export const AdminBrandList = () => {
                       <div className="content">Are you sure you want to delete the brand {curBrand.name}?</div>
 
                       <div className="actions">
-                        <DeleteButtonPop onClick={() => handleOnDelete(curBrand.name)} >Yes, delete</DeleteButtonPop>
-                        
+                        <DeleteButtonPop onClick={() => handleOnDelete(curBrand)} >Yes, delete</DeleteButtonPop>
+
                         <CloseButton autoFocus className="button" onClick={() => close()} >Close</CloseButton>
                       </div>
                     </div>

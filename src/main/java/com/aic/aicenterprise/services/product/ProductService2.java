@@ -29,4 +29,6 @@ public interface ProductService2<T> {
     long getTotalProducts();
 
     T getProductDetails(String productId);
+
+    void deleteProductsByBrandAndCategory(String name, String category);
 }

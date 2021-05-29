@@ -24,5 +24,7 @@ public interface AnalyticalProductRepository extends PagingAndSortingRepository<
 
     void deleteByCategory(String category);
 
+    void deleteByBrandAndCategory(String brand, String category);
+
     void deleteByDivision(String division);
 }

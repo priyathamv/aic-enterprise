@@ -1,6 +1,7 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Brand;
+import com.aic.aicenterprise.models.requests.brand.BrandRequest;
 import com.aic.aicenterprise.models.responses.BrandsResponse;
 import com.aic.aicenterprise.models.responses.CountResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
@@ -41,7 +42,7 @@ public class BrandController {
                     .build();
 
         } catch (Exception ex) {
-            log.info("Exception while fetching products: {}", ex);
+            log.info("Exception while fetching products: {}", ex.getLocalizedMessage());
             brandsResponse = BrandsResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while fetching brands")
@@ -53,7 +54,7 @@ public class BrandController {
     }
 
     @PostMapping("/save")
-    public SaveResponse saveBrand(@RequestBody Brand brand) {
+    public SaveResponse saveBrand(@RequestBody BrandRequest brand) {
         SaveResponse confirmResponse;
         try {
             boolean saveStatus = brandService.createBrand(brand);
@@ -64,7 +65,7 @@ public class BrandController {
                     .build();
 
         } catch (Exception ex) {
-            log.info("Exception while saving brand: {}", ex);
+            log.info("Exception while saving brand: {}", ex.getLocalizedMessage());
             confirmResponse = SaveResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while saving brand")
@@ -79,7 +80,7 @@ public class BrandController {
     public SaveResponse generateBrands() {
         SaveResponse confirmResponse;
         try {
-            boolean generateStatus = brandService.generateBrandsFromProducts();
+            boolean generateStatus = brandService.generateBrands();
 
             confirmResponse = SaveResponse.builder()
                     .payload(generateStatus)
@@ -87,7 +88,7 @@ public class BrandController {
                     .status(HttpStatus.OK.value())
                     .build();
         } catch (Exception ex) {
-            log.info("Exception while generating brands: {}", ex);
+            log.info("Exception while generating brands: {}", ex.getLocalizedMessage());
             confirmResponse = SaveResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while generating brands")
@@ -102,7 +103,7 @@ public class BrandController {
     public SaveResponse deleteBrand(@RequestBody Brand brand) {
         SaveResponse confirmResponse;
         try {
-            boolean deleteStatus = brandService.deleteBrand(brand.getName());
+            boolean deleteStatus = brandService.deleteBrand(brand);
 
             confirmResponse = SaveResponse.builder()
                     .payload(deleteStatus)
@@ -110,7 +111,7 @@ public class BrandController {
                     .status(HttpStatus.OK.value())
                     .build();
         } catch (Exception ex) {
-            log.info("Exception while deleting brand: {}", ex);
+            log.info("Exception while deleting brand: {}", ex.getLocalizedMessage());
             confirmResponse = SaveResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while deleting brand")
@@ -135,7 +136,7 @@ public class BrandController {
                     .build();
 
         } catch (Exception ex) {
-            log.info("Exception while fetching brands count: {}", ex);
+            log.info("Exception while fetching brands count: {}", ex.getLocalizedMessage());
             countResponse = CountResponse.builder()
                     .error(ex.toString())
                     .msg("Exception while fetching brands count")

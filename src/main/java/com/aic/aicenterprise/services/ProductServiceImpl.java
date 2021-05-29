@@ -1,5 +1,6 @@
 package com.aic.aicenterprise.services;
 
+import com.aic.aicenterprise.entities.Brand;
 import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
 import com.aic.aicenterprise.repositories.ProductRepository;
@@ -193,10 +194,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void deleteProductsByBrand(String brand) {
+    public void deleteProductsByBrand(Brand brand) {
         log.info("Deleting products of brand: {}", brand);
 
-        productRepository.deleteByBrand(brand);
     }
 
     @Override

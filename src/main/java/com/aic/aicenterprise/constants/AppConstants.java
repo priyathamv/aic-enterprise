@@ -1,5 +1,7 @@
 package com.aic.aicenterprise.constants;
 
+import java.util.Arrays;
+
 public class AppConstants {
     private AppConstants() {}
 
@@ -21,6 +23,11 @@ public class AppConstants {
     public static final String LIFE_SCIENCE_PRODUCT_SERVICE_BEAN = "LifeScienceProductServiceBean";
     public static final String INSTRUMENTATION_PRODUCT_SERVICE_BEAN = "InstrumentationProductServiceBean";
     public static final String INDUSTRIAL_PRODUCT_SERVICE_BEAN = "IndustrialProductServiceBean";
+
+    public static final String ANALYTICAL_APPLICATION = "Analytical";
+    public static final String LIFE_SCIENCE_APPLICATION = "Life Science";
+    public static final String INSTRUMENTATION_APPLICATION = "Instrumentation";
+    public static final String INDUSTRIAL_APPLICATION = "Industrial Safety and Clean room";
 
     public static final String FEATURED_PRODUCTS_PATH = BASE_PATH + "/featured-products";
 

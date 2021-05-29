@@ -1,5 +1,6 @@
 package com.aic.aicenterprise.services;
 
+import com.aic.aicenterprise.entities.Brand;
 import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.models.requests.ProductEnquiryRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,7 +27,7 @@ public interface ProductService {
 
     boolean deleteProduct(String code);
 
-    void deleteProductsByBrand(String brand);
+    void deleteProductsByBrand(Brand brand);
 
     long getTotalProducts();
 

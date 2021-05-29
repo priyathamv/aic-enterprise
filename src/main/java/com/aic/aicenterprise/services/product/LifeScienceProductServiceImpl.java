@@ -166,4 +166,9 @@ public class LifeScienceProductServiceImpl implements ProductService2<LifeScienc
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
     }
+
+    @Override
+    public void deleteProductsByBrandAndCategory(String brand, String category) {
+        lifeScienceProductRepository.deleteByBrandAndCategory(brand, category);
+    }
 }

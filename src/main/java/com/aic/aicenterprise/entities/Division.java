@@ -20,5 +20,7 @@ public class Division {
 
     private String category;
 
+    private String brand;
+
     private String description;
 }

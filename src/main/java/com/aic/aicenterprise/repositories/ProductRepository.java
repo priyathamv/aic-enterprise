@@ -19,6 +19,4 @@ public interface ProductRepository extends PagingAndSortingRepository<Product, S
     List<Product> findByBrandIgnoreCaseAndNameLikeIgnoreCase(String brand, String searchValue, Pageable pageable);
 
     List<Product> findByBrandIgnoreCaseAndDivisionIgnoreCase(String brand, String division, Pageable pageable);
-
-    void deleteByBrand(String brand);
 }
