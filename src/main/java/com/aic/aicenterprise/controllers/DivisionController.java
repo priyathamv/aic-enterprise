@@ -1,6 +1,7 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.Division;
+import com.aic.aicenterprise.models.requests.DivisionRequest;
 import com.aic.aicenterprise.models.responses.CountResponse;
 import com.aic.aicenterprise.models.responses.DivisionsResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
@@ -52,10 +53,10 @@ public class DivisionController {
     }
 
     @PostMapping("/save")
-    public SaveResponse saveDivision(@RequestBody Division division) {
+    public SaveResponse saveDivision(@RequestBody DivisionRequest divisionRequest) {
         SaveResponse confirmResponse;
         try {
-            boolean saveStatus = divisionService.createDivision(division);
+            boolean saveStatus = divisionService.createDivision(divisionRequest);
             confirmResponse = SaveResponse.builder()
                     .payload(saveStatus)
                     .msg(SUCCESS)

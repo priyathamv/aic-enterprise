@@ -28,7 +28,6 @@ const RichTextWrapper = styled.div`
 
 const Hierarchy = styled.div`
   display: flex;
-
 `;
 
 const AddButton = styled(AiOutlinePlus)`

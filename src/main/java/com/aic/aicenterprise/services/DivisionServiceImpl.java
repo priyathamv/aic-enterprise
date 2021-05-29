@@ -5,6 +5,7 @@ import com.aic.aicenterprise.entities.product.AnalyticalProduct;
 import com.aic.aicenterprise.entities.product.IndustrialProduct;
 import com.aic.aicenterprise.entities.product.InstrumentationProduct;
 import com.aic.aicenterprise.entities.product.LifeScienceProduct;
+import com.aic.aicenterprise.models.requests.DivisionRequest;
 import com.aic.aicenterprise.repositories.DivisionRepository;
 import com.aic.aicenterprise.services.product.ProductService2;
 import lombok.extern.slf4j.Slf4j;
@@ -84,7 +85,13 @@ public class DivisionServiceImpl implements DivisionService {
             "Volumetric Flasks - Class B");
 
         List<Division> allDivisions = divisionNames.stream()
-            .map(curDivisionName -> new Division(curDivisionName, "Analytical", "Laboratory Glassware", ""))
+            .map(curDivisionName -> Division.builder()
+                .name(curDivisionName)
+                .application("Analytical")
+                .category("Laboratory Glassware")
+                .brand("")
+                .description("")
+                .build())
             .collect(Collectors.toList());
 
         log.info("Total no of unique divisions in products table: {}", allDivisions.size());
@@ -94,11 +101,19 @@ public class DivisionServiceImpl implements DivisionService {
     }
 
     @Override
-    public boolean createDivision(Division division) {
-        log.info("Creating division: {}", division);
+    public boolean createDivision(DivisionRequest divisionRequest) {
+        log.info("Creating division: {}", divisionRequest);
 
-        Division savedDivision = divisionRepository.save(division);
-        return division.getName().equals(savedDivision.getName());
+        divisionRequest.getDivisionNames().stream()
+            .map(curDivisionName -> Division.builder()
+                .name(curDivisionName)
+                .description(divisionRequest.getDescription())
+                .application(divisionRequest.getApplication())
+                .category(divisionRequest.getCategory())
+                .brand(divisionRequest.getBrand())
+                .build()).forEach(curDivision -> divisionRepository.save(curDivision));
+
+        return true;
     }
 
     @Override

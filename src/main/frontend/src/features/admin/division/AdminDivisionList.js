@@ -144,6 +144,7 @@ export const AdminDivisionList = () => {
             <Column>Name</Column>
             <Column>Application</Column>
             <Column>Category</Column>
+            <Column>Brand</Column>
             <Column>Action</Column>
           </Header>
 
@@ -154,6 +155,8 @@ export const AdminDivisionList = () => {
               <Column>{curDivision.application}</Column>
 
               <Column>{curDivision.category}</Column>
+
+              <Column>{curDivision.brand}</Column>
 
               <Column>
                 <Popup

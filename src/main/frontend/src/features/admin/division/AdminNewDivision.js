@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Select from 'react-select';
-import { useHistory } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
 
 import { RichTextEditor } from '../../utils/RichTextEditor';
 import { Input } from '../../utils/Input';
@@ -25,6 +26,32 @@ const RichTextWrapper = styled.div`
   position: relative;
 `;
 
+const AddButton = styled(AiOutlinePlus)`
+  cursor: pointer;
+  font-size: 25px;
+  color: #40B3A2;
+  margin-left: 10px;
+  margin-top: 5px;
+  border: 1px solid #40B3A2;
+  padding: 2px;
+  border-radius: 3px;
+`;
+
+const DeleteButton = styled(AiOutlineClose)`
+  cursor: pointer;
+  font-size: 25px;
+  color: #F13C1F;
+  margin-left: 10px;
+  margin-top: 5px;
+  border: 1px solid #F13C1F;
+  padding: 2px;
+  border-radius: 3px;
+`;
+
+const DivisionWrapper = styled.div`
+  display: flex;
+`;
+
 const customStylesApplication = {
     container: (provided, state) => ({
         ...provided,
@@ -41,16 +68,28 @@ const customStylesCategory = {
   })
 };
 
+const customStylesBrand = {
+  container: (provided, state) => ({
+      ...provided,
+      marginBottom: '40px',
+      zIndex: 10000000
+  })
+};
+
 export const AdminNewDivision = () => {
-  const [name, setName] = useState('');
+  const history = useHistory();
+
+  const [divisionNames, setDivisionNames] = useState(['']);
   const [application, setApplication] = useState(applicationsArr[0]);
   const [category, setCategory] = useState(null);
+  const [brand, setBrand] = useState(null);
   const [description, setDescription] = useState('');
 
   const [categoryList, setCategoryList] = useState([]);
   const [filteredCategoryList, setFilteredCategoryList] = useState([]);
 
-  const history = useHistory();
+  const [brandList, setBrandList] = useState([]);
+  const [filteredBrandList, setFilteredBrandList] = useState([]);
 
   useEffect(() => {
     axios.get('/api/category')
@@ -59,6 +98,16 @@ export const AdminNewDivision = () => {
       })
       .catch(function (error) {
         console.log('Error while fetching categories', error);
+      })
+  }, []);
+
+  useEffect(() => {
+    axios.get('/api/brands')
+      .then(response => {
+        setBrandList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching brands', error);
       })
   }, []);
 
@@ -73,6 +122,17 @@ export const AdminNewDivision = () => {
     setFilteredCategoryList(filteredCategoryListTemp);
   }, [application, categoryList]);
 
+  useEffect(() => {
+    const filteredBrandListTemp = brandList
+      .filter(curBrand => curBrand.application === application && curBrand.category === category)
+      .map(curBrand => ({
+        label: curBrand.name, value: curBrand.name
+      }));
+
+    setBrand(null);
+    setFilteredBrandList(filteredBrandListTemp);
+  }, [category, brandList]);
+
 
   const applicationOptions = applicationsArr
     .map(curApplication => ({
@@ -83,26 +143,54 @@ export const AdminNewDivision = () => {
 
   const handleCategoryChange = e => setCategory(e.value);
 
+  const handleBrandChange = e => setBrand(e.value);
+
   const handleOnSave = async () => {
-    if (!name || !category) {
-      toast.error(`Division ${name ? 'category' : 'name'} cannot be empty`, { variant: 'error'});
+    const validDivisionNames = divisionNames.every(curDivisionName => (curDivisionName !== null && curDivisionName !== ''))
+    if (!validDivisionNames) {
+      toast.error(`Division name cannot be empty`, { variant: 'error'});
+      return;
+    }
+
+    if (!category) {
+      toast.error(`Category cannot be empty`, { variant: 'error'});
+      return;
+    }
+
+    if (!brand) {
+      toast.error(`Brand cannot be empty`, { variant: 'error'});
       return;
     }
     const headers = { 'Content-Type': 'application/json' };
 
-    console.log('name, description, application, category', name, description, application, category);
     try {
-      const newDivisionResponse = await axios.post('/api/division/save', { name, description, application, category }, headers);
+      const newDivisionResponse = await axios.post('/api/division/save', { divisionNames, description, application, category, brand }, headers);
 
       if (newDivisionResponse.data.payload) {
-        toast.success(`${name} division created successfully`, { variant: 'success'});
+        toast.success(`Division created successfully`, { variant: 'success'});
         setTimeout(() => history.push('/admin/division'), 5000);
       } else {
-        toast.error(`${name} Division creation failed`, { variant: 'error'});
+        toast.error(`Division creation failed`, { variant: 'error'});
       }
     } catch (err) {
       console.log('Error while creating new division: ', err.message);
     }
+  }
+
+  const deletedivisionName = index => {
+    setDivisionNames(divisionNames.filter((_, curIndex) => (curIndex !== index)));
+  }
+
+  const addNewDivision = () => {
+    setDivisionNames([...divisionNames, '']);
+  }
+
+  const handleDivisionNameChange = (updatedDivisionName, index) => {
+    setDivisionNames(divisionNames.map((curDivisionName, curIndex) => {
+      return index === curIndex ?
+        updatedDivisionName :
+        curDivisionName;
+    }))
   }
 
   return (
@@ -124,7 +212,22 @@ export const AdminNewDivision = () => {
         placeholder='Select a category*'
       />
 
-      <Input value={name} handleOnChange={e => setName(e.target.value)} label='Division name*' />
+      <Select
+        styles={customStylesBrand}
+        value={brand ? {label: brand, value: brand} : null}
+        options={filteredBrandList}
+        onChange={handleBrandChange}
+        placeholder='Select a brand*'
+      />
+
+      {divisionNames.map((curDivisionName, index) =>
+        <DivisionWrapper key={index}>
+          <Input value={curDivisionName} handleOnChange={e => handleDivisionNameChange(e.target.value, index)} label={`Division name ${index}`} />
+
+          {(divisionNames.length > 1 || (divisionNames.length - 1 !== index)) &&  <DeleteButton onClick={() => deletedivisionName(index)} />}
+          {(divisionNames.length - 1 === index) &&  <AddButton onClick={addNewDivision} />}
+        </DivisionWrapper>
+      )}
 
       <RichTextWrapper>
         <RichTextEditor value={description} handleChange={setDescription} placeholder='Description' />

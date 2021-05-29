@@ -9,6 +9,7 @@ import static com.aic.aicenterprise.constants.DBConstants.DIVISIONS;
 @Setter
 @Getter
 @ToString
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = DIVISIONS)
