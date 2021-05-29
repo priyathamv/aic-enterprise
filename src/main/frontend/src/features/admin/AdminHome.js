@@ -11,11 +11,13 @@ import { AdminProductList2 } from './products/AdminProductList2';
 import { selectUserRole } from '../auth/authSlice';
 import { AdminNewBrand } from './brands/AdminNewBrand';
 import { AdminNewCategory } from './category/AdminNewCategory';
+import { AdminNewDivision } from './division/AdminNewDivision';
 import { device } from '../utils/viewport';
 import { AdminNewProduct } from './products/AdminNewProduct';
 import { AdminNewProduct2 } from './products/AdminNewProduct2';
 import { AdminOrdersHome } from './orders/AdminOrdersHome';
 import { AdminCategoryList } from './category/AdminCategoryList';
+import { AdminDivisionList } from './division/AdminDivisionList';
 
 
 const Container = styled.div`
@@ -84,6 +86,8 @@ const BRANDS_PAGE = 'BRANDS_PAGE';
 const NEW_BRANDS_PAGE = 'NEW_BRANDS_PAGE';
 const CATEGORY_PAGE = 'CATEGORY_PAGE';
 const NEW_CATEGORY_PAGE = 'NEW_CATEGORY_PAGE';
+const DIVISION_PAGE = 'DIVISION_PAGE';
+const NEW_DIVISION_PAGE = 'NEW_DIVISION_PAGE';
 const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
 const PRODUCTS_PAGE2 = 'PRODUCTS_PAGE2';
 const NEW_PRODUCTS_PAGE = 'NEW_PRODUCTS_PAGE';
@@ -118,6 +122,10 @@ export const AdminHome = () => {
       setCurPage(NEW_CATEGORY_PAGE);
     else if (currentPath.includes('/admin/category'))
       setCurPage(CATEGORY_PAGE);
+    else if (currentPath.includes('/admin/division/new'))
+      setCurPage(NEW_DIVISION_PAGE);
+    else if (currentPath.includes('/admin/division'))
+      setCurPage(DIVISION_PAGE);
     else if (currentPath.includes('/admin/products2/new'))
       setCurPage(NEW_PRODUCTS_PAGE2);
     else if (currentPath.includes('/admin/products2/edit'))
@@ -148,7 +156,8 @@ export const AdminHome = () => {
       <SideBar>
         <Menu to='/admin/overview' style={curPage === OVERVIEW_PAGE ? curPageStyle : null} >Overview</Menu>
         <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE) ? curPageStyle : null} >Brands</Menu>
-        <Menu to='/admin/category' style={(curPage === CATEGORY_PAGE || curPage === NEW_CATEGORY_PAGE) ? curPageStyle : null} >Category</Menu>
+        <Menu to='/admin/category' style={(curPage === CATEGORY_PAGE || curPage === NEW_CATEGORY_PAGE) ? curPageStyle : null} >Categories</Menu>
+        <Menu to='/admin/division' style={(curPage === DIVISION_PAGE || curPage === NEW_DIVISION_PAGE) ? curPageStyle : null} >Divisions</Menu>
         {/* <Menu to='/admin/products' style={(curPage === PRODUCTS_PAGE || curPage === NEW_PRODUCTS_PAGE) ? curPageStyle : null} >Products</Menu> */}
         <Menu to='/admin/products2' style={(
           curPage === PRODUCTS_PAGE2 ||
@@ -165,6 +174,8 @@ export const AdminHome = () => {
         {curPage === BRANDS_PAGE && <AdminBrandList />}
         {curPage === NEW_CATEGORY_PAGE && <AdminNewCategory />}
         {curPage === CATEGORY_PAGE && <AdminCategoryList />}
+        {curPage === NEW_DIVISION_PAGE && <AdminNewDivision />}
+        {curPage === DIVISION_PAGE && <AdminDivisionList />}
         {curPage === NEW_PRODUCTS_PAGE && <AdminNewProduct />}
         {curPage === PRODUCTS_PAGE && <AdminProductList />}
         {(curPage === NEW_PRODUCTS_PAGE2 || curPage === EDIT_ANALYTICAL_PRODUCT_PAGE) && <AdminNewProduct2 />}

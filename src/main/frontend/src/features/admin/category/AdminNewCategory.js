@@ -80,7 +80,7 @@ export const AdminNewCategory = () => {
         onChange={handleApplicationChange}
       />
 
-      <Input value={name} handleOnChange={e => setName(e.target.value)} label='Name*' />
+      <Input value={name} handleOnChange={e => setName(e.target.value)} label='Category name*' />
 
       <RichTextWrapper>
         <RichTextEditor value={description} handleChange={setDescription} placeholder='Description' />

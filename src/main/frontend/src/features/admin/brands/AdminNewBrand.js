@@ -53,7 +53,7 @@ export const AdminNewBrand = () => {
     <Container>
       <Heading>Add a new Brand</Heading>
 
-      <Input styleObj={{ maxWidth: '300px' }} value={name} handleOnChange={e => setName(e.target.value)} label='Name*' />
+      <Input styleObj={{ maxWidth: '300px' }} value={name} handleOnChange={e => setName(e.target.value)} label='Brand name*' />
 
       {/* <Input styleObj={{ maxWidth: '300px' }} value={description} handleOnChange={e => setDescription(e.target.value)} label='Description' /> */}
       <RichTextWrapper>
