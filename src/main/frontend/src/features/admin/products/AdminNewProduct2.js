@@ -5,7 +5,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Select from 'react-select';
-import { Editor } from '@tinymce/tinymce-react';
 import ReactDragListView from 'react-drag-listview/lib/index.js';
 import { AiOutlineClose, AiOutlinePlus } from 'react-icons/ai';
 
@@ -13,10 +12,9 @@ import { Input } from '../../utils/Input';
 import { RichTextEditor } from '../../utils/RichTextEditor';
 import { Button } from '../../homepage/common/Button';
 import { device } from '../../utils/viewport';
-import { Spinner } from '../../utils/Spinner';
 import { AdminProductImage } from './AdminProductImage';
 import { AuxilaryImage } from './AuxilaryImage';
-import { appToCategoryMap, categoryToDivisionMap } from '../../utils/productHierarchy';
+import { applicationsArr } from '../../utils/productHierarchy';
 
 const { DragColumn } = ReactDragListView;
 
@@ -30,8 +28,8 @@ const Form = styled.div`
   grid-column-gap: 50px;
   grid-row-gap: 50px;
   margin-bottom: 30px;
-  
-  @media ${device.tablet} { 
+
+  @media ${device.tablet} {
     grid-template-columns: 1fr 1fr 1fr 1fr;
   }
 `;
@@ -89,7 +87,7 @@ const Textarea = styled.textarea`
 `;
 
 const MetricsWrapper = styled.div`
-  
+
 `;
 
 const Metrics = styled.div`
@@ -117,10 +115,10 @@ const DeleteButton = styled(AiOutlineClose)`
   border-radius: 3px;
 `;
 
-const applicationOptions = Object.keys(appToCategoryMap)
+const applicationOptions = applicationsArr
   .map(curApplication => ({
-    label: curApplication, 
-    value: curApplication 
+    label: curApplication,
+    value: curApplication
   }));
 
 const productIdGenerated = (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
@@ -128,15 +126,17 @@ const productIdGenerated = (Date.now().toString(36) + Math.random().toString(36)
 export const AdminNewProduct2 = () => {
   const [isUpdate, setIsUpdate] = useState(false);
 
+  const [categoryList, setCategoryList] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [brandList, setBrandList] = useState([]);
-  
+
   const [productId, setProductId] = useState(productIdGenerated);
   const [application, setApplication] = useState('Analytical');
   const [category, setCategory] = useState(null);
   const [brand, setBrand] = useState('');
   const [division, setDivision] = useState(null);
+  const [divisionList, setDivisionList] = useState([]);
   const [name, setName] = useState('');
   const [hsnCode, setHsnCode] = useState('');
   const [description, setDescription] = useState('<p></p>');
@@ -159,9 +159,9 @@ export const AdminNewProduct2 = () => {
     try {
       const queryParams = { productId: productIdValue };
 
-      const url = (productApplication === 'Analytical') ? '/api/analytical-products/details' : 
-        (productApplication === 'Life Science') ? '/api/life-science-products/details' : 
-        (productApplication === 'Instrumentation') ? '/api/instrumentation-products/details' : 
+      const url = (productApplication === 'Analytical') ? '/api/analytical-products/details' :
+        (productApplication === 'Life Science') ? '/api/life-science-products/details' :
+        (productApplication === 'Instrumentation') ? '/api/instrumentation-products/details' :
         (productApplication === 'Industrial Safety and Clean room') ? '/api/industrial-products/details' : null;
 
       const productDetailsResponse = await axios.get(url, { params: queryParams });
@@ -196,34 +196,47 @@ export const AdminNewProduct2 = () => {
       fetchProductDetails(productApplication, productIdValue);
       setIsUpdate(true);
     }
- }, [location]);
+  }, [location]);
+
+  // Fetching category list from backend on page
+  useEffect(() => {
+    axios.get('/api/category')
+      .then(response => {
+        setCategoryList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching categories', error);
+      });
+  }, []);
 
   // Updating Category dropdown options on Application change
   useEffect(() => {
-    const categoryOptionsUpdated = appToCategoryMap[application]
+    const categoryOptionsUpdated = categoryList
+      .filter(curCategory => curCategory.application === application)
       .map(curCategory => ({
-        label: curCategory,
-        value: curCategory
+        label: curCategory.name, value: curCategory.name
       }));
 
     setCategoryOptions(categoryOptionsUpdated);
+    setDivisionOptions([]);
     setCategory(null);
     setDivision(null);
-  }, [application]);
-  
+  }, [application, categoryList]);
+
   // Updating Divisions dropdown options on Category change
   useEffect(() => {
     if (category) {
-      const divisionOptionsUpdated = categoryToDivisionMap[category]
+      const divisionOptionsUpdated = divisionList
+        .filter(curDivision => curDivision.category === category)
         .map(curDivision => ({
-          label: curDivision,
-          value: curDivision
+          label: curDivision.name,
+          value: curDivision.name
         }));
-  
+
       setDivisionOptions(divisionOptionsUpdated);
       setDivision(null);
     }
-  }, [category]);
+  }, [category, divisionList]);
 
 
 
@@ -242,20 +255,20 @@ export const AdminNewProduct2 = () => {
     const metricsListFinal = metricsList
       .filter(curMetrics => curMetrics.catalogueCode !== '' && curMetrics.capacity !== '');
 
-    const requestBody = { 
+    const requestBody = {
       productList: [
         { application, category, division, brand, productId, name, hsnCode, description, specification, metricsList: metricsListFinal, model, volume, gauge, imageUrls, auxilaryImageUrl }
-      ] 
+      ]
     };
 
     try {
-      const url = (application === 'Analytical') ? '/api/analytical-products/save' : 
-        (application === 'Life Science') ? '/api/life-science-products/save' : 
-        (application === 'Instrumentation') ? '/api/instrumentation-products/save' : 
+      const url = (application === 'Analytical') ? '/api/analytical-products/save' :
+        (application === 'Life Science') ? '/api/life-science-products/save' :
+        (application === 'Instrumentation') ? '/api/instrumentation-products/save' :
         (application === 'Industrial Safety and Clean room') ? '/api/industrial-products/save' : null;
 
       const newProductResponse = await axios.post(url, requestBody, headers);
-      
+
       if (newProductResponse.data.payload) {
         toast.success(`${name} product ${isUpdate ? 'updated' : 'created'} successfully`, { variant: 'success'});
         setTimeout(() => {
@@ -270,18 +283,26 @@ export const AdminNewProduct2 = () => {
     }
   }
 
-  const fetchBrandList = async () => {
-    try {
-      const brandListResponse = await axios.get('/api/brands');
-      setBrandList(brandListResponse.data.payload.map(curBrandObj => curBrandObj.name));
-    } catch(err) {
-      console.log('Error while fetching brands: ', err.message);
-      setBrandList([]);
-    }
-  }
-
+  // Fetching brand list from backend on page
   useEffect(() => {
-    fetchBrandList();
+    axios.get('/api/brands')
+      .then(response => {
+        setBrandList(response.data.payload.map(curBrandObj => curBrandObj.name));
+      })
+      .catch(function (error) {
+        console.log('Error while fetching brands', error);
+      })
+  }, []);
+
+  // Fetching division list from backend on page
+  useEffect(() => {
+    axios.get('/api/division')
+      .then(response => {
+        setDivisionList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching divisions', error);
+      })
   }, []);
 
   const dragProps = {
@@ -325,10 +346,10 @@ export const AdminNewProduct2 = () => {
   const deleteMetrics = index => {
     setMetricsList(metricsList.filter((_, curIndex) => (curIndex !== index)));
   }
-  
+
   const addNewMetrics = () => {
     setMetricsList([
-      ...metricsList, 
+      ...metricsList,
       { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0, specification: '' }
     ]);
   }
@@ -336,7 +357,7 @@ export const AdminNewProduct2 = () => {
   const onDescriptionChange = (content, editor) => {
     setDescription(content);
   }
-  
+
   const onSpecificationChange = (content, editor) => {
     setSpecification(content);
   }
@@ -350,18 +371,18 @@ export const AdminNewProduct2 = () => {
           <Select
             placeholder='Select an Application*'
             value={{ label: application, value: application }}
-            options={applicationOptions} 
-            onChange={e => setApplication(e.value)} 
+            options={applicationOptions}
+            onChange={e => setApplication(e.value)}
             isDisabled={isUpdate}
           />
         </SelectWrapper>
-        
+
         <SelectWrapper>
           <Select
             placeholder='Select a Category*'
             value={category ? {label: category, value: category} : null}
-            options={categoryOptions} 
-            onChange={e => setCategory(e.value)} 
+            options={categoryOptions}
+            onChange={e => setCategory(e.value)}
           />
         </SelectWrapper>
 
@@ -370,8 +391,8 @@ export const AdminNewProduct2 = () => {
             isSearchable={true}
             placeholder='Select a Division'
             value={division ? {label: division, value: division} : null}
-            options={divisionOptions} 
-            onChange={e => setDivision(e.value)} 
+            options={divisionOptions}
+            onChange={e => setDivision(e.value)}
           />
         </SelectWrapper>
 
@@ -380,8 +401,8 @@ export const AdminNewProduct2 = () => {
             isSearchable={true}
             placeholder='Select a Brand*'
             value={brand ? {label: brand, value: brand} : null}
-            options={brandList.map(curBrand => ({label: curBrand, value: curBrand}))} 
-            onChange={e => setBrand(e.value)} 
+            options={brandList.map(curBrand => ({label: curBrand, value: curBrand}))}
+            onChange={e => setBrand(e.value)}
           />
         </SelectWrapper>
 
@@ -394,73 +415,73 @@ export const AdminNewProduct2 = () => {
 
       <TextareaBox>
         <Label>Description</Label>
-        
-        <RichTextEditor 
+
+        <RichTextEditor
           value={description}
           handleChange={onDescriptionChange}
         />
       </TextareaBox>
 
-      {application === 'Analytical' ? 
+      {application === 'Analytical' ?
         <TextareaBox>
           <Label>Specification</Label>
-          
-          <RichTextEditor 
+
+          <RichTextEditor
             value={specification}
             handleChange={onSpecificationChange}
           />
         </TextareaBox> : null}
 
       <MetricsWrapper>
-        {metricsList.map((curMetrics, index) => 
+        {metricsList.map((curMetrics, index) =>
           <Metrics key={index}>
-            <Input 
+            <Input
               styleObj={{ marginBottom: '50px', marginRight: '20px', width: '150px' }}
-              value={curMetrics.catalogueCode} 
-              handleOnChange={e => handleMetricsChange('CATALOGUE_CODE', index, e.target.value)} 
-              label={`Catalogue Code ${index + 1}*`} 
+              value={curMetrics.catalogueCode}
+              handleOnChange={e => handleMetricsChange('CATALOGUE_CODE', index, e.target.value)}
+              label={`Catalogue Code ${index + 1}*`}
             />
-            
-            {application === 'Analytical' && category === 'Laboratory Glassware' ? 
-              <Input 
+
+            {application === 'Analytical' && category === 'Laboratory Glassware' ?
+              <Input
                 styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
-                value={curMetrics.od} 
-                handleOnChange={e => handleMetricsChange('OD', index, e.target.value)} 
-                label={`OD ${index + 1}`} 
+                value={curMetrics.od}
+                handleOnChange={e => handleMetricsChange('OD', index, e.target.value)}
+                label={`OD ${index + 1}`}
               /> : null}
 
-            {application === 'Analytical' && category === 'Laboratory Glassware' ? 
-              <Input 
+            {application === 'Analytical' && category === 'Laboratory Glassware' ?
+              <Input
                 styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
-                value={curMetrics.height} 
-                handleOnChange={e => handleMetricsChange('HEIGHT', index, e.target.value)} 
-                label={`Height ${index + 1}`} 
+                value={curMetrics.height}
+                handleOnChange={e => handleMetricsChange('HEIGHT', index, e.target.value)}
+                label={`Height ${index + 1}`}
               /> : null}
-            
-            <Input 
+
+            <Input
               styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
-              value={curMetrics.capacity} 
-              handleOnChange={e => handleMetricsChange('CAPACITY', index, e.target.value)} 
-              label={`Capacity ${index + 1}*`} 
+              value={curMetrics.capacity}
+              handleOnChange={e => handleMetricsChange('CAPACITY', index, e.target.value)}
+              label={`Capacity ${index + 1}*`}
             />
 
-            <Input 
+            <Input
               styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
-              value={curMetrics.pack} 
-              handleOnChange={e => handleMetricsChange('PACK', index, e.target.value)} 
-              label={`Pack ${index + 1}`} 
+              value={curMetrics.pack}
+              handleOnChange={e => handleMetricsChange('PACK', index, e.target.value)}
+              label={`Pack ${index + 1}`}
             />
 
-            <Input 
+            <Input
               styleObj={{ marginBottom: '50px', marginRight: '20px', width: '100px' }}
-              value={curMetrics.price} 
-              handleOnChange={e => handleMetricsChange('PRICE', index, e.target.value)} 
-              label={`Price ${index + 1}`} 
+              value={curMetrics.price}
+              handleOnChange={e => handleMetricsChange('PRICE', index, e.target.value)}
+              label={`Price ${index + 1}`}
             />
 
-            {application !== 'Analytical' ? 
+            {application !== 'Analytical' ?
             <TextareaBox>
-              <RichTextEditor 
+              <RichTextEditor
                 placeholder='Add specification...'
                 value={curMetrics.specification}
                 handleChange={(content, editor) => handleMetricsChange('SPECIFICATION', index, content)}
@@ -476,8 +497,8 @@ export const AdminNewProduct2 = () => {
       <DragColumn {...dragProps}>
         {imageUrls.length > 0 && imageUrls.map((curImageUrl, index) => <Image key={index} src={curImageUrl} alt={`image_${index}`}/>)}
       </DragColumn>
-      
-      
+
+
       {/* {imageUrls.map((curImageUrl, index) => <Image key={index} src={curImageUrl} alt={`image_${index}`}/>)} */}
       <AdminProductImage imageUrls={imageUrls} setImageUrls={setImageUrls}/>
       {imageUrls.length > 0 && <ResetButton onClick={() => setImageUrls([])}>Reset Image(s)</ResetButton>}
@@ -487,8 +508,8 @@ export const AdminNewProduct2 = () => {
       <AuxilaryImage imageUrl={auxilaryImageUrl} setImageUrl={setAuxilaryImageUrl}/>
       {auxilaryImageUrl && <ResetButton onClick={() => setAuxilaryImageUrl('')}>Reset Image</ResetButton>}
 
-      <Button 
-        style={{ marginTop: '20px', fontWeight: 'normal', fontSize: '14px', padding: '12px 30px', borderRadius: '3px' }} 
+      <Button
+        style={{ marginTop: '20px', fontWeight: 'normal', fontSize: '14px', padding: '12px 30px', borderRadius: '3px' }}
         label={`${isUpdate ? 'Update' : 'Save'} product`}
         handleOnClick={handleOnSave}
       />

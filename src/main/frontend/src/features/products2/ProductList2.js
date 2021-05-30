@@ -14,8 +14,8 @@ import { Line } from '../homepage/common/Line';
 
 const Container = styled.div`
   margin: 0 20px 50px 20px;
-  
-  @media ${device.laptop} { 
+
+  @media ${device.laptop} {
     margin: 0 10vw 50px 10vw;
   }
 `;
@@ -61,7 +61,7 @@ const Search = styled.div`
   height: 38px;
   margin-bottom: 20px;
 
-  @media ${device.laptop} { 
+  @media ${device.laptop} {
     width: 350px;
     margin-bottom: 20px;
   }
@@ -131,7 +131,7 @@ const ProductInfo = styled.div`
 `;
 
 const Info = styled.div`
-  
+
 `;
 
 const Description = styled.div`
@@ -195,14 +195,13 @@ export const ProductList2 = ({
 
   handleOnSearch,
   handleObserver,
-  fetchBrandList,
   handleApplicationChange,
   handleCategoryChange,
   handleDivisionChange,
   handleBrandChange,
   handleOnDelete,
   updateProductListOnSearchOrFilter
-}) => {  
+}) => {
   const history = useHistory();
 
   const handleAddToCart = () => {
@@ -217,12 +216,12 @@ export const ProductList2 = ({
     <Container id='product_list_id2'>
       <SearchWrapper>
         <Search>
-          <SearchInput 
+          <SearchInput
             value={searchValue}
-            placeholder={placeholder} 
+            placeholder={placeholder}
             onChange={e => handleOnSearch(e.target.value)}
-            onBlur={() => setPlaceholder('Search by Products name')} 
-            onFocus={() => setPlaceholder('Type at least 3 characters')} 
+            onBlur={() => setPlaceholder('Search by Products name')}
+            onFocus={() => setPlaceholder('Type at least 3 characters')}
           />
             <SearchIcon size='1.2em'/>
             <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
@@ -239,8 +238,8 @@ export const ProductList2 = ({
             <Label>Application</Label>
             <Select
               value={{label: application, value: application}}
-              options={applicationOptions} 
-              onChange={handleApplicationChange} 
+              options={applicationOptions}
+              onChange={handleApplicationChange}
             />
           </FilterWrapper>
 
@@ -249,8 +248,8 @@ export const ProductList2 = ({
             <Select
               placeholder='Category filter'
               value={category ? {label: category, value: category} : null}
-              options={categoryOptions} 
-              onChange={handleCategoryChange} 
+              options={categoryOptions}
+              onChange={handleCategoryChange}
             />
           </FilterWrapper>
 
@@ -259,32 +258,32 @@ export const ProductList2 = ({
             <Select
               placeholder='Division filter'
               value={division ? {label: division, value: division} : null}
-              options={divisionOptions} 
-              onChange={handleDivisionChange} 
+              options={divisionOptions}
+              onChange={handleDivisionChange}
             />
           </FilterWrapper>
-          
+
           <FilterWrapper>
             <Label>Brand</Label>
             <Select
               isSearchable={true}
               placeholder='Brand filter'
               value={brand ? {label: brand, value: brand} : null}
-              options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]} 
-              onChange={handleBrandChange} 
+              options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]}
+              onChange={handleBrandChange}
             />
           </FilterWrapper>
         </FiltersFrame>
 
         <ProductListFrame>
           <ProductListWrapper>
-            {productList.map((curProduct, index) => 
+            {productList.map((curProduct, index) =>
               <div key={index}>
                 <ProductRow>
-                  <Image 
-                    src={curProduct.imageUrls[0]} 
+                  <Image
+                    src={curProduct.imageUrls[0]}
                     onClick={() => history.push(`/product-detail/${curProduct.application}/${curProduct.productId}`)} />
-                  
+
                   <ProductDetails>
                     <div>
                       <ProductName
@@ -304,9 +303,9 @@ export const ProductList2 = ({
                     <ButtonFrame>
                       <KnowMore to={`/product-detail/${curProduct.application}/${curProduct.productId}`}>Know more</KnowMore>
 
-                      <Button 
-                        style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px'}} 
-                        label='ADD TO CART' 
+                      <Button
+                        style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px'}}
+                        label='ADD TO CART'
                         handleOnClick={handleAddToCart} />
                     </ButtonFrame>
                   </ProductDetails>

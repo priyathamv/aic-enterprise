@@ -8,7 +8,6 @@ import Popup from 'reactjs-popup';
 
 import { Spinner } from '../../utils/Spinner';
 import { device } from '../../utils/viewport';
-import { applicationsArr } from '../../utils/productHierarchy';
 
 const Container = styled.div`
 `;

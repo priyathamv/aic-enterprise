@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 
-import { applicationsArr, appToCategoryMap, categoryToBrandMap } from '../../utils/productHierarchy';
+import { applicationsArr } from '../../utils/productHierarchy';
 
 const Container = styled.div`
   top: 75px;
@@ -71,13 +72,58 @@ const BrandItem = styled.a`
 export const ProductsMenu2 = () => {
   const [application, setApplication] = useState(null);
   const [category, setCategory] = useState(null);
-  
 
+  const [categoryList, setCategoryList] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+
+  const [brandList, setBrandList] = useState([]);
+  const [brandOptions, setBrandOptions] = useState([]);
+
+  // Fetching category list from backend on page
+  useEffect(() => {
+    axios.get('/api/category')
+      .then(response => {
+        setCategoryOptions(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching categories', error);
+      })
+  }, []);
+
+  // Fetching brand list from backend on page
+  useEffect(() => {
+    axios.get('/api/brands')
+      .then(response => {
+        setBrandOptions(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching brands', error);
+      })
+  }, []);
+
+  // Updating Category dropdown options on Application change
+  useEffect(() => {
+    const categoryListUpdated = categoryOptions
+      .filter(curCategory => curCategory.application === application)
+      .map(curCategory => curCategory.name);
+
+      setCategoryList(categoryListUpdated);
+      setCategory(null);
+  }, [application, categoryOptions]);
+
+  // Updating Category dropdown options on Application change
+  useEffect(() => {
+    const brandListUpdated = brandOptions
+      .filter(curBrand => (curBrand.application === application) && (curBrand.category === category))
+      .map(curBrand => curBrand);
+
+      setBrandList(brandListUpdated);
+  }, [category, brandOptions]);
 
   const displayProductsMenu = displayFlag => {
     document.getElementById('products_menu_id2').style.display = displayFlag ? 'block' : 'none';
   }
-  
+
   const displayCategories = displayFlag => {
     document.getElementById('categories_menu_id2').style.display = displayFlag ? 'block' : 'none';
   }
@@ -92,45 +138,45 @@ export const ProductsMenu2 = () => {
         <ApplicationBox>
           <Heading>Applications</Heading>
 
-          {applicationsArr.map((curApplication, index) => 
-            <ApplicationItem 
+          {applicationsArr.map((curApplication, index) =>
+            <ApplicationItem
               key={index}
               style={curApplication == application ? {fontWeight: 'bold'} : null}
-              onMouseEnter={() => {displayCategories(true); setApplication(curApplication)}} 
+              onMouseEnter={() => {displayCategories(true); setApplication(curApplication)}}
               onMouseLeave={() => displayCategories(false)}
-            >{curApplication}</ApplicationItem>  
+            >{curApplication}</ApplicationItem>
           )}
         </ApplicationBox>
 
-        <CategoriesBox 
+        <CategoriesBox
           id='categories_menu_id2'
-          onMouseEnter={() => displayCategories(true)} 
+          onMouseEnter={() => displayCategories(true)}
           onMouseLeave={() => displayCategories(false)}
         >
           <Heading>Categories</Heading>
 
-          {appToCategoryMap[application] && 
-            appToCategoryMap[application].map((curCategory, index) => 
+          {categoryList &&
+            categoryList.map((curCategory, index) =>
             <ApplicationItem
               key={index}
               style={curCategory == category ? {fontWeight: 'bold', color: 'black'} : {color: 'black'}}
-              onMouseEnter={() => {displayBrands(true); setCategory(curCategory)}} 
+              onMouseEnter={() => {displayBrands(true); setCategory(curCategory)}}
               onMouseLeave={() => displayBrands(false)}
             >{curCategory}</ApplicationItem>)}
         </CategoriesBox>
 
-        <BrandsBox 
+        <BrandsBox
           id='brands_menu_id2'
-          onMouseEnter={() => {displayCategories(true); displayBrands(true)}} 
+          onMouseEnter={() => {displayCategories(true); displayBrands(true)}}
           onMouseLeave={() => {displayCategories(false); displayBrands(false)}}
         >
           <Heading>Brands</Heading>
 
-          {categoryToBrandMap[category] && 
-            categoryToBrandMap[category].map((curBrand, index) => 
-              <BrandItem 
+          {brandList &&
+            brandList.map((curBrand, index) =>
+              <BrandItem
                 key={index}
-                href={`/product-list?brand=${curBrand.value}`} 
+                href={`/product-list?brand=${curBrand.value}`}
                 onClick={() => displayProductsMenu(false)}
               >
                 {curBrand.name}

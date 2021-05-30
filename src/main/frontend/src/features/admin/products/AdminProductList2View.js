@@ -19,8 +19,8 @@ const MenuWrapper = styled.div`
   margin-bottom: 15px;
   flex-direction: column;
   align-items: center;
-  
-  @media ${device.laptop} { 
+
+  @media ${device.laptop} {
     align-items: flex-end;
     flex-direction: row;
   }
@@ -33,7 +33,7 @@ const NewProductLink = styled(Link)`
   margin-bottom: 20px;
   margin-bottom: 5px;
 
-  @media ${device.laptop} { 
+  @media ${device.laptop} {
     margin-bottom: 0;
   }
 `;
@@ -82,7 +82,7 @@ const EditLink = styled(Link)`
 `;
 
 const DeleteButton = styled.button`
-  background: none;  
+  background: none;
   font-size: 16px;
   border: none;
   border-radius: 3px;
@@ -105,7 +105,7 @@ const DeleteButtonPop = styled.button`
   margin-right: 0;
   margin-bottom: 20px;
 
-  @media ${device.tablet} { 
+  @media ${device.tablet} {
     margin-right: 20px;
     margin-bottom: 0;
   }
@@ -137,7 +137,7 @@ const Search = styled.div`
   height: 38px;
   margin-bottom: 20px;
 
-  @media ${device.laptop} { 
+  @media ${device.laptop} {
     width: 225px;
     margin-bottom: 0;
   }
@@ -182,10 +182,11 @@ const FilterWrapper = styled.div`
   width: 100%;
   margin-bottom: 15px;
 
-  @media ${device.laptop} { 
+  @media ${device.laptop} {
     width: auto;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-around;
+    align-items: flex-end;
   }
 `;
 
@@ -194,8 +195,8 @@ const BrandFilterWrapper = styled.div`
   margin-right: 20px;
   margin-bottom: 20px;
 
-  @media ${device.laptop} { 
-    width: 225px;
+  @media ${device.laptop} {
+    max-width: 250px;
     margin-bottom: 0;
   }
 `;
@@ -230,7 +231,6 @@ export const AdminProductList2View = ({
 
   handleOnSearch,
   handleObserver,
-  fetchBrandList,
   handleApplicationChange,
   handleCategoryChange,
   handleDivisionChange,
@@ -239,19 +239,20 @@ export const AdminProductList2View = ({
   updateProductListOnSearchOrFilter
 }) => {
   const dispatch = useDispatch();
-  
+
   return (
     <Container>
-      <MenuWrapper>
-        <NewProductLink to='/admin/products2/new' >Add a new product</NewProductLink>
-      </MenuWrapper>
+      {/* <MenuWrapper>
+      </MenuWrapper> */}
 
       <FilterWrapper>
+        <NewProductLink to='/admin/products2/new' >Add a new product</NewProductLink>
+
         <BrandFilterWrapper>
           <Select
             value={{label: application, value: application}}
-            options={applicationOptions} 
-            onChange={handleApplicationChange} 
+            options={applicationOptions}
+            onChange={handleApplicationChange}
           />
         </BrandFilterWrapper>
 
@@ -259,28 +260,28 @@ export const AdminProductList2View = ({
           <Select
             placeholder='Category filter'
             value={category ? {label: category, value: category} : null}
-            options={categoryOptions} 
-            onChange={handleCategoryChange} 
+            options={categoryOptions}
+            onChange={handleCategoryChange}
           />
         </BrandFilterWrapper>
-        
+
         <BrandFilterWrapper>
           <Select
             isSearchable={true}
             placeholder='Brand filter'
             value={brand ? {label: brand, value: brand} : null}
-            options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]} 
-            onChange={handleBrandChange} 
+            options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]}
+            onChange={handleBrandChange}
           />
         </BrandFilterWrapper>
 
         <Search>
-          <SearchInput 
+          <SearchInput
             value={searchValue}
-            placeholder={placeholder} 
+            placeholder={placeholder}
             onChange={e => handleOnSearch(e.target.value)}
-            onBlur={() => setPlaceholder('Search by Products name')} 
-            onFocus={() => setPlaceholder('Type at least 3 characters')} 
+            onBlur={() => setPlaceholder('Search by Products name')}
+            onFocus={() => setPlaceholder('Type at least 3 characters')}
           />
 
           <SearchIcon size='1.2em'/>
@@ -297,17 +298,17 @@ export const AdminProductList2View = ({
           <MediumColumn>Action</MediumColumn>
         </Header>
 
-        {productList.map((curProduct, index) => 
+        {productList.map((curProduct, index) =>
           <ProductRow key={index} >
             <MediumColumn>{curProduct.productId}</MediumColumn>
-            
+
             <BigColumn>{curProduct.name}</BigColumn>
 
             <MediumColumn>{curProduct.brand}</MediumColumn>
-            
+
             <MediumColumn style={{ display: 'flex' }}>
               <EditLink to={{ pathname: `/admin/products2/edit/${curProduct.application}/${curProduct.productId}`}}>Edit</EditLink>
-              
+
               <Popup
                 trigger={<DeleteButton style={{ padding: '8px 14px' }}>Delete</DeleteButton>}
                 modal
@@ -320,7 +321,7 @@ export const AdminProductList2View = ({
 
                     <div className="actions">
                       <DeleteButtonPop onClick={() => handleOnDelete(curProduct.productId)} >Yes, delete</DeleteButtonPop>
-                      
+
                       <CloseButton autoFocus className="button" onClick={() => close()} >Close</CloseButton>
                     </div>
                   </div>

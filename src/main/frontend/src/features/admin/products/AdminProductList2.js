@@ -7,14 +7,14 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import debounce from 'lodash.debounce';
 
-import { appToCategoryMap, categoryToDivisionMap } from '../../utils/productHierarchy';
+import { applicationsArr } from '../../utils/productHierarchy';
 
 
-import { 
-  changeAdminProductList, 
-  updateAdminProductList, 
-  updateHasMore, 
-  updateSearch, 
+import {
+  changeAdminProductList,
+  updateAdminProductList,
+  updateHasMore,
+  updateSearch,
   getNextPageAsync,
   updateIsLoading,
   selectAdminHasMore,
@@ -26,41 +26,73 @@ import { ProductList2 } from '../../products2/ProductList2';
 const Container = styled.div`
 `;
 
-const applicationOptions = Object.keys(appToCategoryMap)
+const applicationOptions = applicationsArr
   .map(curApplication => ({
-    label: curApplication, 
-    value: curApplication 
+    label: curApplication,
+    value: curApplication
   }));
 
 export const AdminProductList2 = () => {
   const dummyRef = useRef(null);
+  const [categoryList, setCategoryList] = useState([]);
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
 
   const dispatch = useDispatch();
   const productList = useSelector(selectAdminProducts);
-  
+
   const hasMore = useSelector(selectAdminHasMore);
   const searchValue = useSelector(selectAdminSearchValue);
 
-  const [application, setApplication] = useState('Analytical');
+  const [application, setApplication] = useState(applicationsArr[0]);
   const [category, setCategory] = useState(null);
   const [division, setDivision] = useState(null);
+  const [divisionList, setDivisionList] = useState([]);
   const [pageNo, setPageNo] = useState(0);
   const [placeholder, setPlaceholder] = useState('Search by Products name');
 
   const [brand, setBrand] = useState(null);
   const [brandList, setBrandList] = useState([]);
 
-  
+  // Fetching category list from backend on page
+  useEffect(() => {
+    axios.get('/api/category')
+      .then(response => {
+        setCategoryList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching categories', error);
+      })
+  }, []);
 
+  // Fetching brand list from backend on page
+  useEffect(() => {
+    axios.get('/api/brands')
+      .then(response => {
+        setBrandList(response.data.payload.map(curBrandObj => curBrandObj.name));
+      })
+      .catch(function (error) {
+        console.log('Error while fetching brands', error);
+      })
+  }, []);
+
+  // Fetching division list from backend on page
+  useEffect(() => {
+    axios.get('/api/division')
+      .then(response => {
+        setDivisionList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching divisions', error);
+      })
+  }, []);
 
   // Updating Category dropdown options on Application change
   useEffect(() => {
-    const categoryOptionsUpdated = appToCategoryMap[application]
+    const categoryOptionsUpdated = categoryList
+      .filter(curCategory => curCategory.application === application)
       .map(curCategory => ({
-        label: curCategory,
-        value: curCategory
+        label: curCategory.name, value: curCategory.name
       }));
 
     updateProductListOnSearchOrFilter();
@@ -68,41 +100,42 @@ export const AdminProductList2 = () => {
     setCategory(null);
     setDivisionOptions([]);
     setDivision(null);
-  }, [application]);
+  }, [application, categoryList]);
 
   // Updating Divisions dropdown options on Category change
   useEffect(() => {
     if (category) {
-      const divisionOptionsUpdated = categoryToDivisionMap[category]
+      const divisionOptionsUpdated = divisionList
+        .filter(curDivision => curDivision.category === category)
         .map(curDivision => ({
-          label: curDivision,
-          value: curDivision
+          label: curDivision.name,
+          value: curDivision.name
         }));
-  
+
       setDivisionOptions(divisionOptionsUpdated);
       setDivision(null);
     }
-  }, [category]);
+  }, [category, divisionList]);
 
   useEffect(() => {
     updateProductListOnSearchOrFilter();
   }, [searchValue]);
 
-  
+
   const handleOnSearch = searchValue => {
     dispatch(updateSearch(searchValue));
   }
 
   useEffect(() => {
     if (hasMore) {
-      dispatch(getNextPageAsync({ application, category, division, brand, searchValue, pageNo })); 
+      dispatch(getNextPageAsync({ application, category, division, brand, searchValue, pageNo }));
     }
   }, [dispatch, hasMore, application, category, division, brand, pageNo]);
 
 
   const handleObserver = (entities) => {
     const target = entities[0];
-    if (target.isIntersecting) { 
+    if (target.isIntersecting) {
       setPageNo((page) => page + 1)
     }
   }
@@ -116,15 +149,15 @@ export const AdminProductList2 = () => {
   const updateProductListOnSearchOrFilter = async () => {
     try {
       const queryParams = {
-        searchValue: ((searchValue === '' || searchValue.length < 3) ? null : searchValue), 
+        searchValue: ((searchValue === '' || searchValue.length < 3) ? null : searchValue),
         brand,
-        pageNo: 0, 
+        pageNo: 0,
         limit: 20
       }
       if (searchValue === '' || searchValue.length >= 3) {
-        const url = (application === 'Analytical') ? '/api/analytical-products' : 
-          (application === 'Life Science') ? '/api/life-science-products' : 
-          (application === 'Instrumentation') ? '/api/instrumentation-products' : 
+        const url = (application === 'Analytical') ? '/api/analytical-products' :
+          (application === 'Life Science') ? '/api/life-science-products' :
+          (application === 'Instrumentation') ? '/api/instrumentation-products' :
           (application === 'Industrial Safety and Clean room') ? '/api/industrial-products' : null;
 
         const adminProductsResponse = await axios.get(url, { params: queryParams });
@@ -135,19 +168,19 @@ export const AdminProductList2 = () => {
     }
   }
 
-  
+
   const handleOnDelete = async productId => {
     const headers = { 'Content-Type': 'application/json' };
 
     try {
-      const url = (application === 'Analytical') ? '/api/analytical-products/delete' : 
-        (application === 'Life Science') ? '/api/life-science-products/delete' : 
-        (application === 'Instrumentation') ? '/api/instrumentation-products/delete' : 
+      const url = (application === 'Analytical') ? '/api/analytical-products/delete' :
+        (application === 'Life Science') ? '/api/life-science-products/delete' :
+        (application === 'Instrumentation') ? '/api/instrumentation-products/delete' :
         (application === 'Industrial Safety and Clean room') ? '/api/industrial-products/delete' : null;
 
 
       const productDeleteResponse = await axios.post(url, { productId }, headers);
-      
+
       if (productDeleteResponse.data.payload) {
         toast.success(`Product deleted successfully`, { variant: 'success'});
         setTimeout(() => window.location.reload(), 5000);
@@ -160,25 +193,12 @@ export const AdminProductList2 = () => {
     }
   }
 
-  const fetchBrandList = async () => {
-    try {
-      const brandListResponse = await axios.get('/api/brands');
-      setBrandList(brandListResponse.data.payload.map(curBrandObj => curBrandObj.name));
-    } catch(err) {
-      console.log('Error while fetching brands: ', err.message);
-      setBrandList([]);
-    }
-  }
-
-  useEffect(() => {
-    fetchBrandList();
-  }, []);
 
   const handleApplicationChange = e => {
     setApplication(e.value);
 
     dispatch(updateHasMore(true));
-    setBrand(null); 
+    setBrand(null);
     setPageNo(0);
   }
 
@@ -186,7 +206,7 @@ export const AdminProductList2 = () => {
     setCategory(e.value);
 
     dispatch(updateHasMore(true));
-    setBrand(null); 
+    setBrand(null);
     setPageNo(0);
   }
 
@@ -194,16 +214,16 @@ export const AdminProductList2 = () => {
     setDivision(e.value);
 
     dispatch(updateHasMore(true));
-    setBrand(null); 
+    setBrand(null);
     setPageNo(0);
   }
 
   const handleBrandChange = e => {
-    dispatch(updateHasMore(true)); 
+    dispatch(updateHasMore(true));
     setPageNo(0);
-    setBrand(e.value); 
+    setBrand(e.value);
   }
-  
+
   const history = useHistory();
 
   const curPath = history.location.pathname;
@@ -211,7 +231,7 @@ export const AdminProductList2 = () => {
   return (
     <Container>
       {curPath.includes('/admin/products2') ?
-        <AdminProductList2View 
+        <AdminProductList2View
           dummyRef={dummyRef}
           applicationOptions={applicationOptions}
           divisionOptions={divisionOptions}
@@ -233,10 +253,9 @@ export const AdminProductList2 = () => {
           brand={brand}
           setBrand={setBrand}
           brandList={brandList}
-          
+
           handleOnSearch={handleOnSearch}
           handleObserver={handleObserver}
-          fetchBrandList={fetchBrandList}
           handleApplicationChange={handleApplicationChange}
           handleCategoryChange={handleCategoryChange}
           handleDivisionChange={handleDivisionChange}
@@ -244,8 +263,8 @@ export const AdminProductList2 = () => {
           handleOnDelete={handleOnDelete}
           updateProductListOnSearchOrFilter={updateProductListOnSearchOrFilter}
         /> : (
-        curPath.includes('/productlist') ? 
-          <ProductList2 
+        curPath.includes('/productlist') ?
+          <ProductList2
             dummyRef={dummyRef}
             applicationOptions={applicationOptions}
             divisionOptions={divisionOptions}
@@ -267,10 +286,9 @@ export const AdminProductList2 = () => {
             brand={brand}
             setBrand={setBrand}
             brandList={brandList}
-            
+
             handleOnSearch={handleOnSearch}
             handleObserver={handleObserver}
-            fetchBrandList={fetchBrandList}
             handleApplicationChange={handleApplicationChange}
             handleCategoryChange={handleCategoryChange}
             handleDivisionChange={handleDivisionChange}

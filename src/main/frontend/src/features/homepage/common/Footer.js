@@ -264,7 +264,7 @@ export const Footer = () => {
         </NewsSignUp>
       </FootContainer>
 
-      <Copyright>© 2020 by AIC Group</Copyright>
+      <Copyright>© 2021 by AIC Group</Copyright>
     </Container>
   )
 }
