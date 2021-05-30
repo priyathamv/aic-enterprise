@@ -89,7 +89,7 @@ public class DivisionServiceImpl implements DivisionService {
                 .name(curDivisionName)
                 .application("Analytical")
                 .category("Laboratory Glassware")
-                .brand("")
+//                .brand(null)
                 .description("")
                 .build())
             .collect(Collectors.toList());
