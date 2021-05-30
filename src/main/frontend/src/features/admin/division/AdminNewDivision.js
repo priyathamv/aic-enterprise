@@ -157,10 +157,6 @@ export const AdminNewDivision = () => {
       return;
     }
 
-    if (!brand) {
-      toast.error(`Brand cannot be empty`, { variant: 'error'});
-      return;
-    }
     const headers = { 'Content-Type': 'application/json' };
 
     try {
@@ -217,7 +213,7 @@ export const AdminNewDivision = () => {
         value={brand ? {label: brand, value: brand} : null}
         options={filteredBrandList}
         onChange={handleBrandChange}
-        placeholder='Select a brand*'
+        placeholder='Select a brand'
       />
 
       {divisionNames.map((curDivisionName, index) =>

@@ -5,22 +5,18 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
+import Select from 'react-select';
 
 import { Spinner } from '../../utils/Spinner';
 import { device } from '../../utils/viewport';
+import { applicationsArr } from '../../utils/productHierarchy';
 
 const Container = styled.div`
 `;
 
-const MenuWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 15px;
-`;
-
 const NewCategoryLink = styled(Link)`
   color: #232162;
-  margin-right: 10px;
+  margin-right: 20px;
   text-decoration: underline;
 `;
 
@@ -88,10 +84,43 @@ const SpinnerWrapper = styled.div`
   height: 100%;
 `;
 
+const FilterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+
+  @media ${device.laptop} {
+    width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+`;
+
+const BrandFilterWrapper = styled.div`
+  width: 100%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    max-width: 250px;
+    margin-bottom: 0;
+  }
+`;
+
+const applicationOptions = applicationsArr
+  .map(curApplication => ({
+    label: curApplication,
+    value: curApplication
+  }));
 
 export const AdminCategoryList = () => {
   const [categoryList, setCategoryList] = useState([]);
+  const [filteredCategoryList, setFilteredCategoryList] = useState([]);
+
   const [loading, setLoading] = useState(false);
+  const [application, setApplication] = useState(null);
 
   const fetchAllCategories = async () => {
     setLoading(true);
@@ -109,6 +138,13 @@ export const AdminCategoryList = () => {
   useEffect(() => {
     fetchAllCategories();
   }, []);
+
+  useEffect(() => {
+    if (application)
+        setFilteredCategoryList(categoryList.filter(curCategory => curCategory.application === application));
+    else
+        setFilteredCategoryList(categoryList);
+  }, [application, categoryList]);
 
   const handleOnDelete = async name => {
     const headers = { 'Content-Type': 'application/json' };
@@ -136,9 +172,18 @@ export const AdminCategoryList = () => {
           <Spinner />
         </SpinnerWrapper> :
         <Container>
-          <MenuWrapper>
+          <FilterWrapper>
             <NewCategoryLink to='/admin/category/new' >Add new category</NewCategoryLink>
-          </MenuWrapper>
+
+            <BrandFilterWrapper>
+                <Select
+                    placeholder='Application'
+                    value={application ? {label: application, value: application} : null}
+                    options={[{label: 'All', value: null}, ...applicationOptions]}
+                    onChange={e => setApplication(e.value)}
+                />
+            </BrandFilterWrapper>
+          </FilterWrapper>
 
           <Header>
             <Column>Name</Column>
@@ -146,7 +191,7 @@ export const AdminCategoryList = () => {
             <Column>Action</Column>
           </Header>
 
-          {categoryList.map((curCategory, index) =>
+          {filteredCategoryList.map((curCategory, index) =>
             <CategoryRow key={index} >
               <Column>{curCategory.name}</Column>
 

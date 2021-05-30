@@ -5,17 +5,13 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
+import Select from 'react-select';
 
 import { Spinner } from '../../utils/Spinner';
 import { device } from '../../utils/viewport';
+import { applicationsArr } from '../../utils/productHierarchy';
 
 const Container = styled.div`
-`;
-
-const MenuWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 15px;
 `;
 
 const NewBrandLink = styled(Link)`
@@ -88,9 +84,62 @@ const SpinnerWrapper = styled.div`
   height: 100%;
 `;
 
+const MenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+
+  @media ${device.laptop} {
+    width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+`;
+
+const FiltersWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+
+  @media ${device.laptop} {
+    width: auto;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+`;
+
+const BrandFilterWrapper = styled.div`
+  width: 100%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    min-width: 250px;
+    margin-bottom: 0;
+  }
+`;
+
+const applicationOptions = applicationsArr
+  .map(curApplication => ({
+    label: curApplication,
+    value: curApplication
+  }));
+
 
 export const AdminBrandList = () => {
   const [brandList, setBrandList] = useState([]);
+  const [filteredBrandList, setFilteredBrandList] = useState([]);
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [filteredCategoryList, setFilteredCategoryList] = useState([]);
+
+  const [application, setApplication] = useState(null);
+  const [category, setCategory] = useState(null);
+
   const [loading, setLoading] = useState(false);
 
   const fetchAllBrands = async () => {
@@ -109,6 +158,45 @@ export const AdminBrandList = () => {
   useEffect(() => {
     fetchAllBrands();
   }, []);
+
+  // Fetching category list from backend on page
+  useEffect(() => {
+    axios.get('/api/category')
+      .then(response => {
+        setCategoryList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching categories', error);
+      })
+  }, []);
+
+  useEffect(() => {
+    if (application) {
+      setFilteredBrandList(brandList.filter(curBrand => curBrand.application === application));
+      setFilteredCategoryList(categoryList.filter(curCategory => curCategory.application === application));
+    } else {
+      setFilteredBrandList(brandList);
+      setFilteredCategoryList([]);
+    }
+  }, [application, brandList]);
+
+  // Updating Category dropdown options on Application change
+  useEffect(() => {
+    const categoryOptionsUpdated = categoryList
+      .filter(curCategory => curCategory.application === application)
+      .map(curCategory => ({
+        label: curCategory.name, value: curCategory.name
+      }));
+
+    setFilteredCategoryList(categoryOptionsUpdated);
+    setCategory(null);
+  }, [application, categoryList]);
+
+  // Updating Brands when category is changed
+  useEffect(() => {
+    if (category)
+      setFilteredBrandList(brandList.filter(curBrand => (curBrand.application === application) && (curBrand.category === category)));
+  }, [category]);
 
   const handleOnDelete = async ({name, application, category}) => {
     const headers = { 'Content-Type': 'application/json' };
@@ -143,6 +231,26 @@ export const AdminBrandList = () => {
         <Container>
           <MenuWrapper>
             <NewBrandLink to='/admin/brands/new' >Add new brand</NewBrandLink>
+
+            <FiltersWrapper>
+              <BrandFilterWrapper>
+                  <Select
+                      placeholder='Application'
+                      value={application ? {label: application, value: application} : null}
+                      options={[{label: 'All', value: null}, ...applicationOptions]}
+                      onChange={e => setApplication(e.value)}
+                  />
+              </BrandFilterWrapper>
+
+              <BrandFilterWrapper>
+                <Select
+                  placeholder='Category filter'
+                  value={category ? {label: category, value: category} : null}
+                  options={filteredCategoryList}
+                  onChange={e => setCategory(e.value)}
+                />
+              </BrandFilterWrapper>
+            </FiltersWrapper>
           </MenuWrapper>
 
           <Header>
@@ -153,7 +261,7 @@ export const AdminBrandList = () => {
             <Column>Action</Column>
           </Header>
 
-          {brandList.map((curBrand, index) =>
+          {filteredBrandList.map((curBrand, index) =>
             <BrandRow key={index} >
               <Column>{curBrand.name}</Column>
 

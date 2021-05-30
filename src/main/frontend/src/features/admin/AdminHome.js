@@ -155,8 +155,8 @@ export const AdminHome = () => {
     <Container>
       <SideBar>
         <Menu to='/admin/overview' style={curPage === OVERVIEW_PAGE ? curPageStyle : null} >Overview</Menu>
-        <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE) ? curPageStyle : null} >Brands</Menu>
         <Menu to='/admin/category' style={(curPage === CATEGORY_PAGE || curPage === NEW_CATEGORY_PAGE) ? curPageStyle : null} >Categories</Menu>
+        <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE) ? curPageStyle : null} >Brands</Menu>
         <Menu to='/admin/division' style={(curPage === DIVISION_PAGE || curPage === NEW_DIVISION_PAGE) ? curPageStyle : null} >Divisions</Menu>
         {/* <Menu to='/admin/products' style={(curPage === PRODUCTS_PAGE || curPage === NEW_PRODUCTS_PAGE) ? curPageStyle : null} >Products</Menu> */}
         <Menu to='/admin/products2' style={(

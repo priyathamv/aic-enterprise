@@ -5,17 +5,13 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Popup from 'reactjs-popup';
+import Select from 'react-select';
 
 import { Spinner } from '../../utils/Spinner';
 import { device } from '../../utils/viewport';
+import { applicationsArr } from '../../utils/productHierarchy';
 
 const Container = styled.div`
-`;
-
-const MenuWrapper = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: 15px;
 `;
 
 const NewDivisionLink = styled(Link)`
@@ -88,10 +84,62 @@ const SpinnerWrapper = styled.div`
   height: 100%;
 `;
 
+const MenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+
+  @media ${device.laptop} {
+    width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+`;
+
+const FiltersWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 15px;
+
+  @media ${device.laptop} {
+    width: auto;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+  }
+`;
+
+const BrandFilterWrapper = styled.div`
+  width: 100%;
+  margin-right: 20px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    min-width: 250px;
+    margin-bottom: 0;
+  }
+`;
+
+
+const applicationOptions = applicationsArr
+  .map(curApplication => ({
+    label: curApplication,
+    value: curApplication
+  }));
 
 export const AdminDivisionList = () => {
   const [divisionList, setDivisionList] = useState([]);
+  const [filteredDivisionList, setFilteredDivisionList] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const [categoryList, setCategoryList] = useState([]);
+  const [filteredCategoryList, setFilteredCategoryList] = useState([]);
+
+  const [application, setApplication] = useState(null);
+  const [category, setCategory] = useState(null);
 
   const fetchAllDivisions = async () => {
     setLoading(true);
@@ -109,6 +157,45 @@ export const AdminDivisionList = () => {
   useEffect(() => {
     fetchAllDivisions();
   }, []);
+
+  // Fetching category list from backend on page
+  useEffect(() => {
+    axios.get('/api/category')
+      .then(response => {
+        setCategoryList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching categories', error);
+      })
+  }, []);
+
+  useEffect(() => {
+    if (application) {
+      setFilteredDivisionList(divisionList.filter(curDivision => curDivision.application === application));
+      setFilteredCategoryList(categoryList.filter(curCategory => curCategory.application === application));
+    } else {
+      setFilteredDivisionList(divisionList);
+      setFilteredCategoryList([]);
+    }
+  }, [application, divisionList]);
+
+  // Updating Category dropdown options on Application change
+  useEffect(() => {
+    const categoryOptionsUpdated = categoryList
+      .filter(curCategory => curCategory.application === application)
+      .map(curCategory => ({
+        label: curCategory.name, value: curCategory.name
+      }));
+
+    setFilteredCategoryList(categoryOptionsUpdated);
+    setCategory(null);
+  }, [application, categoryList]);
+
+  // Updating Brands when category is changed
+  useEffect(() => {
+    if (category)
+      setFilteredDivisionList(divisionList.filter(curDivision => (curDivision.application === application) && (curDivision.category === category)));
+  }, [category]);
 
   const handleOnDelete = async name => {
     const headers = { 'Content-Type': 'application/json' };
@@ -138,25 +225,42 @@ export const AdminDivisionList = () => {
         <Container>
           <MenuWrapper>
             <NewDivisionLink to='/admin/division/new' >Add new division</NewDivisionLink>
+
+            <FiltersWrapper>
+              <BrandFilterWrapper>
+                  <Select
+                      placeholder='Application'
+                      value={application ? {label: application, value: application} : null}
+                      options={[{label: 'All', value: null}, ...applicationOptions]}
+                      onChange={e => setApplication(e.value)}
+                  />
+              </BrandFilterWrapper>
+
+              <BrandFilterWrapper>
+                <Select
+                  placeholder='Category filter'
+                  value={category ? {label: category, value: category} : null}
+                  options={filteredCategoryList}
+                  onChange={e => setCategory(e.value)}
+                />
+              </BrandFilterWrapper>
+            </FiltersWrapper>
           </MenuWrapper>
 
           <Header>
             <Column>Name</Column>
             <Column>Application</Column>
             <Column>Category</Column>
-            <Column>Brand</Column>
             <Column>Action</Column>
           </Header>
 
-          {divisionList.map((curDivision, index) =>
+          {filteredDivisionList.map((curDivision, index) =>
             <DivisionRow key={index} >
               <Column>{curDivision.name}</Column>
 
               <Column>{curDivision.application}</Column>
 
               <Column>{curDivision.category}</Column>
-
-              <Column>{curDivision.brand}</Column>
 
               <Column>
                 <Popup
