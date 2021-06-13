@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import Popup from 'reactjs-popup';
 import Cookies from 'universal-cookie';
 
 import { FaUserCircle } from 'react-icons/fa';
-import { GiShoppingCart } from 'react-icons/gi';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BiChevronDown } from 'react-icons/bi';
 import { GLogout } from '../auth/GLogout';
 import { LoginModal } from '../auth/LoginModal';
 import { selectGoogleAuth, selectEmailAuth, selectUserImage, selectUserRole, logoutUserAction } from '../auth/authSlice';
 import { selectShowCartPage, selectCartItems, displayCartPage } from '../cart/cartSlice';
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
   flex: 1;
@@ -26,12 +27,14 @@ const LoggedinFrame = styled.div`
   margin-right: 10px;
 `;
 
-const LoginFrame = styled(Link)`
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
+const LoginButton = styled(Link)`
   text-decoration: none;
-  color: #232162;
+  margin: 0 10px;
+  background-color: #010867;
+  color: #FFF;
+  padding: 10px 45px;
+  border-radius: 30px;
+  font-size: 14px;
 `;
 
 const LoginInfo = styled.div`
@@ -49,15 +52,10 @@ const UserImage = styled.img`
 
 const UserIcon = styled(FaUserCircle)`
   cursor: pointer;
+  margin-right: 10px;
 `;
 
 const DownArrowIcon = styled(BiChevronDown)`
-  cursor: pointer;
-`;
-  
-const LoginButton = styled.div`
-  margin-right: 10px;
-  margin-left: 10px;
   cursor: pointer;
 `;
 
@@ -93,17 +91,28 @@ const UserOption = styled.div`
     background-color: #017acd0a
   }
 `;
-  
+
 const CartFrame = styled.div`
+  display: flex;
+  align-items: center;
+  background-color: #9F9F9F;
+  border-radius: 30px;
+  justify-content: space-evenly;
+  padding: 6.5px 6px;
+  color: #FFF;
+  margin-right: 30px;
   position: relative;
-  cursor: pointer;
+
+  @media ${device.laptop} {
+    min-width: 120px;
+    margin-right: 50px;
+  }
 `;
 
-const CartIcon = styled(GiShoppingCart)`
-  margin-right: 20px;
+const CartIcon = styled(AiOutlineShoppingCart)`
 `;
 
-const NoOfItems = styled.div`
+const NoOfItemsMobile = styled.div`
   position: absolute;
   background-color: #FF0000;
   color: #FFF;
@@ -114,7 +123,13 @@ const NoOfItems = styled.div`
   left: 15px;
 `;
 
+const NoOfItems = styled.div`
+  font-size: 13px;
+`;
+
 export const UserCart = ({ style }) => {
+  const history = useHistory();
+
   const viewportWidth = window.outerWidth;
   const isMobile = viewportWidth < 1024;
 
@@ -138,7 +153,7 @@ export const UserCart = ({ style }) => {
   useEffect(() => {
     function handleOutsideClick(e) {
       if (
-        (userIconRef.current && !userIconRef.current.contains(e.target)) && 
+        (userIconRef.current && !userIconRef.current.contains(e.target)) &&
         (userOptionsRef.current && !userOptionsRef.current.contains(e.target))
       ) {
         setShowUserOptions(false);
@@ -161,7 +176,7 @@ export const UserCart = ({ style }) => {
   return (
     <Container style={style}>
       <LoginInfo>
-        {isUserLoggedIn ? 
+        {isUserLoggedIn ?
           <LoggedinFrame ref={userIconRef} onClick={() => setShowUserOptions(!showUserOptions)} >
             {userImageUrl ? <UserImage src={userImageUrl} /> : <UserIcon size='2em'/>}
             <DownArrowIcon size='1.7em' />
@@ -172,32 +187,34 @@ export const UserCart = ({ style }) => {
             overlayStyle={{ overflow: 'scroll', zIndex: 100000 }}
             contentStyle={{ padding: 0, width: '100vw', height: '100%' }}
             trigger={
-              <LoginFrame to='/login'>
-                <UserIcon size='2em' />
-                {!isMobile && <LoginButton>Log In</LoginButton>}
-              </LoginFrame>
+              isMobile ?
+                <UserIcon size='2em' onClick={() => history.push('/push')} /> :
+                <LoginButton to='/login'>LOGIN</LoginButton>
             }
           >
             {close => (
               <LoginModal closeModal={close}/>
             )}
           </Popup>}
-        
+
         <CartFrame onClick={() => dispatch(displayCartPage(!showCartPage))}>
-          <CartIcon size='2em' />
-          {noOfcartItems ? <NoOfItems>{noOfcartItems}</NoOfItems> : null}
+          <CartIcon size='1.5em' color='#FFF' />
+          {isMobile ?
+            <NoOfItemsMobile>{noOfcartItems}</NoOfItemsMobile> :
+            <NoOfItems>{noOfcartItems} item(s)</NoOfItems>
+          }
         </CartFrame>
       </LoginInfo>
 
-      {showUserOptions ? 
+      {showUserOptions ?
         <UserOptions ref={userOptionsRef}>
           <UserOptionAnchor to='/account/my-account' onClick={() => setShowUserOptions(false)}>My Account</UserOptionAnchor>
           <UserOptionAnchor to='/account/my-orders' onClick={() => setShowUserOptions(false)}>My Orders</UserOptionAnchor>
-          {isAdmin && 
+          {isAdmin &&
             <UserOptionAnchor to='/admin/overview' onClick={() => setShowUserOptions(false)}>Admin Panel</UserOptionAnchor>}
 
-          {isUserGoogleLoggedIn ? 
-            <div onClick={() => setShowUserOptions(false)}><GLogout /></div> : 
+          {isUserGoogleLoggedIn ?
+            <div onClick={() => setShowUserOptions(false)}><GLogout /></div> :
             <UserOption onClick={() => logoutUser()}>Log Out</UserOption>
           }
         </UserOptions> : null }

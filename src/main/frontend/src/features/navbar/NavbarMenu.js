@@ -3,19 +3,55 @@ import styled from 'styled-components';
 import { Link, useHistory } from 'react-router-dom';
 
 import { UserCart } from './UserCart';
-// import { ProductsMenu } from './ProductsMenu';
 import { ProductsMenu2 } from './products/ProductsMenu2';
+import { device } from '../utils/viewport';
 
 const Container = styled.div`
   display: flex;
   align-items: center;
-  height: 75px;
+  width: 100%;
   color: #232162;
   text-align: center;
   border: 1px solid #CCC;
-  width: 100%;
   background-color: #FFF;
   z-index: 100000;
+  padding: 30px 0;
+`;
+
+const Logo = styled.img`
+  width: 50px;
+  border-radius: 40px;
+  margin-right: 15px;
+  cursor: pointer;
+
+  @media ${device.tablet} {
+    width: 70px;
+  }
+
+  @media ${device.laptop} {
+    margin-left: 50px;
+    width: 80px;
+  }
+`;
+
+const BrandWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const Brand = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 20px;
+
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
+
+  @media ${device.laptop} {
+    font-size: 30px;
+  }
 `;
 
 const MenuItems = styled.div`
@@ -29,36 +65,63 @@ const BlankMenuItem = styled.div`
   border-right: 1px solid #CCC;
 `;
 
-const MenuItemWrap = styled.div`
+const ProductsWrap = styled.div`
   display: flex;
-  flex: 1;
+  min-width: 150px;
   position: relative;
 `;
 
-const MenuItem = styled(Link)`
-  flex: 1;
-  text-decoration: none;
-  border-right: 1px solid #CCC;
-  padding-top: 27px;
-  color: #232162;
-  cursor: pointer;
-  &:hover {
-    color: #FFF;
-    background-color: #232162;
+const MenuWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media ${device.laptop} {
+    flex-direction: row;
   }
 `;
 
-const Logo = styled.img`
-  flex: 1;
-  border-right: 1px solid #CCC;
-  width: 60px;
-  border-radius: 40px;
-  margin-right: 15px;
-  cursor: pointer;
+const MenuItem = styled(Link)`
+  min-width: 150px;
+  align-self: center;
+  text-decoration: none;
+  color: #707070;
+  margin-bottom: 20px;
+  display: block;
+
+  @media ${device.laptop} {
+    border-right: 1px solid #E0E0E0;
+    margin-bottom: 0;
+  }
+
 `;
 
+const MenuItemSpecial = styled(Link)`
+  min-width: 150px;
+  align-self: center;
+  text-decoration: none;
+  background-color: #D99107;
+  color: #FFF;
+  padding: 10px 0;
+  border-radius: 30px;
+  margin-left: 0;
+
+  @media ${device.laptop} {
+    margin-left: 20px;
+    margin-right: 50px;
+  }
+`;
+
+// const Logo = styled.img`
+//   flex: 1;
+//   border-right: 1px solid #CCC;
+//   width: 60px;
+//   border-radius: 40px;
+//   margin-right: 15px;
+//   cursor: pointer;
+// `;
+
 const Search = styled.div`
-  flex: 3;
+  flex: 1;
 `;
 
 const Blank = styled.div`
@@ -68,9 +131,9 @@ const Blank = styled.div`
 const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
 const ABOUT_US_PAGE = 'ABOUT_US_PAGE';
 const CONTACT_US_PAGE = 'CONTACT_US_PAGE';
-const curPageStyle = { 
-  marginBottom: '-1px', 
-  borderBottom: '5px solid #232162' 
+const curPageStyle = {
+  marginBottom: '-1px',
+  borderBottom: '5px solid #232162'
 };
 
 export const NavbarMenu = () => {
@@ -80,7 +143,7 @@ export const NavbarMenu = () => {
   const isMobile = viewportWidth < 1024;
 
   const [showLogo, setShowLogo] = useState(false);
-  
+
   const scrollCallback = async () => {
     const navbarMenuDom = document.getElementById('navbar_menu_id');
     const coverImageSliderDom = document.getElementById('cover_image_slider_id');
@@ -162,35 +225,59 @@ export const NavbarMenu = () => {
 
   return (
     <Container id='navbar_menu_id'>
-      <MenuItems>
-        {isMobile ? 
-          null : 
+      {/* <MenuItems> */}
+        {/* {isMobile ?
+          null :
           <BlankMenuItem style={{ paddingTop: '8px' }}>
-            {showLogo ? 
+            {showLogo ?
               <Logo id='navmenu_logo_id' src='/images/aic_logo.png' alt='AIC Logo' onClick={() => window.location.href='/'}></Logo> : null}
-          </BlankMenuItem>  
-        }
-        <MenuItemWrap
-          onMouseEnter={() => displayProductMenu(true)} 
-          onMouseLeave={() => displayProductMenu(false)}
-        >
-          <MenuItem 
-            to='/products' 
-            style={curPage === PRODUCTS_PAGE ? curPageStyle : null} 
-            onClick={() => displayProductMenu(false)}>
-              Products
-          </MenuItem>
-          {/* <ProductsMenu /> */}
-          <ProductsMenu2 />
-        </MenuItemWrap>
-        <MenuItem style={curPage === ABOUT_US_PAGE ? curPageStyle : null} to='/about-us'>About us</MenuItem>
-        <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>Contact us</MenuItem>
-        <MenuItem to="/covid19">Covid 19</MenuItem>
-      </MenuItems>
+          </BlankMenuItem>
+        } */}
 
-      {isMobile ? null : <Search />}
+        <Logo
+          // style={ isAdmin ? { marginLeft: '20px' } : null }
+          src='/images/aic_logo.png'
+          alt='AIC Logo'
+          onClick={() => window.location.href='/'}
+        />
 
-      {(showLogo && !isMobile) ? <UserCart /> : (isMobile ? null : <Blank />)}
+        <BrandWrapper>
+          <Brand>AIC</Brand>
+          <Brand>GROUP</Brand>
+        </BrandWrapper>
+
+        <Blank />
+        <Blank />
+        <Blank />
+
+        <MenuWrap>
+          <ProductsWrap
+            onMouseEnter={() => displayProductMenu(true)}
+            onMouseLeave={() => displayProductMenu(false)}
+          >
+            <MenuItem
+              to='/products'
+              style={curPage === PRODUCTS_PAGE ? curPageStyle : null}
+              onClick={() => displayProductMenu(false)}>
+                PRODUCTS
+            </MenuItem>
+            {/* <ProductsMenu /> */}
+            <ProductsMenu2 />
+          </ProductsWrap>
+
+          <MenuItem style={curPage === ABOUT_US_PAGE ? curPageStyle : null} to='/about-us'>ABOUT US</MenuItem>
+
+          <MenuItem to='/'>BLOG</MenuItem>
+
+          <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>CONTACT</MenuItem>
+
+          <MenuItemSpecial to="/covid19">COVID 19</MenuItemSpecial>
+
+          {isMobile ? null : <Search />}
+        </MenuWrap>
+      {/* </MenuItems> */}
+
+      {/* {(showLogo && !isMobile) ? <UserCart /> : (isMobile ? null : <Blank />)} */}
     </Container>
   )
 }
