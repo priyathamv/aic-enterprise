@@ -2,7 +2,8 @@ import React from 'react';
 
 import { SideBarOverlay } from '../cart/SideBarOverlay';
 import { CoverImageSlider } from './coverimage/CoverImageSlider';
-import { SeeOurProducts } from './common/SeeOurProducts';
+import { Traits } from './traits/Traits';
+import { Applications } from './applications/Applications';
 import { FeaturedCarousel } from './featured/FeaturedCarousel';
 import { TrustedBy } from './common/TrustedBy';
 import { ReviewsComponent } from './reviews/ReviewsComponent';
@@ -19,8 +20,9 @@ export const Homepage = () => {
     <div>
       <SideBarOverlay />
       <CoverImageSlider />
+      <Traits />
       <HomepageIntro />
-      <SeeOurProducts />
+      <Applications />
       <FeaturedCarousel />
       <WhyChooseUs />
       <KeyBenefits />

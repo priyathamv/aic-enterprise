@@ -28,7 +28,6 @@ const BrandFrame = styled.div`
   align-items: center;
   height: 100%;
 
-
   @media ${device.tablet} {
     flex: 2;
   }

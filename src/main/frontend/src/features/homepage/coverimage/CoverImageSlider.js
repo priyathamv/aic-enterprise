@@ -10,11 +10,6 @@ import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   background-color: #FFF;
-  margin-bottom: 20px;
-
-  @media ${device.laptop} { 
-    margin-bottom: 50px;
-  }
 `;
 
 const Image0 = styled.div`
@@ -50,8 +45,8 @@ const Button = styled(Link)`
   border: 1px solid black;
   padding: 10px;
   font-size: 14px;
-  
-  @media ${device.laptop} { 
+
+  @media ${device.laptop} {
     padding: 15px 30px;
     font-size: 16px;
   }
@@ -68,12 +63,12 @@ const Title = styled.div`
   font-size: 18px;
   margin-bottom: 18px;
 
-  @media ${device.tablet} { 
+  @media ${device.tablet} {
     font-size: 28px;
     margin-bottom: 30px;
   }
-  
-  @media ${device.laptop} { 
+
+  @media ${device.laptop} {
     font-size: 36px;
     margin-bottom: 40px;
   }
@@ -85,12 +80,12 @@ const Description = styled.div`
   margin-bottom: 30px;
   font-size: 12px;
 
-  @media ${device.tablet} { 
+  @media ${device.tablet} {
     font-size: 14px;
     margin-bottom: 40px;
   }
-  
-  @media ${device.laptop} { 
+
+  @media ${device.laptop} {
     margin-bottom: 80px;
     font-size: 16px;
     font-weight: bold;
@@ -121,10 +116,10 @@ export const CoverImageSlider = () => {
             <Button to='/about-us' >EXPLORE</Button>
           </Content>
         </div>
-        
+
         <div className='cover-image'>
           <Image1 />
-          
+
           <Content>
             <Title>On time delivery</Title>
             <Description>"Our strong and robust supply chain network supports us in ensuring that deliveries are on time and as per the needs of our customers."</Description>

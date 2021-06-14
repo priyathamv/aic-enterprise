@@ -132,8 +132,8 @@ const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
 const ABOUT_US_PAGE = 'ABOUT_US_PAGE';
 const CONTACT_US_PAGE = 'CONTACT_US_PAGE';
 const curPageStyle = {
-  marginBottom: '-1px',
-  borderBottom: '5px solid #232162'
+  color: '#232162',
+  fontWeight: 'bold'
 };
 
 export const NavbarMenu = () => {
@@ -157,40 +157,42 @@ export const NavbarMenu = () => {
     const featuredDom = document.getElementById('featured_id');
     const productCatalogueDom = document.getElementById('product_catalogue_id');
 
-    if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
-      if (navbarMenuDom) {
-        navbarMenuDom.style.position = 'fixed';
-        navbarMenuDom.style.top = '0';
-        navbarMenuDom.style.borderTop = 'none';
+    if (!isMobile) {
+      if ((document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) && !document.getElementById('login_modal_id')) {
+        if (navbarMenuDom) {
+          navbarMenuDom.style.position = 'fixed';
+          navbarMenuDom.style.top = '0';
+          navbarMenuDom.style.borderTop = 'none';
+        }
+        coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '100px');
+        aboutUsDom && (aboutUsDom.style.paddingTop = '100px');
+        contactUsDom && (contactUsDom.style.paddingTop = '100px');
+        productsDom && (productsDom.style.paddingTop = '100px');
+        productListDom && (productListDom.style.paddingTop = '100px');
+        productListDom2 && (productListDom2.style.paddingTop = '100px');
+        myAccountDom && (myAccountDom.style.paddingTop = '100px');
+        covid19Dom && (covid19Dom.style.paddingTop = '100px');
+        featuredDom && (featuredDom.style.paddingTop = '100px');
+        productCatalogueDom && (productCatalogueDom.style.paddingTop = '100px');
+        setShowLogo(true);
+      } else {
+        setShowLogo(false);
+        if (navbarMenuDom) {
+          navbarMenuDom.style.position = 'initial';
+          navbarMenuDom.style.top = '100px';
+          navbarMenuDom.style.borderTop = '1px solid #CCC';
+        }
+        coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '0');
+        aboutUsDom && (aboutUsDom.style.paddingTop = '0');
+        contactUsDom && (contactUsDom.style.paddingTop = '0');
+        productsDom && (productsDom.style.paddingTop = '0');
+        productListDom && (productListDom.style.paddingTop = '0');
+        productListDom2 && (productListDom2.style.paddingTop = '0');
+        myAccountDom && (myAccountDom.style.paddingTop = '0');
+        covid19Dom && (covid19Dom.style.paddingTop = '0');
+        featuredDom && (featuredDom.style.paddingTop = '0');
+        productCatalogueDom && (productCatalogueDom.style.paddingTop = '0');
       }
-      coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '75px');
-      aboutUsDom && (aboutUsDom.style.paddingTop = '75px');
-      contactUsDom && (contactUsDom.style.paddingTop = '75px');
-      productsDom && (productsDom.style.paddingTop = '75px');
-      productListDom && (productListDom.style.paddingTop = '75px');
-      productListDom2 && (productListDom2.style.paddingTop = '75px');
-      myAccountDom && (myAccountDom.style.paddingTop = '75px');
-      covid19Dom && (covid19Dom.style.paddingTop = '75px');
-      featuredDom && (featuredDom.style.paddingTop = '75px');
-      productCatalogueDom && (productCatalogueDom.style.paddingTop = '75px');
-      setShowLogo(true);
-    } else {
-      setShowLogo(false);
-      if (navbarMenuDom) {
-        navbarMenuDom.style.position = 'initial';
-        navbarMenuDom.style.top = '100px';
-        navbarMenuDom.style.borderTop = '1px solid #CCC';
-      }
-      coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '0');
-      aboutUsDom && (aboutUsDom.style.paddingTop = '0');
-      contactUsDom && (contactUsDom.style.paddingTop = '0');
-      productsDom && (productsDom.style.paddingTop = '0');
-      productListDom && (productListDom.style.paddingTop = '0');
-      productListDom2 && (productListDom2.style.paddingTop = '0');
-      myAccountDom && (myAccountDom.style.paddingTop = '0');
-      covid19Dom && (covid19Dom.style.paddingTop = '0');
-      featuredDom && (featuredDom.style.paddingTop = '0');
-      productCatalogueDom && (productCatalogueDom.style.paddingTop = '0');
     }
   }
 
@@ -252,8 +254,8 @@ export const NavbarMenu = () => {
 
         <MenuWrap>
           <ProductsWrap
-            onMouseEnter={() => displayProductMenu(true)}
-            onMouseLeave={() => displayProductMenu(false)}
+            // onMouseEnter={() => displayProductMenu(true)}
+            // onMouseLeave={() => displayProductMenu(false)}
           >
             <MenuItem
               to='/products'
@@ -261,7 +263,6 @@ export const NavbarMenu = () => {
               onClick={() => displayProductMenu(false)}>
                 PRODUCTS
             </MenuItem>
-            {/* <ProductsMenu /> */}
             <ProductsMenu2 />
           </ProductsWrap>
 
