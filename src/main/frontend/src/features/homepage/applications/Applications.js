@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 import { device } from '../../utils/viewport';
@@ -27,7 +28,10 @@ const Container = styled.div`
 
 const Head = styled.div`
   text-align: center;
-  margin: 0 30vw 100px 30vw;
+
+  @media ${device.laptop} {
+    margin: 0 30vw 100px 30vw;
+  }
 `;
 
 const Heading = styled.div`
@@ -51,14 +55,22 @@ const SubHeading = styled.div`
 
 const AppFrame = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   box-shadow: 0px 9px 64px #3B3B3B42;
-  margin: 20px 300px;
-  padding: 50px;
+  margin: 20px 0 0 0;
+  padding: 10px;
   cursor: pointer;
 
-  &:hover {
-    background-color: #D99107;
+  @media ${device.tablet} {
+    margin: 20px 50px 0 50px;
+    padding: 30px;
+  }
+
+  @media ${device.laptop} {
+    flex-direction: row;
+    margin: 40px 300px 0 300px;
+    padding: 50px;
   }
 `;
 
@@ -69,12 +81,51 @@ const Name = styled.div`
   font-weight: bold;
   font-size: 24px;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const Description = styled.div`
   flex: 3;
   color: #888888;
   padding: 0 10px;
+
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
+`;
+
+const CategoryWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
+
+  box-shadow: 0px 9px 64px #3B3B3B42;
+  padding: 10px;
+  font-weight: bold;
+
+  @media ${device.tablet} {
+    grid-template-columns: 1fr 1fr;
+    margin: 20px 50px 0 50px;
+    padding: 20px;
+  }
+
+  @media ${device.laptop} {
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 0 300px 20px 300px;
+    padding: 100px;
+  }
+`;
+
+const Category = styled(Link)`
+  text-decoration: none;
+  color: #484848;
 `;
 
 const DownIcon = styled(AiFillCaretDown)`
@@ -94,42 +145,83 @@ const UpIcon = styled(AiFillCaretUp)`
 const AnalyticsIcon = styled(AnalyticsSvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const AnalyticsInversionIcon = styled(AnalyticsInversionSvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const LifeScienceIcon = styled(LifeScienceSvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const LifeScienceInversionIcon = styled(LifeScienceInversionSvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const SafetyIcon = styled(SafetySvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const SafetyInversionIcon = styled(SafetyInversionSvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const ScienceLabIcon = styled(ScienceLabSvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
 
 const ScienceLabInversionIcon = styled(ScienceLabInversionSvg)`
   flex: 1;
   padding: 0 10px;
+  margin-bottom: 20px;
+
+  @media ${device.laptop} {
+    margin-bottom: 0;
+  }
 `;
+
 
 export const applicationObjs = [
   {
@@ -137,7 +229,7 @@ export const applicationObjs = [
     image: AnalyticsInversionIcon,
     invertedImage: AnalyticsIcon,
     isActive: false,
-    onHover: false,
+    // onHover: false,
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
   },
   {
@@ -145,7 +237,7 @@ export const applicationObjs = [
     image: LifeScienceInversionIcon,
     invertedImage: LifeScienceIcon,
     isActive: false,
-    onHover: false,
+    // onHover: false,
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
   },
   {
@@ -153,7 +245,7 @@ export const applicationObjs = [
     image: ScienceLabInversionIcon,
     invertedImage: ScienceLabIcon,
     isActive: false,
-    onHover: false,
+    // onHover: false,
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
   },
   {
@@ -161,7 +253,7 @@ export const applicationObjs = [
     image: SafetyInversionIcon,
     invertedImage: SafetyIcon,
     isActive: false,
-    onHover: false,
+    // onHover: false,
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
   }
 ];
@@ -169,6 +261,20 @@ export const applicationObjs = [
 export const Applications = () => {
 
   const [applications, setApplications] = useState(applicationObjs);
+
+  const [categoryList, setCategoryList] = useState([]);
+
+  // Fetching category list from backend on page
+  useEffect(() => {
+    axios.get('/api/category')
+      .then(response => {
+        setCategoryList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching categories', error);
+      })
+  }, []);
+
 
   const handleOnClick = (obj, index) => {
     const applicationsUpdated = applications.map((curApplication, curIndex) => {
@@ -180,15 +286,15 @@ export const Applications = () => {
     setApplications(applicationsUpdated);
   }
 
-  const handleMouseEnter = (isEnter, index) => {
-    const applicationsUpdated = applications.map((curApplication, curIndex) => {
-      return curIndex === index ?
-        {...curApplication, onHover: isEnter} :
-        {...curApplication, onHover: false};
-    });
+  // const handleMouseEnter = (isEnter, index) => {
+  //   const applicationsUpdated = applications.map((curApplication, curIndex) => {
+  //     return curIndex === index ?
+  //       {...curApplication, onHover: isEnter} :
+  //       {...curApplication, onHover: false};
+  //   });
 
-    setApplications(applicationsUpdated);
-  }
+  //   setApplications(applicationsUpdated);
+  // }
 
   return (
     <Container>
@@ -201,23 +307,37 @@ export const Applications = () => {
       </Head>
 
       {applications.map((curApplicationObj, index) => (
-        <AppFrame
-          key={index}
-          onClick={e => handleOnClick(curApplicationObj, index)}
-          onMouseEnter={e => handleMouseEnter(true, index)}
-          onMouseLeave={e => handleMouseEnter(false, index)}
-        >
-          {curApplicationObj.onHover ? <curApplicationObj.invertedImage /> : <curApplicationObj.image />}
-          <Name style={ curApplicationObj.onHover ? { color: '#FFF' } : null }>{curApplicationObj.name}</Name>
-          <Description style={ curApplicationObj.onHover ? { color: '#FFF' } : null }>{curApplicationObj.description}</Description>
-          {curApplicationObj.isActive ? <UpIcon /> : <DownIcon />}
-        </AppFrame>
+        <div key={index}>
+          <AppFrame
+            style={ curApplicationObj.isActive ? { backgroundColor: '#D99107' } : null }
+            key={index}
+            onClick={e => handleOnClick(curApplicationObj, index)}
+            // onMouseEnter={e => handleMouseEnter(true, index)}
+            // onMouseLeave={e => handleMouseEnter(false, index)}
+          >
+            {curApplicationObj.isActive ? <curApplicationObj.invertedImage /> : <curApplicationObj.image />}
+            <Name style={ curApplicationObj.isActive ? { color: '#FFF' } : null }>{curApplicationObj.name}</Name>
+            <Description style={ curApplicationObj.isActive ? { color: '#FFF' } : null }>{curApplicationObj.description}</Description>
+            {curApplicationObj.isActive ? <UpIcon /> : <DownIcon />}
+          </AppFrame>
+
+          <Collapse isOpened={curApplicationObj.isActive}>
+            <CategoryWrapper>
+              {categoryList
+                .filter(curCategoryObj => curCategoryObj.application === curApplicationObj.name)
+                .map((curCategoryObj, innerIndex) =>
+                  <Category
+                    key={innerIndex}
+                    to={`/productlist?application=${curApplicationObj.name}&category=${encodeURIComponent(curCategoryObj.name)}`}
+                  >
+                    {curCategoryObj.name}
+                  </Category>)
+              }
+            </CategoryWrapper>
+          </Collapse>
+        </div>
       ))}
 
-      <Collapse isOpened={true}>
-
-
-      </Collapse>
 
     </Container>
   )

@@ -159,7 +159,7 @@ export const AdminHome = () => {
         <Menu to='/admin/brands' style={(curPage === BRANDS_PAGE || curPage === NEW_BRANDS_PAGE) ? curPageStyle : null} >Brands</Menu>
         <Menu to='/admin/division' style={(curPage === DIVISION_PAGE || curPage === NEW_DIVISION_PAGE) ? curPageStyle : null} >Divisions</Menu>
         {/* <Menu to='/admin/products' style={(curPage === PRODUCTS_PAGE || curPage === NEW_PRODUCTS_PAGE) ? curPageStyle : null} >Products</Menu> */}
-        <Menu to='/admin/products2' style={(
+        <Menu to='/admin/products2?application=Analytical' style={(
           curPage === PRODUCTS_PAGE2 ||
           curPage === NEW_PRODUCTS_PAGE2 ||
           curPage === EDIT_ANALYTICAL_PRODUCT_PAGE) ? curPageStyle : null} >Products</Menu>

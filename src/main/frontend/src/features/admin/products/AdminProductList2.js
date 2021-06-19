@@ -200,6 +200,13 @@ export const AdminProductList2 = () => {
     dispatch(updateHasMore(true));
     setBrand(null);
     setPageNo(0);
+
+    let basePath;
+    if (history.location.pathname.includes('/admin/products2'))
+      basePath = '/admin/products2'
+    else
+      basePath = '/productlist'
+    history.push(`${basePath}?application=${e.value}`)
   }
 
   const handleCategoryChange = e => {
@@ -208,6 +215,13 @@ export const AdminProductList2 = () => {
     dispatch(updateHasMore(true));
     setBrand(null);
     setPageNo(0);
+
+    let basePath;
+    if (history.location.pathname.includes('/admin/products2'))
+      basePath = '/admin/products2'
+    else
+      basePath = '/productlist'
+    history.push(`${basePath}?application=${encodeURIComponent(application)}&category=${encodeURIComponent(e.value)}`)
   }
 
   const handleDivisionChange = e => {
@@ -216,17 +230,52 @@ export const AdminProductList2 = () => {
     dispatch(updateHasMore(true));
     setBrand(null);
     setPageNo(0);
+
+    let basePath;
+    if (history.location.pathname.includes('/admin/products2'))
+      basePath = '/admin/products2'
+    else
+      basePath = '/productlist'
+    history.push(`${basePath}?application=${encodeURIComponent(application)}&category=${encodeURIComponent(category)}&division=${encodeURIComponent(e.value)}`);
   }
 
   const handleBrandChange = e => {
     dispatch(updateHasMore(true));
     setPageNo(0);
     setBrand(e.value);
+
+    let basePath;
+    if (history.location.pathname.includes('/admin/products2'))
+      basePath = '/admin/products2'
+    else
+      basePath = '/productlist'
+    history.push(`${basePath}?application=${encodeURIComponent(application)}&category=${encodeURIComponent(category)}&division=${encodeURIComponent(division)}&brand=${encodeURIComponent(e.value)}`);
   }
 
   const history = useHistory();
 
   const curPath = history.location.pathname;
+
+  // Setting query params into the component state
+  useEffect(() => {
+    if (history.location.search) {
+      history.location.search
+        .replaceAll('?', '')
+        .split('&')
+        .map(curQueryParam => (curQueryParam.split('=')))
+        .forEach(([key, value]) => {
+          const decodedValue = decodeURIComponent(value);
+          if (key === 'application')
+            setApplication(decodedValue);
+          else if (key === 'category')
+            setCategory(decodedValue);
+          else if (key === 'division')
+            setDivisionList(decodedValue);
+          else if (key === 'brand')
+            setBrandList(decodedValue);
+        });
+    }
+  }, [history.location.search, category, division, brand]);
 
   return (
     <Container>
