@@ -8,24 +8,21 @@ const Container = styled.div`
   height: 200px;
   display: flex;
   align-items: center;
-`;
+  margin: -100px 10px 30px 10px;
 
-const Label = styled.div`
-  width: 30vw;
-  color: #232162;
-  font-weight: bold;
-  text-align: center;
-  margin: 0 10px;
+  @media ${device.tablet} {
+    margin: -100px 50px 50px 50px;
+  }
 
-  @media ${device.laptop} { 
-    font-size: 26px;  
+  @media ${device.laptop} {
+    margin: -100px 200px 50px 200px;
   }
 `;
 
 const Image = styled.img`
   width: 30vw;
 
-  @media ${device.laptop} { 
+  @media ${device.laptop} {
     width: 15vw;
   }
 `;
@@ -34,8 +31,6 @@ const Image = styled.img`
 export const TrustedBy = () => {
   return (
     <Container>
-      <Label>Trusted by</Label>
-
       <div className='slideshow'>
         <div className='brands-frame'>
           {Array(20).fill().map((cur, index) => <Image key={index} src={`/images/trusted_by/${index+1}.png`} />)}

@@ -4,6 +4,7 @@ import { SideBarOverlay } from '../cart/SideBarOverlay';
 import { CoverImageSlider } from './coverimage/CoverImageSlider';
 import { Traits } from './traits/Traits';
 import { Applications } from './applications/Applications';
+import { OurProducts } from './our-products/OurProducts';
 import { FeaturedCarousel } from './featured/FeaturedCarousel';
 import { TrustedBy } from './common/TrustedBy';
 import { ReviewsComponent } from './reviews/ReviewsComponent';
@@ -23,13 +24,14 @@ export const Homepage = () => {
       <Traits />
       <HomepageIntro />
       <Applications />
-      <FeaturedCarousel />
+      <OurProducts />
+      {/* <FeaturedCarousel />
       <WhyChooseUs />
       <KeyBenefits />
       <OurCompany />
       <OurProcess />
       <ReviewsComponent />
-      <NewsLetter />
+      <NewsLetter /> */}
       <TrustedBy />
     </div>
   )

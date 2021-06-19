@@ -17,7 +17,7 @@ const Container = styled.div`
   padding-top: 50px;
 
   @media ${device.tablet} {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   @media ${device.laptop} {
