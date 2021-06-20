@@ -8,13 +8,14 @@ import { IoIosMail } from 'react-icons/io';
 import { FaFacebookF } from 'react-icons/fa';
 import { AiFillInstagram } from 'react-icons/ai';
 import { AiOutlineTwitter } from 'react-icons/ai';
+import { FaLinkedinIn } from 'react-icons/fa';
 
 import { isValidEmail, signUpForNews } from '../../utils/Utils';
 
 const Container = styled.div`
-  background-color: #232162;
-  color: white;
-  padding: 50px 0 10px 0;
+  background-color: #F2F2F2;
+  color: #262626;
+  padding: 50px 0 0 0;
   flex-shrink: 0;
 `;
 
@@ -49,7 +50,7 @@ const BrandCaption = styled.div`
 `;
 
 const LogoFrame = styled.div`
-  
+
 `;
 
 const Logo = styled.img`
@@ -59,7 +60,7 @@ const Logo = styled.img`
 `;
 
 const ContentContainer = styled.div`
-  width: 210px;
+  width: 300px;
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
@@ -73,14 +74,17 @@ const ContactContainer = styled.div`
 `;
 
 const ContentLabel = styled.div`
-  font-size: 14px;
+  font-size: 22px;
   margin-bottom: 30px;
-  font-weight: 700;
+  font-weight: bold;
+  color: #707070;
 `;
 
 const ContentText = styled.div`
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  line-height: 26px;
 `;
 
 const LocationIcon = styled(ImLocation)`
@@ -95,7 +99,7 @@ const PhoneIcon = styled(ImPhone)`
 `;
 
 const Mail = styled.a`
-  color: #FFF;
+  color: #262626;
   text-decoration: none;
 `;
 
@@ -105,10 +109,11 @@ const MailIcon = styled(IoIosMail)`
 `;
 
 const QuickLink = styled(Link)`
-  color: white;
+  color: #262626;
   text-decoration: none;
   margin-bottom: 15px;
   cursor: pointer;
+  font-size: 18px;
   &:hover {
     text-decoration: underline;
   }
@@ -148,25 +153,56 @@ const Message = styled.div`
 
 const SocialMedia = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
 `;
 
 const FacebookIcon = styled(FaFacebookF)`
   cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 15px;
+  margin-right: 10px;
 `;
 
 const InstagramIcon = styled(AiFillInstagram)`
   cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 15px;
+  margin-right: 10px;
 `;
 
 const TwitterIcon = styled(AiOutlineTwitter)`
   cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 15px;
+  margin-right: 10px;
+`;
+
+const LinkedinIcon = styled(FaLinkedinIn)`
+  cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 15px;
+  margin-right: 10px;
 `;
 
 const Copyright = styled.div`
-  font-size: 12px;
   text-align: center;
+  background-color: #010867;
+  color: #FFF;
+  padding: 30px;
+`;
+
+const PaymentIcon = styled.img`
+  width: 50px;
+  margin-right: 20px;
 `;
 
 export const Footer = () => {
@@ -192,79 +228,71 @@ export const Footer = () => {
   return (
     <Container>
       <FootContainer>
-        <Brand>
+        {/* <Brand>
           <BrandFrame>
-            <LogoFrame>
-              <Logo src='/images/aic_logo.png' alt='logo'/>
-
-              <SocialMedia>
-                <FacebookIcon size='1.2em' onClick={() => openInNewTab('https://www.facebook.com')}/>
-                <InstagramIcon size='1.2em' onClick={() => openInNewTab('https://www.instagram.com')}/>
-                <TwitterIcon size='1.3em' onClick={() => openInNewTab('https://www.twitter.com')}/>
-              </SocialMedia>
-            </LogoFrame>
-            
             <BrandDescription>
               <BrandName>AIC Group</BrandName>
               <BrandCaption>AIC Group is the leading company with the known name and rich history in the Scientific industry. We have presence in 4 locations across India with over 1Lakh+ products line.</BrandCaption>
             </BrandDescription>
           </BrandFrame>
-        </Brand>
+        </Brand> */}
 
         <ContentContainer>
-          <ContentLabel>QUICK LINKS</ContentLabel>
+          <ContentLabel>About us</ContentLabel>
+
           <ContentFrame>
+            <ContentText>AIC Group is the leading company with the known name and rich history in the Scientific industry</ContentText>
+          </ContentFrame>
+
+          <ContentLabel style={{ marginBottom: '15px' }}>Follow us</ContentLabel>
+
+          <SocialMedia>
+            <FacebookIcon size='1.5em' onClick={() => openInNewTab('https://www.facebook.com')}/>
+            <InstagramIcon size='1.5em' onClick={() => openInNewTab('https://www.instagram.com')}/>
+            <LinkedinIcon size='1.5em' onClick={() => openInNewTab('https://www.linkedin.com')}/>
+            <TwitterIcon size='1.6em' onClick={() => openInNewTab('https://www.twitter.com')}/>
+          </SocialMedia>
+        </ContentContainer>
+
+        <ContentContainer>
+          <ContentLabel>Information</ContentLabel>
+          <ContentFrame>
+            <QuickLink to='/'>Profile</QuickLink>
             <QuickLink to='/about-us'>About Us</QuickLink>
-            <QuickLink to='/products'>Products</QuickLink>
-            <QuickLink to='/contact-us'>Contact us</QuickLink>
-            <QuickLink to='/covid-19'>Covid 19</QuickLink>
+            <QuickLink to='/contact-us'>Contact</QuickLink>
+            <QuickLink to='/'>Address</QuickLink>
+            <QuickLink to='/'>Return policy</QuickLink>
           </ContentFrame>
         </ContentContainer>
 
         <ContactContainer>
-          <ContentLabel>GET IN TOUCH</ContentLabel>
+          <ContentLabel>Products</ContentLabel>
           <ContentFrame>
-            <ContentText>
-              <LocationIcon />
-              <span>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</span>
-            </ContentText>
-
-            <ContentText>
-              <PhoneIcon />
-              <Mail href='tel:+918028364174'>Bangalore:<br/> 080-28364174/75/76/77</Mail>
-            </ContentText>
-            
-            <ContentText>
-              <div style={{ marginRight: '25px' }}/>
-              <Mail href='tel:+918028364174'>Chennai:<br/> 044- 28416127/28550686/28515025</Mail>
-            </ContentText>
-
-            <ContentText>
-              <MailIcon />
-              <Mail href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</Mail>
-            </ContentText>
+            <QuickLink to='/'>FAQs</QuickLink>
+            <QuickLink to='/'>Guides</QuickLink>
+            <QuickLink to='/contact-us'>Contact us</QuickLink>
+            <QuickLink to='/'>Sell with Us</QuickLink>
+            <QuickLink to='/'>Sitemap</QuickLink>
           </ContentFrame>
         </ContactContainer>
 
-        <NewsSignUp>
-          <ContentLabel>NEWS LETTER</ContentLabel>
-          
+        <ContactContainer>
+          <ContentLabel>Address</ContentLabel>
+
           <ContentFrame>
-            <MailInput 
-              type='text' 
-              placeholder='Enter your mail address' 
-              value={signUpEmail} 
-              onChange={e => setSignUpEmail(e.target.value)}
-            />
-
-            <SignUpButton onClick={handleOnSignUp}>Sign Up!</SignUpButton>
-
-            <Message>{signUpMessage}</Message>
+            <ContentText>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka, 560058</ContentText>
           </ContentFrame>
-        </NewsSignUp>
+
+          <SocialMedia>
+            <PaymentIcon src='/images/footer/visa.png' />
+            <PaymentIcon src='/images/footer/mastercard.png' />
+            <PaymentIcon src='/images/footer/ebay.png' />
+          </SocialMedia>
+
+        </ContactContainer>
       </FootContainer>
 
-      <Copyright>© 2021 by AIC Group</Copyright>
+      <Copyright>Copyright © 2021, AIC GROUP</Copyright>
     </Container>
   )
 }

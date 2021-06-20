@@ -152,7 +152,7 @@ export const OurProducts = () => {
         <Description>We carry with us the legacy of offering the widest range of products in this field owing to being the authorised distributors and channel partners for mulple companies. <br></br>
         With a price range that suits all kinds of requirements, set-ups and working condions, we are here to meet all your needs. Log on to our products page to see what we have to offer.</Description>
 
-        <ExploreButton>EXPLORE ALL</ExploreButton>
+        <ExploreButton to='/productlist'>EXPLORE ALL</ExploreButton>
 
         <ProductWrapper>
           {(isMobile ? productList.slice(0, 2) : isTablet ? productList.slice(0, 4) : productList).map((curProduct, index) =>

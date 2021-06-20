@@ -14,7 +14,7 @@ import { AboutUs } from './features/aboutus/AboutUs';
 import { ContactUs } from './features/contactus/ContactUs';
 import { Navbar } from './features/navbar/Navbar';
 import { Homepage } from './features/homepage/Homepage';
-import { Footer } from './features/homepage/common/Footer';
+import { Footer } from './features/homepage/footer/Footer';
 import { updateEmailAuthDetails } from './features/auth/authSlice';
 import { GLogin } from './features/auth/GLogin';
 import { LoginPage } from './features/auth/LoginPage';
@@ -38,10 +38,10 @@ const Body = styled.div`
 
 function App() {
   const dispatch = useDispatch();
-  
+
   const getUserDetails = async token => {
     const headers = {
-      'Content-Type': 'application/json', 
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
     try {
@@ -50,7 +50,7 @@ function App() {
         // Handle when the token expires
         dispatch(updateEmailAuthDetails(userDetailsResponse.data.payload));
       }
-      
+
     } catch (err) {
       console.log('Error while fetching User details', err.message);
     }
@@ -59,7 +59,7 @@ function App() {
   useEffect(() => {
     const cookies = new Cookies();
     const authToken = cookies.get('auth_token');
-    
+
     if (authToken)
       getUserDetails(authToken);
   }, [dispatch]);

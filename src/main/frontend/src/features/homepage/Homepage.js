@@ -34,6 +34,7 @@ export const Homepage = () => {
       <NewsLetter /> */}
       <TrustedBy />
       <OurProcess />
+      <WhyChooseUs />
     </div>
   )
 }

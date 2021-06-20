@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { Navbar } from './features/navbar/Navbar';
 import { CartSideBar } from './features/cart/CartSideBar';
 import ScrollToTop from './features/utils/ScrollToTop';
-import { Footer } from './features/homepage/common/Footer';
+import { Footer } from './features/homepage/footer/Footer';
 
 const Body = styled.div`
   flex: 1 0 auto;

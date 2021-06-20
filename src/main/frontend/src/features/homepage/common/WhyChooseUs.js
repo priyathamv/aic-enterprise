@@ -4,102 +4,177 @@ import styled from 'styled-components';
 import { device } from '../../utils/viewport';
 
 const Container = styled.div`
-  display: flex;
-  background-color: black;
-  color: #FFF;
-  flex-direction: column;
 
-  @media ${device.laptop} { 
-    flex-direction: row;
+
+
+  @media ${device.laptop} {
   }
 `;
 
-const Image = styled.img`
-  width: 100%;
+const Heading = styled.div`
+  text-align: center;
+  font-weight: bold;
+  color: #010867;
+  font-size: 24px;
+  margin-bottom: 30px;
 
-  @media ${device.laptop} { 
-    width: 55vw;
+  @media ${device.tablet} {
+    font-size: 32px;
   }
-`;
 
-const Content = styled.div`
-  padding: 40px 20px;
-
-  @media ${device.tablet} { 
-    padding: 80px 40px;
-  }
-  
-  @media ${device.laptop} { 
-    width: 45vw;
-    padding: 100px 50px;
+  @media ${device.laptop} {
+    font-size: 36px;
   }
 `;
 
 const Box = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-column-gap: 50px;
-  grid-row-gap: 50px;
-`;
+  display: flex;
+  justify-content: space-between;
+  background-color: #010A67;
+  text-align: center;
+  padding: 10px 15px;
+  margin: 0 30px;
 
-const Item = styled.div`
+  @media ${device.tablet} {
+    padding: 20px 30px;
+    margin: 0 50px;
+  }
 
-`;
-
-const Title = styled.div`
-  font-weight: bold;
-  letter-spacing: 1px;
-  font-size: 16px;
-  margin-bottom: 10px;
-
-  @media ${device.laptop} { 
-    font-size: 40px;  
+  @media ${device.laptop} {
+    padding: 75px 100px;
+    margin: 0 300px;
   }
 `;
 
-const SubHeader = styled.div`
-  font-weight: bold;
-  font-size: 14px;
-  margin-bottom: 15px;
+const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
 
-  @media ${device.laptop} { 
-    font-size: 14px;  
+  @media ${device.laptop} {
+    margin: 0;
+  }
+`;
+
+const Title = styled.div`
+  color: #D99107;
+  font-weight: bold;
+  margin-bottom: 20px;
+  font-size: 16px;
+
+  @media ${device.laptop} {
+    font-size: 24px;
+  }
+
+  @media ${device.laptop} {
+    font-size: 50px;
   }
 `;
 
 const Text = styled.div`
-  font-size: 16px;
+  color: #FFF;
+  font-size: 11px;
 
-  @media ${device.laptop} { 
-    font-size: 18px;
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
+
+  @media ${device.laptop} {
+    font-size: 16px;
   }
 `;
 
-const ItemComponent = ({ title, subHeader, text }) => (
-  <Item>
-    <Title>{title}</Title>
-    <Text>{text}</Text>
-  </Item>
-)
+const Background = styled.div`
+  background: url('/images/BG2.png');
+  height: 280px;
+  margin-top: -50px;
+  z-index: -999999;
+  position: relative;
+
+  @media ${device.tablet} {
+    height: 300px;
+  }
+
+  @media ${device.laptop} {
+    margin-top: -125px;
+    height: 500px;
+  }
+`;
+
+const SubHeading = styled.div`
+  padding-top: 70px;
+  color: #FFF;
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  margin-bottom: 30px;
+  font-size: 12px;
+
+  @media ${device.tablet} {
+    font-size: 28px;
+  }
+
+  @media ${device.laptop} {
+    padding-top: 250px;
+    font-size: 36px;
+  }
+`;
+
+const Description = styled.div`
+  color: #FFF;
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 16px;
+  line-height: 26px;
+  padding: 0 20px;
+
+  @media ${device.tablet} {
+    padding: 0 100px;
+    font-size: 16px;
+  }
+
+  @media ${device.laptop} {
+    padding: 0 500px;
+    font-size: 16px;
+  }
+`;
+
+
 
 export const WhyChooseUs = () => {
   return (
     <Container>
-      <Image src='/images/why_choose_us.jpg' alt='Why Choose Us' />
+      <Heading>WHY CHOOSE US?</Heading>
 
-      <Content>
-        <Title style={{ marginBottom: '30px' }}>WHY CHOOSE US?</Title>
-        
-        <Box>
-          <ItemComponent title='50+' text='Years of Experiance' />
+      <Box>
+        <Item>
+          <Title>50+</Title>
+          <Text>YEARS OF EXPERIENCE</Text>
+        </Item>
 
-          <ItemComponent title='1K+' text='Happy Clients' />
+        <Item>
+          <Title>1000+</Title>
+          <Text>CLIENTS</Text>
+        </Item>
 
-          <ItemComponent title='10+' text='Awards' />
+        <Item>
+          <Title>10+</Title>
+          <Text>AWARDS</Text>
+        </Item>
 
-          <ItemComponent title='15+' text='Partners' />
-        </Box>
-      </Content>
+        <Item>
+          <Title>15+</Title>
+          <Text>PARTNERS</Text>
+        </Item>
+      </Box>
+
+      <Background>
+        <SubHeading>WHAT OUR CLIENTS SAY</SubHeading>
+
+        <Description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco </Description>
+      </Background>
+
+
     </Container>
   )
 }

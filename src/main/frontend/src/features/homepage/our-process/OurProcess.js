@@ -8,14 +8,14 @@ import { ReactComponent as ReceiptSvg } from './receipt.svg';
 import { ReactComponent as ArrowSvg } from './arrow.svg';
 
 const Container = styled.div`
-  margin: 0 10px;
+  margin: 0 10px 20px 10px;
 
   @media ${device.tablet} {
-    margin: 0 50px;
+    margin: 0 50px 50px 50px;
   }
 
   @media ${device.laptop} {
-    margin: 0 400px;
+    margin: 0 400px 100px 400px;
   }
 `;
 
