@@ -8,14 +8,15 @@ const Container = styled.div`
   height: 200px;
   display: flex;
   align-items: center;
-  margin: -100px 10px 30px 10px;
+  margin: -100px 10px 50px 10px;
+  box-shadow: 0px 15px 20px #5F5F5F1A;
 
   @media ${device.tablet} {
     margin: -100px 50px 50px 50px;
   }
 
   @media ${device.laptop} {
-    margin: -100px 200px 50px 200px;
+    margin: -100px 200px 100px 200px;
   }
 `;
 

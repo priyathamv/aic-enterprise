@@ -12,7 +12,7 @@ import { NewsLetter } from './common/NewsLetter';
 import { WhyChooseUs } from './common/WhyChooseUs';
 import { KeyBenefits } from './common/KeyBenefits';
 import { OurCompany } from './common/OurCompany';
-import { OurProcess } from './common/OurProcess';
+import { OurProcess } from './our-process/OurProcess';
 import { HomepageIntro } from './common/HomepageIntro';
 
 export const Homepage = () => {
@@ -33,6 +33,7 @@ export const Homepage = () => {
       <ReviewsComponent />
       <NewsLetter /> */}
       <TrustedBy />
+      <OurProcess />
     </div>
   )
 }
