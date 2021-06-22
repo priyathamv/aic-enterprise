@@ -13,49 +13,55 @@ const Container = styled.div`
 `;
 
 const Image0 = styled.div`
-  background-image: url(/images/cover_image0.jpg);
+  background-image: url(/images/hans-reniers.jpg);
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-  width: 100vw;
+  width: 60vw;
   height: 100%;
 `;
 
 const Image1 = styled.div`
-  background-image: url(/images/cover_image1.jpg);
+  background-image: url(/images/hans-reniers.jpg);
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-  width: 100vw;
+  width: 60vw;
   height: 100%;
 `;
 
 const Image2 = styled.div`
-  background-image: url(/images/cover_image2.jpg);
+  background-image: url(/images/hans-reniers.jpg);
   background-size:cover;
   background-position:center;
   background-repeat:no-repeat;
-  width: 100vw;
+  width: 60vw;
   height: 100%;
 `;
 
 const Button = styled(Link)`
-  text-decoration: none;
-  color: black;
-  border: 1px solid black;
-  padding: 10px;
+  text-decoration: underline;
+  color: #D99107;
+  border: none;
   font-size: 14px;
+  font-weight: bold;
+  margin-left: 30px;
+
+  @media ${device.tablet} {
+    font-size: 16px;
+    margin-left: 100px;
+  }
 
   @media ${device.laptop} {
-    padding: 15px 30px;
-    font-size: 16px;
+    font-size: 24px;
+    margin-left: 300px;
   }
 `;
 
 const Content = styled.div`
-  position: absolute;
-  left: 50vw;
+  width: 40vw;
   top: 30px;
+  z-index: 10000;
 `;
 
 const Title = styled.div`
@@ -77,17 +83,21 @@ const Title = styled.div`
 const Description = styled.div`
   width: 40vw;
   letter-spacing: 1px;
-  margin-bottom: 30px;
-  font-size: 12px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  font-size: 24px;
+  color: #010867;
 
   @media ${device.tablet} {
-    font-size: 14px;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
+    margin-left: 100px;
+    font-size: 34px;
   }
 
   @media ${device.laptop} {
-    margin-bottom: 80px;
-    font-size: 16px;
+    margin-bottom: 40px;
+    margin-left: 300px;
+    font-size: 55px;
     font-weight: bold;
   }
 `;
@@ -103,38 +113,39 @@ export const CoverImageSlider = () => {
       <AutoplaySlider
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
-        interval={5000}
+        interval={500000}
         bullets={false}
-        style={ viewportWidth < 1024 ? { height: '378px' } : { height: '450px' }}
+        style={ viewportWidth < 1024 ? { height: '378px' } : { height: '700px' }}
       >
         <div className='cover-image'>
-          <Image0 />
-
           <Content>
-            <Title>Efficient Customer Service</Title>
-            <Description>"With our qualified team, prompt responses to enquiries and a personalised touch added to our services, we are widely known for our quality of services provided over the past few decades."</Description>
+            {/* <Title>Efficient Customer Service</Title> */}
+            <Description>Your one-stop-destination for all the scienfic requisites.</Description>
             <Button to='/about-us' >EXPLORE</Button>
           </Content>
+
+          <Image0 />
         </div>
 
-        <div className='cover-image'>
-          <Image1 />
-
+        {/* <div className='cover-image'>
           <Content>
             <Title>On time delivery</Title>
             <Description>"Our strong and robust supply chain network supports us in ensuring that deliveries are on time and as per the needs of our customers."</Description>
             <Button to='/contact-us' >EXPLORE</Button>
           </Content>
+
+          <Image1 />
         </div>
 
         <div className='cover-image'>
-          <Image2 />
           <Content>
             <Title>Wide range of products</Title>
             <Description>"AIC: Your one-stop-destination for all the scientific requisites. We are one of the prominent distributors of all scientific needs across the verticals of chemicals, life science, instruments and much more!"</Description>
             <Button to='/products' >EXPLORE</Button>
           </Content>
-        </div>
+
+          <Image2 />
+        </div> */}
       </AutoplaySlider>
     </Container>
   )

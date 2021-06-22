@@ -14,6 +14,7 @@ import { KeyBenefits } from './common/KeyBenefits';
 import { OurCompany } from './common/OurCompany';
 import { OurProcess } from './our-process/OurProcess';
 import { HomepageIntro } from './common/HomepageIntro';
+import { GetInTouch } from './contact/GetInTouch';
 
 export const Homepage = () => {
 
@@ -25,16 +26,11 @@ export const Homepage = () => {
       <HomepageIntro />
       <Applications />
       <OurProducts />
-      {/* <FeaturedCarousel />
-      <WhyChooseUs />
-      <KeyBenefits />
-      <OurCompany />
-      <OurProcess />
-      <ReviewsComponent />
-      <NewsLetter /> */}
       <TrustedBy />
       <OurProcess />
       <WhyChooseUs />
+      <ReviewsComponent />
+      <GetInTouch />
     </div>
   )
 }

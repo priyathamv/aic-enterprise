@@ -12,7 +12,6 @@ const Container = styled.div`
   width: 100%;
   color: #232162;
   text-align: center;
-  border: 1px solid #CCC;
   background-color: #FFF;
   z-index: 100000;
   padding: 30px 0;
