@@ -9,16 +9,20 @@ import { device } from '../../utils/viewport';
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 350px;
+  width: 500px;
   height: 100%;
-  padding: 30px;
-  background-color: #FFF;
+  padding: 50px;
+  background-color: #D99107;
+  color: #FFF;
   position: relative;
   overflow: hidden;
   margin: 0 20px;
+  z-index: 10000;
 
-  @media ${device.laptop} { 
-    margin: 0;
+
+  @media ${device.laptop} {
+    margin-left: 500px;
+    margin-top: 100px;
   }
 `;
 
@@ -40,15 +44,23 @@ const QuotesIcon = styled(ImQuotesLeft)`
   font-size: 13px;
 `;
 
+const Quote = styled.div`
+  font-size: 32px;
+  color: #BE810C;
+
+  @media ${device.laptop} {
+
+  }
+`;
+
 const Text = styled.div`
-  margin-bottom: 10px;
-  color: #000000a3;
   font-size: 14px;
   line-height: 22px;
-  
-  @media ${device.laptop} { 
-    font-size: 14px;
-    line-height: 27px;
+  margin-bottom: 50px;
+
+  @media ${device.laptop} {
+    font-size: 24px;
+    line-height: 32px;
   }
 `;
 
@@ -62,42 +74,59 @@ const UserName = styled.div`
   font-style: italic;
   font-size: 14px;
 
-  @media ${device.laptop} { 
+  @media ${device.laptop} {
     font-size: 16px;
-  }  
+  }
+`;
+
+const Frame = styled.div`
+  display: flex;
+`;
+
+const Image = styled.img`
+  width: 50px;
+  margin-right: 20px;
+`;
+
+const InnerFrame = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Rating = styled.div`
   display: flex;
-  margin-bottom: 10px;
 `;
 
 const FillStarIcon = styled(AiFillStar)`
-  color: #ff8100;
+  color: #FFF;
 `;
 
 const OutlineStarIcon = styled(AiOutlineStar)`
-  color: #ff8100;
+  color: #FFF;
 `;
 
 export const ReviewCard = ({ style, text, name, rating }) => {
   return (
     <Container style={style}>
-      <Triangle />
-      <QuotesIcon />
+      {/* <Triangle />
+      <QuotesIcon /> */}
       <Text>{text}</Text>
 
-      <Rating>
-        {Array(rating).fill().map((_, i) => <FillStarIcon key={i} />)}
-        {Array(5 - rating).fill().map((_, i) => <OutlineStarIcon key={i} />)}
-      </Rating>
+      <Frame>
+        <Image src='/images/zumutar.png'></Image>
 
-      <Line />
+        <InnerFrame>
+          <Rating>
+            {Array(rating).fill().map((_, i) => <FillStarIcon key={i} />)}
+            {Array(5 - rating).fill().map((_, i) => <OutlineStarIcon key={i} />)}
+          </Rating>
 
-      <UserFrame>
-        {/* <UserImage src='/images/aic_logo.png' /> */}
-        <UserName>{name}</UserName>
-      </UserFrame>
+          <UserFrame>
+            {/* <UserImage src='/images/aic_logo.png' /> */}
+            <UserName>{name}</UserName>
+          </UserFrame>
+        </InnerFrame>
+      </Frame>
     </Container>
   )
 }

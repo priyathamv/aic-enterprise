@@ -54,6 +54,7 @@ code {
 .reviews-slider {
   --content-background-color: transparent !important;
   background-color: transparent;
+  height: 400px;
 }
 
 .reviews-frame {

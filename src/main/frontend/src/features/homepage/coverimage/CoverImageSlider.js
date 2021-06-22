@@ -95,8 +95,7 @@ const Description = styled.div`
   }
 
   @media ${device.laptop} {
-    margin-bottom: 40px;
-    margin-left: 300px;
+    margin: -50px 0 40px 300px;
     font-size: 55px;
     font-weight: bold;
   }
@@ -113,7 +112,7 @@ export const CoverImageSlider = () => {
       <AutoplaySlider
         play={true}
         cancelOnInteraction={false} // should stop playing on user interaction
-        interval={500000}
+        // interval={500000}
         bullets={false}
         style={ viewportWidth < 1024 ? { height: '378px' } : { height: '700px' }}
       >
@@ -121,7 +120,7 @@ export const CoverImageSlider = () => {
           <Content>
             {/* <Title>Efficient Customer Service</Title> */}
             <Description>Your one-stop-destination for all the scienfic requisites.</Description>
-            <Button to='/about-us' >EXPLORE</Button>
+            <Button to='/about-us' >EXPLORE &#62;</Button>
           </Content>
 
           <Image0 />
