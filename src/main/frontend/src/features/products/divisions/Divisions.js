@@ -204,7 +204,7 @@ export const Divisions = () => {
                 key={index}
                 href={`/product-list?brand=${curBrand.name}`}
               >
-                {curBrand.description}
+                {curBrand.name}
               </BrandItem>
             )}
         </BrandsBox>
