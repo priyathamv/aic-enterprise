@@ -9,6 +9,10 @@ import { FaFacebookF } from 'react-icons/fa';
 import { AiFillInstagram } from 'react-icons/ai';
 import { AiOutlineTwitter } from 'react-icons/ai';
 import { FaLinkedinIn } from 'react-icons/fa';
+import { FaBlogger } from 'react-icons/fa';
+import { FaTelegramPlane } from 'react-icons/fa';
+import { FaWhatsapp } from 'react-icons/fa';
+import { FaKiwiBird } from 'react-icons/fa';
 
 import { isValidEmail, signUpForNews } from '../../utils/Utils';
 
@@ -155,6 +159,7 @@ const SocialMedia = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 10px;
 `;
 
 const FacebookIcon = styled(FaFacebookF)`
@@ -162,7 +167,7 @@ const FacebookIcon = styled(FaFacebookF)`
   color: #FFF;
   background-color: #B2B2B2;
   border-radius: 100%;
-  padding: 15px;
+  padding: 12px;
   margin-right: 10px;
 `;
 
@@ -171,7 +176,7 @@ const InstagramIcon = styled(AiFillInstagram)`
   color: #FFF;
   background-color: #B2B2B2;
   border-radius: 100%;
-  padding: 15px;
+  padding: 12px;
   margin-right: 10px;
 `;
 
@@ -180,7 +185,7 @@ const TwitterIcon = styled(AiOutlineTwitter)`
   color: #FFF;
   background-color: #B2B2B2;
   border-radius: 100%;
-  padding: 15px;
+  padding: 12px;
   margin-right: 10px;
 `;
 
@@ -189,7 +194,43 @@ const LinkedinIcon = styled(FaLinkedinIn)`
   color: #FFF;
   background-color: #B2B2B2;
   border-radius: 100%;
-  padding: 15px;
+  padding: 12px;
+  margin-right: 10px;
+`;
+
+const BloggerIcon = styled(FaBlogger)`
+  cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 12px;
+  margin-right: 10px;
+`;
+
+const TelegramIcon = styled(FaTelegramPlane)`
+  cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 12px;
+  margin-right: 10px;
+`;
+
+const WhatsappIcon = styled(FaWhatsapp)`
+  cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 12px;
+  margin-right: 10px;
+`;
+
+const KiwiBirdIcon = styled(FaKiwiBird)`
+  cursor: pointer;
+  color: #FFF;
+  background-color: #B2B2B2;
+  border-radius: 100%;
+  padding: 12px;
   margin-right: 10px;
 `;
 
@@ -247,10 +288,17 @@ export const Footer = () => {
           <ContentLabel style={{ marginBottom: '15px' }}>Follow us</ContentLabel>
 
           <SocialMedia>
-            <FacebookIcon size='1.5em' onClick={() => openInNewTab('https://www.facebook.com')}/>
-            <InstagramIcon size='1.5em' onClick={() => openInNewTab('https://www.instagram.com')}/>
-            <LinkedinIcon size='1.5em' onClick={() => openInNewTab('https://www.linkedin.com')}/>
-            <TwitterIcon size='1.6em' onClick={() => openInNewTab('https://www.twitter.com')}/>
+            <FacebookIcon size='1.7em' onClick={() => openInNewTab('https://www.facebook.com/AIC-Enterprises-Pvt-Ltd-108724891416130')}/>
+            <InstagramIcon size='1.7em' onClick={() => openInNewTab('https://instagram.com/aicenterprisespvt')}/>
+            <LinkedinIcon size='1.7em' onClick={() => openInNewTab('http://www.linkedin.com/in/aicenterprisespvtltd')}/>
+            <TwitterIcon size='1.8em' onClick={() => openInNewTab('http://www.twitter.com/PvtAic')}/>
+          </SocialMedia>
+
+          <SocialMedia>
+            <BloggerIcon size='1.7em' onClick={() => openInNewTab('https://aic2021.blogspot.com/')}/>
+            <TelegramIcon size='1.7em' onClick={() => openInNewTab('https://t.me/AICBangalore')}/>
+            <WhatsappIcon size='1.7em' onClick={() => openInNewTab('https://wa.me/message/NVQDDM4T4NFWH1')}/>
+            <KiwiBirdIcon size='1.7em' onClick={() => openInNewTab('https://www.kooapp.com/profile/aicbangalore')}/>
           </SocialMedia>
         </ContentContainer>
 
