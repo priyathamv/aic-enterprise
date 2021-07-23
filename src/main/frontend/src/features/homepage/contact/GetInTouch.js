@@ -220,7 +220,7 @@ export const GetInTouch = () => {
   }
 
   return (
-    <>
+    <div id='contact-us'>
       <Background />
 
       <Container>
@@ -291,6 +291,6 @@ export const GetInTouch = () => {
           </NewsLetter>
         </RightSide>
       </Container>
-    </>
+    </div>
   )
 }

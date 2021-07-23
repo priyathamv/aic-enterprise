@@ -39,7 +39,7 @@ const SubTitle = styled.div`
   color: #888888;
   text-align: center;
   margin-bottom: 50px;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 26px;
   padding: 0 10px
 
@@ -99,7 +99,7 @@ export const OurProcess = () => {
     <Container>
       <Title>Our Process</Title>
 
-      <SubTitle>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim</SubTitle>
+      <SubTitle>The success of any project hinges on the process that moves it forward. A consistent process leads to consistent results, quality, and business growth. While every client we work with has its own unique requirement, we follow the same process to ensure the best possible results. A simple 3 step process for all our clients.</SubTitle>
 
       <Frame>
         <SearchIcon />

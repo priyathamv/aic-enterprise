@@ -30,7 +30,7 @@ const Head = styled.div`
   text-align: center;
 
   @media ${device.laptop} {
-    margin: 0 30vw 100px 30vw;
+    margin: 0 30vw 50px 30vw;
   }
 `;
 
@@ -230,7 +230,7 @@ export const applicationObjs = [
     invertedImage: AnalyticsIcon,
     isActive: false,
     // onHover: false,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
+    description: 'Meeting efficiency and productivity standards in the scientific industry is always the talk of the hour. Tools are needed to achieve these in the given time. We ensure these tools are handy and exceptional to use for all our stakeholders'
   },
   {
     name: 'Life Science',
@@ -238,7 +238,7 @@ export const applicationObjs = [
     invertedImage: LifeScienceIcon,
     isActive: false,
     // onHover: false,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
+    description: 'The delicate aspect of dealing with micro-biological aspects of life need care in the laboratories too. To facilitate the same, the equipment from AIC for life sciences is ensured to be of the highest quality.'
   },
   {
     name: 'Instrumentation',
@@ -246,7 +246,7 @@ export const applicationObjs = [
     invertedImage: ScienceLabIcon,
     isActive: false,
     // onHover: false,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
+    description: 'A pivotal part of the trade that deals with indicating, measuring and recording physical quantities. Adopted by a large range of industries including laboratories, factories, automotive etc.'
   },
   {
     name: 'Industrial Safety and Clean room',
@@ -254,7 +254,7 @@ export const applicationObjs = [
     invertedImage: SafetyIcon,
     isActive: false,
     // onHover: false,
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim'
+    description: 'Hygiene and cleanliness are of the utmost importance in a medical setup. Enhancement of life largely depends on its ambience, and the best ambience is one that\'s clean. AIC has you back in enabling that to happen!'
   }
 ];
 
@@ -301,9 +301,9 @@ export const Applications = () => {
       <Head>
         <Heading>APPLICATIONS</Heading>
 
-        <SubHeading>
+        {/* <SubHeading>
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        </SubHeading>
+        </SubHeading> */}
       </Head>
 
       {applications.map((curApplicationObj, index) => (

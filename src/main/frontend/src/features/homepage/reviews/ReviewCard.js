@@ -59,8 +59,9 @@ const Text = styled.div`
   margin-bottom: 50px;
 
   @media ${device.laptop} {
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 16px;
+    line-height: 26px;
+    margin-bottom: 30px;
   }
 `;
 
@@ -86,11 +87,15 @@ const Frame = styled.div`
 const Image = styled.img`
   width: 50px;
   margin-right: 20px;
+  background-color: #FFF;
+  border-radius: 100%;
+  padding: 5px;
 `;
 
 const InnerFrame = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
 `;
 
 const Rating = styled.div`
@@ -105,7 +110,7 @@ const OutlineStarIcon = styled(AiOutlineStar)`
   color: #FFF;
 `;
 
-export const ReviewCard = ({ style, text, name, rating }) => {
+export const ReviewCard = ({ style, text, name, rating, imageUrl }) => {
   return (
     <Container style={style}>
       {/* <Triangle />
@@ -113,7 +118,7 @@ export const ReviewCard = ({ style, text, name, rating }) => {
       <Text>{text}</Text>
 
       <Frame>
-        <Image src='/images/zumutar.png'></Image>
+        <Image src={imageUrl}></Image>
 
         <InnerFrame>
           <Rating>
