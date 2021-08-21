@@ -53,6 +53,7 @@ export const AdminProductList2 = () => {
 
   const [brand, setBrand] = useState(null);
   const [brandList, setBrandList] = useState([]);
+  const [filteredBrandList, setFilteredBrandList] = useState([]);
 
   // Fetching category list from backend on page
   useEffect(() => {
@@ -69,7 +70,7 @@ export const AdminProductList2 = () => {
   useEffect(() => {
     axios.get('/api/brands')
       .then(response => {
-        setBrandList(response.data.payload.map(curBrandObj => curBrandObj.name));
+        setBrandList(response.data.payload.map(curBrandObj => curBrandObj));
       })
       .catch(function (error) {
         console.log('Error while fetching brands', error);
@@ -86,6 +87,17 @@ export const AdminProductList2 = () => {
         console.log('Error while fetching divisions', error);
       })
   }, []);
+
+  // Updating Brands dropdown options on Application, Category or brand change
+  useEffect(() => {
+    if (brandList && category) {
+      setFilteredBrandList(brandList.filter(curBrand => curBrand.category === category).map(curBrandObj => curBrandObj.name));
+    } else if (brandList && application) {
+      setFilteredBrandList(brandList.filter(curBrand => curBrand.application === application).map(curBrandObj => curBrandObj.name));
+    } else if (brandList) {
+      setFilteredBrandList(brandList.map(curBrandObj => curBrandObj.name));
+    }
+  }, [application, category, brandList]);
 
   // Updating Category dropdown options on Application change
   useEffect(() => {
@@ -265,14 +277,16 @@ export const AdminProductList2 = () => {
         .map(curQueryParam => (curQueryParam.split('=')))
         .forEach(([key, value]) => {
           const decodedValue = decodeURIComponent(value);
-          if (key === 'application')
+          if (key === 'application' && decodedValue && decodedValue !== 'null')
             setApplication(decodedValue);
-          else if (key === 'category')
+          else if (key === 'category' && decodedValue && decodedValue !== 'null') {
+            console.log('decodedValue', decodedValue)
             setCategory(decodedValue);
-          else if (key === 'division')
-            setDivisionList(decodedValue);
-          else if (key === 'brand')
-            setBrandList(decodedValue);
+          }
+          else if (key === 'division' && decodedValue && decodedValue !== 'null')
+            setDivision(decodedValue);
+          else if (key === 'brand' && decodedValue && decodedValue !== 'null')
+            setBrand(decodedValue);
         });
     }
   }, [history.location.search, category, division, brand]);
@@ -301,7 +315,7 @@ export const AdminProductList2 = () => {
           setPlaceholder={setPlaceholder}
           brand={brand}
           setBrand={setBrand}
-          brandList={brandList}
+          brandList={filteredBrandList}
 
           handleOnSearch={handleOnSearch}
           handleObserver={handleObserver}
@@ -334,7 +348,7 @@ export const AdminProductList2 = () => {
             setPlaceholder={setPlaceholder}
             brand={brand}
             setBrand={setBrand}
-            brandList={brandList}
+            brandList={filteredBrandList}
 
             handleOnSearch={handleOnSearch}
             handleObserver={handleObserver}

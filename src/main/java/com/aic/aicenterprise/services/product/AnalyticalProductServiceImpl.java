@@ -48,16 +48,16 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
         final Query query = new Query().with(pageable);
         final List<Criteria> criteria = new ArrayList<>();
 
-        if (nonNull(category) && !category.isEmpty())
+        if (nonNull(category) && !category.isEmpty() && !category.equals("null"))
             criteria.add(Criteria.where("category").regex(category, "i"));
 
-        if (nonNull(division) && !division.isEmpty())
+        if (nonNull(division) && !division.isEmpty() && !division.equals("null"))
             criteria.add(Criteria.where("division").regex(division, "i"));
 
-        if (nonNull(brand) && !brand.isEmpty())
+        if (nonNull(brand) && !brand.isEmpty() && !brand.equals("null"))
             criteria.add(Criteria.where("brand").regex(brand, "i"));
 
-        if (nonNull(searchValue) && !searchValue.isEmpty())
+        if (nonNull(searchValue) && !searchValue.isEmpty() && !searchValue.equals("null"))
             criteria.add(Criteria.where("name").regex(".*" + searchValue + ".*", "i"));
 
         if (!criteria.isEmpty())

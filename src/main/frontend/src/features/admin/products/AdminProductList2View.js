@@ -270,7 +270,8 @@ export const AdminProductList2View = ({
             isSearchable={true}
             placeholder='Brand filter'
             value={brand ? {label: brand, value: brand} : null}
-            options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]}
+            // options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]}
+            options={brandList.map(curBrand => ({label: curBrand, value: curBrand}))}
             onChange={handleBrandChange}
           />
         </BrandFilterWrapper>

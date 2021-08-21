@@ -269,7 +269,7 @@ export const ProductList2 = ({
               isSearchable={true}
               placeholder='Brand filter'
               value={brand ? {label: brand, value: brand} : null}
-              options={[ALL_BRANDS, ...brandList.map(curBrand => ({label: curBrand, value: curBrand}))]}
+              options={brandList.map(curBrand => ({label: curBrand, value: curBrand}))}
               onChange={handleBrandChange}
             />
           </FilterWrapper>
