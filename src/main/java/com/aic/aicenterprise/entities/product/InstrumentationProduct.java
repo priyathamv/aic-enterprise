@@ -16,22 +16,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = INSTRUMENTATION_PRODUCTS)
-public class InstrumentationProduct {
-    @Id
-    private String productId;
-    private String application;
-    private String category;
-    private String division;
-    private String brand;
-    private String name;
-    private String hsnCode;
-    private String description;
-    private String specification;
+public class InstrumentationProduct extends ProductBase {
     private List<ProductMetrics> metricsList;
     private String model;
     private String volume;
     private String gauge;
-    private List<String> imageUrls;
     private String auxilaryImageUrl;
     private String owner;
     private Date createTs;

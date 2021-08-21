@@ -27,15 +27,15 @@ export const updateUserCartAsync = (actionType, userEmail, cartItemsOld, data) =
   let cartItemsNew;
   if (actionType === 'UPDATE_CART_ITEM') {
     cartItemsNew = [...cartItemsOld];
-    const itemIndexToBeUpdated = cartItemsOld.findIndex(curItem => curItem.code === data.code);
+    const itemIndexToBeUpdated = cartItemsOld.findIndex(curItem => curItem.productId === data.productId);
 
-    if (itemIndexToBeUpdated >= 0) 
+    if (itemIndexToBeUpdated >= 0)
       cartItemsNew[itemIndexToBeUpdated] = data;
     else
       cartItemsNew.push(data);
 
   } else if (actionType === 'DELETE_CART_ITEM') {
-    cartItemsNew = cartItemsOld.filter(curItem => curItem.code !== data);; 
+    cartItemsNew = cartItemsOld.filter(curItem => curItem.productId !== data);;
   }
 
   dispatch(updateUserCart(cartItemsNew));
@@ -49,7 +49,7 @@ export const updateUserCartAsync = (actionType, userEmail, cartItemsOld, data) =
 }
 
 const persistUserCart = async payload => {
-  const headers = { 
+  const headers = {
     'Content-Type': 'application/json'
   }
 
@@ -70,12 +70,12 @@ export const fetchUserCart = email => async dispatch => {
   try {
     const queryParams = { email };
     const userCartResponse = await axios.get('/api/cart', { params: queryParams });
-    
+
     const cartItemsDb = (userCartResponse.data && userCartResponse.data.payload && userCartResponse.data.payload.cartItems) || [];
-    
+
     const cartItemsLsString = localStorage.getItem('cartItems');
     const cartItemsLs = cartItemsLsString ? JSON.parse(cartItemsLsString) : [];
-    
+
     const mergedItems = mergeUserCarts(cartItemsDb, cartItemsLs);
     localStorage.removeItem('cartItems');
 
@@ -112,7 +112,7 @@ export const fetchUserCartFromLocalStorage = () => dispatch => {
 }
 
 export const placeOrderAsync = async payload => {
-  const headers = { 
+  const headers = {
     'Content-Type': 'application/json'
   }
 

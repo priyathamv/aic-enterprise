@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { Link, useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { MdClear } from 'react-icons/md';
 import Select from 'react-select';
-import debounce from 'lodash.debounce';
 
+import { ProductItem2 } from './ProductItem2';
 import { device } from '../utils/viewport';
-import { Button } from '../homepage/common/Button';
 import { Line } from '../homepage/common/Line';
 
 const Container = styled.div`
@@ -94,67 +90,6 @@ const ProductListWrapper = styled.div`
 
 `;
 
-const ProductRow = styled.div`
-  display: flex;
-  margin: 20px 0;
-`;
-
-const Image = styled.img`
-  flex: 1;
-  max-width: 180px;
-  cursor: pointer;
-`;
-
-const ProductDetails = styled.div`
-  flex: 4;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 0 20px;
-`;
-
-const ProductName = styled.div`
-  margin-bottom: 5px;
-  font-size: 18px;
-  cursor: pointer;
-
-  &:hover {
-    color: #232162;
-  }
-`;
-
-const ProductInfo = styled.div`
-  display: flex;
-  font-size: 14px;
-  color: #565959;
-  margin-bottom: 5px;
-`;
-
-const Info = styled.div`
-
-`;
-
-const Description = styled.div`
-  margin-bottom: 5px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-`;
-
-const ButtonFrame = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const KnowMore = styled(Link)`
-  text-decoration: underline;
-  color: #232162;
-  cursor: pointer;
-`;
-
 const Dummy = styled.div`
   display: inline-block;
   position: absolute
@@ -202,15 +137,6 @@ export const ProductList2 = ({
   handleOnDelete,
   updateProductListOnSearchOrFilter
 }) => {
-  const history = useHistory();
-
-  const handleAddToCart = () => {
-
-  }
-
-  const createMarkup = value => {
-    return { __html: value };
-  }
 
   return (
     <Container id='product_list_id2'>
@@ -277,43 +203,7 @@ export const ProductList2 = ({
 
         <ProductListFrame>
           <ProductListWrapper>
-            {productList.map((curProduct, index) =>
-              <div key={index}>
-                <ProductRow>
-                  <Image
-                    src={curProduct.imageUrls[0]}
-                    onClick={() => history.push(`/product-detail/${curProduct.application}/${curProduct.productId}`)} />
-
-                  <ProductDetails>
-                    <div>
-                      <ProductName
-                        onClick={() => history.push(`/product-detail/${curProduct.application}/${curProduct.productId}`)}>
-                        {curProduct.name}
-                      </ProductName>
-
-                      <ProductInfo>
-                        <Info style={{ marginRight: '10px' }}>{curProduct.application}</Info>|
-                        <Info style={{ margin: '0 10px' }}>{curProduct.category}</Info>|
-                        <Info style={{ marginLeft: '10px' }}>{curProduct.brand}</Info>
-                      </ProductInfo>
-
-                      <Description dangerouslySetInnerHTML={createMarkup(curProduct.description)} />
-                    </div>
-
-                    <ButtonFrame>
-                      <KnowMore to={`/product-detail/${curProduct.application}/${curProduct.productId}`}>Know more</KnowMore>
-
-                      <Button
-                        style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px'}}
-                        label='ADD TO CART'
-                        handleOnClick={handleAddToCart} />
-                    </ButtonFrame>
-                  </ProductDetails>
-                </ProductRow>
-
-                <Line style={{ margin: '30px 0' }} />
-              </div>)
-            }
+            {productList.map((curProduct, index) => <ProductItem2 key={index} productDetails={curProduct} />)}
 
             {hasMore ?
               <div>

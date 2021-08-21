@@ -26,7 +26,7 @@ public class Order {
 
     private OrderStatus orderStatus;
 
-    private List<ProductDetails> productList;
+    private List<UserProduct> productList;
 
     private Date acceptedTs;
 

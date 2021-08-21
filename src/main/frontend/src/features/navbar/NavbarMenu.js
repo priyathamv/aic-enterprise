@@ -257,7 +257,7 @@ export const NavbarMenu = () => {
             // onMouseLeave={() => displayProductMenu(false)}
           >
             <MenuItem
-              to='/products'
+              to='/productlist'
               style={curPage === PRODUCTS_PAGE ? curPageStyle : null}
               onClick={() => displayProductMenu(false)}>
                 PRODUCTS

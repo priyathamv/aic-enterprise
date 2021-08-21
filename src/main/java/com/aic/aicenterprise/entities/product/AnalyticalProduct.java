@@ -17,22 +17,11 @@ import static com.aic.aicenterprise.constants.DBConstants.ANALYTICAL_PRODUCTS;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = ANALYTICAL_PRODUCTS)
-public class AnalyticalProduct {
-    @Id
-    private String productId;
-    private String application;
-    private String category;
-    private String division;
-    private String brand;
-    private String name;
-    private String hsnCode;
-    private String description;
-    private String specification;
+public class AnalyticalProduct extends ProductBase {
     private List<ProductMetrics> metricsList;
     private String model;
     private String volume;
     private String gauge;
-    private List<String> imageUrls;
     private String auxilaryImageUrl;
     private String owner;
     private Date createTs;

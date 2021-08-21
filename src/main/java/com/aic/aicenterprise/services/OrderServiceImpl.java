@@ -1,7 +1,7 @@
 package com.aic.aicenterprise.services;
 
 import com.aic.aicenterprise.entities.Order;
-import com.aic.aicenterprise.entities.ProductDetails;
+import com.aic.aicenterprise.entities.UserProduct;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.models.OrderStatus;
 import com.aic.aicenterprise.models.OrderSummary;
@@ -161,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
                 "      <table style='width: 100%; border-collapse: separate; border-spacing: 0 5px;'>\n" +
                 "        <thead>\n" +
                 "          <tr style='background-color: #232162e6; color: #FFF;'>\n" +
-                "            <th style='font-weight: normal; padding: 15px 30px; text-align: left;'>Code</th>\n" +
+                "            <th style='font-weight: normal; padding: 15px 30px; text-align: left;'>Product Id</th>\n" +
                 "            <th style='font-weight: normal; padding: 15px 30px; text-align: left;'>Name</th>\n" +
                 "            <th style='font-weight: normal; padding: 15px 30px; text-align: left;'>Brand</th>\n" +
                 "            <th style='font-weight: normal; padding: 15px 30px; text-align: left;'>Quantity</th>\n" +
@@ -176,9 +176,9 @@ public class OrderServiceImpl implements OrderService {
                 "</html>\n";
     }
 
-    private String getTableRow(ProductDetails cartItem) {
+    private String getTableRow(UserProduct cartItem) {
         return "<tr style='border: 1px solid black;'>\n" +
-                    getTableColumn(cartItem.getCode()) +
+                    getTableColumn(cartItem.getProductId()) +
                     getTableColumn(cartItem.getName()) +
                     getTableColumn(cartItem.getBrand()) +
                     getTableColumn(String.valueOf(cartItem.getQuantity())) +

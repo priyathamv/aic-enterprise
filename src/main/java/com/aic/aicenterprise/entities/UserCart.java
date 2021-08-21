@@ -15,12 +15,10 @@ import static com.aic.aicenterprise.constants.DBConstants.CARTS;
 @NoArgsConstructor
 @Document(collection = CARTS)
 public class UserCart {
-
     @Id
     private String email;
 
     private String name;
 
-    private List<ProductDetails> cartItems;
-
+    private List<UserProduct> cartItems;
 }
