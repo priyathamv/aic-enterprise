@@ -23,6 +23,4 @@ public class IndustrialProduct extends ProductBase {
     private String gauge;
     private String auxilaryImageUrl;
     private String owner;
-    private Date createTs;
-    private Date updateTs;
 }

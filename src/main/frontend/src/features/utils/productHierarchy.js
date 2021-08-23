@@ -1,5 +1,8 @@
 export const applicationsArr = ['Analytical', 'Life Science', 'Instrumentation', 'Industrial Safety and Clean room'];
 
+export const ribbonsArr = [null, 'New', 'Bestseller', 'Flagship', 'Most Sold'];
+
+
 // export const appToCategoryMap = {
 //   'Analytical': ['Chromatography', 'Solvents', 'Buffers & Standards', 'Laboratory Filtration', 'Laboratory Glassware'],
 //   'Life Science': ['Genomics', 'Proteomics', 'Antibodies', 'Cell Culture', 'Cryoware', 'Liquid Handling', 'Microbiology', 'Storage Bottles & Carboys', 'General Labware'],

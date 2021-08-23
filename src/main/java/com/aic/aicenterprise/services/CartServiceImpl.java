@@ -7,7 +7,6 @@ import com.aic.aicenterprise.repositories.UserCartRepository;
 import com.mongodb.client.result.UpdateResult;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -46,27 +44,21 @@ public class CartServiceImpl implements CartService {
     Map<String, Integer> productIdToQuantityMap = userCart.getCartItems().stream()
         .collect(Collectors.toMap(UserProduct::getProductId, UserProduct::getQuantity));
 
-
     Query query = new Query();
     Criteria criteria = Criteria.where("productId").in(productIdToQuantityMap.keySet());
     query.addCriteria(criteria);
 
-    CompletableFuture<List<AnalyticalProduct>> analyticalProductsFuture = CompletableFuture.supplyAsync(() -> {
-      log.info("1111");
-      return mongoTemplate.find(query, AnalyticalProduct.class);
-    });
-    CompletableFuture<List<IndustrialProduct>> industrialProductsFuture = CompletableFuture.supplyAsync(() -> {
-      log.info("2222");
-      return mongoTemplate.find(query, IndustrialProduct.class);
-    });
-    CompletableFuture<List<InstrumentationProduct>> instrumentationProductsFuture = CompletableFuture.supplyAsync(() -> {
-      log.info("3333");
-      return mongoTemplate.find(query, InstrumentationProduct.class);
-    });
-    CompletableFuture<List<LifeScienceProduct>> lifeScienceProductsFuture = CompletableFuture.supplyAsync(() -> {
-      log.info("4444");
-      return mongoTemplate.find(query, LifeScienceProduct.class);
-    });
+    CompletableFuture<List<AnalyticalProduct>> analyticalProductsFuture =
+        CompletableFuture.supplyAsync(() -> mongoTemplate.find(query, AnalyticalProduct.class));
+
+    CompletableFuture<List<IndustrialProduct>> industrialProductsFuture =
+        CompletableFuture.supplyAsync(() -> mongoTemplate.find(query, IndustrialProduct.class));
+
+    CompletableFuture<List<InstrumentationProduct>> instrumentationProductsFuture =
+        CompletableFuture.supplyAsync(() -> mongoTemplate.find(query, InstrumentationProduct.class));
+
+    CompletableFuture<List<LifeScienceProduct>> lifeScienceProductsFuture =
+        CompletableFuture.supplyAsync(() -> mongoTemplate.find(query, LifeScienceProduct.class));
 
     CompletableFuture.allOf(analyticalProductsFuture, industrialProductsFuture, instrumentationProductsFuture, lifeScienceProductsFuture).get();
 
@@ -125,7 +117,7 @@ public class CartServiceImpl implements CartService {
     return updateResult.getModifiedCount() == 1;
   }
 
-  private UserProduct convertToUserProduct(ProductBase product, int quantity) {
+  public static UserProduct convertToUserProduct(ProductBase product, int quantity) {
     UserProduct userProduct = new UserProduct();
     userProduct.setProductId(product.getProductId());
     userProduct.setApplication(product.getApplication());
@@ -136,6 +128,7 @@ public class CartServiceImpl implements CartService {
     userProduct.setImageUrls(product.getImageUrls());
 
     userProduct.setQuantity(quantity);
+    userProduct.setUpdateTs(product.getUpdateTs());
     return userProduct;
   }
 }

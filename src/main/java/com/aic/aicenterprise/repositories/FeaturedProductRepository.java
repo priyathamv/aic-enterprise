@@ -10,6 +10,7 @@ import java.util.List;
 
 
 @Repository
+@Deprecated
 public interface FeaturedProductRepository extends PagingAndSortingRepository<FeaturedProduct, String> {
     Page<FeaturedProduct> findAll(Pageable pageable);
 

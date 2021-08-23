@@ -3,6 +3,9 @@ package com.aic.aicenterprise.entities.product;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Setter
@@ -20,5 +23,8 @@ public class ProductBase {
   private String hsnCode;
   private String description;
   private String specification;
+  private String ribbon;
   private List<String> imageUrls;
+  private LocalDate createDate;
+  private LocalDateTime updateTs = LocalDateTime.now();
 }

@@ -14,6 +14,7 @@ import static com.aic.aicenterprise.constants.DBConstants.FEATURED_PRODUCTS;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Deprecated
 @Document(collection = FEATURED_PRODUCTS)
 public class FeaturedProduct {
     @Id

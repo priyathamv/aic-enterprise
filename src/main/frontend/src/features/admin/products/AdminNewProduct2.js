@@ -14,7 +14,7 @@ import { Button } from '../../homepage/common/Button';
 import { device } from '../../utils/viewport';
 import { AdminProductImage } from './AdminProductImage';
 import { AuxilaryImage } from './AuxilaryImage';
-import { applicationsArr } from '../../utils/productHierarchy';
+import { applicationsArr, ribbonsArr } from '../../utils/productHierarchy';
 
 const { DragColumn } = ReactDragListView;
 
@@ -121,6 +121,12 @@ const applicationOptions = applicationsArr
     value: curApplication
   }));
 
+  const ribbonOptions = ribbonsArr
+  .map(curRibbon => ({
+    label: curRibbon,
+    value: curRibbon
+  }));
+
 const productIdGenerated = (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
 
 export const AdminNewProduct2 = () => {
@@ -136,11 +142,13 @@ export const AdminNewProduct2 = () => {
   const [category, setCategory] = useState(null);
   const [brand, setBrand] = useState('');
   const [division, setDivision] = useState(null);
+  const [ribbon, setRibbon] = useState(null);
   const [divisionList, setDivisionList] = useState([]);
   const [name, setName] = useState('');
   const [hsnCode, setHsnCode] = useState('');
   const [description, setDescription] = useState('<p></p>');
   const [specification, setSpecification] = useState('<p></p>');
+  const [createDate, setCreateDate] = useState(new Date().toISOString().substring(0,10));
 
   const [metricsList, setMetricsList] = useState([
     { catalogueCode: '', od: '', height: '', capacity: '', pack: '', price: 0, specification: '' }
@@ -167,10 +175,12 @@ export const AdminNewProduct2 = () => {
       const productDetailsResponse = await axios.get(url, { params: queryParams });
       const productDetails = productDetailsResponse.data.payload;
 
+      console.log('productDetails', productDetails)
       setProductId(productDetails.productId);
       setApplication(productDetails.application);
       setCategory(productDetails.category);
       setBrand(productDetails.brand);
+      setRibbon(productDetails.ribbon);
       setDivision(productDetails.division);
       setName(productDetails.name);
       setHsnCode(productDetails.hsnCode);
@@ -182,6 +192,8 @@ export const AdminNewProduct2 = () => {
       setGauge(productDetails.gauge);
       setImageUrls(productDetails.imageUrls);
       setAuxilaryImageUrl(productDetails.auxilaryImageUrl);
+      setCreateDate(productDetails.createDate);
+      console.log('productDetails.createDate', productDetails.createDate);
     } catch (error) {
       console.log('Exception while fetching product details', error.message)
     }
@@ -202,7 +214,7 @@ export const AdminNewProduct2 = () => {
   useEffect(() => {
     axios.get('/api/category')
       .then(response => {
-        setCategoryList(response.data.payload);
+        setCategoryList(response.data.payload || []);
       })
       .catch(function (error) {
         console.log('Error while fetching categories', error);
@@ -219,8 +231,10 @@ export const AdminNewProduct2 = () => {
 
     setCategoryOptions(categoryOptionsUpdated);
     setDivisionOptions([]);
-    setCategory(null);
-    setDivision(null);
+    if (!isUpdate) {
+      setCategory(null);
+      setDivision(null);
+    }
   }, [application, categoryList]);
 
   // Updating Divisions dropdown options on Category change
@@ -257,7 +271,25 @@ export const AdminNewProduct2 = () => {
 
     const requestBody = {
       productList: [
-        { application, category, division, brand, productId, name, hsnCode, description, specification, metricsList: metricsListFinal, model, volume, gauge, imageUrls, auxilaryImageUrl }
+        {
+          application,
+          category,
+          division,
+          brand,
+          ribbon,
+          productId,
+          name,
+          hsnCode,
+          description,
+          specification,
+          metricsList: metricsListFinal,
+          model,
+          volume,
+          gauge,
+          imageUrls,
+          auxilaryImageUrl,
+          createDate
+        }
       ]
     };
 
@@ -287,7 +319,7 @@ export const AdminNewProduct2 = () => {
   useEffect(() => {
     axios.get('/api/brands')
       .then(response => {
-        setBrandList(response.data.payload.map(curBrandObj => curBrandObj.name));
+        setBrandList((response.data.payload || []).map(curBrandObj => curBrandObj.name));
       })
       .catch(function (error) {
         console.log('Error while fetching brands', error);
@@ -298,7 +330,7 @@ export const AdminNewProduct2 = () => {
   useEffect(() => {
     axios.get('/api/division')
       .then(response => {
-        setDivisionList(response.data.payload);
+        setDivisionList(response.data.payload || []);
       })
       .catch(function (error) {
         console.log('Error while fetching divisions', error);
@@ -411,6 +443,15 @@ export const AdminNewProduct2 = () => {
         <Input styleObj={{ maxWidth: '200px', marginBottom: '0' }} value={name} handleOnChange={e => setName(e.target.value)} label='Name*' />
 
         <Input styleObj={{ maxWidth: '200px', marginBottom: '0' }} value={hsnCode} handleOnChange={e => setHsnCode(e.target.value)} label='HSN Code' />
+
+        <SelectWrapper>
+          <Select
+            placeholder='Select a Ribbon'
+            value={ribbon ? {label: ribbon, value: ribbon} : null}
+            options={ribbonOptions}
+            onChange={e => setRibbon(e.value)}
+          />
+        </SelectWrapper>
       </Form>
 
       <TextareaBox>

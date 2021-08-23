@@ -48,7 +48,7 @@ const SubTitle = styled.div`
   }
 
   @media ${device.laptop} {
-    padding: 0 250px;
+    // padding: 0 250px;
   }
 `;
 

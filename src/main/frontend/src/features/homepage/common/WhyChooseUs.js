@@ -134,7 +134,7 @@ const Description = styled.div`
   }
 
   @media ${device.laptop} {
-    padding: 0 500px;
+    // padding: 0 500px;
     font-size: 16px;
   }
 `;
