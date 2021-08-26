@@ -9,7 +9,8 @@ import { device } from '../../utils/viewport';
 
 const Container = styled.div`
   background: url('/images/BG2.png');
-  height: 1500px;
+  // height: 1500px;
+  height: 500px;
 `;
 
 const Content = styled.div`
@@ -154,7 +155,7 @@ export const OurProducts = () => {
 
         <ExploreButton to='/productlist'>EXPLORE ALL</ExploreButton>
 
-        <ProductWrapper>
+        {/* <ProductWrapper>
           {(isMobile ? productList.slice(0, 2) : isTablet ? productList.slice(0, 4) : productList).map((curProduct, index) =>
             <Product key={index}>
               <Image src={curProduct.imageUrl} alt={curProduct.name} />
@@ -219,7 +220,7 @@ export const OurProducts = () => {
               <Price>{curProduct.price}</Price>
             </Product>
           )}
-        </ProductWrapper>
+        </ProductWrapper> */}
 
       </Content>
     </Container>
