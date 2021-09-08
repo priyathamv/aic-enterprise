@@ -22,6 +22,12 @@ const Container = styled.div`
 
   @media ${device.laptop} {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-column-gap: 100px;
+    padding: 100px;
+  }
+
+  @media ${device.laptop15} {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-column-gap: 150px;
     padding: 100px;
   }

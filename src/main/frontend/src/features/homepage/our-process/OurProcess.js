@@ -15,6 +15,10 @@ const Container = styled.div`
   }
 
   @media ${device.laptop} {
+    margin: 0 200px 100px 200px;
+  }
+
+  @media ${device.laptop15} {
     margin: 0 400px 100px 400px;
   }
 `;

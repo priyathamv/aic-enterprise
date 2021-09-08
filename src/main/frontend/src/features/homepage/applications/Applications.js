@@ -69,7 +69,7 @@ const AppFrame = styled.div`
 
   @media ${device.laptop} {
     flex-direction: row;
-    margin: 40px 300px 0 300px;
+    margin: 40px 200px 0 200px;
     padding: 50px;
   }
 `;
@@ -117,6 +117,12 @@ const CategoryWrapper = styled.div`
   }
 
   @media ${device.laptop} {
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 0 200px 20px 200px;
+    padding: 100px;
+  }
+
+  @media ${device.laptop15} {
     grid-template-columns: 1fr 1fr 1fr;
     margin: 0 300px 20px 300px;
     padding: 100px;

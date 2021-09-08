@@ -24,6 +24,11 @@ const Content = styled.div`
 
   @media ${device.laptop} {
     flex-direction: row;
+    padding: 100px 200px;
+  }
+
+  @media ${device.laptop15} {
+    flex-direction: row;
     padding: 100px 300px;
   }
 `;

@@ -13,6 +13,7 @@ const Container = styled.div`
 
   @media ${device.laptop} {
     flex-direction: row;
+    align-items: flex-start;
   }
 `;
 
