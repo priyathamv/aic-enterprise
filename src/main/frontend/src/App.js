@@ -12,6 +12,9 @@ import { Products } from './features/products/Products';
 import { Covid19 } from './features/covid/Covid19';
 import { AboutUs } from './features/aboutus/AboutUs';
 import { ContactUs } from './features/contactus/ContactUs';
+import { PrivacyPolicy } from './features/policies/PrivacyPolicy';
+import { TermsConditions } from './features/policies/TermsConditions';
+import { Disclaimer } from './features/policies/Disclaimer';
 import { Navbar } from './features/navbar/Navbar';
 import { Homepage } from './features/homepage/Homepage';
 import { Footer } from './features/homepage/footer/Footer';
@@ -87,6 +90,9 @@ function App() {
           <PublicRoute path='/covid19' component={Covid19} />
           <PublicRoute path='/about-us' component={AboutUs} />
           <PublicRoute path='/contact-us' component={ContactUs} />
+          <PublicRoute path='/privacy-policy' component={PrivacyPolicy} />
+          <PublicRoute path='/terms-and-conditions' component={TermsConditions} />
+          <PublicRoute path='/disclaimer' component={Disclaimer} />
           <PublicRoute path='/reset-password' component={ResetPassword} />
           <PublicRoute path='/confirm-email' component={EmailConfirmation} />
           <ProtectedRoute path='/account' email={email} component={MyAccount} />

@@ -123,6 +123,17 @@ const QuickLink = styled(Link)`
   }
 `;
 
+const QuickLinkAnchor = styled.a`
+  color: #262626;
+  text-decoration: none;
+  margin-bottom: 15px;
+  cursor: pointer;
+  font-size: 18px;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 const ContentFrame = styled.div`
   display: flex;
   flex-direction: column;
@@ -305,9 +316,9 @@ export const Footer = () => {
         <ContentContainer>
           <ContentLabel>Legals</ContentLabel>
           <ContentFrame>
-            <QuickLink to='/'>Privacy Policy</QuickLink>
-            <QuickLink to='/'>Terms and Conditions</QuickLink>
-            <QuickLink to='/'>Disclaimer</QuickLink>
+            <QuickLink to='/privacy-policy'>Privacy Policy</QuickLink>
+            <QuickLink to='/terms-and-conditions'>Terms and Conditions</QuickLink>
+            <QuickLink to='/disclaimer'>Disclaimer</QuickLink>
             <QuickLink to='/'>Policies</QuickLink>
             <QuickLink to='/'>FAQ's</QuickLink>
           </ContentFrame>
@@ -328,9 +339,9 @@ export const Footer = () => {
           <ContentLabel>Locations</ContentLabel>
 
           <ContentFrame>
-            <QuickLink to='/'>Bengaluru</QuickLink>
-            <QuickLink to='/'>Chennai</QuickLink>
-            <QuickLink to='/'>Pondicherry</QuickLink>
+            <QuickLinkAnchor href='https://www.google.com/maps/place/AIC+Enterprises+Pvt+Ltd/@13.0107669,77.5062088,15z/data=!4m2!3m1!1s0x0:0x2abd4f01f85b7990?sa=X&ved=2ahUKEwi2uLT6mZzzAhWZ7HMBHfL_CGMQ_BJ6BAhTEAU' target='_blank'>Bengaluru</QuickLinkAnchor>
+            <QuickLinkAnchor href='https://www.google.com/maps/place/AIC+SPECIALITIES/@13.072931,80.2662145,15z/data=!4m5!3m4!1s0x0:0x8e196a0638815ccd!8m2!3d13.0729217!4d80.2661684' target='_blank'>Chennai</QuickLinkAnchor>
+            <QuickLinkAnchor href='https://www.google.com/maps/place/A.I.C.+International/@11.9294999,79.793802,15z/data=!4m2!3m1!1s0x0:0x4dcee541370a5df1?sa=X&ved=2ahUKEwje6-2lmpzzAhUZIbcAHWlXClwQ_BJ6BAhJEAU' target='_blank'>Pondicherry</QuickLinkAnchor>
           </ContentFrame>
 
           {/* <SocialMedia>

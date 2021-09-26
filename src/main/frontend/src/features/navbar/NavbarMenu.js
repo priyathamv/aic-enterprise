@@ -147,6 +147,9 @@ export const NavbarMenu = () => {
     const navbarMenuDom = document.getElementById('navbar_menu_id');
     const coverImageSliderDom = document.getElementById('cover_image_slider_id');
     const aboutUsDom = document.getElementById('about_us_id');
+    const privacyPolicyDom = document.getElementById('privacy_policy_id');
+    const TermsConditionsDom = document.getElementById('terms_conditions_id');
+    const disclaimerDom = document.getElementById('disclaimer_idd');
     const contactUsDom = document.getElementById('contact_us_id');
     const productsDom = document.getElementById('products_id');
     const productListDom = document.getElementById('product_list_id');
@@ -165,6 +168,9 @@ export const NavbarMenu = () => {
         }
         coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '100px');
         aboutUsDom && (aboutUsDom.style.paddingTop = '100px');
+        privacyPolicyDom && (privacyPolicyDom.style.paddingTop = '100px');
+        TermsConditionsDom && (TermsConditionsDom.style.paddingTop = '100px');
+        disclaimerDom && (disclaimerDom.style.paddingTop = '100px');
         contactUsDom && (contactUsDom.style.paddingTop = '100px');
         productsDom && (productsDom.style.paddingTop = '100px');
         productListDom && (productListDom.style.paddingTop = '100px');
@@ -183,6 +189,9 @@ export const NavbarMenu = () => {
         }
         coverImageSliderDom && (coverImageSliderDom.style.paddingTop = '0');
         aboutUsDom && (aboutUsDom.style.paddingTop = '0');
+        privacyPolicyDom && (privacyPolicyDom.style.paddingTop = '0');
+        TermsConditionsDom && (TermsConditionsDom.style.paddingTop = '0');
+        disclaimerDom && (disclaimerDom.style.paddingTop = '0');
         contactUsDom && (contactUsDom.style.paddingTop = '0');
         productsDom && (productsDom.style.paddingTop = '0');
         productListDom && (productListDom.style.paddingTop = '0');

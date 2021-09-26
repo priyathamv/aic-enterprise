@@ -22,6 +22,9 @@ public class MvcConfig {
                 registry.addViewController("/product-detail/*").setViewName(INDEX_HTML);
                 registry.addViewController("/contact-us").setViewName(INDEX_HTML);
                 registry.addViewController("/about-us").setViewName(INDEX_HTML);
+                registry.addViewController("/privacy-policy").setViewName(INDEX_HTML);
+                registry.addViewController("/terms-and-conditions").setViewName(INDEX_HTML);
+                registry.addViewController("/disclaimer").setViewName(INDEX_HTML);
                 registry.addViewController("/covid19").setViewName(INDEX_HTML);
                 registry.addViewController("/reset-password").setViewName(INDEX_HTML);
                 registry.addViewController("/account").setViewName(INDEX_HTML);

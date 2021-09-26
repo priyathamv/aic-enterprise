@@ -172,9 +172,7 @@ export const WhyChooseUs = () => {
         <SubHeading>WHAT OUR CLIENTS SAY</SubHeading>
 
         <Description>
-          We have had many satisfied customers throughout the years who have used our products and have been happy with the results. Our products have helped clients with their respective scientific material needs.
-          <br></br><br></br>
-          Take a look at the wealth of testimonials before ordering and be sure to subscribe to our newsletter to never lose out on our latest updates.
+          We have had many satisfied customers throughout the years who have used our products and have been happy with the results. Our products have helped clients with their respective scientific material needs. Take a look at the wealth of testimonials before ordering and be sure to subscribe to our newsletter to never lose out on our latest updates.
         </Description>
       </Background>
 

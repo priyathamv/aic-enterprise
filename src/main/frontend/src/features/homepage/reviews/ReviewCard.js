@@ -19,10 +19,17 @@ const Container = styled.div`
   margin: 0 20px;
   z-index: 10000;
 
+  @media ${device.tablet} {
+    margin-left: 0;
+  }
 
   @media ${device.laptop} {
-    margin-left: 500px;
+    margin-left: 300px;
     margin-top: 100px;
+  }
+
+  @media ${device.laptop15} {
+    margin-left: 800px;
   }
 `;
 

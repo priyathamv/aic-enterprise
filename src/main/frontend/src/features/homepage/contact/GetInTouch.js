@@ -153,6 +153,7 @@ const Heading = styled.div`
 const InputWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
 const Input = styled.input`
