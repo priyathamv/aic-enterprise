@@ -151,7 +151,8 @@ const Heading = styled.div`
 `;
 
 const InputWrapper = styled.div`
-
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Input = styled.input`
@@ -161,6 +162,7 @@ const Input = styled.input`
   border: 1px solid #DADADA;
   color: #333333;
   font-size: 16px;
+  flex: 2;
 `;
 
 const Textarea = styled.textarea`
@@ -180,6 +182,8 @@ const Submit = styled.button`
   text-decoration: underline;
   text-align: left;
   cursor: pointer;
+  flex: 1;
+  text-align: right;
 `;
 
 const Message = styled.div`
@@ -286,8 +290,9 @@ export const GetInTouch = () => {
 
               <Submit style={{ color: '#FFF' }} onClick={handleOnSignUp}>SUBSCRIBE &#62;</Submit>
 
-              {newsletterMessage && <Message>{newsletterMessage}</Message>}
             </InputWrapper>
+
+            {newsletterMessage && <Message>{newsletterMessage}</Message>}
           </NewsLetter>
         </RightSide>
       </Container>

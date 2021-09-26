@@ -279,13 +279,13 @@ export const Footer = () => {
         </Brand> */}
 
         <ContentContainer>
-          <ContentLabel>About us</ContentLabel>
+          {/* <ContentLabel>About us</ContentLabel>
 
           <ContentFrame>
             <ContentText>AIC Group is the leading company with the known name and rich history in the Scientific industry</ContentText>
-          </ContentFrame>
+          </ContentFrame> */}
 
-          <ContentLabel style={{ marginBottom: '15px' }}>Follow us</ContentLabel>
+          <ContentLabel>Follow us</ContentLabel>
 
           <SocialMedia>
             <FacebookIcon size='1.7em' onClick={() => openInNewTab('https://www.facebook.com/AIC-Enterprises-Pvt-Ltd-108724891416130')}/>
@@ -303,39 +303,41 @@ export const Footer = () => {
         </ContentContainer>
 
         <ContentContainer>
-          <ContentLabel>Information</ContentLabel>
+          <ContentLabel>Legals</ContentLabel>
           <ContentFrame>
-            <QuickLink to='/'>Profile</QuickLink>
-            <QuickLink to='/about-us'>About Us</QuickLink>
-            <QuickLink to='/contact-us'>Contact</QuickLink>
-            <QuickLink to='/'>Address</QuickLink>
-            <QuickLink to='/'>Return policy</QuickLink>
+            <QuickLink to='/'>Privacy Policy</QuickLink>
+            <QuickLink to='/'>Terms and Conditions</QuickLink>
+            <QuickLink to='/'>Disclaimer</QuickLink>
+            <QuickLink to='/'>Policies</QuickLink>
+            <QuickLink to='/'>FAQ's</QuickLink>
           </ContentFrame>
         </ContentContainer>
 
         <ContactContainer>
-          <ContentLabel>Products</ContentLabel>
+          <ContentLabel>Quicklinks</ContentLabel>
           <ContentFrame>
-            <QuickLink to='/'>FAQs</QuickLink>
-            <QuickLink to='/'>Guides</QuickLink>
-            <QuickLink to='/contact-us'>Contact us</QuickLink>
-            <QuickLink to='/'>Sell with Us</QuickLink>
-            <QuickLink to='/'>Sitemap</QuickLink>
+            <QuickLink to='/productlist'>Products</QuickLink>
+            <QuickLink to='/about-us'>About AIC</QuickLink>
+            <QuickLink to='/contact-us'>Contact</QuickLink>
+            <QuickLink to='/'>Careers</QuickLink>
+            <QuickLink to='/'>Blog</QuickLink>
           </ContentFrame>
         </ContactContainer>
 
         <ContactContainer>
-          <ContentLabel>Address</ContentLabel>
+          <ContentLabel>Locations</ContentLabel>
 
           <ContentFrame>
-            <ContentText>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka, 560058</ContentText>
+            <QuickLink to='/'>Bengaluru</QuickLink>
+            <QuickLink to='/'>Chennai</QuickLink>
+            <QuickLink to='/'>Pondicherry</QuickLink>
           </ContentFrame>
 
-          <SocialMedia>
+          {/* <SocialMedia>
             <PaymentIcon src='/images/footer/visa.png' />
             <PaymentIcon src='/images/footer/mastercard.png' />
             <PaymentIcon src='/images/footer/ebay.png' />
-          </SocialMedia>
+          </SocialMedia> */}
 
         </ContactContainer>
       </FootContainer>

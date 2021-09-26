@@ -29,7 +29,7 @@ const Content = styled.div`
 
   @media ${device.laptop15} {
     flex-direction: row;
-    padding: 100px 300px;
+    padding: 100px 200px;
   }
 `;
 
@@ -155,8 +155,7 @@ export const OurProducts = () => {
       <Content>
         <Heading>OUR PRODUCTS</Heading>
 
-        <Description>We carry with us the legacy of offering the widest range of products in this field owing to being the authorised distributors and channel partners for mulple companies. <br></br>
-        With a price range that suits all kinds of requirements, set-ups and working condions, we are here to meet all your needs. Log on to our products page to see what we have to offer.</Description>
+        <Description>We carry with us the legacy of offering the widest range of products in this field owing to being the authorised distributors and channel partners for mulple companies. With a price range that suits all kinds of requirements, set-ups and working condions, we are here to meet all your needs. Log on to our products page to see what we have to offer.</Description>
 
         <ExploreButton to='/productlist'>EXPLORE ALL</ExploreButton>
 

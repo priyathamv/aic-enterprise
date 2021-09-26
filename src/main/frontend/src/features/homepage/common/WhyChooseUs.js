@@ -42,7 +42,7 @@ const Box = styled.div`
 
   @media ${device.laptop} {
     padding: 75px 100px;
-    margin: 0 300px;
+    margin: 0 200px;
   }
 `;
 

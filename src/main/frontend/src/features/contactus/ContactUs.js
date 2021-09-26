@@ -49,7 +49,7 @@ const Name = styled.div`
   font-weight: bold;
   margin-bottom: 20px;
 `;
-  
+
 const Description = styled.div`
   margin-left: 22px;
 `;
@@ -70,7 +70,7 @@ export const ContactUs = () => {
 
         <LocationPanel>
           <Location>
-            <Name><LocationIcon size='1em' />AIC Enterprises</Name>
+            <Name><LocationIcon size='1em' />AIC Enterprises Private Limited</Name>
             <Description>V79A & V79B, 1st A Main, 2nd Stage, Peenya, Bengaluru, Karnataka 560058</Description>
           </Location>
 
@@ -85,7 +85,7 @@ export const ContactUs = () => {
 
           <Location>
             <Name><LocationIcon size='1em' />AIC International</Name>
-            <Description>No.11, 1st Cross, Kamban - Nagar,Redisarpalayam, Pondicherry - 605010</Description>
+            <Description>No.11, 1st Cross, Kamban - Nagar, Rediuarpalem, Pondicherry - 605010</Description>
           </Location>
         </LocationPanel>
       </GetInTouchFrame>

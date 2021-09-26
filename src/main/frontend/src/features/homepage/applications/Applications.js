@@ -124,7 +124,7 @@ const CategoryWrapper = styled.div`
 
   @media ${device.laptop15} {
     grid-template-columns: 1fr 1fr 1fr;
-    margin: 0 300px 20px 300px;
+    margin: 0 200px 20px 200px;
     padding: 100px;
   }
 `;

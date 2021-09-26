@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Cookies from 'universal-cookie';
 import 'reactjs-popup/dist/index.css';
 import { ImPhone } from 'react-icons/im';
 import { IoIosMail } from 'react-icons/io';
 import { useSelector, useDispatch } from 'react-redux';
+import { AiOutlineWhatsApp } from 'react-icons/ai';
 
 import { UserCart } from './UserCart';
 import { device } from '../utils/viewport';
@@ -19,6 +20,8 @@ const Container = styled.div`
   color: #232162;
   text-align: center;
   background-color: #F1F1F1;
+  z-index: 100000;
+  width: 100%;
 `;
 
 const BrandFrame = styled.div`
@@ -48,7 +51,7 @@ const ContantInfo = styled.div`
   grid-row: auto auto;
   grid-column-gap: 5px;
   grid-row-gap: 5px;
-  align-items: flex-start;
+  align-items: center;
   color: #262626;
 
   @media ${device.tablet} {
@@ -68,6 +71,26 @@ const MailIcon = styled(IoIosMail)`
 const MailText = styled.a`
   text-decoration: none;
   color: #262626;
+`;
+
+const PhoneNumberWrapper = styled.div`
+  background-color: #23D366;
+  padding: 10px;
+  border-radius: 20px;
+  display: flex;
+  min-width: 100px;
+  justify-content: space-around;
+  cursor: pointer;
+  align-items: center;
+`;
+
+const PhoneNumber = styled.a`
+  text-decoration: none;
+  color: #FFF;
+`;
+
+const AiOutlineWhatsAppIcon = styled(AiOutlineWhatsApp)`
+  color: #FFF;
 `;
 
 const PhoneIcon = styled(ImPhone)`
@@ -119,7 +142,28 @@ const Logo = styled.img`
   }
 
   @media ${device.laptop} {
+    margin-left: 50px;
     width: 80px;
+  }
+`;
+
+const BrandWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+
+const BrandName = styled.div`
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 20px;
+
+  @media ${device.tablet} {
+    font-size: 16px;
+  }
+
+  @media ${device.laptop} {
+    font-size: 30px;
   }
 `;
 
@@ -156,21 +200,45 @@ export const NavbarMain = ({ isAdmin }) => {
     setTimeout(() => window.location.href = '/', 0);
   }
 
-  return (
-    <Container>
-      <BrandFrame style={ isAdmin ? { justifyContent: 'flex-start' } : null}>
-        {isAdmin ?
-          <>
-            <Logo
-              style={ isAdmin ? { marginLeft: '20px' } : null }
-              src='/images/aic_logo.png'
-              alt='AIC Logo'
-              onClick={() => window.location.href='/'}
-            />
+  const [showLogo, setShowLogo] = useState(false);
 
-            <Brand>AIC Group</Brand>
-          </> : null}
-      </BrandFrame>
+  useEffect(() => window.addEventListener('scroll', scrollCallback), []);
+
+  const scrollCallback = () => {
+    setShowLogo(document.body.scrollTop > 100 || document.documentElement.scrollTop > 100);
+  }
+
+  return (
+    <Container id='navbar_menu_id'>
+      {isAdmin ?
+        <BrandFrame style={ isAdmin ? { justifyContent: 'flex-start' } : null}>
+            <>
+              <Logo
+                style={ isAdmin ? { marginLeft: '20px' } : null }
+                src='/images/aic_logo.png'
+                alt='AIC Logo'
+                onClick={() => window.location.href='/'}
+              />
+
+              <Brand>AIC Group</Brand>
+            </>
+        </BrandFrame> :
+      null}
+
+      {(!isAdmin && showLogo) ?
+        <>
+          <Logo
+            src='/images/aic_logo.png'
+            alt='AIC Logo'
+            onClick={() => window.location.href='/'}
+          />
+
+          <BrandWrapper>
+            <BrandName>AIC</BrandName>
+            <BrandName>GROUP</BrandName>
+          </BrandWrapper>
+        </> : null }
+
 
       {(!isMobile && !isAdmin) &&
         <ContantInfo>
@@ -179,10 +247,12 @@ export const NavbarMain = ({ isAdmin }) => {
             <MailText href='mailto:sales@aicgroup.in?subject=Website Query'>sales@aicgroup.in</MailText>
           </div>
 
-          <PhoneIcon size='1em'></PhoneIcon>
-          <div>
-            <MailText style={{ fontSize: '15px' }} href='tel:+918028364174'>080-28364174</MailText>
-          </div>
+          {/* <PhoneIcon size='1em'></PhoneIcon> */}
+          <PhoneNumberWrapper>
+            <AiOutlineWhatsAppIcon />
+
+            <PhoneNumber style={{ fontSize: '15px' }} href='https://wa.me/message/NVQDDM4T4NFWH1' target="_blank">Talk to us</PhoneNumber>
+          </PhoneNumberWrapper>
         </ContantInfo>}
 
       {!isAdmin ?

@@ -225,7 +225,7 @@ export const NavbarMenu = () => {
   }
 
   return (
-    <Container id='navbar_menu_id'>
+    <Container>
       {/* <MenuItems> */}
         {/* {isMobile ?
           null :
@@ -267,7 +267,7 @@ export const NavbarMenu = () => {
 
           <MenuItem style={curPage === ABOUT_US_PAGE ? curPageStyle : null} to='/about-us'>ABOUT US</MenuItem>
 
-          <MenuItem to='/'>BLOG</MenuItem>
+          <MenuItem style={{ cursor: 'default' }} to='#'>BLOG</MenuItem>
 
           <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>CONTACT</MenuItem>
 
