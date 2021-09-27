@@ -102,6 +102,7 @@ const CartFrame = styled.div`
   color: #FFF;
   margin-right: 30px;
   position: relative;
+  cursor: pointer;
 
   @media ${device.laptop} {
     min-width: 120px;
