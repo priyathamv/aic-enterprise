@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { device } from '../utils/viewport';
@@ -13,11 +14,31 @@ import { selectUserEmail } from '../auth/authSlice';
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   margin: 50px 20px 50px 20px;
 
   @media ${device.laptop} {
     margin: 50px 15vw 50px 15vw;
   }
+`;
+
+const DetailsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
+`;
+
+const BreadCrumb = styled.div`
+  display: flex;
+  margin-bottom: 50px;
+`;
+
+const Crumb = styled(Link)`
+  text-decoration: none;
+  color: #232162;
 `;
 
 const LeftFrame = styled.div`
@@ -209,116 +230,134 @@ export const ProductDetail2 = () => {
   }
 
   return (
-    <Container id='product_catalogue_id'>
-
+    <>
       {productDetails ?
-        <>
-          <LeftFrame>
-            <ImageFrame>
-              <ImageGroup>
-                {productDetails.imageUrls.map(
-                  (curImageUrl, index) =>
-                    <SmallImage
-                      key={index}
-                      src={curImageUrl}
-                      onClick={() => setMainImageUrl(curImageUrl)}
-                    />
-                  )}
-              </ImageGroup>
+        <Container id='product_catalogue_id'>
+          <BreadCrumb>
+            <Crumb
+              to={`/productlist?application=${productDetails.application}`}
+              style={{ marginRight: '10px' }}
+            >{productDetails.application}</Crumb>/
 
-              <Image src={mainImageUrl} />
-            </ImageFrame>
-          </LeftFrame>
+            <Crumb
+              to={`/productlist?application=${productDetails.application}&category=${productDetails.category}`}
+              style={{ margin: '0 10px' }}
+            >{productDetails.category}</Crumb>/
 
-          <RightFrame>
-            <Name>{productDetails.name}</Name>
+            <Crumb
+              to={`/productlist?application=${productDetails.application}&category=${productDetails.category}&brand=${productDetails.brand}`}
+              style={{ marginLeft: '10px' }}
+            >{productDetails.brand}</Crumb>
+          </BreadCrumb>
 
-            <ProductInfo>
-              <Info style={{ marginRight: '10px' }}>{productDetails.application}</Info>|
-              <Info style={{ margin: '0 10px' }}>{productDetails.category}</Info>|
-              <Info style={{ marginLeft: '10px' }}>{productDetails.brand}</Info>
-            </ProductInfo>
+          <DetailsWrapper>
+            <LeftFrame>
+              <ImageFrame>
+                <ImageGroup>
+                  {productDetails.imageUrls.map(
+                    (curImageUrl, index) =>
+                      <SmallImage
+                        key={index}
+                        src={curImageUrl}
+                        onClick={() => setMainImageUrl(curImageUrl)}
+                      />
+                    )}
+                </ImageGroup>
 
-            {productDetails.metricsList.map((curMetric, index) =>
-              <Size
-                style={index === capacityIndex ? {backgroundColor: '#232162', color: '#FFFFFF'} : null}
-                key={index}
-                onClick={() => handleCapacitySelection(index)}>
-                {curMetric.capacity}
-              </Size>
-            )}
+                <Image src={mainImageUrl} />
+              </ImageFrame>
+            </LeftFrame>
 
-            <Description dangerouslySetInnerHTML={createMarkup(productDetails.description)} />
+            <RightFrame>
+              <Name>{productDetails.name}</Name>
 
-            {productDetails.specification ?
-              <>
-                <Heading>Specifications:</Heading>
-                <Description dangerouslySetInnerHTML={createMarkup(productDetails.specification)} />
-              </> : null}
+              <ProductInfo>
+                <Info style={{ marginRight: '10px' }}>{productDetails.application}</Info>|
+                <Info style={{ margin: '0 10px' }}>{productDetails.category}</Info>|
+                <Info style={{ marginLeft: '10px' }}>{productDetails.brand}</Info>
+              </ProductInfo>
 
-            {productDetails.metricsList.length && productDetails.metricsList[capacityIndex].specification ?
-              <>
-                <Heading>Specifications:</Heading>
-                <Description dangerouslySetInnerHTML={createMarkup(productDetails.metricsList[capacityIndex].specification)} />
-              </> : null}
+              {productDetails.metricsList.map((curMetric, index) =>
+                <Size
+                  style={index === capacityIndex ? {backgroundColor: '#232162', color: '#FFFFFF'} : null}
+                  key={index}
+                  onClick={() => handleCapacitySelection(index)}>
+                  {curMetric.capacity}
+                </Size>
+              )}
 
-            <SizeFrame>
-              <CapacityFrame>
-                {productDetails.metricsList[capacityIndex].od &&
-                  <>
+              <Description dangerouslySetInnerHTML={createMarkup(productDetails.description)} />
+
+              {productDetails.specification ?
+                <>
+                  <Heading>Specifications:</Heading>
+                  <Description dangerouslySetInnerHTML={createMarkup(productDetails.specification)} />
+                </> : null}
+
+              {productDetails.metricsList.length && productDetails.metricsList[capacityIndex].specification ?
+                <>
+                  <Heading>Specifications:</Heading>
+                  <Description dangerouslySetInnerHTML={createMarkup(productDetails.metricsList[capacityIndex].specification)} />
+                </> : null}
+
+              <SizeFrame>
+                <CapacityFrame>
+                  {productDetails.metricsList[capacityIndex].od &&
+                    <>
+                      <MetricItem>
+                        <MetricName>OD:</MetricName>
+                        <MetricValue>{productDetails.metricsList[capacityIndex].od}</MetricValue>
+                      </MetricItem>
+
+                      <Separator>|</Separator>
+                    </>
+                  }
+
+                  {productDetails.metricsList[capacityIndex].height &&
+                    <>
+                      <MetricItem>
+                        <MetricName>Height:</MetricName>
+                        <MetricValue>{productDetails.metricsList[capacityIndex].height}</MetricValue>
+                      </MetricItem>
+
+                      <Separator>|</Separator>
+                    </>
+                  }
+
+                  {productDetails.metricsList[capacityIndex].pack &&
                     <MetricItem>
-                      <MetricName>OD:</MetricName>
-                      <MetricValue>{productDetails.metricsList[capacityIndex].od}</MetricValue>
+                      <MetricName>Pack:</MetricName>
+                      <MetricValue>{productDetails.metricsList[capacityIndex].pack}</MetricValue>
                     </MetricItem>
-
-                    <Separator>|</Separator>
-                  </>
-                }
-
-                {productDetails.metricsList[capacityIndex].height &&
-                  <>
+                  }
+                  {/* {productDetails.metricsList[capacityIndex].price &&
                     <MetricItem>
-                      <MetricName>Height:</MetricName>
-                      <MetricValue>{productDetails.metricsList[capacityIndex].height}</MetricValue>
+                      <MetricName>Price:</MetricName>
+                      <MetricValue>{productDetails.metricsList[capacityIndex].price}</MetricValue>
                     </MetricItem>
+                  } */}
+                </CapacityFrame>
 
-                    <Separator>|</Separator>
-                  </>
-                }
+                <SizeBox></SizeBox>
+              </SizeFrame>
 
-                {productDetails.metricsList[capacityIndex].pack &&
-                  <MetricItem>
-                    <MetricName>Pack:</MetricName>
-                    <MetricValue>{productDetails.metricsList[capacityIndex].pack}</MetricValue>
-                  </MetricItem>
-                }
-                {/* {productDetails.metricsList[capacityIndex].price &&
-                  <MetricItem>
-                    <MetricName>Price:</MetricName>
-                    <MetricValue>{productDetails.metricsList[capacityIndex].price}</MetricValue>
-                  </MetricItem>
-                } */}
-              </CapacityFrame>
+              {quantity === 0 ?
+                <Button
+                  style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px', marginTop: '20px', display: 'block', marginBottom: '20px'}}
+                  label='ADD TO CART'
+                  handleOnClick={() => { setQuantity(1); handleAddToCart(productDetails); }}/> :
+                <QuantityBox
+                  styleObj={{ margin: '20px 0' }}
+                  quantity={quantity}
+                  setQuantity={handleChangeQuantity}
+                />
+              }
 
-              <SizeBox></SizeBox>
-            </SizeFrame>
-
-            {quantity === 0 ?
-              <Button
-                style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px', marginTop: '20px', display: 'block', marginBottom: '20px'}}
-                label='ADD TO CART'
-                handleOnClick={() => { setQuantity(1); handleAddToCart(productDetails); }}/> :
-              <QuantityBox
-                styleObj={{ margin: '20px 0' }}
-                quantity={quantity}
-                setQuantity={handleChangeQuantity}
-              />
-            }
-
-            {productDetails.auxilaryImageUrl && <AuxilaryImage src={productDetails.auxilaryImageUrl} />}
-          </RightFrame>
-        </> : <SpinnerWrapper><Spinner/></SpinnerWrapper>
+              {productDetails.auxilaryImageUrl && <AuxilaryImage src={productDetails.auxilaryImageUrl} />}
+            </RightFrame>
+          </DetailsWrapper>
+        </Container> : <SpinnerWrapper><Spinner/></SpinnerWrapper>
       }
-    </Container>
+    </>
   )
 }
