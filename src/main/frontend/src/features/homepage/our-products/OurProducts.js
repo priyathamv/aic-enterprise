@@ -110,7 +110,6 @@ export const OurProducts = () => {
 
 
   useEffect(() => {
-    console.log('dasdasdasds')
     axios.get('/api/featured-products/all?ribbon=Flagship&pageNo=0&limit=30')
       .then(response => {
         setProductList(response.data.payload);
@@ -131,7 +130,6 @@ export const OurProducts = () => {
       newProductList.push(productListTemp);
     }
     setProductListOfList(newProductList);
-    console.log('newProductList', newProductList)
 
   }, [productList]);
 

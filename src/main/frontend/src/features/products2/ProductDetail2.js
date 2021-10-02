@@ -2,16 +2,20 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { device } from '../utils/viewport';
 import { Spinner } from '../utils/Spinner';
 import { Button } from '../homepage/common/Button';
+import { QuantityBox } from '../cart/QuantityBox';
+import { selectCartItems, updateUserCartAsync } from '../cart/cartSlice';
+import { selectUserEmail } from '../auth/authSlice';
 
 const Container = styled.div`
   display: flex;
   margin: 50px 20px 50px 20px;
-  
-  @media ${device.laptop} { 
+
+  @media ${device.laptop} {
     margin: 50px 15vw 50px 15vw;
   }
 `;
@@ -88,7 +92,7 @@ const ProductInfo = styled.div`
 `;
 
 const Info = styled.div`
-  
+
 `;
 
 const Header = styled.div`
@@ -147,13 +151,13 @@ export const ProductDetail2 = () => {
     try {
       const queryParams = { productId: productIdValue };
 
-      const url = (productApplication === 'Analytical') ? '/api/analytical-products/details' : 
-        (productApplication === 'Life Science') ? '/api/life-science-products/details' : 
-        (productApplication === 'Instrumentation') ? '/api/instrumentation-products/details' : 
+      const url = (productApplication === 'Analytical') ? '/api/analytical-products/details' :
+        (productApplication === 'Life Science') ? '/api/life-science-products/details' :
+        (productApplication === 'Instrumentation') ? '/api/instrumentation-products/details' :
         (productApplication === 'Industrial Safety and Clean room') ? '/api/industrial-products/details' : null;
 
       const productDetailsResponse = await axios.get(url, { params: queryParams });
-      
+
       setProductDetails(productDetailsResponse.data.payload);
       setMainImageUrl(productDetailsResponse.data.payload.imageUrls[0]);
     } catch (error) {
@@ -172,25 +176,51 @@ export const ProductDetail2 = () => {
 
   const handleCapacitySelection = index => setCapacityIndex(index);
 
-  const handleAddToCart = () => {}
-
   const createMarkup = htmlValue => {
     return { __html: htmlValue };
   }
-  
+
+
+  // Add to cart functionality
+  const dispatch = useDispatch();
+  const userEmail = useSelector(selectUserEmail);
+
+  const [quantity, setQuantity] = useState(0);
+
+  const cartItems = useSelector(selectCartItems);
+  const isItemAlreadyInCart = productDetails && cartItems.find(curCartItem => curCartItem.productId === productDetails.productId);
+
+  useEffect(() => {
+    setQuantity(isItemAlreadyInCart ? isItemAlreadyInCart.quantity : 0);
+  }, [isItemAlreadyInCart]);
+
+
+  const handleAddToCart = productDetails => {
+    console.log('UPDATE_CART_ITEM', userEmail, cartItems, { ...productDetails, quantity: 1 });
+    dispatch(updateUserCartAsync('UPDATE_CART_ITEM', userEmail, cartItems, { ...productDetails, quantity: 1 }));
+  }
+
+  const handleChangeQuantity = newQuantity => {
+    setQuantity(newQuantity);
+    if (newQuantity === 0)
+      dispatch(productDetails && updateUserCartAsync('DELETE_CART_ITEM', userEmail, cartItems, productDetails.productId));
+    else
+      dispatch(productDetails && updateUserCartAsync('UPDATE_CART_ITEM', userEmail, cartItems, { ...productDetails, quantity: newQuantity }));
+  }
+
   return (
     <Container id='product_catalogue_id'>
 
-      {productDetails ? 
+      {productDetails ?
         <>
           <LeftFrame>
             <ImageFrame>
               <ImageGroup>
                 {productDetails.imageUrls.map(
-                  (curImageUrl, index) => 
-                    <SmallImage 
-                      key={index} 
-                      src={curImageUrl} 
+                  (curImageUrl, index) =>
+                    <SmallImage
+                      key={index}
+                      src={curImageUrl}
                       onClick={() => setMainImageUrl(curImageUrl)}
                     />
                   )}
@@ -209,10 +239,10 @@ export const ProductDetail2 = () => {
               <Info style={{ marginLeft: '10px' }}>{productDetails.brand}</Info>
             </ProductInfo>
 
-            {productDetails.metricsList.map((curMetric, index) => 
-              <Size 
+            {productDetails.metricsList.map((curMetric, index) =>
+              <Size
                 style={index === capacityIndex ? {backgroundColor: '#232162', color: '#FFFFFF'} : null}
-                key={index} 
+                key={index}
                 onClick={() => handleCapacitySelection(index)}>
                 {curMetric.capacity}
               </Size>
@@ -220,13 +250,13 @@ export const ProductDetail2 = () => {
 
             <Description dangerouslySetInnerHTML={createMarkup(productDetails.description)} />
 
-            {productDetails.specification ? 
+            {productDetails.specification ?
               <>
                 <Heading>Specifications:</Heading>
                 <Description dangerouslySetInnerHTML={createMarkup(productDetails.specification)} />
               </> : null}
-            
-            {productDetails.metricsList.length && productDetails.metricsList[capacityIndex].specification ? 
+
+            {productDetails.metricsList.length && productDetails.metricsList[capacityIndex].specification ?
               <>
                 <Heading>Specifications:</Heading>
                 <Description dangerouslySetInnerHTML={createMarkup(productDetails.metricsList[capacityIndex].specification)} />
@@ -234,7 +264,7 @@ export const ProductDetail2 = () => {
 
             <SizeFrame>
               <CapacityFrame>
-                {productDetails.metricsList[capacityIndex].od && 
+                {productDetails.metricsList[capacityIndex].od &&
                   <>
                     <MetricItem>
                       <MetricName>OD:</MetricName>
@@ -244,8 +274,8 @@ export const ProductDetail2 = () => {
                     <Separator>|</Separator>
                   </>
                 }
-                
-                {productDetails.metricsList[capacityIndex].height && 
+
+                {productDetails.metricsList[capacityIndex].height &&
                   <>
                     <MetricItem>
                       <MetricName>Height:</MetricName>
@@ -255,14 +285,14 @@ export const ProductDetail2 = () => {
                     <Separator>|</Separator>
                   </>
                 }
-                
-                {productDetails.metricsList[capacityIndex].pack && 
+
+                {productDetails.metricsList[capacityIndex].pack &&
                   <MetricItem>
                     <MetricName>Pack:</MetricName>
                     <MetricValue>{productDetails.metricsList[capacityIndex].pack}</MetricValue>
                   </MetricItem>
                 }
-                {/* {productDetails.metricsList[capacityIndex].price && 
+                {/* {productDetails.metricsList[capacityIndex].price &&
                   <MetricItem>
                     <MetricName>Price:</MetricName>
                     <MetricValue>{productDetails.metricsList[capacityIndex].price}</MetricValue>
@@ -273,10 +303,17 @@ export const ProductDetail2 = () => {
               <SizeBox></SizeBox>
             </SizeFrame>
 
-            <Button 
-              style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px', marginTop: '20px', display: 'block', marginBottom: '20px'}} 
-              label='ADD TO CART' 
-              handleOnClick={handleAddToCart} />
+            {quantity === 0 ?
+              <Button
+                style={{ borderRadius: '3px', fontSize: '12px', padding: '10px 20px', marginTop: '20px', display: 'block', marginBottom: '20px'}}
+                label='ADD TO CART'
+                handleOnClick={() => { setQuantity(1); handleAddToCart(productDetails); }}/> :
+              <QuantityBox
+                styleObj={{ margin: '20px 0' }}
+                quantity={quantity}
+                setQuantity={handleChangeQuantity}
+              />
+            }
 
             {productDetails.auxilaryImageUrl && <AuxilaryImage src={productDetails.auxilaryImageUrl} />}
           </RightFrame>
