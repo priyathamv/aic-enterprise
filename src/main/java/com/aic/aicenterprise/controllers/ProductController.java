@@ -32,7 +32,6 @@ public class ProductController {
         this.productService = productService;
     }
 
-
     @GetMapping(value = "")
     public ProductListResponse getAllProducts(
             @RequestParam(value = "brand", required = false) String brand,

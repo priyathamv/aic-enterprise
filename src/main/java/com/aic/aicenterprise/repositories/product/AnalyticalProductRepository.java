@@ -27,4 +27,6 @@ public interface AnalyticalProductRepository extends PagingAndSortingRepository<
     void deleteByBrandAndCategory(String brand, String category);
 
     void deleteByDivision(String division);
+
+    List<AnalyticalProduct> findByRibbon(String ribbon, Pageable pageable);
 }

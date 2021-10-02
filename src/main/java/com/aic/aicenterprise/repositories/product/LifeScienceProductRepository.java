@@ -28,4 +28,6 @@ public interface LifeScienceProductRepository extends PagingAndSortingRepository
     void deleteByBrandAndCategory(String brand, String category);
 
     void deleteByDivision(String division);
+
+    List<LifeScienceProduct> findByRibbon(String ribbon, Pageable pageable);
 }

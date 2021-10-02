@@ -126,19 +126,22 @@ const Description = styled.div`
   margin-bottom: 50px;
   font-size: 16px;
   line-height: 26px;
-  padding: 0 20px;
+  margin: 0 10px 20px 10px;
 
   @media ${device.tablet} {
-    padding: 0 100px;
+    margin: 0 50px 50px 50px;
     font-size: 16px;
   }
 
   @media ${device.laptop} {
-    // padding: 0 500px;
+    margin: 0 200px 100px 200px;
+  }
+
+  @media ${device.laptop15} {
+    margin: 0 200px 100px 200px;
     font-size: 16px;
   }
 `;
-
 
 
 export const WhyChooseUs = () => {

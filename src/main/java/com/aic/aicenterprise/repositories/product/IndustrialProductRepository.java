@@ -28,4 +28,6 @@ public interface IndustrialProductRepository extends PagingAndSortingRepository<
     void deleteByBrandAndCategory(String brand, String category);
 
     void deleteByDivision(String division);
+
+    List<IndustrialProduct> findByRibbon(String ribbon, Pageable pageable);
 }

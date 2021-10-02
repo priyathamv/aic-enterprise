@@ -1,11 +1,14 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.entities.FeaturedProduct;
+import com.aic.aicenterprise.entities.Product;
 import com.aic.aicenterprise.entities.UserProduct;
 import com.aic.aicenterprise.models.requests.SaveFeaturedProductsRequest;
 import com.aic.aicenterprise.models.responses.FeaturedProductListResponse;
+import com.aic.aicenterprise.models.responses.ProductListResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.FeaturedProductService;
+import com.aic.aicenterprise.services.product.AllProductsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -25,11 +28,41 @@ import static com.aic.aicenterprise.constants.AppConstants.SUCCESS;
 public class FeaturedProductController {
 
   private FeaturedProductService featuredProductService;
+  private AllProductsService allProductsService;
 
 
   @Autowired
-  public FeaturedProductController(FeaturedProductService featuredProductService) {
+  public FeaturedProductController(FeaturedProductService featuredProductService, AllProductsService allProductsService) {
     this.featuredProductService = featuredProductService;
+    this.allProductsService = allProductsService;
+  }
+
+  @GetMapping(value = "/all")
+  public FeaturedProductListResponse getAllProducts(
+      @RequestParam(value = "ribbon", required = false) String ribbon,
+      @RequestParam(value = "pageNo", required = false, defaultValue = "0") Integer pageNo,
+      @RequestParam(value = "limit", required = false, defaultValue = "30") Integer limit) {
+    log.info("Getting all {} products", ribbon);
+
+    FeaturedProductListResponse productListResponse;
+    try {
+      List<UserProduct> allProductsBasedOnRibbon = allProductsService.fetchProductsByRibbon(ribbon, pageNo, limit);
+
+      productListResponse = FeaturedProductListResponse.builder()
+          .payload(allProductsBasedOnRibbon)
+          .msg(SUCCESS)
+          .status(HttpStatus.OK.value())
+          .build();
+    } catch (Exception ex) {
+      log.info("Exception while fetching flagship products: {}", ex.getLocalizedMessage());
+      productListResponse = FeaturedProductListResponse.builder()
+          .error(ex.toString())
+          .msg("Exception while fetching flagship products")
+          .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+          .payload(null)
+          .build();
+    }
+    return productListResponse;
   }
 
   @GetMapping(value = "")

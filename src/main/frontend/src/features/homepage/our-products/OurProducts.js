@@ -1,35 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
+import AwesomeSlider from 'react-awesome-slider';
+import withAutoplay from 'react-awesome-slider/dist/autoplay';
+import 'react-awesome-slider/dist/styles.css';
+import 'react-awesome-slider/dist/custom-animations/cube-animation.css';
 
 import { device } from '../../utils/viewport';
+import { FlagshipProduct } from './FlagshipProduct';
 
 
 const Container = styled.div`
   background: url('/images/BG2.png');
-  // height: 1500px;
-  height: 500px;
+  height: 1000px;
+
+  @media ${device.tablet} {
+    height: 1500px;
+  }
 `;
 
 const Content = styled.div`
-  position: absolute;
+  // position: absolute;
   color: #FFF;
   padding: 20px;
 
   @media ${device.tablet} {
-    padding: 50px 50px;
+    padding: 30px 50px;
   }
 
   @media ${device.laptop} {
     flex-direction: row;
-    padding: 100px 200px;
-  }
-
-  @media ${device.laptop15} {
-    flex-direction: row;
-    padding: 100px 200px;
+    padding: 50px 200px;
   }
 `;
 
@@ -75,80 +77,64 @@ const ExploreButton = styled(Link)`
 `;
 
 const ProductWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-column-gap: 100px;
-  grid-row-gap: 100px;
-  margin-bottom: 50px;
+  padding: -20px;
 
   @media ${device.tablet} {
-    grid-template-columns: 1fr 1fr;
+    padding: -50px;
   }
 
   @media ${device.laptop} {
-    grid-template-columns: 1fr 1fr 1fr;
+    flex-direction: row;
+    padding: -100px -200px;
+  }
+
+  @media ${device.laptop15} {
+    padding: -100px -200px;
   }
 `;
 
-const Product = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 
-const Image = styled.img`
-  width: 100%;
-`;
-
-const NameFrame = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 0;
-`;
-
-const Name = styled.div`
-  font-weight: bold;
-`;
-
-const CartIcon = styled(AiOutlineShoppingCart)`
-  cursor: pointer;
-`;
-
-const FillStarIcon = styled(AiFillStar)`
-  fill: #D99107;
-  margin-right: 5px;
-`;
-
-const OutlineStarIcon = styled(AiOutlineStar)`
-  fill: #D99107;
-  margin-right: 5px;
-`;
-
-const Rating = styled.div`
-  display: flex;
-  margin-bottom: 10px;
-`;
-
-const Price = styled.div`
-  color: #919191;
-`;
-
-
-
-
-const productList = [
-  { name: 'Sample Product', imageUrl: '/images/our-products/Photo1.png', rating: 4.0, price: 200.00 },
-  { name: 'Sample Product', imageUrl: '/images/our-products/Photo2.png', rating: 4.0, price: 200.00 },
-  { name: 'Sample Product', imageUrl: '/images/our-products/Photo3.png', rating: 4.0, price: 200.00 },
-  { name: 'Sample Product', imageUrl: '/images/our-products/Photo4.png', rating: 4.0, price: 200.00 },
-  { name: 'Sample Product', imageUrl: '/images/our-products/Photo5.png', rating: 4.0, price: 200.00 },
-  { name: 'Sample Product', imageUrl: '/images/our-products/Photo6.png', rating: 4.0, price: 200.00 }
-]
+const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 export const OurProducts = () => {
 
-  const viewportWidth = window.outerWidth;
+  const viewportWidth = window.innerWidth;
   const isMobile = viewportWidth < 768;
   const isTablet = !isMobile && viewportWidth < 1024;
+  const isLaptopSmall = !isMobile && viewportWidth < 1366;
+
+  const size = isMobile ? 1 : isTablet ? 2 : isLaptopSmall ? 4 : 6;
+
+  const [productList, setProductList] = useState([]);
+  const [productListOfList, setProductListOfList] = useState([]);
+
+
+  useEffect(() => {
+    console.log('dasdasdasds')
+    axios.get('/api/featured-products/all?ribbon=Flagship&pageNo=0&limit=30')
+      .then(response => {
+        setProductList(response.data.payload);
+      })
+      .catch(function (error) {
+        console.log('Error while fetching flagship products', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    const newProductList = [];
+    for (let i=0; i<productList.length; i = i+size) {
+      let productListTemp = [];
+      let tempSize = size;
+      while (tempSize-- && productList[i + (size-tempSize-1)]) {
+        productListTemp.push(productList[i + (size-tempSize-1)]);
+      }
+      newProductList.push(productListTemp);
+    }
+    setProductListOfList(newProductList);
+    console.log('newProductList', newProductList)
+
+  }, [productList]);
+
 
   return (
     <Container>
@@ -158,75 +144,25 @@ export const OurProducts = () => {
         <Description>We carry with us the legacy of offering the widest range of products in this field owing to being the authorised distributors and channel partners for mulple companies. With a price range that suits all kinds of requirements, set-ups and working condions, we are here to meet all your needs. Log on to our products page to see what we have to offer.</Description>
 
         <ExploreButton to='/productlist'>EXPLORE ALL</ExploreButton>
-
-        {/* <ProductWrapper>
-          {(isMobile ? productList.slice(0, 2) : isTablet ? productList.slice(0, 4) : productList).map((curProduct, index) =>
-            <Product key={index}>
-              <Image src={curProduct.imageUrl} alt={curProduct.name} />
-
-              <NameFrame>
-                <Name>{curProduct.name}</Name>
-                <CartIcon size='1.5em' />
-              </NameFrame>
-
-              <Rating>
-                {curProduct.rating < 1 ?
-                  <>
-                    <OutlineStarIcon />
-                    <OutlineStarIcon />
-                    <OutlineStarIcon />
-                    <OutlineStarIcon />
-                    <OutlineStarIcon />
-                  </> :
-                  curProduct.rating < 2 ?
-                    <>
-                      <FillStarIcon />
-                      <OutlineStarIcon />
-                      <OutlineStarIcon />
-                      <OutlineStarIcon />
-                      <OutlineStarIcon />
-                    </> :
-                  curProduct.rating < 3 ?
-                  <>
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <OutlineStarIcon />
-                    <OutlineStarIcon />
-                    <OutlineStarIcon />
-                  </> :
-                  curProduct.rating < 4 ?
-                  <>
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <OutlineStarIcon />
-                    <OutlineStarIcon />
-                  </> :
-                  curProduct.rating < 5 ?
-                  <>
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <OutlineStarIcon />
-                  </> :
-                  <>
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <FillStarIcon />
-                    <FillStarIcon />
-                  </>
-                }
-
-              </Rating>
-
-              <Price>{curProduct.price}</Price>
-            </Product>
-          )}
-        </ProductWrapper> */}
-
       </Content>
+
+      <AutoplaySlider
+        play={true}
+        cancelOnInteraction={false} // should stop playing on user interaction
+        interval={5000}
+        bullets={false}
+        style={ viewportWidth < 768 ? { height: '578px' } : { height: '1200px' }}
+      >
+        {productListOfList.map((curProductList, index) => {
+          return (
+            <ProductWrapper key={index} className='products-grid'>
+              {curProductList.map((curProduct, innerIndex) =>
+                <FlagshipProduct key={innerIndex} productDetails={curProduct} />
+              )}
+            </ProductWrapper>
+          )
+        })}
+      </AutoplaySlider>
     </Container>
   )
 }
