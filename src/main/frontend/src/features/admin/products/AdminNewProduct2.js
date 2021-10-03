@@ -136,6 +136,7 @@ export const AdminNewProduct2 = () => {
   const [categoryOptions, setCategoryOptions] = useState([]);
   const [divisionOptions, setDivisionOptions] = useState([]);
   const [brandList, setBrandList] = useState([]);
+  const [filteredBrandList, setFilteredBrandList] = useState([]);
 
   const [productId, setProductId] = useState(productIdGenerated);
   const [application, setApplication] = useState('Analytical');
@@ -193,7 +194,6 @@ export const AdminNewProduct2 = () => {
       setImageUrls(productDetails.imageUrls);
       setAuxilaryImageUrl(productDetails.auxilaryImageUrl);
       setCreateDate(productDetails.createDate);
-      console.log('productDetails.createDate', productDetails.createDate);
     } catch (error) {
       console.log('Exception while fetching product details', error.message)
     }
@@ -203,7 +203,6 @@ export const AdminNewProduct2 = () => {
     if (location.pathname.includes('/admin/products2/edit/')) {
       const productApplication = location.pathname.split("/")[4];
 
-      console.log('productApplication', productApplication);
       const productIdValue = location.pathname.split("/")[5];
       fetchProductDetails(productApplication, productIdValue);
       setIsUpdate(true);
@@ -251,6 +250,17 @@ export const AdminNewProduct2 = () => {
       setDivision(null);
     }
   }, [category, divisionList]);
+
+  // Updating Brands dropdown options on Application, Category or brand change
+  useEffect(() => {
+    if (brandList && category) {
+      setFilteredBrandList(brandList.filter(curBrand => curBrand.category === category).map(curBrandObj => curBrandObj.name));
+    } else if (brandList && application) {
+      setFilteredBrandList(brandList.filter(curBrand => curBrand.application === application).map(curBrandObj => curBrandObj.name));
+    } else if (brandList) {
+      setFilteredBrandList(brandList.map(curBrandObj => curBrandObj.name));
+    }
+  }, [application, category, brandList]);
 
 
 
@@ -319,7 +329,7 @@ export const AdminNewProduct2 = () => {
   useEffect(() => {
     axios.get('/api/brands')
       .then(response => {
-        setBrandList((response.data.payload || []).map(curBrandObj => curBrandObj.name));
+        setBrandList(response.data.payload || []);//.map(curBrandObj => curBrandObj.name));
       })
       .catch(function (error) {
         console.log('Error while fetching brands', error);
@@ -433,7 +443,7 @@ export const AdminNewProduct2 = () => {
             isSearchable={true}
             placeholder='Select a Brand*'
             value={brand ? {label: brand, value: brand} : null}
-            options={brandList.map(curBrand => ({label: curBrand, value: curBrand}))}
+            options={filteredBrandList.map(curBrand => ({label: curBrand, value: curBrand}))}
             onChange={e => setBrand(e.value)}
           />
         </SelectWrapper>
