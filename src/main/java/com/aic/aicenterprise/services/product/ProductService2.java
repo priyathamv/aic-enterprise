@@ -1,8 +1,8 @@
 package com.aic.aicenterprise.services.product;
 
-import com.aic.aicenterprise.entities.product.AnalyticalProduct;
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ProductService2<T> {
@@ -29,6 +29,8 @@ public interface ProductService2<T> {
     long getTotalProducts();
 
     T getProductDetails(String productId);
+
+    T getNextProductDetails(String productId, LocalDateTime updateTs, boolean isNext);
 
     void deleteProductsByBrandAndCategory(String name, String category);
 }

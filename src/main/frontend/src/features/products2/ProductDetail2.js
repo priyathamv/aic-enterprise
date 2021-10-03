@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { device } from '../utils/viewport';
@@ -39,6 +39,47 @@ const BreadCrumb = styled.div`
 const Crumb = styled(Link)`
   text-decoration: none;
   color: #232162;
+`;
+
+const OptionsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #232162;
+
+  @media ${device.tablet} {
+    flex-direction: row;
+  }
+`;
+
+
+const PrevNext = styled.div`
+  display: flex;
+  margin-bottom: 50px;
+`;
+
+const Previous = styled.button`
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  height: 23px;
+  font-size: 16px;
+  color: #232162;
+`;
+
+const Next = styled.button`
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  height: 23px;
+  font-size: 16px;
+  color: #232162;
+`;
+
+const Symbol = styled.div`
+
 `;
 
 const LeftFrame = styled.div`
@@ -162,11 +203,17 @@ const SpinnerWrapper = styled.div`
 
 
 export const ProductDetail2 = () => {
+  const history = useHistory();
   const location = useLocation();
 
   const [productDetails, setProductDetails] = useState(null);
   const [mainImageUrl, setMainImageUrl] = useState(null);
   const [capacityIndex, setCapacityIndex] = useState(0);
+
+  const [isPrevEnabled, setIsPrevEnabled] = useState(true);
+  const [isNextEnabled, setIsNextEnabled] = useState(true);
+
+
 
   const fetchProductDetails = async (productApplication, productIdValue) => {
     try {
@@ -201,6 +248,25 @@ export const ProductDetail2 = () => {
     return { __html: htmlValue };
   }
 
+  const handleNextProduct = (productId, updateTs, isNext) => {
+    axios.get(`/api/analytical-products/related?productId=${productId}&updateTs=${updateTs}&isNext=${isNext}`)
+      .then(response => {
+        if (isNext && response.data.payload == null) {
+          setIsNextEnabled(false);
+        } else if (!isNext && response.data.payload == null) {
+          setIsPrevEnabled(false);
+        } else {
+          setIsPrevEnabled(true);
+          setIsNextEnabled(true);
+          history.push(`/product-detail/${response.data.payload.application}/${response.data.payload.productId}`);
+        }
+      })
+      .catch(function (error) {
+        console.log('Error while fetching next/prev product', error);
+      })
+
+  }
+
 
   // Add to cart functionality
   const dispatch = useDispatch();
@@ -233,22 +299,44 @@ export const ProductDetail2 = () => {
     <>
       {productDetails ?
         <Container id='product_catalogue_id'>
-          <BreadCrumb>
-            <Crumb
-              to={`/productlist?application=${productDetails.application}`}
-              style={{ marginRight: '10px' }}
-            >{productDetails.application}</Crumb>/
+          <OptionsWrapper>
+            <BreadCrumb>
+              <Crumb
+                to={`/productlist?application=${productDetails.application}`}
+                style={{ marginRight: '10px' }}
+              >{productDetails.application}</Crumb>/
 
-            <Crumb
-              to={`/productlist?application=${productDetails.application}&category=${productDetails.category}`}
-              style={{ margin: '0 10px' }}
-            >{productDetails.category}</Crumb>/
+              <Crumb
+                to={`/productlist?application=${productDetails.application}&category=${productDetails.category}`}
+                style={{ margin: '0 10px' }}
+              >{productDetails.category}</Crumb>/
 
-            <Crumb
-              to={`/productlist?application=${productDetails.application}&category=${productDetails.category}&brand=${productDetails.brand}`}
-              style={{ marginLeft: '10px' }}
-            >{productDetails.brand}</Crumb>
-          </BreadCrumb>
+              <Crumb
+                to={`/productlist?application=${productDetails.application}&category=${productDetails.category}&brand=${productDetails.brand}`}
+                style={{ marginLeft: '10px' }}
+              >{productDetails.brand}</Crumb>
+            </BreadCrumb>
+
+            <PrevNext>
+              <Symbol>&#60;</Symbol>
+
+              <Previous
+                style={!isPrevEnabled ? { color: '#565959'} : null }
+                disabled={!isPrevEnabled}
+                onClick={() => handleNextProduct(productDetails.productId, productDetails.updateTs, false)}
+              >Prev</Previous>
+
+              <Symbol>|</Symbol>
+
+              <Next
+                style={!isNextEnabled ? { color: '#565959'} : null }
+                disabled={!isNextEnabled}
+                onClick={() => handleNextProduct(productDetails.productId, productDetails.updateTs, true)}
+              >Next</Next>
+
+              <Symbol>&#62;</Symbol>
+            </PrevNext>
+          </OptionsWrapper>
 
           <DetailsWrapper>
             <LeftFrame>

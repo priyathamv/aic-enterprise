@@ -9,11 +9,13 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -165,6 +167,20 @@ public class AnalyticalProductServiceImpl implements ProductService2<AnalyticalP
         return analyticalProductRepository
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
+    }
+
+    @Override
+    public AnalyticalProduct getNextProductDetails(String productId, LocalDateTime updateTs, boolean isNext) {
+        Query query = new Query();
+
+        Criteria productCriteria = isNext ? Criteria.where("productId").gt(productId) : Criteria.where("productId").lt(productId);
+        query.addCriteria(productCriteria);
+
+        query.with(Sort.by(isNext ? Sort.Direction.ASC : Sort.Direction.DESC, "productId"));
+        query.limit(1);
+
+        List<AnalyticalProduct> analyticalProducts = mongoTemplate.find(query, AnalyticalProduct.class);
+        return analyticalProducts.isEmpty() ? null : analyticalProducts.get(0);
     }
 
     @Override

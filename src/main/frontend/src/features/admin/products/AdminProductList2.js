@@ -280,7 +280,6 @@ export const AdminProductList2 = () => {
           if (key === 'application' && decodedValue && decodedValue !== 'null')
             setApplication(decodedValue);
           else if (key === 'category' && decodedValue && decodedValue !== 'null') {
-            console.log('decodedValue', decodedValue)
             setCategory(decodedValue);
           }
           else if (key === 'division' && decodedValue && decodedValue !== 'null')

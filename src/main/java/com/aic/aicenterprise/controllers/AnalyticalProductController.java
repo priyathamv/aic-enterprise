@@ -6,6 +6,8 @@ import com.aic.aicenterprise.models.responses.*;
 import com.aic.aicenterprise.models.responses.product.AnalyticalProductDetailResponse;
 import com.aic.aicenterprise.models.responses.product.AnalyticalProductListResponse;
 import com.aic.aicenterprise.services.product.ProductService2;
+
+import java.time.LocalDateTime;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,34 @@ public class AnalyticalProductController {
             productListResponse = AnalyticalProductDetailResponse.builder()
                 .error(ex.toString())
                 .msg("Exception while fetching analytical product details")
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .payload(null)
+                .build();
+        }
+        return productListResponse;
+    }
+
+    @GetMapping(value = "/related")
+    public AnalyticalProductDetailResponse getRelatedAnalyticalProductDetails(
+        @RequestParam(value = "productId") String productId,
+        @RequestParam(value = "updateTs") String updateTs,
+        @RequestParam(value = "isNext") Boolean isNext) {
+        log.info("Getting next product details for Id: {}", productId);
+
+        AnalyticalProductDetailResponse productListResponse;
+        try {
+            AnalyticalProduct productDetails = analyticalProductService.getNextProductDetails(productId, LocalDateTime.parse(updateTs), isNext);
+
+            productListResponse = AnalyticalProductDetailResponse.builder()
+                .payload(productDetails)
+                .msg(SUCCESS)
+                .status(HttpStatus.OK.value())
+                .build();
+        } catch (Exception ex) {
+            log.info("Exception while fetching analytical product details: {}", ex);
+            productListResponse = AnalyticalProductDetailResponse.builder()
+                .error(ex.toString())
+                .msg("Exception while fetching next analytical product details")
                 .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
                 .payload(null)
                 .build();

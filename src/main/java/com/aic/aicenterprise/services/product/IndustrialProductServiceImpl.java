@@ -5,10 +5,13 @@ import static com.aic.aicenterprise.constants.DBConstants.*;
 import static com.aic.aicenterprise.constants.DBConstants.CATEGORY;
 import static java.util.Objects.nonNull;
 
+import com.aic.aicenterprise.entities.product.AnalyticalProduct;
 import com.aic.aicenterprise.entities.product.IndustrialProduct;
 import com.aic.aicenterprise.exceptions.Product2NotFoundException;
 import com.aic.aicenterprise.repositories.product.IndustrialProductRepository;
 import com.mongodb.client.MongoCursor;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,6 +21,7 @@ import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -165,6 +169,20 @@ public class IndustrialProductServiceImpl implements ProductService2<IndustrialP
         return industrialProductRepository
             .findById(productId)
             .orElseThrow(Product2NotFoundException::new);
+    }
+
+    @Override
+    public IndustrialProduct getNextProductDetails(String productId, LocalDateTime updateTs, boolean isNext) {
+        Query query = new Query();
+
+        Criteria productCriteria = isNext ? Criteria.where("productId").gt(productId) : Criteria.where("productId").lt(productId);
+        query.addCriteria(productCriteria);
+
+        query.with(Sort.by(isNext ? Sort.Direction.ASC : Sort.Direction.DESC, "productId"));
+        query.limit(1);
+
+        List<IndustrialProduct> industrialProducts = mongoTemplate.find(query, IndustrialProduct.class);
+        return industrialProducts.isEmpty() ? null : industrialProducts.get(0);
     }
 
     @Override
