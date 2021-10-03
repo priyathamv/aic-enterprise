@@ -18,11 +18,14 @@ const Container = styled.div`
 
 const ProductListBody = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 const FiltersFrame = styled.div`
-  flex: 1;
+  display: flex;
   margin-right: 30px;
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const Header = styled.div`
@@ -31,7 +34,8 @@ const Header = styled.div`
 `;
 
 const FilterWrapper = styled.div`
-  margin: 20px 0;
+  min-width: 250px;
+  margin: 20px 20px 20px 0;
 `;
 
 const Label = styled.div`
@@ -40,7 +44,6 @@ const Label = styled.div`
 `;
 
 const ProductListFrame = styled.div`
-  flex: 4;
 `;
 
 const SearchWrapper = styled.div`
@@ -51,6 +54,7 @@ const SearchWrapper = styled.div`
 
 const Search = styled.div`
   width: 100%;
+  max-width: 250px;
   display: flex;
   justify-content: flex-end;
   position: relative;
@@ -58,7 +62,7 @@ const Search = styled.div`
   margin-bottom: 20px;
 
   @media ${device.laptop} {
-    width: 350px;
+    // width: 350px;
     margin-bottom: 20px;
   }
 `;
@@ -84,6 +88,25 @@ const CancelIcon = styled(MdClear)`
   top: 10px;
   right: 10px;
   cursor: pointer;
+`;
+
+
+
+const GridProductWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-column-gap: 50px;
+  grid-row-gap: 50px;
+
+  @media ${device.tablet} {
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 100px;
+  }
+
+  @media ${device.laptop} {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-row-gap: 100px;
+  }
 `;
 
 const ProductListWrapper = styled.div`
@@ -140,7 +163,7 @@ export const ProductList2 = ({
 
   return (
     <Container id='product_list_id2'>
-      <SearchWrapper>
+      {/* <SearchWrapper>
         <Search>
           <SearchInput
             value={searchValue}
@@ -152,14 +175,12 @@ export const ProductList2 = ({
             <SearchIcon size='1.2em'/>
             <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
         </Search>
-      </SearchWrapper>
+      </SearchWrapper> */}
 
-      <Line style={{ margin: '10px 0' }} />
+      {/* <Line style={{ margin: '10px 0' }} /> */}
 
       <ProductListBody>
         <FiltersFrame>
-          <Header>Filters</Header>
-
           <FilterWrapper>
             <Label>Application</Label>
             <Select
@@ -199,9 +220,29 @@ export const ProductList2 = ({
               onChange={handleBrandChange}
             />
           </FilterWrapper>
+
+
+          <FilterWrapper>
+            <Label>&nbsp;</Label>
+            <Search>
+              <SearchInput
+                value={searchValue}
+                placeholder={placeholder}
+                onChange={e => handleOnSearch(e.target.value)}
+                onBlur={() => setPlaceholder('Search by Products name')}
+                onFocus={() => setPlaceholder('Type at least 3 characters')}
+              />
+              <SearchIcon size='1.2em'/>
+              <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
+            </Search>
+          </FilterWrapper>
         </FiltersFrame>
 
         <ProductListFrame>
+          {false ?
+          <GridProductWrapper>
+
+          </GridProductWrapper> :
           <ProductListWrapper>
             {productList.map((curProduct, index) => <ProductItem2 key={index} productDetails={curProduct} />)}
 
@@ -212,7 +253,7 @@ export const ProductList2 = ({
                 </ScrollObserver>
               </div> : null}
 
-          </ProductListWrapper>
+          </ProductListWrapper>}
         </ProductListFrame>
       </ProductListBody>
     </Container>
