@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
+import { BsFillGridFill, BsList } from 'react-icons/bs';
 import { MdClear } from 'react-icons/md';
 import Select from 'react-select';
 
 import { ProductItem2 } from './ProductItem2';
 import { device } from '../utils/viewport';
 import { Line } from '../homepage/common/Line';
+import { ProductGridItem2 } from './ProductGridItem2';
 
 const Container = styled.div`
   margin: 0 20px 50px 20px;
@@ -34,8 +36,14 @@ const Header = styled.div`
 `;
 
 const FilterWrapper = styled.div`
-  min-width: 250px;
+  min-width: 200px;
   margin: 20px 20px 20px 0;
+`;
+
+const IconWrapper = styled.div`
+  min-width: 50px;
+  margin: 20px 0;
+  align-self: center;
 `;
 
 const Label = styled.div`
@@ -95,8 +103,8 @@ const CancelIcon = styled(MdClear)`
 const GridProductWrapper = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-column-gap: 50px;
-  grid-row-gap: 50px;
+  grid-column-gap: 100px;
+  grid-row-gap: 100px;
 
   @media ${device.tablet} {
     grid-template-columns: 1fr 1fr;
@@ -104,7 +112,7 @@ const GridProductWrapper = styled.div`
   }
 
   @media ${device.laptop} {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-row-gap: 100px;
   }
 `;
@@ -121,6 +129,18 @@ const Dummy = styled.div`
 const ScrollObserver = styled.div`
   padding: 15px 25px;
   text-align: center;
+`;
+
+const ListIcon = styled(BsList)`
+  margin-right: 10px;
+  margin-bottom: -8px;
+  cursor: pointer;
+`;
+
+
+const GridIcon = styled(BsFillGridFill)`
+  margin-bottom: -3px;
+  cursor: pointer;
 `;
 
 const ALL_BRANDS = {
@@ -160,6 +180,11 @@ export const ProductList2 = ({
   handleOnDelete,
   updateProductListOnSearchOrFilter
 }) => {
+
+  const viewportWidth = window.innerWidth;
+  const isMobile = viewportWidth < 768;
+
+  const [isListView, setIsListView] = useState(true);
 
   return (
     <Container id='product_list_id2'>
@@ -236,24 +261,32 @@ export const ProductList2 = ({
               <CancelIcon onClick={() => handleOnSearch('')} size='1.2em' />
             </Search>
           </FilterWrapper>
+
+          {!isMobile ?
+            <IconWrapper>
+              <ListIcon size='2em' color={ isListView ? '#585858' : '#CCC' } onClick={() => setIsListView(true)}></ListIcon>
+              <GridIcon size='1.5em' color={ isListView ? '#CCC' : '#585858' } onClick={() => setIsListView(false)}></GridIcon>
+            </IconWrapper> : null}
         </FiltersFrame>
 
         <ProductListFrame>
-          {false ?
-          <GridProductWrapper>
-
-          </GridProductWrapper> :
-          <ProductListWrapper>
-            {productList.map((curProduct, index) => <ProductItem2 key={index} productDetails={curProduct} />)}
-
+          <>
+            {isListView ?
+              <ProductListWrapper>
+                {productList.map((curProduct, index) => <ProductItem2 key={index} productDetails={curProduct} />)}
+              </ProductListWrapper> :
+              <GridProductWrapper>
+                {productList.map((curProduct, index) => <ProductGridItem2 key={index} productDetails={curProduct} />)}
+              </GridProductWrapper>
+            }
             {hasMore ?
-              <div>
+              <div style={{ alignSelf: 'center' }}>
                 <ScrollObserver colSpan='5'>
                   <Dummy ref={dummyRef}>&nbsp;</Dummy>Loading more products...
                 </ScrollObserver>
-              </div> : null}
-
-          </ProductListWrapper>}
+              </div> : null
+            }
+          </>
         </ProductListFrame>
       </ProductListBody>
     </Container>
