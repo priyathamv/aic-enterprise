@@ -3,15 +3,12 @@ package com.aic.aicenterprise.services.common;
 import com.aic.aicenterprise.models.requests.common.CareerFormRequest;
 import com.aic.aicenterprise.models.requests.common.ContactUsRequest;
 import com.aic.aicenterprise.services.EmailService;
-import com.sendgrid.helpers.mail.objects.Attachments;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Service
@@ -89,15 +86,15 @@ public class CommonServiceImpl implements CommonService {
         "            </tr>\n" +
         "            <tr class=\"active-row\">\n" +
         "                <td>Company</td>\n" +
-        "                <td>" + contactUsRequest.getCompanyName() + "</td>\n" +
+        "                <td>" + contactUsRequest.getCompany() + "</td>\n" +
         "            </tr>\n" +
         "            <tr>\n" +
         "                <td>CAS number of product</td>\n" +
-        "                <td>" + contactUsRequest.getCasNumber() + "</td>\n" +
+        "                <td>" + contactUsRequest.getCas() + "</td>\n" +
         "            </tr>\n" +
         "            <tr class=\"active-row\">\n" +
         "                <td>Product description</td>\n" +
-        "                <td>" + contactUsRequest.getProductDescription() + "</td>\n" +
+        "                <td>" + contactUsRequest.getProductDesc() + "</td>\n" +
         "            </tr>\n" +
         "            <tr>\n" +
         "                <td>Address</td>\n" +

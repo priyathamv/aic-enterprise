@@ -12,9 +12,9 @@ public class ContactUsRequest {
   private String phoneNumber;
   private String email;
   private String workExperience;
-  private String companyName;
-  private String casNumber;
-  private String productDescription;
+  private String company;
+  private String cas;
+  private String productDesc;
   private String address;
   private String city;
   private String zip;
