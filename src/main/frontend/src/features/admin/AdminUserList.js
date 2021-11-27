@@ -8,7 +8,9 @@ import { AiOutlineSearch } from 'react-icons/ai';
 import { MdClear } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Popup from 'reactjs-popup';
 
+import { device } from '../utils/viewport';
 import { Spinner } from '../utils/Spinner';
 
 const Container = styled.div`
@@ -54,7 +56,7 @@ const UserImage = styled.img`
 `;
 
 const UserIcon = styled(FaUserCircle)`
-  
+
 `;
 
 const SearchWrapper = styled.div`
@@ -96,6 +98,39 @@ const CancelIcon = styled(MdClear)`
   color: #848484;
   top: 10px;
   right: 10px;
+  cursor: pointer;
+`;
+
+const DeleteButton = styled.button`
+  background-color: #ff0000d1;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 30px;
+  color: #FFF;
+  cursor: pointer;
+  margin-right: 20px;
+`;
+
+const DeleteButtonPop = styled.button`
+  background-color: #ff0000d1;
+  border: none;
+  border-radius: 3px;
+  padding: 10px 30px;
+  color: #FFF;
+  cursor: pointer;
+  margin-right: 0;
+  margin-bottom: 20px;
+
+  @media ${device.tablet} {
+    margin-right: 20px;
+    margin-bottom: 0;
+  }
+`;
+
+const CloseButton = styled.button`
+  border: none;
+  border-radius: 3px;
+  padding: 10px 30px;
   cursor: pointer;
 `;
 
@@ -182,7 +217,7 @@ export const AdminUserList = () => {
     try {
       const headers = { 'Content-Type': 'application/json' };
       const updateRoleResponse = await axios.post('/api/users/update-role', { email, userRole }, { headers });
-      
+
       if (updateRoleResponse.data.payload)
         toast.success('User role updated successfully', { variant: 'success'});
       else
@@ -199,16 +234,35 @@ export const AdminUserList = () => {
       fetchFilteredUsers(searchValue);
   }
 
+  const handleOnDelete = async email => {
+    const headers = { 'Content-Type': 'application/json' };
+
+    try {
+      const userDeleteResponse = await axios.post('/api/users/delete', { email }, headers);
+      console.log('userDeleteResponse', userDeleteResponse);
+
+      if (userDeleteResponse.data.payload) {
+        toast.success(`User deleted successfully`, { variant: 'success'});
+        setTimeout(() => window.location.reload(), 5000);
+      } else {
+        toast.error(`User deletion failed`, { variant: 'error'});
+      }
+    } catch (err) {
+      console.log('Error while deleting category: ', err.message);
+      toast.error(`User deletion failed`, { variant: 'error'});
+    }
+  }
+
   return (
     <Container>
       <SearchWrapper>
         <Search>
-          <SearchInput 
+          <SearchInput
             value={searchValue}
-            placeholder={placeholder} 
+            placeholder={placeholder}
             onChange={e => handleOnSearch(e.target.value)}
-            onBlur={() => setPlaceholder('Search by Users name/email')} 
-            onFocus={() => setPlaceholder('Type at least 3 characters')} 
+            onBlur={() => setPlaceholder('Search by Users name/email')}
+            onFocus={() => setPlaceholder('Type at least 3 characters')}
           />
 
           <SearchIcon size='1.2em'/>
@@ -222,6 +276,7 @@ export const AdminUserList = () => {
           <MediumColumn>Name</MediumColumn>
           <BigColumn>Email</BigColumn>
           <MediumColumn>Role</MediumColumn>
+          <MediumColumn>Action</MediumColumn>
         </Header>
 
         <InfiniteScroll
@@ -230,24 +285,46 @@ export const AdminUserList = () => {
           hasMore={hasMore}
           loader={<Spinner key={0} containerStyle={{ marginTop: '15px', position: 'inherit' }} loaderStyle={{ fontSize: '15px' }} />}
         >
-          {userList.map((curUser, index) => 
+          {userList.map((curUser, index) =>
             <UserRow key={index}>
               <SmallColumn>
-                {curUser.imageUrl ? <UserImage src={curUser.imageUrl} /> : <UserIcon size='2.2em'/>}
+                {/* {curUser.imageUrl ? <UserImage src={curUser.imageUrl} /> : <UserIcon size='2.2em'/>} */}
+                <UserIcon size='2.2em'/>
               </SmallColumn>
-              
+
               <MediumColumn>{`${curUser.firstName ? curUser.firstName : ''} ${curUser.lastName ? curUser.lastName : ''}`}</MediumColumn>
-              
+
               <BigColumn>{curUser.email}</BigColumn>
-              
+
               <MediumColumn>
                 <Select
                   styles={customStyles}
                   value={curUser.userRole ? {label: curUser.userRole, value: curUser.userRole} : null}
                   placeholder='Role'
-                  options={roleList} 
-                  onChange={e => updateUserRole(curUser.email, e.value, index)} 
+                  options={roleList}
+                  onChange={e => updateUserRole(curUser.email, e.value, index)}
                 />
+              </MediumColumn>
+
+              <MediumColumn>
+                <Popup
+                  trigger={<DeleteButton style={{ padding: '8px 24px' }}>Delete</DeleteButton>}
+                  modal
+                >
+                  {close => (
+                    <div className="admin-modal">
+                      <button className="close" onClick={close}>&times;</button>
+
+                      <div className="content">Are you sure you want to delete the user {`${curUser.firstName ? curUser.firstName : ''} ${curUser.lastName ? curUser.lastName : ''}`}?</div>
+
+                      <div className="actions">
+                        <DeleteButtonPop onClick={() => handleOnDelete(curUser.email)} >Yes, delete</DeleteButtonPop>
+
+                        <CloseButton autoFocus className="button" onClick={() => close()} >Close</CloseButton>
+                      </div>
+                    </div>
+                  )}
+                </Popup>
               </MediumColumn>
             </UserRow>)}
         </InfiniteScroll>

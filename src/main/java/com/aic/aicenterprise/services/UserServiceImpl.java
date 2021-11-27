@@ -369,6 +369,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return nonNull(user) && UserRole.ADMIN.equals(user.getUserRole());
     }
 
+    @Override
+    public boolean deleteUser(String email) {
+        userRepository.deleteById(email);
+        return true;
+    }
+
     private UserMini generateUserMini(UserEntity userEntity) {
         return UserMini.builder()
                 .firstName(userEntity.getFirstName())

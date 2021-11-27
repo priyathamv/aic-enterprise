@@ -39,4 +39,6 @@ public interface UserService {
     List<UserMini> getUserList(String searchValue, Pageable pageable);
 
     boolean isAdmin(String email);
+
+    boolean deleteUser(String email);
 }

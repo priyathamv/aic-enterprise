@@ -1,5 +1,6 @@
 package com.aic.aicenterprise.controllers;
 
+import com.aic.aicenterprise.entities.Category;
 import com.aic.aicenterprise.entities.UserEntity;
 import com.aic.aicenterprise.exceptions.EmailNotFoundException;
 import com.aic.aicenterprise.exceptions.ResetPasswordLinkExpiredException;
@@ -8,6 +9,7 @@ import com.aic.aicenterprise.models.requests.ConfirmEmailRequest;
 import com.aic.aicenterprise.models.requests.ForgotPasswordRequest;
 import com.aic.aicenterprise.models.requests.ResetPasswordRequest;
 import com.aic.aicenterprise.models.requests.UpdateRoleRequest;
+import com.aic.aicenterprise.models.requests.user.DeleteUserRequest;
 import com.aic.aicenterprise.models.responses.ImageUrlResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.models.responses.UserDetailsResponse;
@@ -328,4 +330,26 @@ public class UserController {
         return userListResponse;
     }
 
+    @PostMapping(value = "/delete")
+    public SaveResponse deleteUser(@RequestBody DeleteUserRequest deleteUserRequest) {
+        SaveResponse confirmResponse;
+        try {
+            boolean deleteStatus = userService.deleteUser(deleteUserRequest.getEmail());
+
+            confirmResponse = SaveResponse.builder()
+                .payload(deleteStatus)
+                .msg(SUCCESS)
+                .status(HttpStatus.OK.value())
+                .build();
+        } catch (Exception ex) {
+            log.info("Exception while deleting user: {}", ex.getLocalizedMessage());
+            confirmResponse = SaveResponse.builder()
+                .error(ex.toString())
+                .msg("Exception while deleting user")
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .payload(false)
+                .build();
+        }
+        return confirmResponse;
+    }
 }
