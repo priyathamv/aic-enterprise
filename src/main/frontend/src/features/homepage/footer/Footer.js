@@ -330,7 +330,7 @@ export const Footer = () => {
             <QuickLink to='/productlist'>Products</QuickLink>
             <QuickLink to='/about-us'>About AIC</QuickLink>
             <QuickLink to='/contact-us'>Contact</QuickLink>
-            <QuickLink to='/'>Careers</QuickLink>
+            <QuickLink to='/careers'>Careers</QuickLink>
             <QuickLink to='/'>Blog</QuickLink>
           </ContentFrame>
         </ContactContainer>

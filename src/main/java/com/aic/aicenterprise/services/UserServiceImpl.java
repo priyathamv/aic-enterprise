@@ -78,7 +78,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return emailService.sendMail(
                 email,
                 "Welcome to AIC Group! Confirm your email",
-                getConfirmEmailHtml(confirmEmailLink)
+                getConfirmEmailHtml(confirmEmailLink),
+            null
         );
     }
 
@@ -219,7 +220,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return emailService.sendMail(
                 request.getEmail(),
                 "Reset your password",
-                getResetPasswordHtml(userEntity.getFirstName(), resetPasswordToken)
+                getResetPasswordHtml(userEntity.getFirstName(), resetPasswordToken),
+            null
         );
     }
 

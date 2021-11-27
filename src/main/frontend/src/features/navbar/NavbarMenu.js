@@ -130,6 +130,7 @@ const Blank = styled.div`
 const PRODUCTS_PAGE = 'PRODUCTS_PAGE';
 const ABOUT_US_PAGE = 'ABOUT_US_PAGE';
 const CONTACT_US_PAGE = 'CONTACT_US_PAGE';
+const CAREERS_PAGE = 'CAREERS_PAGE';
 const curPageStyle = {
   color: '#232162',
   fontWeight: 'bold'
@@ -151,6 +152,7 @@ export const NavbarMenu = () => {
     const TermsConditionsDom = document.getElementById('terms_conditions_id');
     const disclaimerDom = document.getElementById('disclaimer_idd');
     const contactUsDom = document.getElementById('contact_us_id');
+    const careersDom = document.getElementById('careers_id');
     const productsDom = document.getElementById('products_id');
     const productListDom = document.getElementById('product_list_id');
     const productListDom2 = document.getElementById('product_list_id2');
@@ -172,6 +174,7 @@ export const NavbarMenu = () => {
         TermsConditionsDom && (TermsConditionsDom.style.paddingTop = '100px');
         disclaimerDom && (disclaimerDom.style.paddingTop = '100px');
         contactUsDom && (contactUsDom.style.paddingTop = '100px');
+        careersDom && (careersDom.style.paddingTop = '100px');
         productsDom && (productsDom.style.paddingTop = '100px');
         productListDom && (productListDom.style.paddingTop = '100px');
         productListDom2 && (productListDom2.style.paddingTop = '100px');
@@ -193,6 +196,7 @@ export const NavbarMenu = () => {
         TermsConditionsDom && (TermsConditionsDom.style.paddingTop = '0');
         disclaimerDom && (disclaimerDom.style.paddingTop = '0');
         contactUsDom && (contactUsDom.style.paddingTop = '0');
+        careersDom && (careersDom.style.paddingTop = '0');
         productsDom && (productsDom.style.paddingTop = '0');
         productListDom && (productListDom.style.paddingTop = '0');
         productListDom2 && (productListDom2.style.paddingTop = '0');
@@ -217,6 +221,8 @@ export const NavbarMenu = () => {
       setCurPage(ABOUT_US_PAGE);
     else if (currentPath.includes('/contact-us'))
       setCurPage(CONTACT_US_PAGE);
+    else if (currentPath.includes('/careers'))
+      setCurPage(CAREERS_PAGE);
     else
       setCurPage(null);
   }
@@ -279,6 +285,8 @@ export const NavbarMenu = () => {
           <MenuItem style={{ cursor: 'default' }} to='#'>BLOG</MenuItem>
 
           <MenuItem style={curPage === CONTACT_US_PAGE ? curPageStyle : null} to='/contact-us'>CONTACT</MenuItem>
+
+          <MenuItem style={curPage === CAREERS_PAGE ? curPageStyle : null} to='/careers'>CAREERS</MenuItem>
 
           <MenuItemSpecial to="/covid19">COVID 19</MenuItemSpecial>
 

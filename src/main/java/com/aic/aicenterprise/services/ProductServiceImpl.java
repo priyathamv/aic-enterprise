@@ -167,7 +167,7 @@ public class ProductServiceImpl implements ProductService {
         return toAddresses.stream()
                 .allMatch(toAddress -> {
                     try {
-                        return emailService.sendMail(toAddress, "Product enquiry", productEnquiryHtml);
+                        return emailService.sendMail(toAddress, "Product enquiry", productEnquiryHtml, null);
                     } catch (IOException e) {
                         log.info("Exception while sending mail: {}", e);
                         return false;

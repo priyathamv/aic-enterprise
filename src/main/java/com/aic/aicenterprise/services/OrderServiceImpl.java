@@ -137,7 +137,7 @@ public class OrderServiceImpl implements OrderService {
         return toAddresses.stream()
                 .allMatch(toAddress -> {
                     try {
-                        return emailService.sendMail(toAddress, subject, cartBodyHtml);
+                        return emailService.sendMail(toAddress, subject, cartBodyHtml, null);
                     } catch (IOException e) {
                         log.info("Exception while sending mail: {}", e);
                         return false;
