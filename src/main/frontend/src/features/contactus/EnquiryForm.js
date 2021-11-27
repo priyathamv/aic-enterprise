@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { Button } from '../homepage/common/Button';
 import Select from 'react-select';
+import axios from 'axios';
 
 import { device } from '../utils/viewport';
 import { Input } from '../utils/Input';
@@ -82,59 +83,99 @@ export const EnquiryForm = ({ styles }) => {
     }
   }, [userDetails])
 
-  const handleOnClick = () => {
-    if (email) {
-      console.log('damn', name, email, phoneNumber, company, cas, productDesc, address, city, zip, state, country);
-    } else {
-      setMessage('Please enter email');
+  const handleOnClick = async () => {
+    if (!name || !email || !phoneNumber) {
+      setMessage('Please enter all mandatory fields');
       setTimeout(() => setMessage(null), 5000);
-    }
+    } else {
 
+
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        const contactUsEmailResponse = await axios.post('/api/common/contact-us', {
+          name,
+          email,
+          phoneNumber,
+          company,
+          cas,
+          productDesc,
+          address,
+          city,
+          zip,
+          state,
+          country
+        }, { headers });
+
+        console.log('success', contactUsEmailResponse);
+        setMessage('Thanks for contacting us.');
+        setTimeout(() => setMessage(null), 5000);
+        resetFormDetails();
+
+      } catch(err) {
+        console.log('Error while contacting us', err);
+        setMessage('Failed to submit details, please try again later.');
+        setTimeout(() => setMessage(null), 5000);
+      }
+    }
+  }
+
+  const resetFormDetails = () => {
+    setName('');
+    setEmail('');
+    setPhoneNumber('');
+    setCompany('');
+    setCas('');
+    setProductDesc('');
+    setAddress('');
+    setCity('');
+    setZip('');
+    setState('');
+    setCountry('India');
   }
 
 
   return (
     <Container style={styles}>
       <Label>Send us a message</Label>
-      
-      <Input value={name} handleOnChange={e => setName(e.target.value)} label='Name' />
-      
+
+      <Input value={name} handleOnChange={e => setName(e.target.value)} label='Name*' />
+
       <EmailsFrame>
-        <Input styleObj={{flex: 1, marginRight: '2vw'}} value={phoneNumber} handleOnChange={e => setPhoneNumber(e.target.value)} label='Phone Number' />
+        <Input styleObj={{flex: 1, marginRight: '2vw'}} value={phoneNumber} handleOnChange={e => setPhoneNumber(e.target.value)} label='Phone Number*' />
         <Input styleObj={{flex: 1}} value={email} handleOnChange={e => setEmail(e.target.value.toLowerCase())} isRequired={true} label='Email*' />
       </EmailsFrame>
-      
+
       <EmailsFrame>
         <Input styleObj={{flex: 1, marginRight: '2vw'}} value={company} handleOnChange={e => setCompany(e.target.value)} label='Company Name' />
         <Input styleObj={{flex: 1}} value={cas} handleOnChange={e => setCas(e.target.value)} label='CAS Number of product' />
       </EmailsFrame>
-      
+
       <Input value={productDesc} handleOnChange={e => setProductDesc(e.target.value)} label='Product Description' />
-      
+
       <Input value={address} handleOnChange={e => setAddress(e.target.value)} label='Address' />
-      
+
       <EmailsFrame>
         <Input styleObj={{flex: 1, marginRight: '2vw'}} value={city} handleOnChange={e => setCity(e.target.value)} label='City' />
         <Input styleObj={{flex: 1}} value={zip} handleOnChange={e => setZip(e.target.value)} label='Zip' />
       </EmailsFrame>
 
       <EmailsFrame>
-        {country === 'India' ? 
+        {country === 'India' ?
         <Select
           styles={customStyles}
           className='dropdown-wrapper margin-right50'
           value={state ? {'label': state, 'value': state} : null}
           isSearchable={true}
           placeholder='State'
-          options={indianStates.map(curState => ({label: curState, value: curState}))} 
-          onChange={e => setState(e.value)} 
+          options={indianStates.map(curState => ({label: curState, value: curState}))}
+          onChange={e => setState(e.value)}
         /> :
-        <Input 
+        <Input
           styleObj={{ flex: 1, marginRight: '50px' }}
-          value={state} 
-          handleOnChange={e => setState(e.target.value)} 
-          isRequired={false} 
-          label='State' 
+          value={state}
+          handleOnChange={e => setState(e.target.value)}
+          isRequired={false}
+          label='State'
         />}
 
         <Select
@@ -143,15 +184,15 @@ export const EnquiryForm = ({ styles }) => {
           value={country ? {'label': country, 'value': country} : null}
           isSearchable={true}
           placeholder='Country'
-          options={countries.map(curCountry => ({label: curCountry, value: curCountry}))} 
-          onChange={e => {setState(''); setCountry(e.value)}} 
+          options={countries.map(curCountry => ({label: curCountry, value: curCountry}))}
+          onChange={e => {setState(''); setCountry(e.value)}}
         />
       </EmailsFrame>
 
       <ButtonWrapper>
         <Button style={{ fontSize: '14px', marginBottom: '10px' }} label='SUBMIT' handleOnClick={handleOnClick} />
 
-        <Message>{message}</Message>
+        <Message style={ message === 'Thanks for contacting us.' ? { color: '#232162' } : {} }>{message}</Message>
       </ButtonWrapper>
     </Container>
   )

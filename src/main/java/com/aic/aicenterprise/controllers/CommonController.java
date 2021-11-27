@@ -1,6 +1,7 @@
 package com.aic.aicenterprise.controllers;
 
 import com.aic.aicenterprise.models.requests.common.CareerFormRequest;
+import com.aic.aicenterprise.models.requests.common.ContactUsRequest;
 import com.aic.aicenterprise.models.responses.CategoriesResponse;
 import com.aic.aicenterprise.models.responses.SaveResponse;
 import com.aic.aicenterprise.services.common.CommonService;
@@ -43,6 +44,31 @@ public class CommonController {
       response = SaveResponse.builder()
           .error(ex.toString())
           .msg("Exception while sending resume to email")
+          .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+          .payload(false)
+          .build();
+    }
+    return response;
+  }
+
+  @PostMapping(value = "/contact-us")
+  public SaveResponse contactUs(@RequestBody ContactUsRequest contactUsRequest) {
+    log.info("Sending contact us info to email...");
+
+    SaveResponse response;
+    try {
+      boolean status = commonService.sendContactUsMail(contactUsRequest);
+      response = SaveResponse.builder()
+          .payload(status)
+          .msg(SUCCESS)
+          .status(HttpStatus.OK.value())
+          .build();
+
+    } catch (Exception ex) {
+      log.info("Exception while sending contact us info to email: {}", ex.getLocalizedMessage());
+      response = SaveResponse.builder()
+          .error(ex.toString())
+          .msg("Exception while sending contact us info to email")
           .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
           .payload(false)
           .build();

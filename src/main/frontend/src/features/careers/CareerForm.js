@@ -39,8 +39,7 @@ export const CareerForm = () => {
   const [resume, setResume] = useState(null);
   const [message, setMessage] = useState(null);
 
-  const handleOnClick = async () => {
-    console.log('damn', firstName, lastName, email, mobileNumber, workExperience, currentDesignation, applyingFor);
+  const handleOnClick = () => {
     if (!firstName || !lastName || !email || !mobileNumber || !workExperience || !currentDesignation || !applyingFor || !resume) {
       setMessage('Please enter all mandatory fields');
       setTimeout(() => setMessage(null), 5000);
@@ -105,7 +104,7 @@ export const CareerForm = () => {
       <Input value={applyingFor} handleOnChange={e => setApplyingFor(e.target.value)} label='Applying for*' />
 
       <Label>Attach Your Resume / Portfolio</Label>
-      
+
       <input id='file_id' type='file' name='file' onChange={e => setResume(e.target.files[0])}/>
 
       <ButtonWrapper>
