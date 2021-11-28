@@ -18,8 +18,8 @@ const Container = styled.div`
 const FilterWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  
-  @media ${device.laptop} { 
+
+  @media ${device.laptop} {
     width: auto;
     flex-direction: row;
     justify-content: flex-start;
@@ -34,7 +34,7 @@ const StatusDropdown = styled.div`
   height: 38px;
   margin-bottom: 20px;
 
-  @media ${device.laptop} { 
+  @media ${device.laptop} {
     width: 225px;
     margin-bottom: 10px;
   }
@@ -201,11 +201,11 @@ export const AdminOrdersHome = () => {
   const [isLoading, setIsLoading] = useState(false);
   const limit = 20;
 
-  
+
 
   const handleOrderStatusChange = e => {
     const newOrderStatus = e.value;
-    
+
     setActionLabel(
       newOrderStatus === 'NEW' ? 'ACCEPT' :
       newOrderStatus === 'ACCEPTED' ? 'DISPATCH' :
@@ -218,22 +218,21 @@ export const AdminOrdersHome = () => {
   }
 
   const fetchOrders = async (isForce) => {
-    console.log('YESSSSSS', hasMore);
     try {
       if (hasMore || isForce) {
         setIsLoading(true);
         const queryParams = { orderStatus, pageNo, limit };
         const orderListResponse = await axios.get('/api/orders/all', { params: queryParams });
         const newOrderList = orderListResponse.data.payload;
-        
+
         let updatedOrderList;
         if (pageNo === 0)
           updatedOrderList = newOrderList;
-        else 
+        else
           updatedOrderList = [...orderList, ...newOrderList];
-        
+
         setOrderList(updatedOrderList);
-        
+
         if (newOrderList.length === 0 || newOrderList.length < limit) {
           setHasMore(false);
         }
@@ -258,15 +257,15 @@ export const AdminOrdersHome = () => {
     setToggleArr(toggleArr.map((curToggleItem, index) => index === updateIndex ? !curToggleItem : curToggleItem));
   }
 
-  const handleAction = async id => {
+  const handleAction = async order => {
     try {
       const headers = { 'Content-Type': 'application/json' };
       const requestBody = {
-        id,
+        order,
         orderStatus: (
-          orderStatus === 'NEW' ? 'ACCEPTED' : 
-          orderStatus === 'ACCEPTED' ? 'DISPATCHED' : 
-          orderStatus === 'DISPATCHED' ? 'FULFILLED' : 
+          orderStatus === 'NEW' ? 'ACCEPTED' :
+          orderStatus === 'ACCEPTED' ? 'DISPATCHED' :
+          orderStatus === 'DISPATCHED' ? 'FULFILLED' :
           'NEW')
       }
       const orderActionResponse = await axios.post('/api/orders/update-status', requestBody, { headers });
@@ -291,8 +290,8 @@ export const AdminOrdersHome = () => {
           <Select
             styles={customStyles}
             value={orderStatus ? {label: orderStatus, value: orderStatus} : null}
-            options={orderStatusOptions} 
-            onChange={handleOrderStatusChange} 
+            options={orderStatusOptions}
+            onChange={handleOrderStatusChange}
           />
         </StatusDropdown>
       </FilterWrapper>
@@ -300,7 +299,7 @@ export const AdminOrdersHome = () => {
       {orderList.length === 0 && !isLoading && <div style={{ marginTop: '20px' }}>No {orderStatus} orders</div>}
       {isLoading && <Spinner containerStyle={{ position: 'initial' }} />}
       <ProductListWrapper>
-        {orderList.map((curOrder, index) => 
+        {orderList.map((curOrder, index) =>
           <div key={index}>
             <OrderFrame>
               <LabelBox>
@@ -323,21 +322,21 @@ export const AdminOrdersHome = () => {
                 <SubText>{curOrder.id}</SubText>
               </LabelBox>
 
-              {orderStatus !== 'FULFILLED' && 
+              {orderStatus !== 'FULFILLED' &&
                 <LabelBox style={{ textAlign: 'center' }}>
                   <Text style={{ marginBottom: '5px' }}>ACTION</Text>
-                  <ActionButton onClick={() => handleAction(curOrder.id)}>{actionLabel}</ActionButton>
+                  <ActionButton onClick={() => handleAction(curOrder)}>{actionLabel}</ActionButton>
                 </LabelBox>}
 
-              {toggleArr[index] ? 
-                <CollapseIcon size='5em' onClick={() => toggleDetails(index)} /> : 
+              {toggleArr[index] ?
+                <CollapseIcon size='5em' onClick={() => toggleDetails(index)} /> :
                 <ExpandIcon size='5em' onClick={() => toggleDetails(index)} />
               }
             </OrderFrame>
 
             <Collapse isOpened={toggleArr[index]}>
               <OrderDetails>
-                {curOrder.productList.map((curProduct, innerIndex) => 
+                {curOrder.productList.map((curProduct, innerIndex) =>
                   <div key={innerIndex}>
                     <ProductFrame key={innerIndex}>
                       <Label>{curProduct.code}</Label>
@@ -348,17 +347,17 @@ export const AdminOrdersHome = () => {
                     {innerIndex < (curOrder.productList.length - 1) && <Line style={{ width: '95%' }}/>}
                   </div>)
                 }
-              </OrderDetails>        
+              </OrderDetails>
             </Collapse>
           </div>)
         }
-        {hasMore && !isLoading && 
+        {hasMore && !isLoading &&
           <div style={{ display: 'flex', justifyContent: 'center' }}>
             <HasMore onClick={handleLoadMore}>Load more</HasMore>
           </div>}
       </ProductListWrapper>
 
-      
+
     </Container>
   )
 }

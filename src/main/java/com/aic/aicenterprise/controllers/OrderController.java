@@ -114,12 +114,12 @@ public class OrderController {
     }
 
     @PostMapping("/update-status")
-    public SaveResponse updateOrderStatus(@RequestBody OrderStatusRequest request) {
-        log.info("Updating order status: {}", request);
+    public SaveResponse updateOrderStatus(@RequestBody OrderStatusRequest orderStatusRequest) {
+        log.info("Updating order status: {}", orderStatusRequest);
 
         SaveResponse orderStatusResponse;
         try {
-            boolean orderStatus = orderService.updateOrderStatus(request.getId(), request.getOrderStatus());
+            boolean orderStatus = orderService.updateOrderStatus(orderStatusRequest);
             orderStatusResponse = SaveResponse.builder()
                     .payload(orderStatus)
                     .msg(SUCCESS)
