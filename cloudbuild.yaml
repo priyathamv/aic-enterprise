@@ -10,8 +10,8 @@ steps:
   args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
 
 # Push the container image to Container Registry
-- name: gcr.io/cloud-builders/docker
-  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
+#- name: gcr.io/cloud-builders/docker
+#  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
 
 # Copy app jar to current folder where app-custom.yaml is
 #- name: gcr.io/cloud-builders/gsutil
