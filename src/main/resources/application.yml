@@ -27,22 +27,22 @@ spring:
   data:
     mongodb:
       uri: 'mongodb+srv://aic_admin:D%40mnpassword1%21@aic-cluster.ihdn0.gcp.mongodb.net/aic-group?retryWrites=true&w=majority'
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: aic.enterprises9@gmail.com
-    password: ENC(n7CJIEJ/K0K0wPzyhq2vWrVSlD6lGT9041uAFzPX9O0=)
-    properties:
-      mail:
-        transport:
-          protocol: smtp
-        smtp:
-          auth: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-          starttls:
-            enable: true
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: aic.enterprises9@gmail.com
+#    password: ENC(n7CJIEJ/K0K0wPzyhq2vWrVSlD6lGT9041uAFzPX9O0=)
+#    properties:
+#      mail:
+#        transport:
+#          protocol: smtp
+#        smtp:
+#          auth: true
+#          connectiontimeout: 5000
+#          timeout: 5000
+#          writetimeout: 5000
+#          starttls:
+#            enable: true
   resources:
     cache:
       cachecontrol:
@@ -59,7 +59,7 @@ java:
     edg: 'file:/dev/./urandom'
 
 sendgrid:
-  apikey: ENC(Qeu/seLA0edydoiJ2vG40Kk841JpLf4pYNyRFv5Nt901UkoyOfkolTfw7pJDMtWc9/NZcv7p/IUDf2lj1p+IA1j65T3olECyFrX62lV5RUQ=)
+  apikey: ENC(WQM1RnqE2RzIeIHwxeFyE5lStDuV7whJ5Z373vWz6Azepf+OPRvXKNCpVPEu+8BX1qFOCPlfYgSxL4piLd4WKDyWhgTLRkxOrg8HVImk/q8=)
 
 cloudinary:
   apiKey: ENC(Gl9dDD0H5JwJZVXLg3k73E1t9IKWQvo0)
