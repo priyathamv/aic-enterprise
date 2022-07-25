@@ -31,7 +31,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: aic.enterprises9@gmail.com
-    password: ENC(qF3GrO9vp9kmWTlMM912PzQ44qU4IqX/)
+    password: ENC(n7CJIEJ/K0K0wPzyhq2vWrVSlD6lGT9041uAFzPX9O0=)
     properties:
       mail:
         transport:
@@ -59,7 +59,7 @@ java:
     edg: 'file:/dev/./urandom'
 
 sendgrid:
-  apikey: ENC(IdUHaO4lI9tBC3GFdq2yQ8eaWUh63F+YjkteX3fT1YApEEFd0plFXQdZlgfH15op8H1ipzUQ/NpMbM7zf3k2fEzC8C4TyGec3icfdBJNcmM=)
+  apikey: ENC(Qeu/seLA0edydoiJ2vG40Kk841JpLf4pYNyRFv5Nt901UkoyOfkolTfw7pJDMtWc9/NZcv7p/IUDf2lj1p+IA1j65T3olECyFrX62lV5RUQ=)
 
 cloudinary:
   apiKey: ENC(Gl9dDD0H5JwJZVXLg3k73E1t9IKWQvo0)
