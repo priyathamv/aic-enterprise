@@ -17,6 +17,11 @@ steps:
 #- name: gcr.io/cloud-builders/gsutil
 #  args: ['cp', 'target/aic-enterprise.jar', 'src/main/appengine/']
 
+# Setting 1 hour timeout to avoid timeout issue
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args: ['-c', 'gcloud config set app/cloud_build_timeout 3600']
+
 # Deploy container image to App Engine
 - name: gcr.io/cloud-builders/gcloud
   args: ['app', 'deploy', 'app-custom.yaml']
@@ -44,4 +49,4 @@ steps:
 
 images: ['gcr.io/aic-enterprises/aic-enterprise']
 
-timeout: 1800s
+timeout: 3600s
