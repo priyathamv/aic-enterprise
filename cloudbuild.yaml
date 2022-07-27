@@ -20,7 +20,7 @@ steps:
 # Setting 1 hour timeout to avoid timeout issue and Deploying container image to App Engine
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
-  args: ['-c', 'gcloud config set app/cloud_build_timeout 3600 && app deploy app-custom.yaml']
+  args: ['-c', 'gcloud config set app/cloud_build_timeout 3600 && gcloud app deploy app-custom.yaml']
 
 # Deploy container image to App Engine
 #- name: gcr.io/cloud-builders/gcloud
