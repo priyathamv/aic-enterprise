@@ -1,0 +1,16 @@
+runtime: java
+env: flex
+
+handlers:
+  - url: /.*
+    secure: always
+    script: auto
+    redirect_http_response_code: 301
+
+automatic_scaling:
+  min_num_instances: 0
+  max_num_instances: 10
+  cool_down_period_sec: 180
+  cpu_utilization:
+    target_utilization: 0.6
+  target_concurrent_requests: 100
