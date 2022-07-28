@@ -1,10 +1,10 @@
 steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA', '.']
+    args: ['build', '-t', 'gcr.io/aic-ent/aic-enterprise', '.']
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA']
+    args: ['push', 'gcr.io/aic-ent/aic-enterprise']
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
@@ -13,11 +13,11 @@ steps:
       - 'deploy'
       - 'aic-enterprise'
       - '--image'
-      - 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA'
+      - 'gcr.io/aic-ent/aic-enterprise'
       - '--region'
       - 'asia-south1'
 images:
-  - 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA'
+  - 'gcr.io/aic-ent/aic-enterprise'
 
 
 
