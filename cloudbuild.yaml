@@ -1,58 +1,81 @@
 steps:
-# Build the artifact
-- name: maven:3-jdk-8
-  entrypoint: mvn
-  args: ['package', '-Dmaven.test.skip=true']
-#  args: ['package', 'appengine:deploy', '-Dapp.deploy.projectId=aic-enterprises', '-Dmaven.test.skip=true']
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA', '.']
+  # Push the container image to Container Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA']
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'aic-enterprise'
+      - '--image'
+      - 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA'
+      - '--region'
+      - 'asia-south1'
+images:
+  - 'gcr.io/aic-ent/aic-enterprise:$COMMIT_SHA'
 
-# Build the container image
-- name: gcr.io/cloud-builders/docker
-  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
 
-# Push the container image to Container Registry
+
+#steps:
+## Build the artifact
+#- name: maven:3-jdk-8
+#  entrypoint: mvn
+#  args: ['package', '-Dmaven.test.skip=true']
+##  args: ['package', 'appengine:deploy', '-Dapp.deploy.projectId=aic-enterprises', '-Dmaven.test.skip=true']
+#
+## Build the container image
 #- name: gcr.io/cloud-builders/docker
-#  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
-
-# Copy app jar to current folder where app-custom.yaml is
-#- name: gcr.io/cloud-builders/gsutil
-#  args: ['cp', 'target/aic-enterprise.jar', 'src/main/appengine/']
-
-- name: gcr.io/cloud-builders/gcloud
-  args: [ 'app', 'deploy', 'src/main/appengine/app.yaml', '--image-url', 'gcr.io/aic-enterprises/aic-enterprise']
-  timeout: 7200s
-
-# Setting 1 hour timeout to avoid timeout issue and Deploying container image to App Engine
+#  args: ['build', '-t', 'gcr.io/aic-enterprises/aic-enterprise', '--build-arg=JAR_FILE=target/aic-enterprise.jar', '.']
+#
+## Push the container image to Container Registry
+##- name: gcr.io/cloud-builders/docker
+##  args: ['push', 'gcr.io/aic-enterprises/aic-enterprise']
+#
+## Copy app jar to current folder where app-custom.yaml is
+##- name: gcr.io/cloud-builders/gsutil
+##  args: ['cp', 'target/aic-enterprise.jar', 'src/main/appengine/']
+#
 #- name: gcr.io/cloud-builders/gcloud
-#  args: [ 'app', 'deploy', 'app-custom.yaml', '--verbosity=debug']
+#  args: [ 'app', 'deploy', 'src/main/appengine/app.yaml', '--image-url', 'gcr.io/aic-enterprises/aic-enterprise']
 #  timeout: 7200s
-
-images: ['gcr.io/aic-enterprises/aic-enterprise']
-
-timeout: 9000s
-
-# Deploy container image to App Engine
-#- name: gcr.io/cloud-builders/gcloud
-#  args: ['app', 'deploy', 'app-custom.yaml']
-#  args: ['app', 'deploy', '--image-url', 'gcr.io/aic-enterprises/aic-enterprise']
-
-#  args: ['app', 'deploy', 'target/aic-enterprise.jar']
-
-#  args:
-#  - 'run'
-#  - 'deploy'
-#  - 'cloudrunservice'
-#  - '--image'
-#  - 'gcr.io/aic-enterprises/aic-enterprise'
-#  - '--region'
-#  - 'asia-south1'
-#  - '--platform'
-#  - 'managed'
-#  - '--allow-unauthenticated'
-
-#  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise']
-
-# Cron job to keep the App Engine alive
-#- name: gcr.io/cloud-builders/gcloud
-#  args: ['app', 'deploy', 'cron.yaml']
-
-
+#
+## Setting 1 hour timeout to avoid timeout issue and Deploying container image to App Engine
+##- name: gcr.io/cloud-builders/gcloud
+##  args: [ 'app', 'deploy', 'app-custom.yaml', '--verbosity=debug']
+##  timeout: 7200s
+#
+#images: ['gcr.io/aic-enterprises/aic-enterprise']
+#
+#timeout: 9000s
+#
+## Deploy container image to App Engine
+##- name: gcr.io/cloud-builders/gcloud
+##  args: ['app', 'deploy', 'app-custom.yaml']
+##  args: ['app', 'deploy', '--image-url', 'gcr.io/aic-enterprises/aic-enterprise']
+#
+##  args: ['app', 'deploy', 'target/aic-enterprise.jar']
+#
+##  args:
+##  - 'run'
+##  - 'deploy'
+##  - 'cloudrunservice'
+##  - '--image'
+##  - 'gcr.io/aic-enterprises/aic-enterprise'
+##  - '--region'
+##  - 'asia-south1'
+##  - '--platform'
+##  - 'managed'
+##  - '--allow-unauthenticated'
+#
+##  args: ['app', 'deploy', '--image-url=gcr.io/aic-enterprises/aic-enterprise']
+#
+## Cron job to keep the App Engine alive
+##- name: gcr.io/cloud-builders/gcloud
+##  args: ['app', 'deploy', 'cron.yaml']
+#
+#
