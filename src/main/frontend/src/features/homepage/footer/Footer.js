@@ -353,7 +353,7 @@ export const Footer = () => {
         </ContactContainer>
       </FootContainer>
 
-      <Copyright>Copyright © 2021, AIC GROUP</Copyright>
+      <Copyright>Copyright © 2022, AIC GROUP</Copyright>
     </Container>
   )
 }
